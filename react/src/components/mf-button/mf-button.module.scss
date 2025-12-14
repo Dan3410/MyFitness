@@ -4,8 +4,9 @@
     display: flex;
     cursor: pointer;
     
-    .text{
+    label{
         font-weight: 600;
-        margin: auto
-    }
+        margin: auto;            
+        cursor: pointer
+    } 
 }

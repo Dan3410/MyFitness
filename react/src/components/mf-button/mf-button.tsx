@@ -4,20 +4,22 @@ import type { ButtonTheme } from '../../themes/theme.interfaces';
 
 interface MFButtonProps {
    theme: ButtonTheme,
-//   redirectUrl?: string,
+   //   redirectUrl?: string,
    children: ReactNode,
    width?: string,
    height?: string,
    fontSize?: string,
+   isDisabled?: boolean,
    onClickEvent?: () => void;
 }
 
 const MFButton: FC<MFButtonProps> = ({
-   theme, 
-   children, 
+   theme,
+   children,
    width = 'fit-content',
    height = "fit-content",
    fontSize = '14px',
+   isDisabled = false,
    onClickEvent
 }) => {
 
@@ -25,15 +27,21 @@ const MFButton: FC<MFButtonProps> = ({
       onClickEvent && onClickEvent()
    }
 
+   //Ver porque no levanta el valor de disabled. Aca habría que agregar estilos cuando este desabilitado
    return (<>
-   <div className={styles.mfButtonContainer} 
-      onClick={handleClick}
-      style={{width: width, backgroundColor: theme.backgroundColor, height: height}}>
-      <label className={styles.text} style={{color: theme.textColor, fontSize: fontSize}}>
+      {isDisabled}
+      <button className={styles.mfButtonContainer} disabled={isDisabled}
+         onClick={!isDisabled ? handleClick : () => { }}
+         style={{
+            width: width,
+            backgroundColor: theme.backgroundColor,
+            height: height,
+            color: theme.textColor,
+            fontSize: fontSize
+         }}>
          {children}
-      </label>
-   </div>
-   </> 
+      </button>
+   </>
    )
 };
 

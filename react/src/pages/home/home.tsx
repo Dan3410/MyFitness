@@ -5,11 +5,11 @@ import { workoutButtonTheme } from "../../themes/workout";
 import { profileAndHealthButtonTheme } from "../../themes/profileHealth";
 import { dietButtonTheme } from "../../themes/diet";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { SectionButton } from "../../models/section";
 
-interface HomeProps {}
+interface HomeProps { }
 
 const Home: FC<HomeProps> = () => {
-  const navigate: NavigateFunction = useNavigate();
 
   const redirectToWorkoutList = () => {
     navigate("/workout");
@@ -23,48 +23,50 @@ const Home: FC<HomeProps> = () => {
     navigate("/diet");
   };
 
+  const sectionsButtons: SectionButton[] = [
+    {
+      name: "Workouts",
+      description: "Para ver tus entrenamientos, hace click aquí",
+      disabled: true,
+      buttonTheme: workoutButtonTheme,
+      redirectFunction: redirectToWorkoutList
+    },
+    {
+      name: "Profile & Health",
+      description: "Para administrar la información sobre ti y tus objetivos, hace click aquí",
+      disabled: false,
+      buttonTheme: profileAndHealthButtonTheme,
+      redirectFunction: redirectToProfile
+    },
+    {
+      name: "Diet",
+      description: "Para planificar tu dieta, hace click aquí",
+      disabled: true,
+      buttonTheme: dietButtonTheme,
+      redirectFunction: redirectToDiet
+    },
+  ]
+
+  const navigate: NavigateFunction = useNavigate();
+
   return (
     <>
       <div className={styles.homeContainer}>
-        <div className={styles.button}>
-          <label>Para ver tus entrenamientos, hace click aquí</label>
-          <MFButton
-            width="100%"
-            height="80px"
-            fontSize="24px"
-            theme={workoutButtonTheme}
-            onClickEvent={redirectToWorkoutList}
-          >
-            <label>Workouts</label>
-          </MFButton>
-        </div>
-        <div className={styles.button}>
-          <label>
-            Para administrar la información sobre ti y tus objetivos, hace click
-            aquí
-          </label>
-          <MFButton
-            width="100%"
-            height="80px"
-            fontSize="24px"
-            theme={profileAndHealthButtonTheme}
-            onClickEvent={redirectToProfile}
-          >
-            <label>Profile & Health</label>
-          </MFButton>
-        </div>
-        <div className={styles.button}>
-          <label>Para planificar tu dieta, hace click aquí</label>
-          <MFButton
-            width="100%"
-            height="80px"
-            fontSize="24px"
-            theme={dietButtonTheme}
-            onClickEvent={redirectToDiet}
-          >
-            <label>Diet</label>
-          </MFButton>
-        </div>
+        {sectionsButtons.map((item: SectionButton) => (
+          <div className={styles.button}>
+            <label>{!item.disabled ? item.description : "No disponible"}</label>
+            <MFButton
+              width="100%"
+              height="80px"
+              fontSize="24px"
+              isDisabled={item.disabled}
+              theme={item.buttonTheme}
+              onClickEvent={item.redirectFunction}
+            >
+              <label>{item.name}</label>
+            </MFButton>
+          </div>
+        ))}
       </div>
     </>
   );
