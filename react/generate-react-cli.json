@@ -1,0 +1,65 @@
+{
+  "usesTypeScript": true,
+  "usesStyledComponents": false,
+  "cssPreprocessor": "scss",
+  "testLibrary": "None",
+  "component": {
+    "default": {
+      "path": "src/components",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": true,
+      "withLazy": false
+    },
+    "page": {
+      "path": "src/pages",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "healthPage": {
+      "path": "src/pages/health",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "healthComponent": {
+      "path": "src/pages/health/components",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "dietPage": {
+      "path": "src/pages/diet",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "dietComponent": {
+      "path": "src/pages/diet/components",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "workoutPage": {
+      "path": "src/pages/workout",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    },
+    "workoutComponent": {
+      "path": "src/pages/workout/components",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    }
+  },
+  "usesCssModule": true
+}

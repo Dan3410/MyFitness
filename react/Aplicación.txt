@@ -1,0 +1,17 @@
+Aplicacion
+	Frontend: React - React native
+	Backend: Java - Springboot
+	BD: Base de datos relacional. Los datos no cambiarian constantemente. MySQL
+
+Idea: Una aplicación para rutinas y alimentos. 
+	Del lado de las rutinas vos podes armar una eligiendo ejercicios de una base de datos. 
+	Indicando repeticiones, series, tiempo, intensidad y peso.
+		Si se quiere ir más alla: Calculo de RM teorico en base al peso y repeticiones
+		
+	Del lado de alimentos, podes no solo crear un plan de comidas para la semana, sino que 
+tambien podes ingresar los ingredientes junto a su valor nutricional para contar macros.
+		Si se quiere ir más allá: puedas obtener el nombre o marca de una imagen de un alimento
+		y el valor nutricional de este si le pasas una foto de lo que es la tabla nutricional
+		Otra idea: Si dicho ingrediente esta en la BD, agregas cantidad y te calcula macros
+
+	Otra idea, medida de masa muscular. Debe haber un calculo

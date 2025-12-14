@@ -1,0 +1,30 @@
+Header con las secciones
+
+Hacer la pantalla de perfil
+    - Nombre
+    - Apellido
+    - Edad
+    - Peso
+    - Altura
+    - Objetivo (bajar, aumentar o mantener peso)
+    - Nivel de actividad fisica
+	Calcular macros en base a esto y objetivo. Dar recomendaciones en base a esto
+    - Historial de peso
+
+Workouts:
+    Lista de rutinas (¿con filtros o seleccion de categoria primero?)
+    Permitir hacer una
+        Diferentes categorias (natación / gimnasio por ahora)
+        Ejercicios apareceran hardcodeados
+    Editar una
+    Borrar una
+
+Diet
+    Ingredientes
+    Recetas
+	Valor nutricional
+	Dado una serie de comidas de un dia, calcular macros, ver si cumple objetivos y recomendaciones
+
+Planificación
+    Calendario
+        Permite agregar rutinas, dietas etc

@@ -1,0 +1,15 @@
+.homeContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    .button{
+        flex-shrink: 0;
+        justify-content: center;
+        width: 30%;
+        text-align: center;
+        display: grid;
+        row-gap: 16px;
+    }
+
+}

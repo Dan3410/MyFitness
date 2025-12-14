@@ -1,0 +1,11 @@
+.mfButtonContainer{
+    padding: 16px 32px;
+    border-radius: 30px;
+    display: flex;
+    cursor: pointer;
+    
+    .text{
+        font-weight: 600;
+        margin: auto
+    }
+}
