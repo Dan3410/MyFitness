@@ -1,11 +1,11 @@
-.mfInput {
+.MFFormField {
     height: 60px;
-    padding: 8px;
+    padding: 10px;
     border: 2px solid white;
     border-radius: 10px;
     position: relative;
-    background-color: rgb(158, 158, 158);
     display: flex;
+    
     label:first-child{
         position: absolute;
         top: 4px;
@@ -13,13 +13,21 @@
         font-size: 14px;
         font-weight: 600;
     }
-    input{
-        height: 20px;
-        margin: 18px 0 0 0;
+    input, select{
+        height: 26px;
+        margin: 16px 0 0 0;
         font-size: 18px;
         border: none;
-        background-color: transparent;
+        background-color: inherit;
         width: 100%;
         outline: none;
+    }
+
+    option{
+        background-color: inherit;
+    }
+
+    input:disabled, select:disabled{
+        pointer-events: none;
     }
 }
