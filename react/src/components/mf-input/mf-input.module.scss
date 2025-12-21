@@ -1,0 +1,21 @@
+.mfInput {
+    height: 60px;
+    padding: 8px;
+    border: 2px solid white;
+    border-radius: 10px;
+    position: relative;
+    background-color: rgb(158, 158, 158);
+    label:first-child{
+        position: absolute;
+        top: 4px;
+        left: 10px;
+        font-size: 14px;
+    }
+    input{
+        position: absolute;
+        top: 22px;
+        font-size: 18px;
+        border: none;
+        background-color: transparent;
+    }
+}

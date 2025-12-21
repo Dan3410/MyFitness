@@ -1,4 +1,4 @@
-import { ButtonTheme } from "../themes/theme.interfaces";
+import { ButtonTheme } from "../themes/interfaces";
 
 export interface SectionButton {
     name: string,

@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import styles from "./mf-button.module.scss"
-import type { ButtonTheme } from '../../themes/theme.interfaces';
+import type { ButtonTheme } from '../../themes/interfaces';
 
 interface MFButtonProps {
    theme: ButtonTheme,
@@ -24,7 +24,8 @@ const MFButton: FC<MFButtonProps> = ({
 }) => {
 
    const handleClick = () => {
-      onClickEvent && onClickEvent()
+      if(onClickEvent)
+         onClickEvent()
    }
 
    //Ver porque no levanta el valor de disabled. Aca habría que agregar estilos cuando este desabilitado

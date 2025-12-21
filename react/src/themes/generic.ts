@@ -1,4 +1,4 @@
-import type { ButtonTheme } from "./theme.interfaces";
+import type { ButtonTheme } from "./interfaces";
 
 export const cancelButtonTheme : ButtonTheme = {
     textColor: 'white',
