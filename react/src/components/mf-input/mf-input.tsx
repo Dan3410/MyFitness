@@ -21,7 +21,10 @@ const MFInput: FC<MFInputProps> = ({
 
   return (
     <>
-      <div className={styles.mfInput} style={{borderColor: inputTheme.borderColor}}>
+      <div className={styles.mfInput} 
+      style={{borderColor: inputTheme.borderColor, 
+      backgroundColor: inputTheme.backgroundColor,
+      color: inputTheme.textColor}}>
         {children}
       </div>
     </>

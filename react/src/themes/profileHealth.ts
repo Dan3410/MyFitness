@@ -7,6 +7,6 @@ export const profileAndHealthButtonTheme : ButtonTheme = {
 
 export const profileAndHealthInputTheme : InputTheme = {
     borderColor: "#82FF82",
-    backgroundColor: "green",
-    textColor: 'black'
+    backgroundColor: "#185c18ff",
+    textColor: '#fafafaff'
 }

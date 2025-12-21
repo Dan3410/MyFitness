@@ -31,3 +31,17 @@ h4 {
   font-weight: 500;
   text-align: left;
 }
+
+input {   
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    :focus{
+      outline: none;
+      border: none;
+    }
+    :focus-visible{
+      outline:none;
+      border: none;
+    }
+}

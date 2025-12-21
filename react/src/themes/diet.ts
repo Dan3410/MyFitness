@@ -6,7 +6,7 @@ export const dietButtonTheme : ButtonTheme = {
 }
 
 export const dietInputTheme : InputTheme = {
-    borderColor: "#82FF82",
-    backgroundColor: "green",
-    textColor: 'black'
+    borderColor: "#FDFF82",
+    backgroundColor: "#525300ff",
+    textColor: '#fafafaff'
 }

@@ -2,11 +2,11 @@ import type { ButtonTheme, InputTheme } from "./interfaces";
 
 export const workoutButtonTheme : ButtonTheme = {
     textColor: '#000000',
-    backgroundColor: '#9582FF'
+    backgroundColor: '#3c80ffff'
 }
 
 export const workoutInputTheme : InputTheme = {
-    borderColor: "#82FF82",
-    backgroundColor: "green",
-    textColor: 'black'
+    borderColor: "#3c80ffff",
+    backgroundColor: "#0f0066ff",
+    textColor: '#fafafaff'
 }
