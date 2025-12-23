@@ -1,1 +1,13 @@
-.profile {}
+.profileFormSection{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 40px;
+    column-gap: 20px
+}
+
+.profileFormButtons{
+    display: flex;
+    margin: 40px 0 0 auto;
+    width: fit-content;
+    column-gap: 40px;
+}

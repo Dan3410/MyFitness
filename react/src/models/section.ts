@@ -1,9 +1,9 @@
-import { ButtonTheme } from "../themes/interfaces";
+import { ComponentTheme } from "../themes/enums";
 
 export interface SectionButton {
     name: string,
     description: string,
     disabled: boolean,
-    buttonTheme: ButtonTheme,
+    buttonTheme: ComponentTheme,
     redirectFunction: () => void
 }

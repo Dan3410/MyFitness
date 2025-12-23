@@ -1,12 +1,12 @@
 import type { ButtonTheme, InputTheme } from "./interfaces";
 
 export const profileAndHealthButtonTheme : ButtonTheme = {
-    textColor: '#000000',
-    backgroundColor: '#82FF82'
+    textColor: '#ffffffff',
+    backgroundColor: '#0f920fff'
 }
 
 export const profileAndHealthInputTheme : InputTheme = {
-    borderColor: "#82FF82",
-    backgroundColor: "#185c18ff",
+    borderColor: "rgba(19, 129, 19, 1)",
+    backgroundColor: "rgb(15, 36, 15)",
     textColor: '#fafafaff'
 }

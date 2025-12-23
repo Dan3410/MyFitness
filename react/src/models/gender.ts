@@ -1,4 +1,9 @@
+export enum GENDER{
+    MALE = "MALE",
+    FEMALE = "FEMALE"
+}
+
 export interface Gender {
-    label: string
-    value: string
+    label: "Hombre" | "Mujer"
+    value: GENDER.MALE | GENDER.FEMALE
 }

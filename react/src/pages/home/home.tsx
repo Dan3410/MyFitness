@@ -1,11 +1,9 @@
 import type { FC } from "react";
 import styles from "./home.module.scss";
 import MFButton from "../../components/mf-button/mf-button";
-import { workoutButtonTheme } from "../../themes/workout";
-import { profileAndHealthButtonTheme } from "../../themes/profileHealth";
-import { dietButtonTheme } from "../../themes/diet";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { SectionButton } from "../../models/section";
+import { ComponentTheme } from "../../themes/enums";
 
 interface HomeProps { }
 
@@ -25,24 +23,24 @@ const Home: FC<HomeProps> = () => {
 
   const sectionsButtons: SectionButton[] = [
     {
-      name: "Workouts",
+      name: "Rutinas de ejercicios",
       description: "Para ver tus entrenamientos, hace click aquí",
       disabled: true,
-      buttonTheme: workoutButtonTheme,
+      buttonTheme: ComponentTheme.workout,
       redirectFunction: redirectToWorkoutList
     },
     {
-      name: "Profile & Health",
+      name: "´Perfil y Salud",
       description: "Para administrar la información sobre ti y tus objetivos, hace click aquí",
       disabled: false,
-      buttonTheme: profileAndHealthButtonTheme,
+      buttonTheme: ComponentTheme.profileAndHeath,
       redirectFunction: redirectToProfile
     },
     {
-      name: "Diet",
+      name: "Dieta",
       description: "Para planificar tu dieta, hace click aquí",
       disabled: true,
-      buttonTheme: dietButtonTheme,
+      buttonTheme: ComponentTheme.diet,
       redirectFunction: redirectToDiet
     },
   ]

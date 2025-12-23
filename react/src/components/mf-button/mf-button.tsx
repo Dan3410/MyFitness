@@ -1,16 +1,21 @@
 import type { FC, ReactNode } from 'react'
 import styles from "./mf-button.module.scss"
 import type { ButtonTheme } from '../../themes/interfaces';
+import { ComponentTheme } from '../../themes/enums';
+import { profileAndHealthButtonTheme } from '../../themes/profileHealth';
+import { workoutButtonTheme } from '../../themes/workout';
+import { dietButtonTheme } from '../../themes/diet';
+import { cancelButtonTheme } from '../../themes/generic';
 
 interface MFButtonProps {
-   theme: ButtonTheme,
+   theme: ComponentTheme,
    //   redirectUrl?: string,
    children: ReactNode,
    width?: string,
    height?: string,
    fontSize?: string,
    isDisabled?: boolean,
-   onClickEvent?: () => void;
+   onClickEvent?: (...args: never[]) => void;
 }
 
 const MFButton: FC<MFButtonProps> = ({
@@ -23,8 +28,11 @@ const MFButton: FC<MFButtonProps> = ({
    onClickEvent
 }) => {
 
+   const buttonTheme: ButtonTheme = theme == ComponentTheme.profileAndHeath ? profileAndHealthButtonTheme :
+      theme == ComponentTheme.diet ? dietButtonTheme : theme == ComponentTheme.workout ? workoutButtonTheme : cancelButtonTheme;
+
    const handleClick = () => {
-      if(onClickEvent)
+      if (onClickEvent)
          onClickEvent()
    }
 
@@ -35,9 +43,9 @@ const MFButton: FC<MFButtonProps> = ({
          onClick={!isDisabled ? handleClick : () => { }}
          style={{
             width: width,
-            backgroundColor: theme.backgroundColor,
+            backgroundColor: buttonTheme.backgroundColor,
             height: height,
-            color: theme.textColor,
+            color: buttonTheme.textColor,
             fontSize: fontSize
          }}>
          {children}

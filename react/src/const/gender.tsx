@@ -1,6 +1,6 @@
-import { Gender } from "../models/gender";
+import { Gender, GENDER } from "../models/gender";
 
-export const GENDER: Array<Gender> = [
-    {label: "Hombre", value: "MALE"},
-    {label: "Mujer", value: "FEMALE"}
+export const CONST_GENDER: Array<Gender> = [
+    {label: "Hombre", value: GENDER.MALE},
+    {label: "Mujer", value: GENDER.FEMALE}
 ]

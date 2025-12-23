@@ -1,15 +1,16 @@
 .MFFormField {
     height: 60px;
     padding: 10px;
-    border: 2px solid white;
     border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
     position: relative;
     display: flex;
     
     label:first-child{
         position: absolute;
         top: 4px;
-        left: 8px;
+        left: 12px;
         font-size: 14px;
         font-weight: 600;
     }

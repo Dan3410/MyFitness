@@ -27,11 +27,11 @@ const MFFormField: FC<MFFormFieldProps> = ({
     <>
       <div className={styles.MFFormField}
         style={{
-          borderColor: inputTheme.borderColor,
+          borderColor: disabled ? 'transparent' : inputTheme.borderColor,
           backgroundColor: inputTheme.backgroundColor,
           color: inputTheme.textColor,
           opacity: disabled ? 0.75 : 1,
-          pointerEvents: disabled ? "none" : "all"
+          pointerEvents: disabled ? "none" : "all",
         }}>
         {children}
       </div>
