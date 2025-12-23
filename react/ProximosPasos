@@ -7,9 +7,9 @@ Hacer la pantalla de perfil
     - Peso
     - Altura
     - Objetivo (bajar, aumentar o mantener peso)
-    - Nivel de actividad fisica
+    - Nivel de actividad fisica (bajo, medio, alto)
 	Calcular macros en base a esto y objetivo. Dar recomendaciones en base a esto
-    - Historial de peso
+    - Historial de peso (cuando tenga un lugar para guardarlo pesos)
 
 Workouts:
     Lista de rutinas (¿con filtros o seleccion de categoria primero?)

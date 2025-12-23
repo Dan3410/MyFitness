@@ -10,6 +10,10 @@ import { CONST_HEIGHTUNIT } from '../../../const/heightUnit';
 import styles from './profile.module.scss'
 import MFButton from '../../../components/mf-button/mf-button';
 import defaultProfileImage from '../../../assets/defaultProfileImage.jpg'
+import { physicalActivityLvl, PHYSICALACTIVITYLVL } from '../../../models/physical-activity';
+import { objetive, OBJETIVE } from '../../../models/objetive';
+import { CONST_OBJETIVE } from '../../../const/objetive';
+import { CONST_PHYSICALACTIVITYLVL } from '../../../const/physical-activity';
 
 interface User {
   name: string
@@ -20,6 +24,8 @@ interface User {
   heightUnit: HEIGHTUNIT.CM | HEIGHTUNIT.FEET
   birthDay: string
   gender: "MALE" | "FEMALE"
+  physicalActivityLvl: PHYSICALACTIVITYLVL.NONE | PHYSICALACTIVITYLVL.LOW | PHYSICALACTIVITYLVL.MEDIUM | PHYSICALACTIVITYLVL.HIGH
+  objetive: OBJETIVE.REDUCE | OBJETIVE.MAINTAIN | OBJETIVE.INCREASE
 }
 
 interface ProfileProps { }
@@ -34,12 +40,16 @@ const Profile: FC<ProfileProps> = () => {
     height: 150,
     heightUnit: HEIGHTUNIT.CM,
     gender: "MALE",
-    birthDay: '10/12/1985'
+    birthDay: '10/12/1985',
+    physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
+    objetive: OBJETIVE.MAINTAIN
   })
 
   const gender: Array<Gender> = CONST_GENDER
   const weightUnit: Array<WeightUnit> = CONST_WEIGHTUNIT
   const heightUnit: Array<HeightUnit> = CONST_HEIGHTUNIT
+  const physicalActivityLvl: Array<physicalActivityLvl> = CONST_PHYSICALACTIVITYLVL
+  const objetive: Array<objetive> = CONST_OBJETIVE
 
   const [edit, setEdit] = useState<boolean>(false)
 
@@ -97,6 +107,14 @@ const Profile: FC<ProfileProps> = () => {
               <label>Fecha de nacimiento</label>
               <input name="birthDay" type='date' value={form.birthDay} onChange={handleChange}></input>
             </MFFormField>
+            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+              <label>Nivel de actividad física</label>
+              <select name="physicalActivityLvl" value={form.physicalActivityLvl} onChange={handleChange}>
+                {physicalActivityLvl.map((item: physicalActivityLvl) => (
+                  <option key={item.value} value={item.value}>{item.label}</option>
+                ))}
+              </select>
+            </MFFormField>
           </div>
         </div>
         <div>
@@ -114,6 +132,14 @@ const Profile: FC<ProfileProps> = () => {
               <label>Peso</label>
               <input name="weight" value={form.weight} onChange={handleChange}>
               </input>
+            </MFFormField>
+            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+              <label>Objetivo</label>
+              <select name="objetive" value={form.objetive} onChange={handleChange}>
+                {objetive.map((item: objetive) => (
+                  <option key={item.value} value={item.value}>{item.label}</option>
+                ))}
+              </select>
             </MFFormField>
           </div>
         </div>
