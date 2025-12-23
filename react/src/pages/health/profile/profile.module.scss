@@ -11,3 +11,21 @@
     width: fit-content;
     column-gap: 40px;
 }
+
+.profileImgContainer{
+    margin: 0 auto;
+    width: fit-content;
+    display: flex;
+}
+
+.profileImg{
+    width: 128px;
+    height: 128px;
+    border-radius: 128px;
+}
+
+.profileEditButton{
+    font-size: 16px;
+    float: right;
+    cursor: pointer;
+}

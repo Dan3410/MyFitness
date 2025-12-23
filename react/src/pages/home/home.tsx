@@ -30,7 +30,7 @@ const Home: FC<HomeProps> = () => {
       redirectFunction: redirectToWorkoutList
     },
     {
-      name: "´Perfil y Salud",
+      name: "Perfil y Salud",
       description: "Para administrar la información sobre ti y tus objetivos, hace click aquí",
       disabled: false,
       buttonTheme: ComponentTheme.profileAndHeath,

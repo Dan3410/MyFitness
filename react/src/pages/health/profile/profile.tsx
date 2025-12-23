@@ -9,6 +9,7 @@ import { CONST_WEIGHTUNIT } from '../../../const/weightUnit';
 import { CONST_HEIGHTUNIT } from '../../../const/heightUnit';
 import styles from './profile.module.scss'
 import MFButton from '../../../components/mf-button/mf-button';
+import defaultProfileImage from '../../../assets/defaultProfileImage.jpg'
 
 interface User {
   name: string
@@ -65,9 +66,12 @@ const Profile: FC<ProfileProps> = () => {
     <div className="profile">
       <h2>
         Perfil
-        {!edit && <label style={{ fontSize: "16px", float: "right" }} onClick={clickEdit}> Editar </label>}
+        {!edit && <label className={styles.profileEditButton} onClick={clickEdit}> Editar </label>}
       </h2>
       <form onSubmit={handleSubmit} className={styles.profileForm}>
+        <div className={styles.profileImgContainer}>
+          <img className={styles.profileImg} src={defaultProfileImage}></img>
+        </div>
         <div >
           <h6>Información General</h6>
           <div className={styles.profileFormSection}>
