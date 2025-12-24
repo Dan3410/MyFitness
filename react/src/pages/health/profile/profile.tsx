@@ -1,32 +1,17 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { ComponentTheme } from '../../../themes/enums';
-import MFFormField from '../../../components/mf-form-field/mf-form-field';
-import { Gender } from '../../../models/gender';
-import { WeightUnit, WEIGHTUNIT } from '../../../models/weightUnit';
-import { HeightUnit, HEIGHTUNIT } from '../../../models/heightUnit';
-import { CONST_GENDER } from '../../../const/gender';
-import { CONST_WEIGHTUNIT } from '../../../const/weightUnit';
-import { CONST_HEIGHTUNIT } from '../../../const/heightUnit';
+import { WEIGHTUNIT } from '../../../models/weightUnit';
+import { HEIGHTUNIT } from '../../../models/heightUnit';
 import styles from './profile.module.scss'
 import MFButton from '../../../components/mf-button/mf-button';
 import defaultProfileImage from '../../../assets/defaultProfileImage.jpg'
-import { physicalActivityLvl, PHYSICALACTIVITYLVL } from '../../../models/physical-activity';
-import { objetive, OBJETIVE } from '../../../models/objetive';
-import { CONST_OBJETIVE } from '../../../const/objetive';
-import { CONST_PHYSICALACTIVITYLVL } from '../../../const/physical-activity';
-
-interface User {
-  name: string
-  lastName: string
-  weight: number
-  weightUnit: WEIGHTUNIT.KG | WEIGHTUNIT.LB
-  height: number
-  heightUnit: HEIGHTUNIT.CM | HEIGHTUNIT.FEET
-  birthDay: string
-  gender: "MALE" | "FEMALE"
-  physicalActivityLvl: PHYSICALACTIVITYLVL.NONE | PHYSICALACTIVITYLVL.LOW | PHYSICALACTIVITYLVL.MEDIUM | PHYSICALACTIVITYLVL.HIGH
-  objetive: OBJETIVE.REDUCE | OBJETIVE.MAINTAIN | OBJETIVE.INCREASE
-}
+import { PHYSICALACTIVITYLVL } from '../../../models/physical-activity';
+import { OBJETIVE } from '../../../models/objetive';
+import { User } from '../../../models/user';
+import WeightSection from '../components/weight-section/weight-section';
+import HeightSection from '../components/personal-data-section/personal-data-section';
+import PersonalDataSection from '../components/personal-data-section/personal-data-section';
+import NutritionSection from '../components/nutrition-section/nutrition-section';
 
 interface ProfileProps { }
 
@@ -45,19 +30,28 @@ const Profile: FC<ProfileProps> = () => {
     objetive: OBJETIVE.MAINTAIN
   })
 
-  const gender: Array<Gender> = CONST_GENDER
-  const weightUnit: Array<WeightUnit> = CONST_WEIGHTUNIT
-  const heightUnit: Array<HeightUnit> = CONST_HEIGHTUNIT
-  const physicalActivityLvl: Array<physicalActivityLvl> = CONST_PHYSICALACTIVITYLVL
-  const objetive: Array<objetive> = CONST_OBJETIVE
+  const [originalData, setOriginalData] = useState<User>({
+    name: 'Nombre',
+    lastName: "Apellido",
+    weight: 62,
+    weightUnit: WEIGHTUNIT.KG,
+    height: 150,
+    heightUnit: HEIGHTUNIT.CM,
+    gender: "MALE",
+    birthDay: '10/12/1985',
+    physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
+    objetive: OBJETIVE.MAINTAIN
+  })
 
   const [edit, setEdit] = useState<boolean>(false)
 
   const clickEdit = () => {
+    setOriginalData(form)
     setEdit(true)
   }
 
   const cancelEdit = () => {
+    setForm(originalData)
     setEdit(false)
   }
 
@@ -83,85 +77,18 @@ const Profile: FC<ProfileProps> = () => {
           <img className={styles.profileImg} src={defaultProfileImage}></img>
         </div>
         <div >
-          <h6>Información General</h6>
-          <div className={styles.profileFormSection}>
-
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Nombre</label>
-              <input name="name" value={form.name} onChange={handleChange}></input>
-            </MFFormField>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Apellido</label>
-              <input name="lastName" value={form.lastName} onChange={handleChange}></input>
-            </MFFormField>
-
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Genero</label>
-              <select name="gender" value={form.gender} onChange={handleChange}>
-                {gender.map((item: Gender) => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))}
-              </select>
-            </MFFormField>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Fecha de nacimiento</label>
-              <input name="birthDay" type='date' value={form.birthDay} onChange={handleChange}></input>
-            </MFFormField>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Nivel de actividad física</label>
-              <select name="physicalActivityLvl" value={form.physicalActivityLvl} onChange={handleChange}>
-                {physicalActivityLvl.map((item: physicalActivityLvl) => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))}
-              </select>
-            </MFFormField>
-          </div>
-        </div>
-        <div>
-          <h6>Peso</h6>
-          <div className={styles.profileFormSection}>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Unidad de medida del peso</label>
-              <select name="weightUnit" value={form.weightUnit} onChange={handleChange}>
-                {weightUnit.map((item: WeightUnit) => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))}
-              </select>
-            </MFFormField>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Peso</label>
-              <input name="weight" value={form.weight} onChange={handleChange}>
-              </input>
-            </MFFormField>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Objetivo</label>
-              <select name="objetive" value={form.objetive} onChange={handleChange}>
-                {objetive.map((item: objetive) => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))}
-              </select>
-            </MFFormField>
-          </div>
+          <PersonalDataSection handleChange={handleChange} form={form} edit={edit}></PersonalDataSection>
         </div>
         <div >
-          <h6>Estatura</h6>
-          <div className={styles.profileFormSection}>
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Unidad de medida de la Altura</label>
-              <select name="heightUnit" value={form.heightUnit} onChange={handleChange}>
-                {heightUnit.map((item: HeightUnit) => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))}
-              </select>
-            </MFFormField>
-
-            <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-              <label>Altura</label>
-              <input name="height" value={form.height} onChange={handleChange}>
-              </input>
-            </MFFormField>
-          </div>
+          <HeightSection handleChange={handleChange} form={form} edit={edit}></HeightSection>
         </div>
+        <div>
+          <WeightSection handleChange={handleChange} form={form} edit={edit}></WeightSection>
+        </div>
+        <div>
+          <NutritionSection form={form}></NutritionSection>
+        </div>
+
         {
           edit && (<div className="form-buttons-container">
             <MFButton theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
