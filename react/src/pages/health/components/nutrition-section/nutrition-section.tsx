@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import styles from './nutrition-section.module.scss'
 import { User } from '../../../../models/user';
 import { PHYSICALACTIVITYLVL } from '../../../../models/physical-activity';
 
@@ -11,6 +10,9 @@ interface NutritionSectionProps {
 
 const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
 
+  //TODO: AGREGAR TOOLTIPS INDICANDO PARA QUE SIRVE CADA COSA
+  //CARBOS: INDICAR EL RANGO Y QUE SEGÚN OBJETIVO EN CUAL DEBE MANTENERSE, SI RANGO MINIMO O MAXIMO
+  //GRASA: VER COMO SE CALCULA
   return (<>
 
     <h6>Nutrición</h6>
@@ -29,6 +31,7 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
           : form.physicalActivityLvl == PHYSICALACTIVITYLVL.MEDIUM ? 1.6 : 2.2) * Number(form.weight)}
     </div>
     <div>
+
       Carbohidratos:
     </div>
     <div>

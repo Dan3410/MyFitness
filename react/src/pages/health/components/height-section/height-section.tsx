@@ -5,6 +5,7 @@ import styles from './height-section.module.scss'
 import { User } from '../../../../models/user';
 import { CONST_HEIGHTUNIT } from '../../../../const/heightUnit';
 import { HeightUnit } from '../../../../models/heightUnit';
+import MFError from '../../../../components/mf-error/mf-error';
 
 
 interface HeightSectionProps {
@@ -30,11 +31,14 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
         </select>
       </MFFormField>
 
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-        <label>Altura</label>
-        <input name="height" value={form.height} onChange={handleChange}>
-        </input>
-      </MFFormField>
+      <div>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+          <label>Altura</label>
+          <input name="height" type='number' value={form.height} onChange={handleChange}></input>
+        </MFFormField>
+        <MFError hidden={!edit || !!form.height}>Este campo es obligatorio</MFError>
+        <MFError hidden={!edit || !!form.height && form.height <= 0}>El valor debe ser mayor a 0</MFError>
+      </div>
     </div>
   </>
   )

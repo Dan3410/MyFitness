@@ -1,4 +1,4 @@
-import { ChangeEvent, FC} from 'react';
+import { ChangeEvent, FC } from 'react';
 import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { CONST_WEIGHTUNIT } from '../../../../const/weightUnit';
@@ -7,6 +7,7 @@ import { User } from '../../../../models/user';
 import { WeightUnit } from '../../../../models/weightUnit';
 import { objetive } from '../../../../models/objetive';
 import { CONST_OBJETIVE } from '../../../../const/objetive';
+import MFError from '../../../../components/mf-error/mf-error';
 
 
 interface WeightSectionProps {
@@ -32,11 +33,15 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => 
           ))}
         </select>
       </MFFormField>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-        <label>Peso</label>
-        <input name="weight" value={form.weight} onChange={handleChange}>
-        </input>
-      </MFFormField>
+      <div>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+          <label>Peso</label>
+          <input name="weight" value={form.weight} onChange={handleChange}>
+          </input>
+        </MFFormField>
+        <MFError hidden={!edit || !!form.weight}>Este campo es obligatorio</MFError>
+        <MFError hidden={!edit || !!form.height && form.weight <= 0}>El valor debe ser mayor a 0</MFError>
+      </div>
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
         <label>Objetivo</label>
         <select name="objetive" value={form.objetive} onChange={handleChange}>

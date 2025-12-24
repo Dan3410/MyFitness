@@ -9,9 +9,9 @@ import { PHYSICALACTIVITYLVL } from '../../../models/physical-activity';
 import { OBJETIVE } from '../../../models/objetive';
 import { User } from '../../../models/user';
 import WeightSection from '../components/weight-section/weight-section';
-import HeightSection from '../components/personal-data-section/personal-data-section';
 import PersonalDataSection from '../components/personal-data-section/personal-data-section';
 import NutritionSection from '../components/nutrition-section/nutrition-section';
+import HeightSection from '../components/height-section/height-section';
 
 interface ProfileProps { }
 

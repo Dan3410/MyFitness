@@ -7,6 +7,7 @@ import { physicalActivityLvl } from '../../../../models/physical-activity';
 import { CONST_PHYSICALACTIVITYLVL } from '../../../../const/physical-activity';
 import { Gender } from '../../../../models/gender';
 import { CONST_GENDER } from '../../../../const/gender';
+import MFError from '../../../../components/mf-error/mf-error';
 
 
 
@@ -20,21 +21,27 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
 
   const physicalActivityLvl: Array<physicalActivityLvl> = CONST_PHYSICALACTIVITYLVL
   const gender: Array<Gender> = CONST_GENDER
-  
+
   return (<>
 
     <h6>Información General</h6>
     <div className={styles.profileFormSection}>
 
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-        <label>Nombre</label>
-        <input name="name" value={form.name} onChange={handleChange}></input>
-      </MFFormField>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-        <label>Apellido</label>
-        <input name="lastName" value={form.lastName} onChange={handleChange}></input>
-      </MFFormField>
+      <div>
 
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+          <label>Nombre</label>
+          <input name="name" value={form.name} onChange={handleChange}></input>
+        </MFFormField>
+        <MFError hidden={!edit || !!form.name}>Este campo es obligatorio</MFError>
+      </div>
+      <div>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+          <label>Apellido</label>
+          <input name="lastName" value={form.lastName} onChange={handleChange}></input>
+        </MFFormField>
+        <MFError hidden={!edit || !!form.lastName}>Este campo es obligatorio</MFError>
+      </div>
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
         <label>Genero</label>
         <select name="gender" value={form.gender} onChange={handleChange}>
@@ -43,10 +50,13 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
           ))}
         </select>
       </MFFormField>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
-        <label>Fecha de nacimiento</label>
-        <input name="birthDay" type='date' value={form.birthDay} onChange={handleChange}></input>
-      </MFFormField>
+      <div>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+          <label>Fecha de nacimiento</label>
+          <input name="birthDay" type='date' value={form.birthDay} onChange={handleChange}></input>
+        </MFFormField>
+        <MFError hidden={!edit || !!form.birthDay}>Este campo es obligatorio</MFError>
+      </div>
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
         <label>Nivel de actividad física</label>
         <select name="physicalActivityLvl" value={form.physicalActivityLvl} onChange={handleChange}>
