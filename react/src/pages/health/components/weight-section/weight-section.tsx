@@ -40,7 +40,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => 
           </input>
         </MFFormField>
         <MFError hidden={!edit || !!form.weight}>Este campo es obligatorio</MFError>
-        <MFError hidden={!edit || !!form.height && form.weight <= 0}>El valor debe ser mayor a 0</MFError>
+        <MFError hidden={!edit || !!form.height && form.weight > 0}>El valor debe ser mayor a 0</MFError>
       </div>
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
         <label>Objetivo</label>

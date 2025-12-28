@@ -5,10 +5,27 @@
   border-radius: 6px;
   font-size: 13px;
   max-width: 260px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   line-height: 1.2;
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  transition: opacity 500ms ease, transform 500ms ease;
 }
+
 .mfTooltipVisible {
   pointer-events: none;
 }
 
+.mfTooltipIcon {
+  font-size: 11px;
+  margin: 0px 5px;
+  border: 1px solid;
+  border-radius: 100%;
+  color: lime;
+  display: inline-block;
+  font-weight: 600;
+  height: 16px;
+  width: 16px;
+  text-align: center;
+}

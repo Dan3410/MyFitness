@@ -12,6 +12,7 @@ import WeightSection from '../components/weight-section/weight-section';
 import PersonalDataSection from '../components/personal-data-section/personal-data-section';
 import NutritionSection from '../components/nutrition-section/nutrition-section';
 import HeightSection from '../components/height-section/height-section';
+import { GENDER } from '../../../models/gender';
 
 interface ProfileProps { }
 
@@ -24,7 +25,7 @@ const Profile: FC<ProfileProps> = () => {
     weightUnit: WEIGHTUNIT.KG,
     height: 150,
     heightUnit: HEIGHTUNIT.CM,
-    gender: "MALE",
+    gender: GENDER.MALE,
     birthDay: '10/12/1985',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
     objetive: OBJETIVE.MAINTAIN
@@ -37,7 +38,7 @@ const Profile: FC<ProfileProps> = () => {
     weightUnit: WEIGHTUNIT.KG,
     height: 150,
     heightUnit: HEIGHTUNIT.CM,
-    gender: "MALE",
+    gender: GENDER.MALE,
     birthDay: '10/12/1985',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
     objetive: OBJETIVE.MAINTAIN
@@ -57,12 +58,17 @@ const Profile: FC<ProfileProps> = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setForm((prev: User) => ({ ...prev, [name]: value }));
-  }
+    if (name === "weightUnit") {
+      let changes: User = { ...form }
+      changes.weightUnit = value as WEIGHTUNIT
+      changes.weight = value == WEIGHTUNIT.KG ? Math.round(changes.weight * 0.453592) : Math.round(changes.weight * 2.20462)
+      setForm(() => (changes));
+    }else
+      setForm((prev: User) => ({ ...prev, [name]: value}));
+    }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(form)
     setEdit(false)
   }
 

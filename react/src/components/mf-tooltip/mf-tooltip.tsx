@@ -1,21 +1,22 @@
 import { useEffect, useRef, useState, type FC, type ReactNode } from 'react'
 import styles from "./mf-tooltip.module.scss"
-import type { ButtonTheme } from '../../themes/interfaces';
 import { ComponentTheme } from '../../themes/enums';
-import { profileAndHealthButtonTheme } from '../../themes/profileHealth';
-import { workoutButtonTheme } from '../../themes/workout';
-import { dietButtonTheme } from '../../themes/diet';
-import { cancelButtonTheme } from '../../themes/generic';
 import { tooltipPlacement } from '../../models/tooltipPlacement';
 import { createPortal } from 'react-dom';
+import { TooltipTheme } from '../../themes/interfaces';
+import { profileAndHealthTooltipTheme } from '../../themes/profileHealth';
+import { workoutTooltipTheme } from '../../themes/workout';
+import { dietTooltipTheme } from '../../themes/diet';
 
 interface MFTooltipProps {
+   theme: ComponentTheme,
    children: ReactNode,
    placement?: tooltipPlacement,
    delay?: number
 }
 
 const MFTooltip: FC<MFTooltipProps> = ({
+   theme,
    children,
    placement = tooltipPlacement.TOP,
    delay = 100,
@@ -26,6 +27,9 @@ const MFTooltip: FC<MFTooltipProps> = ({
    const targetRef = useRef<HTMLElement | null>(null);
    const tipRef = useRef<HTMLDivElement | null>(null)
    const timeoutRef = useRef<number>(undefined);
+
+   const tooltipTheme: TooltipTheme = theme == ComponentTheme.profileAndHeath ? profileAndHealthTooltipTheme :
+      theme == ComponentTheme.diet ? dietTooltipTheme : workoutTooltipTheme
 
    useEffect(() => {
       return () => clearTimeout(timeoutRef.current);
@@ -56,8 +60,6 @@ const MFTooltip: FC<MFTooltipProps> = ({
                top: targetRect.top - tipRect.height - spacing
             };
       }
-
-
    }
 
    const show = () => {
@@ -81,17 +83,14 @@ const MFTooltip: FC<MFTooltipProps> = ({
       <div
          ref={tipRef}
          role="tooltip"
-         className={styles.mfTooltip && visible ? styles.mfTooltipVisible : undefined}
+         className={[styles.mfTooltip, visible ? styles.mfTooltipVisible : undefined].join(' ')}
          style={{
-            position: "fixed",
-            left: coords.left,
-            top: coords.top,
-            zIndex: 9999,
-            pointerEvents: "none",
-            transition: "opacity 120ms ease, transform 120ms ease",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(-4px)",
-            background: "black"
+            left: coords.left,
+            top: coords.top,
+            background: tooltipTheme.backgroundColor,
+            color: tooltipTheme.textColor
          }}
       >
          {children}
@@ -102,7 +101,7 @@ const MFTooltip: FC<MFTooltipProps> = ({
 
 
    return (<>
-      <span
+      <span className={styles.mfTooltipIcon}
          ref={targetRef}
          onMouseEnter={show}
          onMouseLeave={hide}
@@ -110,7 +109,7 @@ const MFTooltip: FC<MFTooltipProps> = ({
          onBlur={hide}
          tabIndex={0}
          aria-describedby={"tooltip"}
-         style={{ display: "inline-block" }}
+         style={{ color: tooltipTheme.iconColor, borderColor: tooltipTheme.iconColor }}
       >
          ?
       </span>

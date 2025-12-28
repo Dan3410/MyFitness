@@ -12,6 +12,7 @@ export const dietInputTheme : InputTheme = {
 }
 
 export const dietTooltipTheme: TooltipTheme = {
-    backgroundColor: "#FDFF82",
-    textColor: '#fafafaff'
+    backgroundColor: "#ac8757ff",
+    textColor: '#fafafaff',
+    iconColor: "rgb(251, 255, 0)"
 }

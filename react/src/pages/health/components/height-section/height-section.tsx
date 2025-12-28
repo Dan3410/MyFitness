@@ -37,7 +37,7 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
           <input name="height" type='number' value={form.height} onChange={handleChange}></input>
         </MFFormField>
         <MFError hidden={!edit || !!form.height}>Este campo es obligatorio</MFError>
-        <MFError hidden={!edit || !!form.height && form.height <= 0}>El valor debe ser mayor a 0</MFError>
+        <MFError hidden={!edit || !!form.height && form.height > 0}>El valor debe ser mayor a 0</MFError>
       </div>
     </div>
   </>

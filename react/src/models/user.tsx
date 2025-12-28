@@ -1,3 +1,4 @@
+import { GENDER } from "./gender"
 import { HEIGHTUNIT } from "./heightUnit"
 import { OBJETIVE } from "./objetive"
 import { PHYSICALACTIVITYLVL } from "./physical-activity"
@@ -11,7 +12,7 @@ export interface User {
   height: number
   heightUnit: HEIGHTUNIT.CM | HEIGHTUNIT.FEET
   birthDay: string
-  gender: "MALE" | "FEMALE"
+  gender: GENDER.MALE | GENDER.FEMALE
   physicalActivityLvl: PHYSICALACTIVITYLVL.NONE | PHYSICALACTIVITYLVL.LOW | PHYSICALACTIVITYLVL.MEDIUM | PHYSICALACTIVITYLVL.HIGH
   objetive: OBJETIVE.REDUCE | OBJETIVE.MAINTAIN | OBJETIVE.INCREASE
 }

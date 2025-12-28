@@ -13,5 +13,6 @@ export const profileAndHealthInputTheme : InputTheme = {
 
 export const profileAndHealthTooltipTheme: TooltipTheme = {
     backgroundColor: "rgba(19, 129, 19, 1)",
-    textColor: '#fafafaff'
+    textColor: '#fafafaff',
+    iconColor: "rgb(77, 255, 77)"
 }

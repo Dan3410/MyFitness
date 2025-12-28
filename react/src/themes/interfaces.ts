@@ -12,4 +12,5 @@ export interface InputTheme {
 export interface TooltipTheme {
     textColor: string,
     backgroundColor: string,
+    iconColor: string
 }
