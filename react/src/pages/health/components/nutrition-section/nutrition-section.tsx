@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { User } from '../../../../models/user';
 import { PHYSICALACTIVITYLVL } from '../../../../models/physical-activity';
+import MFTooltip from '../../../../components/mf-tooltip/mf-tooltip';
 
 
 
@@ -23,7 +24,7 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
       Calorias: 
     </div>
     <div>
-      Proteinas: Entre {
+      Proteinas <MFTooltip>contenido</MFTooltip>: Entre {
         (form.physicalActivityLvl == PHYSICALACTIVITYLVL.LOW || PHYSICALACTIVITYLVL.NONE ? 0.8
           : form.physicalActivityLvl == PHYSICALACTIVITYLVL.MEDIUM ? 1.2 : 1.6) * Number(form.weight)
       } - {

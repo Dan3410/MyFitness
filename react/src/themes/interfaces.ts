@@ -8,3 +8,8 @@ export interface InputTheme {
     backgroundColor: string,
     borderColor: string
 }
+
+export interface TooltipTheme {
+    textColor: string,
+    backgroundColor: string,
+}

@@ -1,4 +1,4 @@
-import type { ButtonTheme, InputTheme } from "./interfaces";
+import type { ButtonTheme, InputTheme, TooltipTheme } from "./interfaces";
 
 export const profileAndHealthButtonTheme : ButtonTheme = {
     textColor: '#ffffffff',
@@ -8,5 +8,10 @@ export const profileAndHealthButtonTheme : ButtonTheme = {
 export const profileAndHealthInputTheme : InputTheme = {
     borderColor: "rgba(19, 129, 19, 1)",
     backgroundColor: "rgb(15, 36, 15)",
+    textColor: '#fafafaff'
+}
+
+export const profileAndHealthTooltipTheme: TooltipTheme = {
+    backgroundColor: "rgba(19, 129, 19, 1)",
     textColor: '#fafafaff'
 }

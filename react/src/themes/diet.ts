@@ -1,4 +1,4 @@
-import type { ButtonTheme, InputTheme } from "./interfaces";
+import type { ButtonTheme, InputTheme, TooltipTheme } from "./interfaces";
 
 export const dietButtonTheme : ButtonTheme = {
     textColor: '#000000',
@@ -8,5 +8,10 @@ export const dietButtonTheme : ButtonTheme = {
 export const dietInputTheme : InputTheme = {
     borderColor: "#FDFF82",
     backgroundColor: "#525300ff",
+    textColor: '#fafafaff'
+}
+
+export const dietTooltipTheme: TooltipTheme = {
+    backgroundColor: "#FDFF82",
     textColor: '#fafafaff'
 }

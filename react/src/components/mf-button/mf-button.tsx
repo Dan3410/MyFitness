@@ -36,9 +36,7 @@ const MFButton: FC<MFButtonProps> = ({
          onClickEvent()
    }
 
-   //Ver porque no levanta el valor de disabled. Aca habría que agregar estilos cuando este desabilitado
    return (<>
-      {isDisabled}
       <button className={styles.mfButtonContainer} disabled={isDisabled}
          onClick={!isDisabled ? handleClick : () => { }}
          style={{
