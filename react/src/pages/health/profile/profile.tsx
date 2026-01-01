@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { ComponentTheme } from '../../../themes/enums';
 import { WEIGHTUNIT } from '../../../models/weightUnit';
 import { HEIGHTUNIT } from '../../../models/heightUnit';
@@ -13,38 +13,45 @@ import PersonalDataSection from '../components/personal-data-section/personal-da
 import NutritionSection from '../components/nutrition-section/nutrition-section';
 import HeightSection from '../components/height-section/height-section';
 import { GENDER } from '../../../models/gender';
+import { getUserData } from '../../../services/profileService';
 
 interface ProfileProps { }
 
 const Profile: FC<ProfileProps> = () => {
 
   const [form, setForm] = useState<User>({
-    name: 'Nombre',
-    lastName: "Apellido",
-    weight: 62,
+    name: '',
+    lastName: "",
+    weight: 0,
     weightUnit: WEIGHTUNIT.KG,
-    height: 150,
+    height: 0,
     heightUnit: HEIGHTUNIT.CM,
     gender: GENDER.MALE,
-    birthDay: '10/12/1985',
+    birthDay: '',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
     objetive: OBJETIVE.MAINTAIN
   })
 
   const [originalData, setOriginalData] = useState<User>({
-    name: 'Nombre',
-    lastName: "Apellido",
-    weight: 62,
+    name: '',
+    lastName: "",
+    weight: 0,
     weightUnit: WEIGHTUNIT.KG,
-    height: 150,
+    height: 0,
     heightUnit: HEIGHTUNIT.CM,
     gender: GENDER.MALE,
-    birthDay: '10/12/1985',
+    birthDay: '',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
     objetive: OBJETIVE.MAINTAIN
   })
 
   const [edit, setEdit] = useState<boolean>(false)
+
+  useEffect(() => {
+    let user = getUserData('123')
+    setOriginalData(user)
+    setForm(user)
+  })
 
   const clickEdit = () => {
     setOriginalData(form)
