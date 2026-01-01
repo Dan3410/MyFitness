@@ -47,11 +47,15 @@ const Profile: FC<ProfileProps> = () => {
 
   const [edit, setEdit] = useState<boolean>(false)
 
+  const getData = async () => {
+    const data = await getUserData('123')
+    setOriginalData(data)
+    setForm(data)
+  }
+
   useEffect(() => {
-    let user = getUserData('123')
-    setOriginalData(user)
-    setForm(user)
-  })
+    getData()
+  }, [])
 
   const clickEdit = () => {
     setOriginalData(form)
@@ -70,9 +74,9 @@ const Profile: FC<ProfileProps> = () => {
       changes.weightUnit = value as WEIGHTUNIT
       changes.weight = value == WEIGHTUNIT.KG ? Math.round(changes.weight * 0.453592) : Math.round(changes.weight * 2.20462)
       setForm(() => (changes));
-    }else
-      setForm((prev: User) => ({ ...prev, [name]: value}));
-    }
+    } else
+      setForm((prev: User) => ({ ...prev, [name]: value }));
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
