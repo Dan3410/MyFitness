@@ -13,7 +13,7 @@ import PersonalDataSection from '../components/personal-data-section/personal-da
 import NutritionSection from '../components/nutrition-section/nutrition-section';
 import HeightSection from '../components/height-section/height-section';
 import { GENDER } from '../../../models/gender';
-import { getUserData } from '../../../services/profileService';
+import { profileService } from '../../../services/profileService'
 
 interface ProfileProps { }
 
@@ -48,7 +48,7 @@ const Profile: FC<ProfileProps> = () => {
   const [edit, setEdit] = useState<boolean>(false)
 
   const getData = async () => {
-    const data = await getUserData('123')
+    const data = await profileService.getUserData('123')
     setOriginalData(data)
     setForm(data)
   }
@@ -78,9 +78,11 @@ const Profile: FC<ProfileProps> = () => {
       setForm((prev: User) => ({ ...prev, [name]: value }));
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setEdit(false)
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    profileService.editUserData('123', form).then((userData: User) => {
+      setEdit(false)
+    })
   }
 
   return (
@@ -109,7 +111,7 @@ const Profile: FC<ProfileProps> = () => {
         {
           edit && (<div className="form-buttons-container">
             <MFButton theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
-            <MFButton theme={ComponentTheme.profileAndHeath} onClickEvent={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}><label>Guardar</label></MFButton>
+            <MFButton type='submit' theme={ComponentTheme.profileAndHeath}><label>Guardar</label></MFButton>
           </div>)
         }
       </form>

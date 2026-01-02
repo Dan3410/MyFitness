@@ -22,4 +22,8 @@ export class UserService {
         objetive: OBJETIVE.MAINTAIN
       };
   }
+  
+  editUser(id: string, userData: User): User {
+    return userData;
+  }
 }

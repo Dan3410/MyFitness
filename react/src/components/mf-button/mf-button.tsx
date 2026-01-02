@@ -16,6 +16,7 @@ interface MFButtonProps {
    fontSize?: string,
    isDisabled?: boolean,
    onClickEvent?: (...args: never[]) => void;
+   type?: "button" | "submit" | "reset" | undefined
 }
 
 const MFButton: FC<MFButtonProps> = ({
@@ -25,6 +26,7 @@ const MFButton: FC<MFButtonProps> = ({
    height = "fit-content",
    fontSize = '14px',
    isDisabled = false,
+   type = undefined,
    onClickEvent
 }) => {
 
@@ -38,7 +40,7 @@ const MFButton: FC<MFButtonProps> = ({
 
    return (<>
       <button className={styles.mfButtonContainer} disabled={isDisabled}
-         onClick={!isDisabled ? handleClick : () => { }}
+         onClick={!isDisabled ? handleClick : () => { }} type={type}
          style={{
             width: width,
             backgroundColor: buttonTheme.backgroundColor,
