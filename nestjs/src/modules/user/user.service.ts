@@ -1,15 +1,18 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { GENDER } from 'src/models/gender';
-import { HEIGHTUNIT } from 'src/models/heightUnit';
-import { OBJETIVE } from 'src/models/objetive';
-import { PHYSICALACTIVITYLVL } from 'src/models/physical-activity';
+import { firstValueFrom } from 'rxjs';
 import type { User } from 'src/models/user';
-import { WEIGHTUNIT } from 'src/models/weightUnit';
 
 @Injectable()
 export class UserService {
-  getUser(id: string): User {
-    return {
+
+  private profileApiUrl = "http://localhost:8080/profile";
+  constructor(private readonly httpService: HttpService){}
+
+  async getUser(id: string): Promise<User> {
+    const response = await firstValueFrom(this.httpService.get(this.profileApiUrl + `?id=${id}`));
+    return response.data;
+/*    return {
         name: 'Nombre',
         lastName: "Apellido",
         weight: 62,
@@ -19,8 +22,8 @@ export class UserService {
         gender: GENDER.MALE,
         birthDay: '1985-12-10',
         physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
-        objetive: OBJETIVE.MAINTAIN
-      };
+        objective: OBJECTIVE.MAINTAIN
+      };*/
   }
   
   editUser(id: string, userData: User): User {

@@ -3,7 +3,7 @@ import { User } from '../../../../models/user';
 import { PHYSICALACTIVITYLVL } from '../../../../models/physical-activity';
 import MFTooltip from '../../../../components/mf-tooltip/mf-tooltip';
 import { ComponentTheme } from '../../../../themes/enums';
-import { OBJETIVE } from '../../../../models/objetive';
+import { OBJECTIVE } from '../../../../models/objective';
 import { WEIGHTUNIT } from '../../../../models/weightUnit';
 
 
@@ -42,20 +42,20 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
 
   const getMinimumCarbohidrates = () => {
     return Math.round((form.physicalActivityLvl == PHYSICALACTIVITYLVL.LOW || form.physicalActivityLvl == PHYSICALACTIVITYLVL.NONE ? 3
-      : form.physicalActivityLvl == PHYSICALACTIVITYLVL.MEDIUM ? 5 : form.objetive == OBJETIVE.INCREASE ? 6.5 : 6) * Number(getWeightInKg()))
+      : form.physicalActivityLvl == PHYSICALACTIVITYLVL.MEDIUM ? 5 : form.objective == OBJECTIVE.INCREASE ? 6.5 : 6) * Number(getWeightInKg()))
   }
 
   const getMaximumCarbohidrates = () => {
     return Math.round((form.physicalActivityLvl == PHYSICALACTIVITYLVL.LOW || form.physicalActivityLvl == PHYSICALACTIVITYLVL.NONE ? 5
-      : form.physicalActivityLvl == PHYSICALACTIVITYLVL.MEDIUM ? 6.5 : form.objetive == OBJETIVE.INCREASE ? 7.5 : 7) * Number(getWeightInKg()))
+      : form.physicalActivityLvl == PHYSICALACTIVITYLVL.MEDIUM ? 6.5 : form.objective == OBJECTIVE.INCREASE ? 7.5 : 7) * Number(getWeightInKg()))
   }
 
   const getMinimumFats = () => {
-    return Math.round((form.objetive == OBJETIVE.REDUCE ? 0.5 : 1) * Number(getWeightInKg()))
+    return Math.round((form.objective == OBJECTIVE.REDUCE ? 0.5 : 1) * Number(getWeightInKg()))
   }
 
   const getMaximumFats = () => {
-    return Math.round((form.objetive == OBJETIVE.REDUCE ? 1 : 1.2) * Number(getWeightInKg()))
+    return Math.round((form.objective == OBJECTIVE.REDUCE ? 1 : 1.2) * Number(getWeightInKg()))
   }
 
   return (<>

@@ -7,8 +7,9 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @Get('/user/:id')
-  getUser(@Param('id') id: string): User {
-    return this.userService.getUser(id);
+  async getUser(@Param('id') id: string): Promise<User> {
+    let response = await this.userService.getUser(id);
+    return response
   }
 
   @Put('/user/:id')

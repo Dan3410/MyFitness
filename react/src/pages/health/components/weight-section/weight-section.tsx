@@ -5,8 +5,8 @@ import { CONST_WEIGHTUNIT } from '../../../../const/weightUnit';
 import styles from './weight-section.module.scss'
 import { User } from '../../../../models/user';
 import { WeightUnit } from '../../../../models/weightUnit';
-import { objetive } from '../../../../models/objetive';
-import { CONST_OBJETIVE } from '../../../../const/objetive';
+import { objective } from '../../../../models/objective';
+import { CONST_OBJETIVE } from '../../../../const/objective';
 import MFError from '../../../../components/mf-error/mf-error';
 
 
@@ -19,7 +19,7 @@ interface WeightSectionProps {
 const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => {
 
   const weightUnit: Array<WeightUnit> = CONST_WEIGHTUNIT
-  const objetive: Array<objetive> = CONST_OBJETIVE
+  const objective: Array<objective> = CONST_OBJETIVE
 
   return (<>
 
@@ -44,8 +44,8 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => 
       </div>
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
         <label>Objetivo</label>
-        <select name="objetive" value={form.objetive} onChange={handleChange}>
-          {objetive.map((item: objetive) => (
+        <select name="objective" value={form.objective} onChange={handleChange}>
+          {objective.map((item: objective) => (
             <option key={item.value} value={item.value}>{item.label}</option>
           ))}
         </select>

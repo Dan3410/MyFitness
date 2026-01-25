@@ -2,7 +2,7 @@ export enum PHYSICALACTIVITYLVL{
     NONE = "none",
     LOW = "low",
     MEDIUM = "medium",
-    HIGH = "High"
+    HIGH = "high"
 }
 
 export interface physicalActivityLvl {

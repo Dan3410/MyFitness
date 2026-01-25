@@ -6,7 +6,7 @@ import styles from './profile.module.scss'
 import MFButton from '../../../components/mf-button/mf-button';
 import defaultProfileImage from '../../../assets/defaultProfileImage.jpg'
 import { PHYSICALACTIVITYLVL } from '../../../models/physical-activity';
-import { OBJETIVE } from '../../../models/objetive';
+import { OBJECTIVE } from '../../../models/objective';
 import { User } from '../../../models/user';
 import WeightSection from '../components/weight-section/weight-section';
 import PersonalDataSection from '../components/personal-data-section/personal-data-section';
@@ -29,7 +29,7 @@ const Profile: FC<ProfileProps> = () => {
     gender: GENDER.MALE,
     birthDay: '',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
-    objetive: OBJETIVE.MAINTAIN
+    objective: OBJECTIVE.MAINTAIN
   })
 
   const [originalData, setOriginalData] = useState<User>({
@@ -42,7 +42,7 @@ const Profile: FC<ProfileProps> = () => {
     gender: GENDER.MALE,
     birthDay: '',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
-    objetive: OBJETIVE.MAINTAIN
+    objective: OBJECTIVE.MAINTAIN
   })
 
   const [edit, setEdit] = useState<boolean>(false)
@@ -82,6 +82,8 @@ const Profile: FC<ProfileProps> = () => {
     event.preventDefault()
     profileService.editUserData('123', form).then((userData: User) => {
       setEdit(false)
+      setForm(userData)
+      setForm(originalData)
     })
   }
 
