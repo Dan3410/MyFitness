@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { ComponentTheme } from '../../../themes/enums';
 import { WEIGHTUNIT } from '../../../models/weightUnit';
 import { HEIGHTUNIT } from '../../../models/heightUnit';
@@ -81,9 +81,10 @@ const Profile: FC<ProfileProps> = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     profileService.editUserData('123', form).then((userData: User) => {
-      setEdit(false)
+      console.log(userData)
       setForm(userData)
-      setForm(originalData)
+      setOriginalData(userData)
+      setEdit(false)
     })
   }
 

@@ -11,8 +11,8 @@ import com.example.myFitness.profile.model.WeightUnit;
 
 @Service
 public class ProfileService {
-    public User getProfile(String id) {
-        return new User(
+
+    User savedUser = new User(
         "Nombre",
         "Apellido",
         62.00,
@@ -24,5 +24,13 @@ public class ProfileService {
         PhysicalActivityLvl.medium,
         Objective.maintain
       );
+
+    public User getProfile(String id) {
+        return savedUser;
+    }
+
+    public User saveProfile(String id, User user) {
+      savedUser = user;
+      return savedUser;
     }
 }

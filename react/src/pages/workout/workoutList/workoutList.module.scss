@@ -1,1 +1,33 @@
-.workoutList {}
+.workoutList {
+    .categoriesContainer {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 80px;
+
+        :hover {
+            background-color: rgb(80, 80, 80) !important;
+        }
+
+        .category {
+            width: 100%;
+            height: 160px;
+            justify-content: center;
+            text-align: center;
+            display: flex;
+            border: 2px #3c80ffff solid;
+            border-radius: 8px;
+            align-items: center;
+            transition: background-color 0.3s ease-out 0s;
+
+
+
+            label {
+                margin: auto;
+                font-weight: 600;
+                cursor: inherit;
+            }
+
+
+        }
+    }
+}

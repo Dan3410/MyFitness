@@ -23,8 +23,8 @@ public class ProfileController {
   }
 
   @PutMapping("")
-  public String saveProfile(@RequestParam String id, @RequestBody User profile){
-    return "";
+  public User saveProfile(@RequestParam String id, @RequestBody User profile){
+    return profileService.saveProfile(id, profile);
   }
 
 }

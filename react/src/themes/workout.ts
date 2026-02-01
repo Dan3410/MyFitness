@@ -1,7 +1,7 @@
 import type { ButtonTheme, InputTheme, TooltipTheme } from "./interfaces";
 
 export const workoutButtonTheme: ButtonTheme = {
-    textColor: '#000000',
+    textColor: '#fafafaff',
     backgroundColor: '#3c80ffff'
 }
 

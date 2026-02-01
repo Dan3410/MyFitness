@@ -25,7 +25,7 @@ const Home: FC<HomeProps> = () => {
     {
       name: "Rutinas de ejercicios",
       description: "Para ver tus entrenamientos, hace click aquí",
-      disabled: true,
+      disabled: false,
       buttonTheme: ComponentTheme.workout,
       redirectFunction: redirectToWorkoutList
     },
