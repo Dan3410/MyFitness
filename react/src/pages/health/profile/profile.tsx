@@ -81,7 +81,6 @@ const Profile: FC<ProfileProps> = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     profileService.editUserData('123', form).then((userData: User) => {
-      console.log(userData)
       setForm(userData)
       setOriginalData(userData)
       setEdit(false)

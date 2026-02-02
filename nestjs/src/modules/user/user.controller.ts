@@ -2,20 +2,20 @@ import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import type { User } from 'src/models/user';
 
-@Controller()
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
-  @Get('/user/:id')
+  @Get(':id')
   async getUser(@Param('id') id: string): Promise<User> {
     let response = await this.userService.getUser(id);
     return response
   }
 
-  @Put('/user/:id')
+  @Put(':id')
   editUser(
     @Param('id') id: string,
-    @Body() userData: User): User {
+    @Body() userData: User): Promise<User> {
     return this.userService.editUser(id, userData);
   }
 }
