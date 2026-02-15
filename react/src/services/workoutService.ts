@@ -15,6 +15,13 @@ class WorkoutService {
             headers: { 'Content-Type': 'application/json' }
         }).then((response: Response) => { return response.json() }).catch((err: Error) => err);
     }
+
+    async deleteWorkout(id: string) {
+        return fetch(API_URL + id, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        }).then((response: Response) => { return response.json() }).catch((err: Error) => err);
+    }
 }
 
 export const workoutService = new WorkoutService()

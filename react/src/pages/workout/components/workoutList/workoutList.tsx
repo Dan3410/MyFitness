@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styles from './workoutList.module.scss';
 import { WorkoutListItem } from '../../../../models/workoutListItem';
 import { workoutService } from '../../../../services/workoutService';
+import MFButton from '../../../../components/mf-button/mf-button';
 
 interface WorkoutListProps { }
 
@@ -16,6 +17,13 @@ const WorkoutList: FC<WorkoutListProps> = () => {
 
   const getWorkoutList = async () => (
     setList(await workoutService.getWorkoutsListItem("0", "all"))
+  )
+
+  const deleteWorkout = (id: string) => (
+    workoutService.deleteWorkout(id).then((list: WorkoutListItem[]) => {
+      console.log(list)
+      setList(list)
+    }).catch(() => {})
   )
 
   useEffect(() => {
@@ -47,7 +55,9 @@ const WorkoutList: FC<WorkoutListProps> = () => {
               <td>
                 {formattedDate(item.lastTimeDone)}
               </td>
-              <td></td>
+              <td>
+                <MFButton onClickEvent={() => deleteWorkout(item.id)}>Delete</MFButton>
+              </td>
             </tr>
           ))}
         </tbody>

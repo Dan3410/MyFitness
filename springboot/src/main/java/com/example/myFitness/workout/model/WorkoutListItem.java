@@ -3,16 +3,16 @@ package com.example.myFitness.workout.model;
 import java.time.LocalDate;
 
 public class WorkoutListItem {
-    Number id;
+    Integer id;
     String name;
     String category;
-    Number estimatedTime;
+    Integer estimatedTime;
     LocalDate lastTimeDone;
     LocalDate createdDate;
     LocalDate modifiedDate;
 
     // Constructor
-    public WorkoutListItem(Number id, String name, String category, Number estimatedTime,
+    public WorkoutListItem(Integer id, String name, String category, Integer estimatedTime,
             LocalDate lastTimeDone, LocalDate createdDate, LocalDate modifiedDate) {
         this.id = id;
         this.name = name;
@@ -24,7 +24,7 @@ public class WorkoutListItem {
     }
 
     // Getters
-    public Number getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -53,7 +53,7 @@ public class WorkoutListItem {
     }
 
     // Setters
-    public void setId(Number id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -65,7 +65,7 @@ public class WorkoutListItem {
         this.category = category;
     }
 
-    public void setEstimatedTime(Number estimatedTime) {
+    public void setEstimatedTime(Integer estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
 

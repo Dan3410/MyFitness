@@ -19,4 +19,9 @@ export class WorkoutService {
     const response = (await firstValueFrom(this.httpService.get(this.workoutApiUrl + "/list/" + id + `?category=${category}`)));
     return response.data
   }
+
+  async deleteWorkout(id: string): Promise<WorkoutListItem[]>{
+    const response = (await firstValueFrom(this.httpService.delete(this.workoutApiUrl + `/${id}`)));
+    return response.data
+  }
 }

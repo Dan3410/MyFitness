@@ -8,7 +8,7 @@ import { dietButtonTheme } from '../../themes/diet';
 import { cancelButtonTheme } from '../../themes/generic';
 
 interface MFButtonProps {
-   theme: ComponentTheme,
+   theme?: ComponentTheme,
    //   redirectUrl?: string,
    children: ReactNode,
    width?: string,

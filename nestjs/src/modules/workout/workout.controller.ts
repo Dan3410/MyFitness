@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, Query } from '@nestjs/common';
 import { WorkoutService } from './workout.service';
 import { WorkoutListItem } from 'src/models/workout';
 import { WorkoutCategories } from 'src/models/workoutCategories';
@@ -18,5 +18,11 @@ export class WorkoutController {
     @Param('id') id: string,
     @Query() query: Record<string, string>): Promise<WorkoutListItem[]> {
     return this.workoutService.getWorkouts(id, query.category);
+  }
+
+  @Delete('/:id')
+  deleteWorkouts(
+    @Param('id') id: string): Promise<WorkoutListItem[]> {
+    return this.workoutService.deleteWorkout(id);
   }
 }
