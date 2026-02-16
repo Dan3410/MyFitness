@@ -7,30 +7,38 @@
         border-style: solid;
         border-width: 1px;
         border-color: rgb(117, 165, 255);
+
         th {
             color: black;
             background-color: rgb(101, 155, 255);
             font-weight: 600;
             padding: 10px;
-            &:not(:last-child){
-                border-right: 1px solid #383838
 
+            &:not(:last-child) {
+                border-right: 1px solid #383838
             }
         }
-        
+
 
         td {
             text-align: center;
             padding: 10px 0;
         }
 
-        tbody{
-            tr:nth-child(odd){
+        tbody {
+            tr:nth-child(odd) {
                 background-color: #383838;
             }
-            tr:nth-child(even){
+
+            tr:nth-child(even) {
                 background-color: #5a5a5a;
             }
         }
     }
+}
+
+.modalButtonContainer {
+    display: flex;
+    float: right;
+    column-gap: 20px;
 }
