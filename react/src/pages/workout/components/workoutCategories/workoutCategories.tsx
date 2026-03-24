@@ -1,14 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './workoutCategories.module.scss';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { workoutCategory } from '../../../../models/workoutCategories';
+import { WorkoutCategory } from '../../../../models/workoutCategories';
 import { workoutService } from '../../../../services/workoutService';
 
 interface WorkoutCategoriesProps { }
 
 const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
 
-  const [categories, setCategories] = useState<workoutCategory[]>()
+  const [categories, setCategories] = useState<WorkoutCategory[]>()
 
   const navigate: NavigateFunction = useNavigate();
 

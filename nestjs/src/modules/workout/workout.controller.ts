@@ -20,6 +20,13 @@ export class WorkoutController {
     return this.workoutService.getWorkouts(id, query.category);
   }
 
+  @Get("/:id")
+  getWorkoutSteps(
+    @Param('id') id: string
+  ): any{
+    return this.workoutService.getWorkoutSteps(id);
+  }
+
   @Delete('/:id')
   deleteWorkouts(
     @Param('id') id: string): Promise<WorkoutListItem[]> {

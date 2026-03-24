@@ -1,4 +1,4 @@
-export interface workoutCategory {
+export interface WorkoutCategory {
     label: string
     value: string
 }

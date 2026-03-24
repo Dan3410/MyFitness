@@ -10,7 +10,7 @@ interface HomeProps { }
 const Home: FC<HomeProps> = () => {
 
   const redirectToWorkoutList = () => {
-    navigate("/workout");
+    navigate("/workout/list");
   };
 
   const redirectToProfile = () => {

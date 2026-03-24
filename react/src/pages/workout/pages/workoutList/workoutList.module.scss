@@ -1,4 +1,5 @@
 .workoutList {
+    margin-top: 16px;
     table {
         width: 100%;
         height: 100%;
@@ -35,6 +36,11 @@
             }
         }
     }
+}
+
+.listActionsContainer{
+    display: flex;
+    column-gap: 20px;
 }
 
 .modalButtonContainer {

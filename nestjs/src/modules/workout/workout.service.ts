@@ -14,6 +14,11 @@ export class WorkoutService {
     const response = await firstValueFrom(this.httpService.get(this.workoutApiUrl + "/categories"));
     return response.data;
   }
+
+    async getWorkoutSteps(id: string): Promise<WorkoutListItem[]> {
+    const response = (await firstValueFrom(this.httpService.get(this.workoutApiUrl + "/steps/" + id)));
+    return response.data
+  }
   
   async getWorkouts(id: string, category: string): Promise<WorkoutListItem[]> {
     const response = (await firstValueFrom(this.httpService.get(this.workoutApiUrl + "/list/" + id + `?category=${category}`)));

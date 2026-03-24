@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -27,23 +28,28 @@ public class WorkoutService {
   };
 
   Workout[] workouts = {
-    new Workout()
+      new Workout()
   };
 
   public WorkoutCategory[] getCategories() {
     return categories;
   }
 
-  public WorkoutListItem[] getWorkoutsListItems(String id, String categories) {
-    return workoutsListItems;
+  public WorkoutListItem[] getWorkoutsListItems(String id, String category) {
+    if (!category.equals("all")) {
+      return Arrays.stream(workoutsListItems)
+          .filter(item -> category.equals(item.getCategory()))
+          .collect(Collectors.toList()).toArray(WorkoutListItem[]::new);
+    } else
+      return workoutsListItems;
   }
 
-  //Create type for workout
+  // Create type for workout
   public Workout createWorkout(String id, Workout workout) {
     return workouts[0];
   }
 
-  //Create type for workout
+  // Create type for workout
   public Workout editWorkout(String id, Workout workout) {
     return workouts[0];
   }
