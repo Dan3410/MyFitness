@@ -44,14 +44,12 @@ const Step: FC<StepProps> = ({
         return (
           <>
             <div>{runStep.type}</div>
-            {runStep.type == stepType.EXERCISE && <div>{runStep.exercise}</div>}
-            <div>{runStep.byTime ? runStep.time + "s" : runStep.reps + " reps"}</div>
-            {runStep.type == stepType.EXERCISE && <div>gymStep.weight</div>}
+            <div>{runStep.type == stepType.REST || runStep.type == stepType.RUNTIME ? runStep.time + "s"
+              : runStep.type == stepType.RUNDISTANCE ? runStep.distance + " m"
+                : runStep.calories + "kcal"}</div>
+            {runStep.speed && <div>{runStep.speed} Km/h</div>}
           </>
         );
-
-      default:
-        return <div>No workout selected</div>;
     }
   }
 
