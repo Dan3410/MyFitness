@@ -7,7 +7,7 @@ public class Workout {
     private String id;
     private String name;
     private String category;
-    private List<Set> steps;
+    private List<Step> steps;
 
     // Getters and setters
     // Getter and Setter for id
@@ -38,15 +38,15 @@ public class Workout {
     }
 
     // Getter and Setter for steps
-    public List<Set> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Set> steps) {
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
-     public Workout(String id, String name, String category, List<Set> steps) {
+     public Workout(String id, String name, String category, List<Step> steps) {
         this.id = id;
         this.name = name;
         this.category = category;

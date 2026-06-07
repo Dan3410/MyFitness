@@ -3,20 +3,18 @@ package com.example.myFitness.workout.model;
 import java.util.List;
 
     public class SwimStep extends Step {
-        private Integer distance; // nullable
-        private Integer time;     // nullable
+        private Integer distance; 
+        private Integer time;
         private List<SwimGear> gear;
-
-    // No-argument constructor
-        public SwimStep() {}
+        private SwimStroke stroke;
 
         // Parameterized constructor
-        public SwimStep(StepType type, Integer distance, Integer time, List<SwimGear> gear) {
-            setType(type);
+        public SwimStep(StepType type, Integer distance, Integer time, List<SwimGear> gear, SwimStroke style) {
+            super(type);
             this.distance = distance;
             this.time = time;
             this.gear = gear;
-            
+            this.stroke = style;
         }
 
         // Getter and Setter for distance
@@ -44,5 +42,13 @@ import java.util.List;
 
         public void setGear(List<SwimGear> gear) {
             this.gear = gear;
+        }
+
+        public SwimStroke getStroke() {
+            return this.stroke;
+        }
+
+        public void setStroke(SwimStroke swimStroke) {
+            this.stroke = swimStroke;
         }
     }

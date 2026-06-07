@@ -5,6 +5,7 @@ public enum StepType {
     REST,
     WARMUP,
     COOLDOWN,
+    SET,
 
     // Gym
     GYM_EXERCISE,

@@ -7,14 +7,9 @@ public class GymStep extends Step {
     private int time;
     private double weight;
 
-    // No-argument constructor
-    public GymStep(StepType type) {
-        setType(type); // set the step type
-    }
-
     // Parameterized constructor
     public GymStep(StepType type, String exercise, boolean byTime, int reps, int time, double weight) {
-        setType(type); // set the step type
+        super(type);
         this.exercise = exercise;
         this.byTime = byTime;
         this.reps = reps;

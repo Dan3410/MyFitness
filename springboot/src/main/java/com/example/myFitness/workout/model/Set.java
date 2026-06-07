@@ -2,7 +2,7 @@ package com.example.myFitness.workout.model;
 
 import java.util.List;
 
-public class Set {
+public class Set extends Step{
     private int repeat;
     private List<Step> steps;
 
@@ -24,7 +24,8 @@ public class Set {
 
     // Parameterized constructor
     public Set(List<Step> set, int repeat) {
-        setSteps(steps);
-        setRepeat(repeat);
+        this.steps = set;
+        this.repeat = repeat;
+        super(StepType.SET);
     }
 }
