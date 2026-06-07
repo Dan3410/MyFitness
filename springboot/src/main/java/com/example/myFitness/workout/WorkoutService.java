@@ -26,6 +26,7 @@ public class WorkoutService {
     private WorkoutListItem[] workoutsListItems;
     private Workout[] workouts;
 
+  //TODO: REST STEPS AND SETS WITH MORE THAN ONE STEP
   @PostConstruct
     public void init() {
         // categories
@@ -45,7 +46,6 @@ public class WorkoutService {
         // --- Swim steps ---
         List<Step> swimSteps = new ArrayList<>();
 
-        // Use actual enum names from your SwimGear
         swimSteps.add(createSwimStep(StepType.WARMUP, 300, null, Arrays.asList(), 1));
         swimSteps.add(createSwimStep(StepType.SWIM_DISTANCE, 200, null, Arrays.asList(SwimGear.PULLBUOY), 6));
         swimSteps.add(createSwimStep(StepType.SWIM_TIME, 50, 50, Arrays.asList(SwimGear.FINS), 8));
@@ -59,7 +59,6 @@ public class WorkoutService {
         gymSteps.add(createGymStep(StepType.GYM_INTERVAL, "EMOM: 10 kettlebell swings", true, 0, 10, 0.0,3));
         gymSteps.add(createGymStep(StepType.COOLDOWN, "Stretching", true, 0, 5, 0.0, 1));
 
-        // --- Workouts array and assignment ---
         workouts = new Workout[] {
             new Workout("0", "Swim Swim", "swim", swimSteps),
             new Workout("1", "Gym workout", "gym", gymSteps)
