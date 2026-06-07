@@ -1,14 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './step.module.scss';
-import { gymStep, runStep, stepType, swimGear, swimStep } from '../../../../models/workoutSteps';
+import { gymStep, runStep, set, stepType, swimGear, swimStep } from '../../../../models/workoutSteps';
 
 interface StepProps {
-  workoutType: string
-  step: gymStep | swimStep | runStep
+  workoutCategory: string
+  step: set | gymStep | swimStep | runStep
 }
 
 const Step: FC<StepProps> = ({
-  workoutType,
+  workoutCategory,
   step
 }) => {
 
@@ -17,7 +17,7 @@ const Step: FC<StepProps> = ({
   }, [])
 
   function workoutHTML() {
-    switch (workoutType) {
+    switch (workoutCategory) {
       case "gym":
         let gymStep = step as gymStep
         return (

@@ -23,12 +23,13 @@ public class WorkoutService {
   };
 
   WorkoutListItem[] workoutsListItems = {
-      new WorkoutListItem(0, "Swim workout", "swim", 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
+      new WorkoutListItem(0, "Swim Swim", "swim", 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
       new WorkoutListItem(1, "Gym workout", "gym", 100, LocalDate.now(), LocalDate.now(), LocalDate.now())
   };
 
   Workout[] workouts = {
-      new Workout()
+      new Workout(0, "Swim Swim", "swim", new ArrayList<>()),
+      new Workout(1, "Gym workout", "gym", new ArrayList<>())
   };
 
   public WorkoutCategory[] getCategories() {
@@ -44,14 +45,14 @@ public class WorkoutService {
       return workoutsListItems;
   }
 
-  // Create type for workout
   public Workout createWorkout(String id, Workout workout) {
     return workouts[0];
   }
 
-  // Create type for workout
-  public Workout editWorkout(String id, Workout workout) {
-    return workouts[0];
+  public Workout editWorkout(int id, Workout workout) {
+    return Arrays.stream(workouts)
+        .filter(item -> id == item.getId())
+        .findFirst().get();
   }
 
   public WorkoutListItem[] deleteWorkout(String id) {

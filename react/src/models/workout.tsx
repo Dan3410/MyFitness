@@ -1,8 +1,8 @@
-import { gymStep, runStep, swimStep } from "./workoutSteps"
+import { gymStep, runStep, set, swimStep } from "./workoutSteps"
 
 export interface Workout{
     id: number
     name: string
     category: string
-    steps: Array<gymStep | swimStep | runStep>
+    steps: Array<set | gymStep | swimStep | runStep>
 }

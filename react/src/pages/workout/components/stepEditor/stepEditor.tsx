@@ -3,7 +3,7 @@ import styles from './stepEditor.module.scss';
 
 interface StepEditorProps { }
 
-const WorkoutEditor: FC<StepEditorProps> = () => {
+const StepEditor: FC<StepEditorProps> = () => {
 
   useEffect(() => {
     
@@ -14,4 +14,4 @@ const WorkoutEditor: FC<StepEditorProps> = () => {
   )
 };
 
-export default WorkoutEditor;
+export default StepEditor;
