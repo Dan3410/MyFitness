@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.myFitness.workout.model.GymStep;
+import com.example.myFitness.workout.model.Set;
 import com.example.myFitness.workout.model.Step;
 import com.example.myFitness.workout.model.StepType;
 import com.example.myFitness.workout.model.SwimGear;
@@ -44,20 +45,20 @@ public class WorkoutService {
         };
 
         // --- Swim steps ---
-        List<Step> swimSteps = new ArrayList<>();
+        List<Set> swimSteps = new ArrayList<>();
 
-        swimSteps.add(createSwimStep(StepType.WARMUP, 300, null, Arrays.asList(), 1));
-        swimSteps.add(createSwimStep(StepType.SWIM_DISTANCE, 200, null, Arrays.asList(SwimGear.PULLBUOY), 6));
-        swimSteps.add(createSwimStep(StepType.SWIM_TIME, 50, 50, Arrays.asList(SwimGear.FINS), 8));
-        swimSteps.add(createSwimStep(StepType.COOLDOWN, 200, null, Arrays.asList(), 1));
+        swimSteps.add(this.createSet(Arrays.asList(createSwimStep(StepType.WARMUP, 300, null, Arrays.asList())), 4));
+        swimSteps.add(this.createSet(Arrays.asList(createSwimStep(StepType.SWIM_DISTANCE, 200, null, Arrays.asList(SwimGear.PULLBUOY))), 4));
+        swimSteps.add(this.createSet(Arrays.asList(createSwimStep(StepType.SWIM_TIME, 50, 50, Arrays.asList(SwimGear.FINS))), 4));
+        swimSteps.add(this.createSet(Arrays.asList(createSwimStep(StepType.COOLDOWN, 200, null, Arrays.asList())), 4));
 
         // --- Gym steps ---
-        List<Step> gymSteps = new ArrayList<>();
-        gymSteps.add(createGymStep(StepType.WARMUP, "Stationary Bike", true, 0, 5, 0.0, 1));
-        gymSteps.add(createGymStep(StepType.GYM_EXERCISE, "Back Squat", false, 6, 0, 100.0, 4));
-        gymSteps.add(createGymStep(StepType.GYM_EXERCISE, "Bench Press", false, 8, 0, 70.0, 4));
-        gymSteps.add(createGymStep(StepType.GYM_INTERVAL, "EMOM: 10 kettlebell swings", true, 0, 10, 0.0,3));
-        gymSteps.add(createGymStep(StepType.COOLDOWN, "Stretching", true, 0, 5, 0.0, 1));
+        List<Set> gymSteps = new ArrayList<>();
+        gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.WARMUP, "Stationary Bike", true, 0, 5, 0.0)),4));
+        gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_EXERCISE, "Back Squat", false, 6, 0, 100.0)), 4));
+        gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_EXERCISE, "Bench Press", false, 8, 0, 70.0)), 4));
+        gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_INTERVAL, "EMOM: 10 kettlebell swings", true, 0, 10, 0.0)), 4));
+        gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.COOLDOWN, "Stretching", true, 0, 5, 0.0)), 4));
 
         workouts = new Workout[] {
             new Workout("0", "Swim Swim", "swim", swimSteps),
@@ -65,17 +66,19 @@ public class WorkoutService {
         };
     }
 
-    // helper to create SwimStep and set repeat
-    private SwimStep createSwimStep(StepType type, Integer distance, Integer time, List<SwimGear> gear, int repeat) {
-        SwimStep s = new SwimStep(type, distance, time, gear);
-        s.setRepeat(repeat);
-        return s;
+    private Set createSet(List<Step> step, int repeat){
+      Set s = new Set(step, repeat);
+      s.setRepeat(repeat);
+      return s;
     }
 
-    private GymStep createGymStep(StepType type, String exercise, boolean byTime, int reps, int time, double weight, int repeat) {
-        GymStep g = new GymStep(type, exercise, byTime, reps, time, weight);
-        g.setRepeat(repeat);
-        return g;
+    // helper to create SwimStep and set repeat
+    private SwimStep createSwimStep(StepType type, Integer distance, Integer time, List<SwimGear> gear) {
+        return new SwimStep(type, distance, time, gear);
+    }
+
+    private GymStep createGymStep(StepType type, String exercise, boolean byTime, int reps, int time, double weight) {
+        return new GymStep(type, exercise, byTime, reps, time, weight);
     }
 
 

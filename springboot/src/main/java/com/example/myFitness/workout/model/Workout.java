@@ -1,6 +1,5 @@
 package com.example.myFitness.workout.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // Main Workout class
@@ -8,7 +7,7 @@ public class Workout {
     private String id;
     private String name;
     private String category;
-    private List<Step> steps;
+    private List<Set> steps;
 
     // Getters and setters
     // Getter and Setter for id
@@ -39,15 +38,15 @@ public class Workout {
     }
 
     // Getter and Setter for steps
-    public List<Step> getSteps() {
+    public List<Set> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(List<Set> steps) {
         this.steps = steps;
     }
 
-     public Workout(String id, String name, String category, List<Step> steps) {
+     public Workout(String id, String name, String category, List<Set> steps) {
         this.id = id;
         this.name = name;
         this.category = category;
