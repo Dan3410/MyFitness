@@ -31,7 +31,11 @@ public class WorkoutController {
   public WorkoutListItem[] getWorkouts(@PathVariable String userId, @RequestParam String category){
     return workoutService.getWorkoutsListItems(userId, category);
   }
-  
+
+  @GetMapping("/{workoutId}")
+  public Workout createWorkout(@PathVariable String workoutId){
+    return workoutService.getWorkout(workoutId);
+  }
   @PostMapping("/{workoutId}")
   public Workout createWorkout(@PathVariable String workoutId, @RequestBody Workout workout){
     return workoutService.createWorkout(workoutId, workout);

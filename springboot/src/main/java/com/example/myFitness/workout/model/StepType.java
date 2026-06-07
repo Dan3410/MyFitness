@@ -3,9 +3,12 @@ package com.example.myFitness.workout.model;
 public enum StepType {
     // General
     REST,
+    WARMUP,
+    COOLDOWN,
 
     // Gym
-    EXERCISE,
+    GYM_EXERCISE,
+    GYM_INTERVAL,
 
     // Swim
     SWIM_DISTANCE,

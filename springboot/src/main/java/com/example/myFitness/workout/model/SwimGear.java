@@ -2,7 +2,7 @@ package com.example.myFitness.workout.model;
 
 public enum SwimGear {
     FINS,
-    PULLBOY,
+    PULLBUOY,
     PADDLES,
     SNORKEL
 }

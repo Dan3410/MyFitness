@@ -5,18 +5,18 @@ import java.util.List;
 
 // Main Workout class
 public class Workout {
-    private int id;
+    private String id;
     private String name;
     private String category;
     private List<Step> steps;
 
     // Getters and setters
     // Getter and Setter for id
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class Workout {
         this.steps = steps;
     }
 
-     public Workout(int id, String name, String category, List<Step> steps) {
+     public Workout(String id, String name, String category, List<Step> steps) {
         this.id = id;
         this.name = name;
         this.category = category;
