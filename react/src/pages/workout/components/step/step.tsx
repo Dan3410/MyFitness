@@ -1,65 +1,70 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './step.module.scss';
-import { gymStep, runStep, set, stepType, swimGear, swimStep } from '../../../../models/workoutSteps';
+import { FC } from 'react';
+import { GymStep, RunStep, stepType, SwimStep, WorkoutStep } from '../../../../models/workoutSteps';
 
 interface StepProps {
-  workoutCategory: string
-  step: set | gymStep | swimStep | runStep
+  workoutCategory: string;
+  step: WorkoutStep;
 }
 
-const Step: FC<StepProps> = ({
-  workoutCategory,
-  step
-}) => {
-
-  useEffect(() => {
-
-  }, [])
-
+const Step: FC<StepProps> = ({ workoutCategory, step }) => {
   function workoutHTML() {
     switch (workoutCategory) {
-      case "gym":
-        let gymStep = step as gymStep
+      case 'gym': {
+        const gymStep = step as GymStep;
         return (
           <>
             <div>{gymStep.type}</div>
-            {gymStep.type == stepType.EXERCISE && <div>{gymStep.exercise}</div>}
-            <div>{gymStep.byTime ? gymStep.time + "s" : gymStep.reps + " reps"}</div>
-            {gymStep.type == stepType.EXERCISE && <div>{gymStep.weight}</div>}
+            {gymStep.type === stepType.EXERCISE && <div>{gymStep.exercise}</div>}
+            <div>{gymStep.byTime ? `${gymStep.time}s` : `${gymStep.reps} reps`}</div>
+            {gymStep.type === stepType.EXERCISE && <div>{gymStep.weight}</div>}
           </>
         );
+      }
 
-      case "swim":
-        let swimStep = step as swimStep
+      case 'swim': {
+        const swimStep = step as SwimStep;
         return (
           <>
             <div>{swimStep.type}</div>
-            <div>{swimStep.type == stepType.REST || swimStep.type == stepType.SWIMTIME ? swimStep.time + "s" : swimStep.distance + " m"}</div>
-            {swimStep.type != stepType.REST && <div>{swimStep.gear.map((gear: swimGear) => <div>{gear}</div>)}</div>}
+            <div>
+              {swimStep.type === stepType.SWIMTIME
+                ? `${swimStep.time}s`
+                : `${swimStep.distance} m`}
+            </div>
+            <div>
+              {swimStep.gear.map((gear) => (
+                <div key={gear}>{gear}</div>
+              ))}
+            </div>
           </>
         );
+      }
 
-      case "run":
-        let runStep = step as runStep
+      case 'run': {
+        const runStep = step as RunStep;
         return (
           <>
             <div>{runStep.type}</div>
-            <div>{runStep.type == stepType.REST || runStep.type == stepType.RUNTIME ? runStep.time + "s"
-              : runStep.type == stepType.RUNDISTANCE ? runStep.distance + " m"
-                : runStep.calories + "kcal"}</div>
-            {runStep.speed && <div>{runStep.speed} Km/h</div>}
+            <div>
+              {runStep.type === stepType.RUNTIME
+                ? `${runStep.time}s`
+                : runStep.type === stepType.RUNDISTANCE
+                  ? `${runStep.distance} m`
+                  : `${runStep.calories} kcal`}
+            </div>
+            {runStep.speed !== null && runStep.speed !== undefined && (
+              <div>{runStep.speed} Km/h</div>
+            )}
           </>
         );
+      }
+
+      default:
+        return null;
     }
   }
 
-
-  return (<>
-    {
-      workoutHTML()
-    }
-  </>
-  )
+  return <>{workoutHTML()}</>;
 };
 
 export default Step;

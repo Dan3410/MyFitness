@@ -1,71 +1,88 @@
+export type StepType =
+    | 'REST'
+    | 'WARMUP'
+    | 'COOLDOWN'
+    | 'SET'
+    | 'GYM_EXERCISE'
+    | 'GYM_INTERVAL'
+    | 'SWIM_DISTANCE'
+    | 'SWIM_TIME'
+    | 'RUN_DISTANCE'
+    | 'RUN_TIME'
+    | 'RUN_CALORIES';
 
-export interface set{
-    repeat: number
-
-    steps: Array<swimStep | runStep | gymStep>
-}
-
-export enum stepType{
-    //general
-    REST = "Rest",
-
-    //gym
-    EXERCISE = "Exercise",
-    
-    //swim
-    SWIMDISTANCE = "Distance",
-    SWIMTIME = "Time",
-
-    RUNDISTANCE = "Distance",
-    RUNTIME = "Time",
-    RUNCALORIES = "Calories"
+export enum stepType {
+    REST = 'REST',
+    WARMUP = 'WARMUP',
+    COOLDOWN = 'COOLDOWN',
+    SET = 'SET',
+    EXERCISE = 'GYM_EXERCISE',
+    INTERVAL = 'GYM_INTERVAL',
+    SWIMDISTANCE = 'SWIM_DISTANCE',
+    SWIMTIME = 'SWIM_TIME',
+    RUNDISTANCE = 'RUN_DISTANCE',
+    RUNTIME = 'RUN_TIME',
+    RUNCALORIES = 'RUN_CALORIES'
 }
 
 export enum swimGear {
-    FINS = "Fins",
-    PULLBOY = "Pullboy",
-    PADDLES = "Paddles",
-    SNORKEL = "Snorkel"
+    FINS = 'FINS',
+    PULLBOY = 'PULLBUOY',
+    PADDLES = 'PADDLES',
+    SNORKEL = 'SNORKEL'
 }
 
-export interface swimStep{
-    //Rest, swim distance or swim time
-    type: stepType
-    
-    distance: number | null
+export type SwimStroke =
+    | 'IM'
+    | 'FREESTYLE'
+    | 'BACKSTROKE'
+    | 'BREASTSTROKE'
+    | 'BUTTERFLY'
+    | 'CHOICE';
 
-    time: number | null
-
-    //Can make a type of this
-    gear: Array<swimGear>
+export interface BaseStep {
+    type: StepType;
 }
 
-export interface runStep{
-    //Rest, run distance, run time or calories
-    type: stepType
-    
-    distance: number
-
-    calories: number
-
-    time: number | null
-
-    //Km/h
-    speed: number | undefined
-
+export interface RestStep extends BaseStep {
+    type: 'REST';
+    seconds: number;
 }
 
-export interface gymStep{
-    type: stepType
-
-    exercise: string
-    
-    //Set to true when setting type rest
-    byTime: boolean
-
-    reps: number
-
-    time: number
-
-    weight: number
+export interface WorkoutSet extends BaseStep {
+    type: 'SET';
+    repeat: number;
+    steps: WorkoutStep[];
 }
+
+export interface SwimStep extends BaseStep {
+    type: 'SWIM_DISTANCE' | 'SWIM_TIME';
+    distance: number | null;
+    time: number | null;
+    gear: swimGear[];
+    stroke: SwimStroke;
+}
+
+export interface RunStep extends BaseStep {
+    type: 'RUN_DISTANCE' | 'RUN_TIME' | 'RUN_CALORIES';
+    distance: number;
+    calories: number;
+    time: number | null;
+    speed: number | null;
+}
+
+export interface GymStep extends BaseStep {
+    type: 'GYM_EXERCISE' | 'GYM_INTERVAL';
+    exercise: string;
+    byTime: boolean;
+    reps: number;
+    time: number;
+    weight: number;
+}
+
+export type WorkoutStep =
+    | RestStep
+    | WorkoutSet
+    | SwimStep
+    | RunStep
+    | GymStep;
