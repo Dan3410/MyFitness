@@ -17,13 +17,6 @@ export class WorkoutService {
     return response.data;
   }
 
-  async getWorkoutSteps(id: string): Promise<WorkoutListItem[]> {
-    const response = await firstValueFrom(
-      this.httpService.get<WorkoutListItem[]>(`${this.workoutApiUrl}/steps/${id}`),
-    );
-    return response.data;
-  }
-
   async getWorkouts(
     id: string,
     category: string,

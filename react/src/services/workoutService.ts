@@ -17,7 +17,7 @@ class WorkoutService {
     }
 
     async getWorkoutSteps(id: string) {
-        return fetch(API_URL + "step/" + id, {
+        return fetch(API_URL + id, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         }).then((response: Response) => { return response.json() }).catch((err: Error) => err);

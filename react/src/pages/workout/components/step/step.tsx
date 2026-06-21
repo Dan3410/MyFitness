@@ -8,6 +8,7 @@ interface StepProps {
 
 const Step: FC<StepProps> = ({ workoutCategory, step }) => {
   function workoutHTML() {
+    console.log(step)
     switch (workoutCategory) {
       case 'gym': {
         const gymStep = step as GymStep;

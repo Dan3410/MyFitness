@@ -21,10 +21,10 @@ export class WorkoutController {
   }
 
   @Get("/:id")
-  getWorkoutSteps(
+  getWorkout(
     @Param('id') id: string
   ): any{
-    return this.workoutService.getWorkoutSteps(id);
+    return this.workoutService.getWorkout(id);
   }
 
   @Delete('/:id')

@@ -14,9 +14,10 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const [workout, setWorkout] = useState<Workout>()
   const id = useParams().id
 
-  const getWorkout = async () => (
-    setWorkout(await workoutService.getWorkoutSteps(id!))
-  )
+  const getWorkout = async () => {
+    const res = await workoutService.getWorkoutSteps(id!);
+    setWorkout(res)
+  }
 
   useEffect(() => {
     getWorkout()
