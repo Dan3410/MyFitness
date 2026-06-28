@@ -46,7 +46,7 @@ public class WorkoutService {
     // workouts list items
     workoutsListItems = new WorkoutListItem[] {
         new WorkoutListItem(0, "Swim Swim", "swim", 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new WorkoutListItem(1, "Gym workout", "gym", 100, LocalDate.now(), LocalDate.now(), LocalDate.now())
+        new WorkoutListItem(1, "Lift heavy things", "gym", 100, LocalDate.now(), LocalDate.now(), LocalDate.now())
     };
 
     // --- Swim steps ---

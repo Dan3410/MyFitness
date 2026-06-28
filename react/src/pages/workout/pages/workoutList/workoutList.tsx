@@ -67,6 +67,9 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   }, [searchParams])
 
   return (<>
+  <h2>
+    Workouts
+  </h2>
     <MFFormField theme={ComponentTheme.workout}>
       <label>Actividad</label>
       <select name="category" value={category} onChange={handleCategoryChange}>

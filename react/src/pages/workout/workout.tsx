@@ -9,9 +9,6 @@ const Workout: FC<WorkoutProps> = () => {
 
   return (<>
     <div className={styles.workoutList}>
-      <h2>
-        Workouts
-      </h2>
       <Outlet></Outlet>
     </div>
   </>
