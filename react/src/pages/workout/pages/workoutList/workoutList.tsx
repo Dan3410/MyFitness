@@ -80,14 +80,14 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     </MFFormField>
 
     <div className={styles.workoutList}>
-      <table>
+      <table cellspacing="0" cellpadding="0">
         <thead>
           <tr>
-            <th> Nombre </th>
-            <th> Categoría </th>
-            <th> Duración estimada </th>
-            <th> Última vez realizada </th>
-            <th> Acciones </th>
+            <th> Name </th>
+            <th> Category </th>
+            <th> Estimated Duration </th>
+            <th> Last Time Done </th>
+            <th> Actions </th>
           </tr>
         </thead>
         <tbody>
@@ -98,14 +98,14 @@ const WorkoutList: FC<WorkoutListProps> = () => {
               </td>
               <td> {item.category} </td>
               <td>
-                {item.estimatedTime}
+                {item.estimatedTime} minutes
               </td>
               <td>
                 {formattedDate(item.lastTimeDone)}
               </td>
               <td className={styles.listActionsContainer}>
                 <MFButton onClickEvent={() => openDeletePopup(item)}>Delete</MFButton>
-                <MFButton onClickEvent={() => openWorkout(item)}>Editar</MFButton>
+                <MFButton onClickEvent={() => openWorkout(item)}>Edit</MFButton>
               </td>
             </tr>
           ))}

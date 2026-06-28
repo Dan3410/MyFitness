@@ -1,7 +1,9 @@
+export type WorkoutCategoryValue = 'SWIM' | 'GYM' | 'RUN';
+
 export interface WorkoutListItem {
     id: number;
     name: string;
-    category: string;
+    category: WorkoutCategoryValue;
     estimatedTime: number;
     lastTimeDone: Date;
     createdDate: Date;

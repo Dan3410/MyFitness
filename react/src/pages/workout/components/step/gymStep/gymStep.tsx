@@ -8,7 +8,7 @@ interface GymStepProps {
 
 const GymStep: FC<GymStepProps> = ({ step }) => {
   const exerciseLabel = step.exercise;
-  const repetitionLabel = step.byTime ? `${step.time}s` : `${step.reps} reps`;
+  const repetitionLabel = step.byTime ? `${step.time} seconds` : `${step.reps} reps`;
   const detailText = step.weight
     ? `${repetitionLabel} - ${step.weight} kg`
     : repetitionLabel;

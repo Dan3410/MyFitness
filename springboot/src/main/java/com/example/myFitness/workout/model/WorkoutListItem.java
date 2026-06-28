@@ -3,16 +3,22 @@ package com.example.myFitness.workout.model;
 import java.time.LocalDate;
 
 public class WorkoutListItem {
+    public enum Category {
+        SWIM,
+        GYM,
+        RUN
+    }
+
     Integer id;
     String name;
-    String category;
+    Category category;
     Integer estimatedTime;
     LocalDate lastTimeDone;
     LocalDate createdDate;
     LocalDate modifiedDate;
 
     // Constructor
-    public WorkoutListItem(Integer id, String name, String category, Integer estimatedTime,
+    public WorkoutListItem(Integer id, String name, Category category, Integer estimatedTime,
             LocalDate lastTimeDone, LocalDate createdDate, LocalDate modifiedDate) {
         this.id = id;
         this.name = name;
@@ -32,7 +38,7 @@ public class WorkoutListItem {
         return name;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -61,7 +67,7 @@ public class WorkoutListItem {
         this.name = name;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

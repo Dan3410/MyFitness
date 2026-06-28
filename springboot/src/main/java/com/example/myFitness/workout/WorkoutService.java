@@ -45,8 +45,8 @@ public class WorkoutService {
 
     // workouts list items
     workoutsListItems = new WorkoutListItem[] {
-        new WorkoutListItem(0, "Swim Swim", "swim", 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new WorkoutListItem(1, "Lift heavy things", "gym", 100, LocalDate.now(), LocalDate.now(), LocalDate.now())
+        new WorkoutListItem(0, "Swim Swim", WorkoutListItem.Category.SWIM, 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
+        new WorkoutListItem(1, "Lift heavy things", WorkoutListItem.Category.GYM, 100, LocalDate.now(), LocalDate.now(), LocalDate.now())
     };
 
     // --- Swim steps ---
@@ -73,7 +73,7 @@ public class WorkoutService {
         .add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_EXERCISE, "Bench Press", false, 8, 0, 70.0)), 4));
     gymSteps.add(this
         .createSet(Arrays.asList(
-            createGymStep(StepType.GYM_INTERVAL, "EMOM: 10 kettlebell swings", true, 0, 60, 16.0),
+            createGymStep(StepType.GYM_INTERVAL, "Kettlebell swings", true, 0, 60, 16.0),
             createRestStep(30),
             createGymStep(StepType.GYM_INTERVAL, "Push ups", true, 0, 60, 20.0),
             createGymStep(StepType.GYM_INTERVAL, "Pull ups", true, 0, 60, 20.0),
@@ -115,7 +115,7 @@ public class WorkoutService {
   public WorkoutListItem[] getWorkoutsListItems(String id, String category) {
     if (!category.equals("all")) {
       return Arrays.stream(workoutsListItems)
-          .filter(item -> category.equals(item.getCategory()))
+          .filter(item -> category.equalsIgnoreCase(item.getCategory().name()))
           .collect(Collectors.toList()).toArray(WorkoutListItem[]::new);
     } else
       return workoutsListItems;
