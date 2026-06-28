@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import styles from './workoutEditor.module.scss';
-import { useParams, useSearchParams } from 'react-router-dom';
-import Step from '../../components/step/step';
+import { useParams } from 'react-router-dom';
 import { Workout } from '../../../../models/workout';
 import { workoutService } from '../../../../services/workoutService';
-import { gymStep, runStep, set, swimStep } from '../../../../models/workoutSteps';
+
 import StepEditor from '../../components/stepEditor/stepEditor';
+import StepsList from '../../components/stepsList/stepsList';
 
 interface WorkoutEditorProps { }
 
@@ -24,20 +23,20 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
 
   }, [])
 
-  return (<>
-  <div>
-    <div>
-      <StepEditor></StepEditor>
-    </div>
-    <div>
-      {workout?.steps.map((step: set | gymStep | swimStep | runStep) => {
-        return <Step step={step} workoutCategory={workout.category}></Step>
-      })}
-      
-    </div>
-  </div>
-  </>
-  )
+  if(workout === undefined){
+    return <div>Loading...</div>
+  }else{
+    return (<>
+      <div>
+        <div>
+          <StepEditor></StepEditor>
+        </div>
+        <StepsList workout={workout}></StepsList>
+  
+      </div>
+    </>
+    )
+  }
 };
 
 export default WorkoutEditor;

@@ -26,10 +26,10 @@ export enum stepType {
 }
 
 export enum swimGear {
-    FINS = 'FINS',
-    PULLBOY = 'PULLBUOY',
-    PADDLES = 'PADDLES',
-    SNORKEL = 'SNORKEL'
+    FINS = 'Fins',
+    PULLBOY = 'Pullboy',
+    PADDLES = 'Paddles',
+    SNORKEL = 'Snorkel',
 }
 
 export type SwimStroke =
