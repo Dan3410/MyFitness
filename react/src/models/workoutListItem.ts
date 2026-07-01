@@ -1,4 +1,4 @@
-export type WorkoutCategoryValue = 'Swim' | 'Gym' | 'Run';
+export type WorkoutCategoryValue = 'Natación' | 'Gimnasio' | 'Correr' | 'swim' | 'gym' | 'run';
 
 export interface WorkoutListItem {
     id: string

@@ -6,8 +6,8 @@ export const profileAndHealthButtonTheme : ButtonTheme = {
 }
 
 export const profileAndHealthInputTheme : InputTheme = {
-    borderColor: "rgba(19, 129, 19, 1)",
-    backgroundColor: "rgb(15, 36, 15)",
+    borderColor: "rgb(0, 255, 0)",
+    backgroundColor: "rgb(25, 61, 25)",
     textColor: '#fafafaff'
 }
 

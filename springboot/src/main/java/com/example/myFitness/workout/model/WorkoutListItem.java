@@ -2,11 +2,29 @@ package com.example.myFitness.workout.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public class WorkoutListItem {
     public enum Category {
-        SWIM,
-        GYM,
-        RUN
+        SWIM("Natación"),
+        GYM("Gimnasio"),
+        RUN("Correr");
+
+        private final String label;
+
+        Category(String label) {
+            this.label = label;
+        }
+
+        @JsonValue
+        public String getLabel() {
+            return label;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
     }
 
     Integer id;

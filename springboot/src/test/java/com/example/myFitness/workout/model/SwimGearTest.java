@@ -14,15 +14,15 @@ class SwimGearTest {
 
     @Test
     void shouldParseGearValuesIgnoringCase() throws Exception {
-        assertEquals(SwimGear.FINS, SwimGear.fromValue("Fins"));
-        assertEquals(SwimGear.FINS, SwimGear.fromValue("FiNs"));
+        assertEquals(SwimGear.FINS, SwimGear.fromValue("Aletas"));
+        assertEquals(SwimGear.FINS, SwimGear.fromValue("AleTas"));
         assertEquals(SwimGear.PULLBOY, SwimGear.fromValue("Pullboy"));
         assertEquals(SwimGear.PULLBOY, SwimGear.fromValue("PuLlBoY"));
     }
 
     @Test
     void shouldDeserializeJsonValuesIgnoringCase() throws Exception {
-        assertEquals(SwimGear.PADDLES, objectMapper.readValue("\"Paddles\"", SwimGear.class));
+        assertEquals(SwimGear.PADDLES, objectMapper.readValue("\"Manoplas\"", SwimGear.class));
         assertEquals(SwimGear.SNORKEL, objectMapper.readValue("\"Snorkel\"", SwimGear.class));
     }
 
