@@ -20,6 +20,11 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const [categories, setCategories] = useState<WorkoutCategory[]>()
   const [category, setCategory] = useState<string>("")
   const navigate: NavigateFunction = useNavigate();
+
+  const goBack = () => {
+    navigate('/');
+  }
+
   //Probably this gonna get moved to a file
   const formattedDate = (date: String) => {
     return date.replaceAll("-", "/")
@@ -67,9 +72,12 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   }, [searchParams])
 
   return (<>
-  <h2>
-    Workouts
-  </h2>
+  <div className="pageHeader">
+    <h2>
+      Workouts
+    </h2>
+    <MFButton theme={ComponentTheme.generic} onClickEvent={goBack}><label>Volver</label></MFButton>
+  </div>
     <MFFormField theme={ComponentTheme.workout}>
       <label>Actividad</label>
       <select name="category" value={category} onChange={handleCategoryChange}>
@@ -105,7 +113,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
               </td>
               <td className={styles.listActionsContainer}>
                 <MFButton onClickEvent={() => openDeletePopup(item)}>Eliminar</MFButton>
-                <MFButton onClickEvent={() => openWorkout(item)}>Editar</MFButton>
+                <MFButton theme={ComponentTheme.workout} onClickEvent={() => openWorkout(item)}>Editar</MFButton>
               </td>
             </tr>
           ))}

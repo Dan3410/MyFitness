@@ -14,6 +14,7 @@ import NutritionSection from '../components/nutrition-section/nutrition-section'
 import HeightSection from '../components/height-section/height-section';
 import { GENDER } from '../../../models/gender';
 import { profileService } from '../../../services/profileService'
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 interface ProfileProps { }
 
@@ -46,6 +47,11 @@ const Profile: FC<ProfileProps> = () => {
   })
 
   const [edit, setEdit] = useState<boolean>(false)
+  const navigate: NavigateFunction = useNavigate();
+
+  const goBack = () => {
+    navigate('/');
+  }
 
   const getData = async () => {
     const data = await profileService.getUserData('123')
@@ -89,10 +95,13 @@ const Profile: FC<ProfileProps> = () => {
 
   return (
     <div className="profile">
-      <h2>
-        Perfil
-        {!edit && <label className={styles.profileEditButton} onClick={clickEdit}> Editar </label>}
-      </h2>
+      <div className="pageHeader">
+        <h2>Perfil</h2>
+        <div className="headerActions">
+          {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHeath}><label>Editar</label></MFButton> }
+          <MFButton theme={ComponentTheme.generic} onClickEvent={goBack}><label>Volver</label></MFButton>
+        </div>
+      </div>
       <form onSubmit={handleSubmit} className={styles.profileForm}>
         <div className={styles.profileImgContainer}>
           <img className={styles.profileImg} src={defaultProfileImage}></img>

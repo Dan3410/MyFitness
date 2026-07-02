@@ -70,3 +70,15 @@ input {
       border: none;
     }
 }
+
+.pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.headerActions {
+    display: flex;
+    column-gap: 20px;
+}

@@ -5,7 +5,11 @@ export default {
   title: "mf-form-field",
 };
 
-export const Default = () => <MFFormField><MFFormField />;
+export const Default = () => (
+  <MFFormField theme="workout">
+    <div>Form field</div>
+  </MFFormField>
+);
 
 Default.story = {
   name: 'default',
