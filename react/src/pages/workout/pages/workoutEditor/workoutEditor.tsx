@@ -7,6 +7,7 @@ import styles from './workoutEditor.module.scss';
 import StepEditor from '../../components/stepEditor/stepEditor';
 import StepsList from '../../components/stepsList/stepsList';
 import MFButton from '../../../../components/mf-button/mf-button';
+import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import { ComponentTheme } from '../../../../themes/enums';
 
 interface WorkoutEditorProps { }
@@ -32,22 +33,22 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   }, [])
 
   if(workout === undefined){
-    return <div>Loading...</div>
+    return <div>Cargando...</div>
   }else{
     const workoutTypeLabel = workout.category === 'swim'
-      ? 'Swimming workout'
+      ? 'Entrenamiento de natación'
       : workout.category === 'gym'
-        ? 'Gym workout'
+        ? 'Entrenamiento de gimnasio'
         : workout.category === 'run'
-          ? 'Running workout'
-          : 'Workout';
+          ? 'Entrenamiento de carrera'
+          : 'Entrenamiento';
 
     return (<>
     <div className="pageHeader">
+      <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: workout.name }]} />
       <h2 className={styles.title}>
         {`${workoutTypeLabel}: ${workout.name}`}
       </h2>
-      <MFButton theme={ComponentTheme.generic} onClickEvent={goBack}><label>Volver</label></MFButton>
     </div>
       <div>
         <div>

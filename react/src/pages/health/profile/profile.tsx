@@ -14,7 +14,7 @@ import NutritionSection from '../components/nutrition-section/nutrition-section'
 import HeightSection from '../components/height-section/height-section';
 import { GENDER } from '../../../models/gender';
 import { profileService } from '../../../services/profileService'
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import MFBreadcrumb from '../../../components/mf-breadcrumb/mf-breadcrumb';
 
 interface ProfileProps { }
 
@@ -47,12 +47,6 @@ const Profile: FC<ProfileProps> = () => {
   })
 
   const [edit, setEdit] = useState<boolean>(false)
-  const navigate: NavigateFunction = useNavigate();
-
-  const goBack = () => {
-    navigate('/');
-  }
-
   const getData = async () => {
     const data = await profileService.getUserData('123')
     setOriginalData(data)
@@ -96,10 +90,12 @@ const Profile: FC<ProfileProps> = () => {
   return (
     <div className="profile">
       <div className="pageHeader">
-        <h2>Perfil</h2>
-        <div className="headerActions">
-          {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHeath}><label>Editar</label></MFButton> }
-          <MFButton theme={ComponentTheme.generic} onClickEvent={goBack}><label>Volver</label></MFButton>
+        <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Perfil' }]} />
+        <div className="pageTitleBar">
+          <h2>Perfil</h2>
+          <div className="headerActions">
+            {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHeath}><label>Editar</label></MFButton> }
+          </div>
         </div>
       </div>
       <form onSubmit={handleSubmit} className={styles.profileForm}>

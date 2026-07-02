@@ -10,10 +10,10 @@ const RestStep: FC<RestStepProps> = ({ step }) => {
   return (
     <div className={`${styles.stepCard} ${styles.step}`}>
       <div className={styles.stepHeader}>
-        <div className={styles.stepTitle}>{step.type}</div>
-        <div className={styles.stepLabel}>Rest</div>
+        <div className={styles.stepTitle}>Descanso</div>
+        <div className={styles.stepLabel}>Descanso</div>
       </div>
-      <div className={styles.stepDetail}>{`${step.seconds} seconds`}</div>
+      <div className={styles.stepDetail}>{`${step.seconds} segundos`}</div>
     </div>
   );
 };

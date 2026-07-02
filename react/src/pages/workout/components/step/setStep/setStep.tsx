@@ -12,7 +12,7 @@ const SetStep: FC<SetStepProps> = ({ step, workoutCategory }) => {
   return (
     <div className={`${styles.stepCard} ${styles.setStep}`}>
       <div className={styles.setHeader}>
-        <div className={styles.stepLabel}>{`Repeat ${step.repeat}x`}</div>
+        <div className={styles.stepLabel}>{`Repetir ${step.repeat}x`}</div>
       </div>
       <div className={styles.nestedSteps}>
         {step.steps.map((innerStep, index) => (

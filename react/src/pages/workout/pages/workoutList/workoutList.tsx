@@ -4,6 +4,7 @@ import { WorkoutListItem } from '../../../../models/workoutListItem';
 import { workoutService } from '../../../../services/workoutService';
 import MFButton from '../../../../components/mf-button/mf-button';
 import MFModal from '../../../../components/mf-modal/mf-modal';
+import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { WorkoutCategory } from '../../../../models/workoutCategories';
@@ -73,10 +74,12 @@ const WorkoutList: FC<WorkoutListProps> = () => {
 
   return (<>
   <div className="pageHeader">
-    <h2>
-      Workouts
-    </h2>
-    <MFButton theme={ComponentTheme.generic} onClickEvent={goBack}><label>Volver</label></MFButton>
+    <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Workouts' }]} />
+    <div className="pageTitleBar">
+      <h2>
+        Rutinas de ejercicio
+      </h2>
+    </div>
   </div>
     <MFFormField theme={ComponentTheme.workout}>
       <label>Actividad</label>
@@ -88,7 +91,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     </MFFormField>
 
     <div className={styles.workoutList}>
-      <table cellspacing="0" cellpadding="0">
+      <table cellSpacing="0" cellPadding="0">
         <thead>
           <tr>
             <th> Nombre </th>

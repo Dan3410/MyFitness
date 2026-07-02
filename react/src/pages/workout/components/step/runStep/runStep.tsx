@@ -7,14 +7,14 @@ interface RunStepProps {
 }
 
 const RunStep: FC<RunStepProps> = ({ step }) => {
-  const title = 'Run';
+  const title = 'Correr';
   const label = step.type === stepType.RUNTIME
-    ? 'By time'
+    ? 'Por tiempo'
     : step.type === stepType.RUNDISTANCE
-      ? 'By distance'
-      : 'By calories';
+      ? 'Por distancia'
+      : 'Por calorías';
   const detail = step.type === stepType.RUNTIME
-    ? `${step.time}s`
+    ? `${step.time} segundos`
     : step.type === stepType.RUNDISTANCE
       ? `${step.distance} m`
       : `${step.calories} kcal`;

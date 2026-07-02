@@ -8,7 +8,7 @@ interface GymStepProps {
 
 const GymStep: FC<GymStepProps> = ({ step }) => {
   const exerciseLabel = step.exercise;
-  const repetitionLabel = step.byTime ? `${step.time} seconds` : `${step.reps} reps`;
+  const repetitionLabel = step.byTime ? `${step.time} segundos` : `${step.reps} repeticiones`;
   const detailText = step.weight
     ? `${repetitionLabel} - ${step.weight} kg`
     : repetitionLabel;
@@ -19,7 +19,7 @@ const GymStep: FC<GymStepProps> = ({ step }) => {
         <div>
           <div className={styles.stepTitle}>{exerciseLabel}</div>
         </div>
-        <div className={styles.stepLabel}>{step.byTime ? 'By time' : 'By reps'}</div>
+        <div className={styles.stepLabel}>{step.byTime ? 'Por tiempo' : 'Por repeticiones'}</div>
       </div>
       <div className={styles.stepDetail}>{detailText}</div>
     </div>

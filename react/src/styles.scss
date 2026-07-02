@@ -73,9 +73,16 @@ input {
 
 .pageHeader {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.pageTitleBar {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    width: 100%;
 }
 
 .headerActions {

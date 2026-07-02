@@ -32,13 +32,14 @@ export enum swimGear {
     SNORKEL = 'Snorkel',
 }
 
-export type SwimStroke =
-    | 'IM'
-    | 'FREESTYLE'
-    | 'BACKSTROKE'
-    | 'BREASTSTROKE'
-    | 'BUTTERFLY'
-    | 'CHOICE';
+export enum SwimStroke {
+    IM = 'Combinado',
+    FREESTYLE = 'Crol',
+    BACKSTROKE = 'Espalda',
+    BREASTSTROKE = 'Braza',
+    BUTTERFLY = 'Mariposa',
+    CHOICE = 'A elección'
+}
 
 export interface BaseStep {
     type: StepType;
