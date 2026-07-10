@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import MFButton from '../../../../components/mf-button/mf-button';
-import MFCheckbox from '../../../../components/mf-checkbox/mf-checkbox';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { ComponentTheme } from '../../../../themes/enums';
-import { GymStep, WorkoutStep } from '../../../../models/workoutSteps';
+import { GymStep, WorkoutStep, stepType } from '../../../../models/workoutSteps';
 import styles from './stepEditor.module.scss';
 
 interface GymStepEditorProps {
@@ -21,6 +20,21 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
       <MFFormField theme={ComponentTheme.workout}>
+        <label>Tipo</label>
+        <select
+          value={step.type}
+          onChange={(event) => {
+            const nextType = event.target.value as GymStep['type'];
+            onChange({ ...step, type: nextType, byTime: nextType === stepType.INTERVAL || nextType === stepType.EXERCISE || nextType === stepType.WARMUP || nextType === stepType.COOLDOWN ? false : step.byTime });
+          }}
+        >
+          <option value={stepType.EXERCISE}>Ejercicio</option>
+          <option value={stepType.INTERVAL}>Intervalo</option>
+          <option value={stepType.WARMUP}>Calentamiento</option>
+          <option value={stepType.COOLDOWN}>Enfriamiento</option>
+        </select>
+      </MFFormField>
+      <MFFormField theme={ComponentTheme.workout}>
         <label>Ejercicio</label>
         <input
           type="text"
@@ -28,9 +42,6 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
           onChange={(event) => onChange({ ...step, exercise: event.target.value })}
         />
       </MFFormField>
-      <MFCheckbox theme={ComponentTheme.workout} checked={step.byTime} onChange={(event) => onChange({ ...step, byTime: event.target.checked })}>
-        <label>Por tiempo</label>
-      </MFCheckbox>
       {!step.byTime ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Repeticiones</label>

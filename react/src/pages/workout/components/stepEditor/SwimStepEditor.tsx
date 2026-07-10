@@ -2,7 +2,7 @@ import { FC } from 'react';
 import MFButton from '../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { ComponentTheme } from '../../../../themes/enums';
-import { SwimStep, SwimStroke, WorkoutStep, swimGear } from '../../../../models/workoutSteps';
+import { SwimStep, SwimStroke, WorkoutStep, stepType, swimGear } from '../../../../models/workoutSteps';
 import styles from './stepEditor.module.scss';
 
 interface SwimStepEditorProps {
@@ -18,7 +18,19 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
         <h3 className={styles.title}>Editar paso de natación</h3>
         <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
-      {step.type !== 'SWIM_TIME' ? (
+      <MFFormField theme={ComponentTheme.workout}>
+        <label>Tipo</label>
+        <select
+          value={step.type}
+          onChange={(event) => onChange({ ...step, type: event.target.value as SwimStep['type'] })}
+        >
+          <option value={stepType.SWIMDISTANCE}>Distancia</option>
+          <option value={stepType.SWIMTIME}>Tiempo</option>
+          <option value={stepType.WARMUP}>Calentamiento</option>
+          <option value={stepType.COOLDOWN}>Enfriamiento</option>
+        </select>
+      </MFFormField>
+      {step.type !== stepType.SWIMTIME ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Distancia</label>
           <input
@@ -29,13 +41,13 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
           />
         </MFFormField>
       ) : null}
-      {step.type === 'SWIM_TIME' ? (
+      {step.type === stepType.SWIMTIME ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Tiempo</label>
           <input
             type="number"
             min="0"
-            value={step.time ?? ''}
+            value={step.time ?? 0}
             onChange={(event) => onChange({ ...step, time: event.target.value === '' ? null : Number(event.target.value) })}
           />
         </MFFormField>

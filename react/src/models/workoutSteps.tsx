@@ -65,7 +65,7 @@ export interface SwimStep extends BaseStep {
 }
 
 export interface RunStep extends BaseStep {
-    type: 'RUN_DISTANCE' | 'RUN_TIME' | 'RUN_CALORIES';
+    type: 'RUN_DISTANCE' | 'RUN_TIME' | 'RUN_CALORIES' | 'WARMUP' | 'COOLDOWN';
     distance: number;
     calories: number;
     time: number | null;
@@ -73,7 +73,7 @@ export interface RunStep extends BaseStep {
 }
 
 export interface GymStep extends BaseStep {
-    type: 'GYM_EXERCISE' | 'GYM_INTERVAL';
+    type: 'GYM_EXERCISE' | 'GYM_INTERVAL' | 'WARMUP' | 'COOLDOWN';
     exercise: string;
     byTime: boolean;
     reps: number;
