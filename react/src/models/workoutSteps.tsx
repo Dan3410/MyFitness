@@ -57,7 +57,7 @@ export interface WorkoutSet extends BaseStep {
 }
 
 export interface SwimStep extends BaseStep {
-    type: 'SWIM_DISTANCE' | 'SWIM_TIME';
+    type: 'SWIM_DISTANCE' | 'SWIM_TIME' | 'WARMUP' | 'COOLDOWN';
     distance: number | null;
     time: number | null;
     gear: swimGear[];

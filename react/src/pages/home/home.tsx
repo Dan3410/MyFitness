@@ -33,7 +33,7 @@ const Home: FC<HomeProps> = () => {
       name: "Perfil y Salud",
       description: "Para administrar la información sobre ti y tus objetivos, hace click aquí",
       disabled: false,
-      buttonTheme: ComponentTheme.profileAndHeath,
+      buttonTheme: ComponentTheme.profileAndHealth,
       redirectFunction: redirectToProfile
     },
     {

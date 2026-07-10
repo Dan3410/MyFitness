@@ -1,0 +1,40 @@
+.mfCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkboxInput {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  min-width: 1rem;
+  border: 2px solid var(--checkbox-border-color);
+  border-radius: 0.2rem;
+  background-color: var(--checkbox-background-color);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkboxInput:checked::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.75rem;
+  border-right: 0.16rem solid var(--checkbox-fill-color);
+  border-bottom: 0.16rem solid var(--checkbox-fill-color);
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.checkboxInput:focus-visible {
+  outline: 2px solid var(--checkbox-fill-color);
+  outline-offset: 2px;
+}
+
+.checkboxLabel {
+  color: rgb(250, 250, 250);
+  font-weight: 600;
+}

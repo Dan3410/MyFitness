@@ -22,10 +22,6 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const [category, setCategory] = useState<string>("")
   const navigate: NavigateFunction = useNavigate();
 
-  const goBack = () => {
-    navigate('/');
-  }
-
   //Probably this gonna get moved to a file
   const formattedDate = (date: String) => {
     return date.replaceAll("-", "/")

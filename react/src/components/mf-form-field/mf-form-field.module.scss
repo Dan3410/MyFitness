@@ -1,12 +1,13 @@
 .MFFormField {
-    height: 60px;
+    min-height: 60px;
+    height: auto;
     padding: 10px;
     border-radius: 10px;
     border-width: 1px;
     border-style: solid;
     position: relative;
-    display: flex;
-    
+    display: block;
+
     label:first-child{
         position: absolute;
         top: 4px;
@@ -22,10 +23,19 @@
         background-color: inherit;
         width: 100%;
         outline: none;
+        color: inherit;
+    }
+
+    select[multiple] {
+        min-height: 96px;
+        height: auto;
+        padding: 4px 0;
+        overflow: auto;
     }
 
     option{
         background-color: inherit;
+        color: inherit;
     }
 
     input:disabled, select:disabled{

@@ -30,7 +30,7 @@ const MFButton: FC<MFButtonProps> = ({
    onClickEvent
 }) => {
 
-   const buttonTheme: ButtonTheme = theme == ComponentTheme.profileAndHeath ? profileAndHealthButtonTheme :
+   const buttonTheme: ButtonTheme = theme == ComponentTheme.profileAndHealth ? profileAndHealthButtonTheme :
       theme == ComponentTheme.diet ? dietButtonTheme : theme == ComponentTheme.workout ? workoutButtonTheme : cancelButtonTheme;
 
    const handleClick = () => {

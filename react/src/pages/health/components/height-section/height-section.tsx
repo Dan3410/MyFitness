@@ -22,7 +22,7 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
 
     <h6>Estatura</h6>
     <div className={styles.profileFormSection}>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Unidad de medida de la Altura</label>
         <select name="heightUnit" value={form.heightUnit} onChange={handleChange}>
           {heightUnit.map((item: HeightUnit) => (
@@ -32,7 +32,7 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
       </MFFormField>
 
       <div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
           <label>Altura</label>
           <input name="height" type='number' value={form.height} onChange={handleChange}></input>
         </MFFormField>

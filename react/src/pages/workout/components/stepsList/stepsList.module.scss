@@ -1,3 +1,37 @@
 .stepsList {
-    
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 600; 
+}
+
+.stepItem {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px;
+  background: #000;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stepItem:hover {
+  border-color: #94a3b8;
+}
+
+.stepItem.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.emptyState {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
 }

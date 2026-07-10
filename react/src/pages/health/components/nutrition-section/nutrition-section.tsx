@@ -65,7 +65,7 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
       Estos valores son calculados en base a tu nivel de actividad física, objetivo y peso
     </div>
     <div>
-      Calorias <MFTooltip theme={ComponentTheme.profileAndHeath}>
+      Calorias <MFTooltip theme={ComponentTheme.profileAndHealth}>
         Unidad de energia obtenida de alimentos y gastadas en el día a día. El exceso se almacena. Cada item debajo aporta calorias:
         <ul>
           <li> Proteina: 4kcal/g</li>
@@ -76,17 +76,17 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
     </div>
     <div>
       Proteinas
-      <MFTooltip theme={ComponentTheme.profileAndHeath}>
+      <MFTooltip theme={ComponentTheme.profileAndHealth}>
         Fundamental para la reparación, construcción y fortalecimiento muscular. Consumir más de lo requerido no produce ningún beneficio y puede ser dañino a largo plazo.
       </MFTooltip>: Entre {getMinimumProtein()}g - {getMaximumProtein()}g
     </div>
     <div>
-      Carbohidratos <MFTooltip theme={ComponentTheme.profileAndHeath}>
+      Carbohidratos <MFTooltip theme={ComponentTheme.profileAndHealth}>
         Fuente principal de energía del ser humano. Si bien se necesita altas cantidades, se recomienda evitar que sean azucares.
       </MFTooltip>: Entre {getMinimumCarbohidrates()}g - {getMaximumCarbohidrates()}g
     </div>
     <div>
-      Grasas <MFTooltip theme={ComponentTheme.profileAndHeath}>
+      Grasas <MFTooltip theme={ComponentTheme.profileAndHealth}>
         Ayudan a absorber vitaminas, formar hormonas y membranas y protegen los organos. Se recomienda consumir grasas saludables (insaturadas) ya que las insalubres (saturadas) aumentan el colesterol "malo".
       </MFTooltip>: Entre {getMinimumFats()}g - {getMaximumFats()}g
     </div>

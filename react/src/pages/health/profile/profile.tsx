@@ -94,7 +94,7 @@ const Profile: FC<ProfileProps> = () => {
         <div className="pageTitleBar">
           <h2>Perfil</h2>
           <div className="headerActions">
-            {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHeath}><label>Editar</label></MFButton> }
+            {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton> }
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ const Profile: FC<ProfileProps> = () => {
         {
           edit && (<div className="form-buttons-container">
             <MFButton theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
-            <MFButton type='submit' theme={ComponentTheme.profileAndHeath}><label>Guardar</label></MFButton>
+            <MFButton type='submit' theme={ComponentTheme.profileAndHealth}><label>Guardar</label></MFButton>
           </div>)
         }
       </form>

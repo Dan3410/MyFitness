@@ -28,7 +28,7 @@ const MFTooltip: FC<MFTooltipProps> = ({
    const tipRef = useRef<HTMLDivElement | null>(null)
    const timeoutRef = useRef<number>(undefined);
 
-   const tooltipTheme: TooltipTheme = theme == ComponentTheme.profileAndHeath ? profileAndHealthTooltipTheme :
+   const tooltipTheme: TooltipTheme = theme == ComponentTheme.profileAndHealth ? profileAndHealthTooltipTheme :
       theme == ComponentTheme.diet ? dietTooltipTheme : workoutTooltipTheme
 
    useEffect(() => {

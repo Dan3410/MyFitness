@@ -25,7 +25,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => 
 
     <h6>Peso</h6>
     <div className={styles.profileFormSection}>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Unidad de medida del peso</label>
         <select name="weightUnit" value={form.weightUnit} onChange={handleChange}>
           {weightUnit.map((item: WeightUnit) => (
@@ -34,7 +34,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => 
         </select>
       </MFFormField>
       <div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
           <label>Peso</label>
           <input name="weight" value={form.weight} onChange={handleChange}>
           </input>
@@ -42,7 +42,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => 
         <MFError hidden={!edit || !!form.weight}>Este campo es obligatorio</MFError>
         <MFError hidden={!edit || !!form.height && form.weight > 0}>El valor debe ser mayor a 0</MFError>
       </div>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Objetivo</label>
         <select name="objective" value={form.objective} onChange={handleChange}>
           {objective.map((item: objective) => (

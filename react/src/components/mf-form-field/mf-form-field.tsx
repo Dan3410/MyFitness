@@ -20,7 +20,7 @@ const MFFormField: FC<MFFormFieldProps> = ({
   disabled = false
 }) => {
 
-  const inputTheme: InputTheme = theme == ComponentTheme.profileAndHeath ? profileAndHealthInputTheme :
+  const inputTheme: InputTheme = theme == ComponentTheme.profileAndHealth ? profileAndHealthInputTheme :
     theme == ComponentTheme.diet ? dietInputTheme : workoutInputTheme;
 
   return (

@@ -29,20 +29,20 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
 
       <div>
 
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
           <label>Nombre</label>
           <input name="name" value={form.name} onChange={handleChange}></input>
         </MFFormField>
         <MFError hidden={!edit || !!form.name}>Este campo es obligatorio</MFError>
       </div>
       <div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
           <label>Apellido</label>
           <input name="lastName" value={form.lastName} onChange={handleChange}></input>
         </MFFormField>
         <MFError hidden={!edit || !!form.lastName}>Este campo es obligatorio</MFError>
       </div>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Genero</label>
         <select name="gender" value={form.gender} onChange={handleChange}>
           {gender.map((item: Gender) => (
@@ -51,13 +51,13 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
         </select>
       </MFFormField>
       <div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
           <label>Fecha de nacimiento</label>
           <input name="birthDay" type='date' value={form.birthDay} onChange={handleChange}></input>
         </MFFormField>
         <MFError hidden={!edit || !!form.birthDay}>Este campo es obligatorio</MFError>
       </div>
-      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHeath}>
+      <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Nivel de actividad física</label>
         <select name="physicalActivityLvl" value={form.physicalActivityLvl} onChange={handleChange}>
           {physicalActivityLvl.map((item: physicalActivityLvl) => (

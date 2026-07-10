@@ -14,3 +14,9 @@ export interface TooltipTheme {
     backgroundColor: string,
     iconColor: string
 }
+
+export interface CheckboxTheme {
+    fillColor: string,
+    backgroundColor: string,
+    borderColor: string
+}

@@ -1,5 +1,5 @@
 export enum ComponentTheme {
-    profileAndHeath = 'profileAndHealthTheme',
+    profileAndHealth = 'profileAndHealthTheme',
     diet = 'dietTheme',
     workout = 'workoutTheme',
     generic = 'generic'
