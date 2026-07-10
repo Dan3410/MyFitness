@@ -4,7 +4,6 @@ import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './height-section.module.scss'
 import { User } from '../../../../models/user';
 import { CONST_HEIGHTUNIT } from '../../../../const/heightUnit';
-import { HeightUnit } from '../../../../models/heightUnit';
 import MFError from '../../../../components/mf-error/mf-error';
 
 
@@ -16,7 +15,7 @@ interface HeightSectionProps {
 
 const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => {
 
-  const heightUnit: Array<HeightUnit> = CONST_HEIGHTUNIT
+  const heightUnit: Array<{ label: string; value: string }> = CONST_HEIGHTUNIT
 
   return (<>
 
@@ -25,7 +24,7 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Unidad de medida de la Altura</label>
         <select name="heightUnit" value={form.heightUnit} onChange={handleChange}>
-          {heightUnit.map((item: HeightUnit) => (
+          {heightUnit.map((item: { label: string; value: string }) => (
             <option key={item.value} value={item.value}>{item.label}</option>
           ))}
         </select>

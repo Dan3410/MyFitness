@@ -3,9 +3,7 @@ import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './personal-data-section.module.scss'
 import { User } from '../../../../models/user';
-import { physicalActivityLvl } from '../../../../models/physical-activity';
 import { CONST_PHYSICALACTIVITYLVL } from '../../../../const/physical-activity';
-import { Gender } from '../../../../models/gender';
 import { CONST_GENDER } from '../../../../const/gender';
 import MFError from '../../../../components/mf-error/mf-error';
 
@@ -19,8 +17,8 @@ interface PersonalDataSectionProps {
 
 const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit, form }) => {
 
-  const physicalActivityLvl: Array<physicalActivityLvl> = CONST_PHYSICALACTIVITYLVL
-  const gender: Array<Gender> = CONST_GENDER
+  const physicalActivityLvl: Array<{ label: string; value: string }> = CONST_PHYSICALACTIVITYLVL
+  const gender: Array<{ label: string; value: string }> = CONST_GENDER
 
   return (<>
 
@@ -45,7 +43,7 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Genero</label>
         <select name="gender" value={form.gender} onChange={handleChange}>
-          {gender.map((item: Gender) => (
+          {gender.map((item: { label: string; value: string }) => (
             <option key={item.value} value={item.value}>{item.label}</option>
           ))}
         </select>
@@ -60,7 +58,7 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
       <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
         <label>Nivel de actividad física</label>
         <select name="physicalActivityLvl" value={form.physicalActivityLvl} onChange={handleChange}>
-          {physicalActivityLvl.map((item: physicalActivityLvl) => (
+          {physicalActivityLvl.map((item: { label: string; value: string }) => (
             <option key={item.value} value={item.value}>{item.label}</option>
           ))}
         </select>
