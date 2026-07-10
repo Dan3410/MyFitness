@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import MFButton from '../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
+import MFSelector from '../../../../components/mf-selector/mf-selector';
 import { ComponentTheme } from '../../../../themes/enums';
 import { RunStep, WorkoutStep, stepType } from '../../../../models/workoutSteps';
 import styles from './stepEditor.module.scss';
@@ -18,19 +19,20 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
         <h3 className={styles.title}>Editar paso de carrera</h3>
         <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
-      <MFFormField theme={ComponentTheme.workout}>
-        <label>Tipo</label>
-        <select
+        <MFSelector
+          label="Tipo"
+          theme={ComponentTheme.workout}
+          options={[
+            { label: 'Distancia', value: stepType.RUNDISTANCE },
+            { label: 'Tiempo', value: stepType.RUNTIME },
+            { label: 'Calorías', value: stepType.RUNCALORIES },
+            { label: 'Calentamiento', value: stepType.WARMUP },
+            { label: 'Enfriamiento', value: stepType.COOLDOWN },
+          ]}
           value={step.type}
-          onChange={(event) => onChange({ ...step, type: event.target.value as RunStep['type'] })}
-        >
-          <option value={stepType.RUNDISTANCE}>Distancia</option>
-          <option value={stepType.RUNTIME}>Tiempo</option>
-          <option value={stepType.RUNCALORIES}>Calorías</option>
-          <option value={stepType.WARMUP}>Calentamiento</option>
-          <option value={stepType.COOLDOWN}>Enfriamiento</option>
-        </select>
-      </MFFormField>
+          onChange={(value) => onChange({ ...step, type: value as RunStep['type'] })}
+        />
+
       <MFFormField theme={ComponentTheme.workout}>
         <label>Distancia</label>
         <input
