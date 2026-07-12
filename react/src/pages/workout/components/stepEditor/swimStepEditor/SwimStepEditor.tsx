@@ -35,7 +35,7 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
           <input
             type="number"
             min="0"
-            value={step.distance ?? ''}
+            value={step.distance ?? 0}
             onChange={(event) => onChange({ ...step, distance: event.target.value === '' ? null : Number(event.target.value) })}
           />
         </MFFormField>

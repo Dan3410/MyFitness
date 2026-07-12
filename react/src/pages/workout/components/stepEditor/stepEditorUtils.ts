@@ -11,19 +11,19 @@ export const getStepLabel = (currentStep: WorkoutStep) => {
     case stepType.COOLDOWN:
       return 'Enfriamiento';
     case stepType.SWIMDISTANCE:
-        return `Distancia: ${(currentStep as SwimStep).distance}m (${(currentStep as SwimStep).stroke})`;
+        return `Distancia: ${(currentStep as SwimStep).distance ?? 0}m (${(currentStep as SwimStep).stroke})`;
     case stepType.SWIMTIME:
-        return `Tiempo: ${(currentStep as SwimStep).time}s (${(currentStep as SwimStep).stroke})`;
+        return `Tiempo: ${(currentStep as SwimStep).time ?? 0}s (${(currentStep as SwimStep).stroke})`;
     case stepType.RUNDISTANCE:
-        return `Distancia: ${(currentStep as RunStep).distance}m`; 
+        return `Distancia: ${(currentStep as RunStep).distance ?? 0}m`; 
     case stepType.RUNTIME:
-        return `Tiempo: ${(currentStep as RunStep).time}s`;
+        return `Tiempo: ${(currentStep as RunStep).time ?? 0}s`;
     case stepType.RUNCALORIES:
-        return `Calorias: ${(currentStep as RunStep).calories}kcal`;
+        return `Calorias: ${(currentStep as RunStep).calories ?? 0}kcal`;
     case stepType.EXERCISE:
         return `Ejercicio   : ${(currentStep as GymStep).exercise}`;
     case stepType.INTERVAL:
-        return `Intervalo   : ${(currentStep as GymStep).exercise} por ${(currentStep as GymStep).time}s`;
+        return `Intervalo   : ${(currentStep as GymStep).exercise} por ${(currentStep as GymStep).time ?? 0}s`;
       return ;
     default:
       return 'Paso';

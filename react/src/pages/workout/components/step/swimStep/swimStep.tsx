@@ -10,8 +10,8 @@ const SwimStep: FC<SwimStepProps> = ({ step }) => {
   const title = step.stroke || 'Nadar';
   const label = step.type === stepType.SWIMTIME ? 'Por tiempo' : 'Por distancia';
   const detail = step.type === stepType.SWIMTIME
-    ? `${step.time} segundos`
-    : `${step.distance} m`;
+    ? `${step.time ?? 0} segundos`
+    : `${step.distance ?? 0} m`;
   const gearText = step.gear.length > 0 ? step.gear.join(', ') : null;
 
   return (
