@@ -3,6 +3,7 @@ import styles from './workoutCategories.module.scss';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { WorkoutCategory } from '../../../../models/workoutCategories';
 import { workoutService } from '../../../../services/workoutService';
+import { Option } from '../../../../models/option';
 
 interface WorkoutCategoriesProps { }
 
@@ -27,8 +28,8 @@ const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
   return (
     <div className={styles.workoutCategories}>
       <div className={styles.categoriesContainer}>
-        {categories?.map((category: { label: string, value: string }) => (
-          <button className={styles.category} onClick={() => redirectTo(category.value)}>
+        {categories?.map((category: Option) => (
+          <button className={styles.category} onClick={() => redirectTo(category.value as string)}>
             <label>{category.label}</label>
           </button>
         ))}

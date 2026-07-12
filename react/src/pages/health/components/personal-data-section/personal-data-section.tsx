@@ -3,8 +3,8 @@ import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './personal-data-section.module.scss'
 import { User } from '../../../../models/user';
-import { CONST_PHYSICALACTIVITYLVL } from '../../../../const/physical-activity';
-import { CONST_GENDER } from '../../../../const/gender';
+import { CONST_PHYSICALACTIVITYLVL_OPTIONS } from '../../../../const/physicalActivityOptions';
+import { CONST_GENDER_OPTIONS } from '../../../../const/genderOptions';
 import MFError from '../../../../components/mf-error/mf-error';
 
 
@@ -17,8 +17,8 @@ interface PersonalDataSectionProps {
 
 const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit, form }) => {
 
-  const physicalActivityLvl: Array<{ label: string; value: string }> = CONST_PHYSICALACTIVITYLVL
-  const gender: Array<{ label: string; value: string }> = CONST_GENDER
+  const physicalActivityLvl: Array<{ label: string; value: string }> = CONST_PHYSICALACTIVITYLVL_OPTIONS
+  const gender: Array<{ label: string; value: string }> = CONST_GENDER_OPTIONS
 
   return (<>
 

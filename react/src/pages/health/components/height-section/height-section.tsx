@@ -3,7 +3,7 @@ import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './height-section.module.scss'
 import { User } from '../../../../models/user';
-import { CONST_HEIGHTUNIT } from '../../../../const/heightUnit';
+import { CONST_HEIGHTUNIT_OPTIONS } from '../../../../const/heightUnitOptions';
 import MFError from '../../../../components/mf-error/mf-error';
 
 
@@ -15,7 +15,7 @@ interface HeightSectionProps {
 
 const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => {
 
-  const heightUnit: Array<{ label: string; value: string }> = CONST_HEIGHTUNIT
+  const heightUnit: Array<{ label: string; value: string }> = CONST_HEIGHTUNIT_OPTIONS
 
   return (<>
 

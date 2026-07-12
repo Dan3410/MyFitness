@@ -56,7 +56,7 @@ public class WorkoutService {
         .createSet(Arrays.asList(createSwimStep(StepType.WARMUP, 300, null, Collections.<SwimGear> emptyList(), SwimStroke.CHOICE)), 1));
     swimSteps.add(this.createSet(
         Arrays.asList(
-            createSwimStep(StepType.SWIM_DISTANCE, 200, null, Arrays.asList(SwimGear.PULLBOY), SwimStroke.CHOICE)),
+            createSwimStep(StepType.SWIM_DISTANCE, 200, null, Arrays.asList(SwimGear.PULLBUOY), SwimStroke.CHOICE)),
         4));
     swimSteps.add(this.createSet(
         Arrays.asList(createSwimStep(StepType.SWIM_TIME, 50, 50, Arrays.asList(SwimGear.FINS), SwimStroke.CHOICE)), 4));

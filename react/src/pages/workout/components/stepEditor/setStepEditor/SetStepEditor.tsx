@@ -1,11 +1,11 @@
 import { FC, useMemo, useState } from 'react';
-import MFButton from '../../../../components/mf-button/mf-button';
-import MFFormField from '../../../../components/mf-form-field/mf-form-field';
-import { ComponentTheme } from '../../../../themes/enums';
-import { WorkoutSet, WorkoutStep } from '../../../../models/workoutSteps';
-import styles from './stepEditor.module.scss';
-import StepEditor from './stepEditor';
-import { getStepLabel } from './stepEditorUtils';
+import MFButton from '../../../../../components/mf-button/mf-button';
+import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
+import { ComponentTheme } from '../../../../../themes/enums';
+import { WorkoutSet, WorkoutStep } from '../../../../../models/workoutSteps';
+import styles from './../stepEditor.module.scss';
+import StepEditor from '../stepEditor';
+import { getStepLabel } from '../stepEditorUtils';
 
 interface SetStepEditorProps {
   step: WorkoutSet;
@@ -78,7 +78,7 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
                 onClick={() => setSelectedNestedIndex(index)}
               >
                 <span className={styles.nestedStepIndex}>{index + 1}</span>
-                <span>{getStepLabel(nestedStep, workoutCategory)}</span>
+                <span>{getStepLabel(nestedStep)}</span>
               </button>
             ))}
           </div>

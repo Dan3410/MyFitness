@@ -5,24 +5,22 @@ import { InputTheme } from '../../themes/interfaces';
 import { profileAndHealthInputTheme } from '../../themes/profileHealth';
 import { dietInputTheme } from '../../themes/diet';
 import { workoutInputTheme } from '../../themes/workout';
+import { Option } from '../../models/option';
 
-interface MFSelectorOption {
-  label: string;
-  value: string;
-}
+type SelectorValue = string | number | Array<string | number>;
 
 interface MFSelectorProps {
   label?: string;
   theme?: ComponentTheme;
-  options: MFSelectorOption[];
-  value?: string | string[];
-  defaultValue?: string | string[];
+  options: Option[];
+  value?: SelectorValue;
+  defaultValue?: SelectorValue;
   disabled?: boolean;
   multiple?: boolean;
-  onChange?: (value: string | string[]) => void;
+  onChange?: (value: SelectorValue) => void;
 }
 
-const normalizeValues = (value?: string | string[]): string[] => {
+const normalizeValues = (value?: SelectorValue): (string | number)[] => {
   if (Array.isArray(value)) {
     return value;
   }
@@ -40,7 +38,7 @@ const MFSelector: FC<MFSelectorProps> = ({
   multiple = false,
   onChange,
 }) => {
-  const [selectedValues, setSelectedValues] = useState<string[]>(() => normalizeValues(defaultValue));
+  const [selectedValues, setSelectedValues] = useState<(string | number)[]>(() => normalizeValues(defaultValue));
 
   useEffect(() => {
     if (value !== undefined) {
@@ -59,7 +57,7 @@ const MFSelector: FC<MFSelectorProps> = ({
     }
   }, [theme]);
 
-  const toggleOption = (optionValue: string) => {
+  const toggleOption = (optionValue: string | number) => {
     const nextValues = multiple
       ? (selectedValues.includes(optionValue)
         ? selectedValues.filter((selectedValue) => selectedValue !== optionValue)

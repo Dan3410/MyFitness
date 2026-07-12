@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum SwimGear {
     FINS("Aletas"),
-    PULLBOY("Pullboy"),
+    PULLBUOY("Pullbuoy"),
     PADDLES("Manoplas"),
-    SNORKEL("Snorkel");
+    SNORKEL("Snorkel"),
+    KICKBOARD("Tabla"),
+    NONE("Ninguno");
 
     private final String value;
 

@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import MFButton from '../../../../components/mf-button/mf-button';
-import MFFormField from '../../../../components/mf-form-field/mf-form-field';
-import MFSelector from '../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../themes/enums';
-import { GymStep, WorkoutStep, stepType } from '../../../../models/workoutSteps';
-import styles from './stepEditor.module.scss';
+import MFButton from '../../../../../components/mf-button/mf-button';
+import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
+import MFSelector from '../../../../../components/mf-selector/mf-selector';
+import { ComponentTheme } from '../../../../../themes/enums';
+import { GymStep, WorkoutStep, stepType } from '../../../../../models/workoutSteps';
+import styles from './../stepEditor.module.scss';
+import { CONST_GYM_STEP_TYPE_OPTIONS } from '../../../../../const/gymStepTypeOptions';
 
 interface GymStepEditorProps {
   step: GymStep;
@@ -20,21 +21,18 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         <h3 className={styles.title}>{workoutCategory === 'gym' ? 'Editar ejercicio' : 'Editar paso'}</h3>
         <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
-        <MFSelector
-          label="Tipo"
-          theme={ComponentTheme.workout}
-          options={[
-            { label: 'Ejercicio', value: stepType.EXERCISE },
-            { label: 'Intervalo', value: stepType.INTERVAL },
-            { label: 'Calentamiento', value: stepType.WARMUP },
-            { label: 'Enfriamiento', value: stepType.COOLDOWN },
-          ]}
-          value={step.type}
-          onChange={(value) => {
-            const nextType = value as GymStep['type'];
-            onChange({ ...step, type: nextType, byTime: nextType === stepType.INTERVAL || nextType === stepType.EXERCISE || nextType === stepType.WARMUP || nextType === stepType.COOLDOWN ? false : step.byTime });
-          }}
-        />
+      <MFSelector
+        label="Tipo"
+        theme={ComponentTheme.workout}
+        options={
+          CONST_GYM_STEP_TYPE_OPTIONS
+        }
+        value={step.type}
+        onChange={(value) => {
+          const nextType = value as GymStep['type'];
+          onChange({ ...step, type: nextType, byTime: nextType === stepType.INTERVAL || nextType === stepType.EXERCISE || nextType === stepType.WARMUP || nextType === stepType.COOLDOWN ? false : step.byTime });
+        }}
+      />
       <MFFormField theme={ComponentTheme.workout}>
         <label>Ejercicio</label>
         <input

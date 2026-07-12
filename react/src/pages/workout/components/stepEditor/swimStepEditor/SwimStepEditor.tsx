@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import MFButton from '../../../../components/mf-button/mf-button';
-import MFFormField from '../../../../components/mf-form-field/mf-form-field';
-import MFSelector from '../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../themes/enums';
-import { SwimStep, SwimStroke, WorkoutStep, stepType, swimGear } from '../../../../models/workoutSteps';
-import styles from './stepEditor.module.scss';
+import MFButton from '../../../../../components/mf-button/mf-button';
+import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
+import MFSelector from '../../../../../components/mf-selector/mf-selector';
+import { ComponentTheme } from '../../../../../themes/enums';
+import { SwimStep, SwimStroke, WorkoutStep, stepType, swimGear } from '../../../../../models/workoutSteps';
+import styles from './../stepEditor.module.scss';
+import { CONST_SWIM_STEP_TYPE_OPTIONS } from '../../../../../const/swimStepTypeOptions';
+import { CONST_SWIMMING_GEAR_OPTIONS } from '../../../../../const/swimmingGearOptions';
+import { CONST_SWIM_STROKE_OPTIONS } from '../../../../../const/swimStrokeOptions';
 
 interface SwimStepEditorProps {
   step: SwimStep;
@@ -22,12 +25,7 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
         <MFSelector
           label="Tipo"
           theme={ComponentTheme.workout}
-          options={[
-            { label: 'Distancia', value: stepType.SWIMDISTANCE },
-            { label: 'Tiempo', value: stepType.SWIMTIME },
-            { label: 'Calentamiento', value: stepType.WARMUP },
-            { label: 'Enfriamiento', value: stepType.COOLDOWN },
-          ]}
+          options={CONST_SWIM_STEP_TYPE_OPTIONS}
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as SwimStep['type'] })}
         />
@@ -56,14 +54,14 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
         <MFSelector
           label="Estilo"
           theme={ComponentTheme.workout}
-          options={Object.entries(SwimStroke).map(([key, value]) => ({ label: value, value }))}
+          options={CONST_SWIM_STROKE_OPTIONS}
           value={step.stroke}
           onChange={(value) => onChange({ ...step, stroke: value as SwimStroke })}
         />
         <MFSelector
           label="Equipo"
           theme={ComponentTheme.workout}
-          options={Object.values(swimGear).map((gear) => ({ label: gear, value: gear }))}
+          options={CONST_SWIMMING_GEAR_OPTIONS}
           value={step.gear}
           multiple
           onChange={(value) => onChange({ ...step, gear: value as swimGear[] })}

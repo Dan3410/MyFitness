@@ -23,7 +23,7 @@ export type StepType =
     | 'RUN_TIME'
     | 'RUN_CALORIES';
 
-export type SwimGear = 'FINS' | 'PULLBUOY' | 'PADDLES' | 'SNORKEL';
+export type SwimGear = 'FINS' | 'PULLBUOY' | 'PADDLES' | 'SNORKEL' | 'KICKBOARD' | 'NONE';
 export type SwimStroke =
     | 'IM'
     | 'FREESTYLE'

@@ -9,11 +9,11 @@ import {
   stepType,
 } from '../../../../models/workoutSteps';
 import styles from './stepEditor.module.scss';
-import RestStepEditor from './RestStepEditor';
-import SetStepEditor from './SetStepEditor';
-import SwimStepEditor from './SwimStepEditor';
-import RunStepEditor from './RunStepEditor';
-import GymStepEditor from './GymStepEditor';
+import RestStepEditor from './restStepEditor/RestStepEditor';
+import SetStepEditor from './setStepEditor/SetStepEditor';
+import SwimStepEditor from './swimStepEditor/SwimStepEditor';
+import RunStepEditor from './runStepEditor/RunStepEditor';
+import GymStepEditor from './gymStepEditor/GymStepEditor';
 
 interface StepEditorProps {
   step: WorkoutStep | null;

@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import MFButton from '../../../../components/mf-button/mf-button';
-import MFFormField from '../../../../components/mf-form-field/mf-form-field';
-import MFSelector from '../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../themes/enums';
-import { RunStep, WorkoutStep, stepType } from '../../../../models/workoutSteps';
-import styles from './stepEditor.module.scss';
+import MFButton from '../../../../../components/mf-button/mf-button';
+import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
+import MFSelector from '../../../../../components/mf-selector/mf-selector';
+import { ComponentTheme } from '../../../../../themes/enums';
+import { RunStep, WorkoutStep, stepType } from '../../../../../models/workoutSteps';
+import styles from './../stepEditor.module.scss';
+import { CONST_RUN_STEP_TYPE_OPTIONS } from '../../../../../const/runStepTypeOptions';
 
 interface RunStepEditorProps {
   step: RunStep;
@@ -22,13 +23,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
         <MFSelector
           label="Tipo"
           theme={ComponentTheme.workout}
-          options={[
-            { label: 'Distancia', value: stepType.RUNDISTANCE },
-            { label: 'Tiempo', value: stepType.RUNTIME },
-            { label: 'Calorías', value: stepType.RUNCALORIES },
-            { label: 'Calentamiento', value: stepType.WARMUP },
-            { label: 'Enfriamiento', value: stepType.COOLDOWN },
-          ]}
+          options={CONST_RUN_STEP_TYPE_OPTIONS}
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as RunStep['type'] })}
         />

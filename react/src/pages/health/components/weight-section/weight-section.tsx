@@ -1,10 +1,10 @@
 import { ChangeEvent, FC } from 'react';
 import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
-import { CONST_WEIGHTUNIT } from '../../../../const/weightUnit';
+import { CONST_WEIGHTUNIT_OPTIONS } from '../../../../const/weightUnitOptions';
 import styles from './weight-section.module.scss'
 import { User } from '../../../../models/user';
-import { CONST_OBJETIVE } from '../../../../const/objective';
+import { CONST_OBJETIVE_OPTIONS } from '../../../../const/objectiveOptions';
 import MFError from '../../../../components/mf-error/mf-error';
 
 
@@ -16,8 +16,8 @@ interface WeightSectionProps {
 
 const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form }) => {
 
-  const weightUnit: Array<{ label: string; value: string }> = CONST_WEIGHTUNIT
-  const objective: Array<{ label: string; value: string }> = CONST_OBJETIVE
+  const weightUnit: Array<{ label: string; value: string }> = CONST_WEIGHTUNIT_OPTIONS
+  const objective: Array<{ label: string; value: string }> = CONST_OBJETIVE_OPTIONS
 
   return (<>
 

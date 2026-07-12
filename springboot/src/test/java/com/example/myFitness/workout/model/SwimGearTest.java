@@ -16,8 +16,8 @@ class SwimGearTest {
     void shouldParseGearValuesIgnoringCase() throws Exception {
         assertEquals(SwimGear.FINS, SwimGear.fromValue("Aletas"));
         assertEquals(SwimGear.FINS, SwimGear.fromValue("AleTas"));
-        assertEquals(SwimGear.PULLBOY, SwimGear.fromValue("Pullboy"));
-        assertEquals(SwimGear.PULLBOY, SwimGear.fromValue("PuLlBoY"));
+        assertEquals(SwimGear.PULLBUOY, SwimGear.fromValue("Pullboy"));
+        assertEquals(SwimGear.PULLBUOY, SwimGear.fromValue("PuLlBoY"));
     }
 
     @Test
