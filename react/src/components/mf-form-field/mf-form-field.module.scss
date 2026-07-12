@@ -8,14 +8,16 @@
     position: relative;
     display: block;
 
-    label:first-child{
+    label:first-child {
         position: absolute;
         top: 4px;
         left: 12px;
         font-size: 14px;
         font-weight: 600;
     }
-    input, select{
+
+    input,
+    select {
         height: 26px;
         margin: 16px 0 0 0;
         font-size: 18px;
@@ -33,12 +35,23 @@
         overflow: auto;
     }
 
-    option{
+    option {
         background-color: inherit;
         color: inherit;
     }
 
-    input:disabled, select:disabled{
+    input:disabled,
+    select:disabled {
         pointer-events: none;
+    }
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
     }
 }
