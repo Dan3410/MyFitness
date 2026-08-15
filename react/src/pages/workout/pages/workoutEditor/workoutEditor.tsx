@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Workout } from '../../../../models/workout';
-import { WorkoutStep } from '../../../../models/workoutSteps';
+import { WorkoutStep, WorkoutSet } from '../../../../models/workoutSteps';
+import MFButton from '../../../../components/mf-button/mf-button';
+import { ComponentTheme } from '../../../../themes/enums';
 import { workoutService } from '../../../../services/workoutService';
 import styles from './workoutEditor.module.scss';
 
@@ -38,6 +40,15 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     const nextSteps = [...workout.steps];
     nextSteps[selectedStepIndex] = updatedStep;
     setWorkout({ ...workout, steps: nextSteps });
+  };
+
+  const addSet = () => {
+    if (!workout) return;
+
+    const newSet: WorkoutSet = { type: 'SET', repeat: 1, steps: [] };
+    const nextSteps = [...workout.steps, newSet];
+    setWorkout({ ...workout, steps: nextSteps });
+    setSelectedStepIndex(nextSteps.length - 1);
   };
 
   const deleteSelectedStep = () => {
@@ -81,6 +92,9 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
             selectedStepIndex={selectedStepIndex}
             onSelectStep={setSelectedStepIndex}
           />
+        <div className={styles.stepsActions}>
+          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addSet}>Agregar set</MFButton>
+        </div>
         </div>
         <div className={styles.editorColumn}>
           <StepEditor

@@ -2,7 +2,16 @@ import { FC, useMemo, useState } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import { ComponentTheme } from '../../../../../themes/enums';
-import { WorkoutSet, WorkoutStep } from '../../../../../models/workoutSteps';
+import {
+  WorkoutSet,
+  WorkoutStep,
+  RunStep,
+  GymStep,
+  RestStep,
+  SwimStep,
+  stepType,
+  SwimStroke,
+} from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import StepEditor from '../stepEditor';
 import { getStepLabel } from '../stepEditorUtils';
@@ -47,6 +56,24 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
     });
   };
 
+  const addNestedStep = () => {
+    let newStep: WorkoutStep;
+
+    if (workoutCategory === 'gym') {
+      newStep = { type: stepType.EXERCISE, exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
+    } else if (workoutCategory === 'swim') {
+      newStep = { type: stepType.SWIMDISTANCE, distance: null, time: null, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
+    } else if (workoutCategory === 'run') {
+      newStep = { type: stepType.RUNDISTANCE, distance: 0, calories: 0, time: null, speed: null } as RunStep;
+    } else {
+      newStep = { type: stepType.REST, seconds: 30 } as RestStep;
+    }
+
+    const nextSteps = [...step.steps, newStep];
+    onChange({ ...step, steps: nextSteps });
+    setSelectedNestedIndex(nextSteps.length - 1);
+  };
+
   return (
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
@@ -83,6 +110,9 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
             ))}
           </div>
         )}
+        <div className={styles.addStepButton}>
+        <MFButton  theme={ComponentTheme.generic} type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
+        </div>
       </div>
       {selectedNestedStep ? (
         <div className={styles.nestedEditor}>
