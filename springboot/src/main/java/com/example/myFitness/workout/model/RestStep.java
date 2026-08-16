@@ -3,6 +3,10 @@ package com.example.myFitness.workout.model;
 public class RestStep extends Step {
     private int seconds;
 
+    public RestStep() {
+        super(StepType.REST);
+    }
+
     public RestStep(int seconds){
         super(StepType.REST);
         setSeconds(seconds);

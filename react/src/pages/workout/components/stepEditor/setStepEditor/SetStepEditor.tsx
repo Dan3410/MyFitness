@@ -62,9 +62,9 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
     if (workoutCategory === 'gym') {
       newStep = { type: stepType.EXERCISE, exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
     } else if (workoutCategory === 'swim') {
-      newStep = { type: stepType.SWIMDISTANCE, distance: null, time: null, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
+      newStep = { type: stepType.SWIMDISTANCE, distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
     } else if (workoutCategory === 'run') {
-      newStep = { type: stepType.RUNDISTANCE, distance: 0, calories: 0, time: null, speed: null } as RunStep;
+      newStep = { type: stepType.RUNDISTANCE, distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
     } else {
       newStep = { type: stepType.REST, seconds: 30 } as RestStep;
     }

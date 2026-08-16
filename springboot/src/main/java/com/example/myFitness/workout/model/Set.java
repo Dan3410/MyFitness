@@ -6,6 +6,10 @@ public class Set extends Step{
     private int repeat;
     private List<Step> steps;
 
+    public Set() {
+        super(StepType.SET);
+    }
+
     public int getRepeat() {
         return repeat;
     }
@@ -24,8 +28,8 @@ public class Set extends Step{
 
     // Parameterized constructor
     public Set(List<Step> set, int repeat) {
+        super(StepType.SET);
         this.steps = set;
         this.repeat = repeat;
-        super(StepType.SET);
     }
 }

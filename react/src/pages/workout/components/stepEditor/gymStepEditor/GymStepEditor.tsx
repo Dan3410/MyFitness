@@ -30,7 +30,7 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         value={step.type}
         onChange={(value) => {
           const nextType = value as GymStep['type'];
-          onChange({ ...step, type: nextType, byTime: nextType === stepType.INTERVAL || nextType === stepType.EXERCISE || nextType === stepType.WARMUP || nextType === stepType.COOLDOWN ? false : step.byTime });
+          onChange({ ...step, type: nextType, byTime: nextType === stepType.INTERVAL || nextType === stepType.EXERCISE || nextType === stepType.GYMWARMUP || nextType === stepType.GYMCOOLDOWN ? false : step.byTime });
         }}
       />
       <MFFormField theme={ComponentTheme.workout}>

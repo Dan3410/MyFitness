@@ -16,6 +16,14 @@ class WorkoutService {
         }).then((response: Response) => { return response.json() }).catch((err: Error) => err);
     }
 
+        async editWorkout(id: string, workout: any) {
+            return fetch(API_URL + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(workout)
+            }).then((response: Response) => { return response.json() }).catch((err: Error) => err);
+        }
+
     async getWorkoutSteps(id: string) {
         return fetch(API_URL + id, {
             method: 'GET',

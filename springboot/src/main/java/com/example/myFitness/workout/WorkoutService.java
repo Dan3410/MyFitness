@@ -30,9 +30,6 @@ public class WorkoutService {
   private WorkoutListItem[] workoutsListItems;
   private Workout[] workouts;
 
-  // TODO: REST STEPS AND SETS WITH MORE THAN ONE STEP
-  // Think of what can be a parent class that can have step and set at the same
-  // time
   @PostConstruct
   public void init() {
     // categories
@@ -53,7 +50,7 @@ public class WorkoutService {
     List<Step> swimSteps = new ArrayList<>();
 
     swimSteps.add(this
-        .createSet(Arrays.asList(createSwimStep(StepType.WARMUP, 300, null, Collections.<SwimGear> emptyList(), SwimStroke.CHOICE)), 1));
+        .createSet(Arrays.asList(createSwimStep(StepType.SWIM_WARMUP, 300, null, Collections.<SwimGear> emptyList(), SwimStroke.CHOICE)), 1));
     swimSteps.add(this.createSet(
         Arrays.asList(
             createSwimStep(StepType.SWIM_DISTANCE, 200, null, Arrays.asList(SwimGear.PULLBUOY), SwimStroke.CHOICE)),
@@ -61,12 +58,12 @@ public class WorkoutService {
     swimSteps.add(this.createSet(
         Arrays.asList(createSwimStep(StepType.SWIM_TIME, 50, 50, Arrays.asList(SwimGear.FINS), SwimStroke.CHOICE)), 4));
     swimSteps.add(this
-        .createSet(Arrays.asList(createSwimStep(StepType.COOLDOWN, 200, null, Collections.<SwimGear> emptyList(), SwimStroke.CHOICE)), 4));
+        .createSet(Arrays.asList(createSwimStep(StepType.SWIM_COOLDOWN, 200, null, Collections.<SwimGear> emptyList(), SwimStroke.CHOICE)), 4));
 
     // --- Gym steps ---
     List<Step> gymSteps = new ArrayList<>();
-    gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.WARMUP, "Stationary Bike", true, 0, 5, 0.0),
-        createGymStep(StepType.WARMUP, "Running", true, 0, 5, 0.0)), 4));
+    gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_WARMUP, "Stationary Bike", true, 0, 5, 0.0),
+        createGymStep(StepType.GYM_WARMUP, "Running", true, 0, 5, 0.0)), 4));
     gymSteps
         .add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_EXERCISE, "Back Squat", false, 6, 0, 100.0)), 4));
     gymSteps
@@ -79,7 +76,7 @@ public class WorkoutService {
             createGymStep(StepType.GYM_INTERVAL, "Pull ups", true, 0, 60, 20.0),
             createRestStep(45),
             createGymStep(StepType.GYM_INTERVAL, "Squats", true, 0, 60, 70.0)), 4));
-    gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.COOLDOWN, "Stretching", true, 0, 5, 0.0)), 4));
+    gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_COOLDOWN, "Stretching", true, 0, 5, 0.0)), 4));
 
     workouts = new Workout[] {
         new Workout("0", "Swim Swim", "swim", swimSteps),

@@ -82,7 +82,9 @@ input {
     width: 100%;
 }
 
-.headerActions {
+.footerActions {
     display: flex;
+    margin-top: 20px;
     column-gap: 20px;
+    text-align: right;
 }

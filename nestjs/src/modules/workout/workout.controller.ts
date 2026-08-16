@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Put, Query } from '@nestjs/common';
 import { WorkoutService } from './workout.service';
-import { WorkoutListItem } from 'src/models/workout';
-import { WorkoutCategories } from 'src/models/workoutCategories';
+import type { WorkoutListItem, Workout } from 'src/models/workout';
+import type { WorkoutCategories } from 'src/models/workoutCategories';
 
 @Controller("workout")
 export class WorkoutController {
@@ -25,6 +25,14 @@ export class WorkoutController {
     @Param('id') id: string
   ): any{
     return this.workoutService.getWorkout(id);
+  }
+
+  @Put('/:id')
+  editWorkout(
+    @Param('id') id: string,
+    @Body() workout: Workout,
+  ): Promise<Workout> {
+    return this.workoutService.editWorkout(id, workout);
   }
 
   @Delete('/:id')

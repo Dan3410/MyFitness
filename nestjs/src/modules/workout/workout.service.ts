@@ -44,6 +44,7 @@ export class WorkoutService {
   }
 
   async editWorkout(id: string, workout: Workout): Promise<Workout> {
+    console.log(workout);
     const response = await firstValueFrom(
       this.httpService.put<Workout>(`${this.workoutApiUrl}/${id}`, workout),
     );

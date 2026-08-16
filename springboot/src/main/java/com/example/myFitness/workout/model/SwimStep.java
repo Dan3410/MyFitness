@@ -8,6 +8,11 @@ import java.util.List;
         private List<SwimGear> gear;
         private SwimStroke stroke;
 
+        // Default constructor
+        public SwimStep() {
+            super(null);
+        }
+
         // Parameterized constructor
         public SwimStep(StepType type, Integer distance, Integer time, List<SwimGear> gear, SwimStroke style) {
             super(type);

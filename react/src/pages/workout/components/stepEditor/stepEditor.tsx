@@ -57,16 +57,16 @@ const StepEditor: FC<StepEditorProps> = ({ step, workoutCategory, onChange, onDe
     return <SetStepEditor step={step as WorkoutSet} workoutCategory={workoutCategory} onChange={updateStep} onDelete={onDelete} />;
   }
 
-  if (step.type === stepType.WARMUP || step.type === stepType.COOLDOWN) {
-    if (workoutCategory === 'swim') {
-      return <SwimStepEditor step={step as SwimStep} onChange={updateStep} onDelete={onDelete} />;
-    }
+  if (step.type === stepType.SWIMWARMUP || step.type === stepType.SWIMCOOLDOWN) {
+    return <SwimStepEditor step={step as SwimStep} onChange={updateStep} onDelete={onDelete} />;
 
-    if (workoutCategory === 'run') {
-      return <RunStepEditor step={step as unknown as RunStep} onChange={updateStep} onDelete={onDelete} />;
-    }
+  }
+  if (step.type === stepType.RUNWARMUP || step.type === stepType.RUNCOOLDOWN) {
+    return <RunStepEditor step={step as RunStep} onChange={updateStep} onDelete={onDelete} />;
+  }
 
-    return <GymStepEditor step={step as unknown as GymStep} workoutCategory={workoutCategory} onChange={updateStep} onDelete={onDelete} />;
+  if (step.type === stepType.GYMWARMUP || step.type === stepType.GYMCOOLDOWN) {
+    return <GymStepEditor step={step as GymStep} workoutCategory={workoutCategory} onChange={updateStep} onDelete={onDelete} />;
   }
 
   if (step.type === stepType.SWIMDISTANCE || step.type === stepType.SWIMTIME) {
@@ -79,5 +79,6 @@ const StepEditor: FC<StepEditorProps> = ({ step, workoutCategory, onChange, onDe
 
   return <GymStepEditor step={step as GymStep} workoutCategory={workoutCategory} onChange={updateStep} onDelete={onDelete} />;
 };
+
 
 export default StepEditor;

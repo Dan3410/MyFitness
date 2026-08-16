@@ -1,3 +1,18 @@
-.appContainer{
+.appContainer {
   margin: 40px
 }
+
+:global( ::-webkit-scrollbar) {
+  width: 12px;
+}
+
+:global(::-webkit-scrollbar-track) {
+  background: green;
+  border-radius: 20px;
+}
+
+:global(::-webkit-scrollbar-thumb) {
+  background-color: red;
+  border-radius: 20px;
+}
+

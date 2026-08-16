@@ -7,6 +7,11 @@ public class GymStep extends Step {
     private int time;
     private double weight;
 
+    // Default constructor
+    public GymStep() {
+        super(null);
+    }
+
     // Parameterized constructor
     public GymStep(StepType type, String exercise, boolean byTime, int reps, int time, double weight) {
         super(type);

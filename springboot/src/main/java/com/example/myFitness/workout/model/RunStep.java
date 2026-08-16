@@ -6,8 +6,13 @@ public class RunStep extends Step {
     private Integer time; // nullable
     private Double speed; // nullable (undefined equivalent)
 
+    // Default constructor
+    public RunStep() {
+        super(null);
+    }
+
     // Parameterized constructor
-        public RunStep(StepType type, int distance, int calories, Integer time, Double speed) {
+    public RunStep(StepType type, int distance, int calories, Integer time, Double speed) {
         super(type); // set the step type
         this.distance = distance;
         this.calories = calories;

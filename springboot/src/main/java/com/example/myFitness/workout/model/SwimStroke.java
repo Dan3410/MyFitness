@@ -7,7 +7,7 @@ public enum SwimStroke {
     IM("Combinado"),
     FREESTYLE("Crol"),
     BACKSTROKE("Espalda"),
-    BREASTSTROKE("Braza"),
+    BREASTSTROKE("Pecho"),
     BUTTERFLY("Mariposa"),
     CHOICE("A elección");
 

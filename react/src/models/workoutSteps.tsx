@@ -1,28 +1,36 @@
 export type StepType =
     | 'REST'
-    | 'WARMUP'
-    | 'COOLDOWN'
     | 'SET'
     | 'GYM_EXERCISE'
     | 'GYM_INTERVAL'
+    | 'GYM_WARMUP'
+    | 'GYM_COOLDOWN'
     | 'SWIM_DISTANCE'
     | 'SWIM_TIME'
+    | 'SWIM_WARMUP'
+    | 'SWIM_COOLDOWN'
     | 'RUN_DISTANCE'
     | 'RUN_TIME'
-    | 'RUN_CALORIES';
+    | 'RUN_CALORIES'
+    | 'RUN_WARMUP'
+    | 'RUN_COOLDOWN';
 
 export enum stepType {
     REST = 'REST',
-    WARMUP = 'WARMUP',
-    COOLDOWN = 'COOLDOWN',
     SET = 'SET',
     EXERCISE = 'GYM_EXERCISE',
     INTERVAL = 'GYM_INTERVAL',
+    GYMWARMUP = 'GYM_WARMUP',
+    GYMCOOLDOWN = 'GYM_COOLDOWN',
     SWIMDISTANCE = 'SWIM_DISTANCE',
     SWIMTIME = 'SWIM_TIME',
+    SWIMWARMUP = 'SWIM_WARMUP',
+    SWIMCOOLDOWN = 'SWIM_COOLDOWN',
     RUNDISTANCE = 'RUN_DISTANCE',
     RUNTIME = 'RUN_TIME',
-    RUNCALORIES = 'RUN_CALORIES'
+    RUNCALORIES = 'RUN_CALORIES',
+    RUNWARMUP = 'RUN_WARMUP',
+    RUNCOOLDOWN = 'RUN_COOLDOWN'
 }
 
 export enum swimGear {
@@ -39,7 +47,7 @@ export enum SwimStroke {
     IM = 'Combinado',
     FREESTYLE = 'Crol',
     BACKSTROKE = 'Espalda',
-    BREASTSTROKE = 'Braza',
+    BREASTSTROKE = 'Pecho',
     BUTTERFLY = 'Mariposa',
     CHOICE = 'A elección'
 }
@@ -60,7 +68,7 @@ export interface WorkoutSet extends BaseStep {
 }
 
 export interface SwimStep extends BaseStep {
-    type: 'SWIM_DISTANCE' | 'SWIM_TIME' | 'WARMUP' | 'COOLDOWN';
+    type: 'SWIM_DISTANCE' | 'SWIM_TIME' | 'SWIM_WARMUP' | 'SWIM_COOLDOWN';
     distance: number | null;
     time: number | null;
     gear: swimGear[];
@@ -68,7 +76,7 @@ export interface SwimStep extends BaseStep {
 }
 
 export interface RunStep extends BaseStep {
-    type: 'RUN_DISTANCE' | 'RUN_TIME' | 'RUN_CALORIES' | 'WARMUP' | 'COOLDOWN';
+    type: 'RUN_DISTANCE' | 'RUN_TIME' | 'RUN_CALORIES' | 'RUN_WARMUP' | 'RUN_COOLDOWN';
     distance: number;
     calories: number;
     time: number | null;
@@ -76,7 +84,7 @@ export interface RunStep extends BaseStep {
 }
 
 export interface GymStep extends BaseStep {
-    type: 'GYM_EXERCISE' | 'GYM_INTERVAL' | 'WARMUP' | 'COOLDOWN';
+    type: 'GYM_EXERCISE' | 'GYM_INTERVAL' | 'GYM_WARMUP' | 'GYM_COOLDOWN';
     exercise: string;
     byTime: boolean;
     reps: number;

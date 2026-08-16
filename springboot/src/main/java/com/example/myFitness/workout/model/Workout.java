@@ -46,7 +46,10 @@ public class Workout {
         this.steps = steps;
     }
 
-     public Workout(String id, String name, String category, List<Step> steps) {
+    public Workout() {
+    }
+
+    public Workout(String id, String name, String category, List<Step> steps) {
         this.id = id;
         this.name = name;
         this.category = category;

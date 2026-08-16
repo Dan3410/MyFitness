@@ -6,9 +6,9 @@ export const getStepLabel = (currentStep: WorkoutStep) => {
       return `Descanso (${(currentStep as RestStep).seconds}s)`;
     case stepType.SET:
       return `Set x${(currentStep as WorkoutSet).repeat}`;
-    case stepType.WARMUP:
+    case stepType.SWIMWARMUP || stepType.RUNWARMUP || stepType.GYMWARMUP:
       return 'Calentamiento';
-    case stepType.COOLDOWN:
+    case stepType.SWIMCOOLDOWN || stepType.RUNCOOLDOWN || stepType.GYMCOOLDOWN:
       return 'Enfriamiento';
     case stepType.SWIMDISTANCE:
         return `Distancia: ${(currentStep as SwimStep).distance ?? 0}m (${(currentStep as SwimStep).stroke})`;
