@@ -42,6 +42,10 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     navigate("/workout/edit/" + workout.id);
   }
 
+  const createWorkout = () => {
+    navigate('/workout/categories');
+  }
+
   const deleteWorkout = (id: string) => {
     workoutService.deleteWorkout(id).then((list: WorkoutListItem[]) => {
       setList(list)
@@ -75,6 +79,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       <h2>
         Rutinas de ejercicio
       </h2>
+      <MFButton theme={ComponentTheme.workout} type="button" onClickEvent={createWorkout}>Crear rutina</MFButton>
     </div>
   </div>
     <MFFormField theme={ComponentTheme.workout}>

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Workout } from '../../../../models/workout';
 import { WorkoutStep, WorkoutSet } from '../../../../models/workoutSteps';
 import MFButton from '../../../../components/mf-button/mf-button';
@@ -10,6 +10,7 @@ import styles from './workoutEditor.module.scss';
 import StepEditor from '../../components/stepEditor/stepEditor';
 import StepsList from '../../components/stepsList/stepsList';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
+import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import MFModal from '../../../../components/mf-modal/mf-modal';
 
 interface WorkoutEditorProps { }
@@ -21,6 +22,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const id = useParams().id;
+  const [searchParams] = useSearchParams();
   const navigate: NavigateFunction = useNavigate();
 
   const getWorkout = async () => {
@@ -28,15 +30,30 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
       return;
     }
 
+    if (id === 'new') {
+      const categoryFromQuery = searchParams.get('category');
+      const category = categoryFromQuery === 'swim' || categoryFromQuery === 'run' || categoryFromQuery === 'gym'
+        ? categoryFromQuery
+        : 'gym';
+
+      setWorkout({
+        id: '',
+        name: 'Nueva rutina',
+        category,
+        steps: []
+      });
+      setSelectedStepIndex(null);
+      return;
+    }
+
     const res = await workoutService.getWorkoutSteps(id);
     setWorkout(res);
-    console.log(res)
     setSelectedStepIndex(res?.steps?.length ? 0 : null);
   };
 
   useEffect(() => {
     void getWorkout();
-  }, [id]);
+  }, [id, searchParams]);
 
   const updateSelectedStep = (updatedStep: WorkoutStep) => {
     if (workout === undefined || selectedStepIndex === null) {
@@ -70,11 +87,24 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   };
 
   const saveWorkout = async () => {
-    if (!workout || !id) return;
+    if (!workout) return;
     setSaving(true);
     try {
-      const res = await workoutService.editWorkout(id, workout);
-      console.log(res)
+      const payload = {
+        ...workout,
+        name: workout.name.trim() || 'Nueva rutina',
+        category: workout.category || 'gym'
+      };
+
+      const currentWorkoutId = id ?? 'new';
+      const res = currentWorkoutId === 'new'
+        ? await workoutService.createWorkout('0', payload)
+        : await workoutService.editWorkout(currentWorkoutId, payload);
+
+      if (res && res.id) {
+        setWorkout(res);
+      }
+
       setSaved(true);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Ocurrió un error al guardar la rutina';
@@ -111,8 +141,19 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     <>
       <div className="pageHeader">
         <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: workout.name }]} />
+        <div className={styles.nameEditor}>
+          <MFFormField theme={ComponentTheme.workout}>
+            <label>Nombre de la rutina</label>
+            <input
+              type="text"
+              value={workout.name}
+              onChange={(event) => setWorkout({ ...workout, name: event.target.value })}
+              placeholder="Escribe el nombre de la rutina"
+            />
+          </MFFormField>
+        </div>
         <h2 className={styles.title}>
-          {`${workoutTypeLabel}: ${workout.name}`}
+          {`${workoutTypeLabel}: ${workout.name || 'Nueva rutina'}`}
         </h2>
 
       </div>

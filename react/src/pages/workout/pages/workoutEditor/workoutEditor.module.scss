@@ -3,6 +3,26 @@
   margin: 0;
 }
 
+.nameEditor {
+  margin-top: 16px;
+  margin-bottom: 12px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 1rem;
+    outline: none;
+  }
+}
+
 .editorLayout {
   display: grid;
   grid-template-columns: minmax(280px, 1.1fr) minmax(320px, 1.2fr);

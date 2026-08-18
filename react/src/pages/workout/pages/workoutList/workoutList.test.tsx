@@ -1,9 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import WorkoutSwim from './workoutList';
+import { createRoot } from 'react-dom/client';
+import { MemoryRouter } from 'react-router-dom';
+import WorkoutList from './workoutList';
 
-it('It should mount', () => {
+it('renders the create workout button', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<WorkoutSwim />, div);
-  ReactDOM.unmountComponentAtNode(div);
+  const root = createRoot(div);
+
+  root.render(
+    <MemoryRouter>
+      <WorkoutList />
+    </MemoryRouter>
+  );
+
+  expect(div.textContent).toContain('Crear rutina');
+  root.unmount();
 });

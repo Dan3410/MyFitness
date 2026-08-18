@@ -119,7 +119,47 @@ public class WorkoutService {
   }
 
   public Workout createWorkout(String id, Workout workout) {
-    return workouts[0];
+    if (workout == null) {
+      return null;
+    }
+
+    if (workout.getId() == null || workout.getId().isBlank()) {
+      workout.setId(String.valueOf(workouts.length));
+    }
+
+    Workout[] updatedWorkouts = Arrays.copyOf(workouts, workouts.length + 1);
+    updatedWorkouts[workouts.length] = workout;
+    workouts = updatedWorkouts;
+    syncWorkoutListItem(workout);
+
+    return workout;
+  }
+
+  private void syncWorkoutListItem(Workout updatedWorkout) {
+    if (updatedWorkout == null) {
+      return;
+    }
+
+    List<WorkoutListItem> list = new ArrayList<>(Arrays.asList(workoutsListItems));
+    for (WorkoutListItem item : list) {
+      if (item.getId().equals(Integer.parseInt(updatedWorkout.getId()))) {
+        item.setName(updatedWorkout.getName());
+        item.setCategory(WorkoutListItem.Category.valueOf(updatedWorkout.getCategory().toUpperCase()));
+        item.setModifiedDate(LocalDate.now());
+        workoutsListItems = list.toArray(new WorkoutListItem[0]);
+        return;
+      }
+    }
+
+    list.add(new WorkoutListItem(
+        Integer.parseInt(updatedWorkout.getId()),
+        updatedWorkout.getName(),
+        WorkoutListItem.Category.valueOf(updatedWorkout.getCategory().toUpperCase()),
+        updatedWorkout.getSteps() == null ? 0 : updatedWorkout.getSteps().stream().mapToInt(step -> 0).sum(),
+        LocalDate.now(),
+        LocalDate.now(),
+        LocalDate.now()));
+    workoutsListItems = list.toArray(new WorkoutListItem[0]);
   }
 
   public Workout getWorkout(String id) {
@@ -134,6 +174,7 @@ public class WorkoutService {
         workout.setName(newWorkout.getName());
         workout.setCategory(newWorkout.getCategory());
         workout.setSteps(newWorkout.getSteps());
+        syncWorkoutListItem(workout);
         return workout; // edit successful
       }
     }

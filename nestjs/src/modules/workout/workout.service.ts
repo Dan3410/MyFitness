@@ -43,6 +43,13 @@ export class WorkoutService {
     return response.data;
   }
 
+  async createWorkout(id: string, workout: Workout): Promise<Workout> {
+    const response = await firstValueFrom(
+      this.httpService.post<Workout>(`${this.workoutApiUrl}/${id}`, workout),
+    );
+    return response.data;
+  }
+
   async editWorkout(id: string, workout: Workout): Promise<Workout> {
     console.log(workout);
     const response = await firstValueFrom(
