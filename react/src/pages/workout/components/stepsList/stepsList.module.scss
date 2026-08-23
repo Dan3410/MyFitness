@@ -17,9 +17,9 @@
 }
 
 .runSteps {
-  --selected-step-color: #e4ff49;
+  --selected-step-color: #3ec400;
   --selected-step-shadow: rgba(228, 255, 73, 0.15);
-  --hover-step-color: #b5cc3a;
+  --hover-step-color: #357a20;
 }
 
 .defaultSteps {
@@ -30,13 +30,13 @@
 
 .sectionTitle {
   margin: 0 0 8px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600; 
 }
 
 .stepItem {
   width: 100%;
-  border: var(--steps-border-width) solid #e2e8f0;
+  border: var(--steps-border-width) solid #b4b4b4;
   border-radius: 12px;
   padding: 10px;
   background: #000;
@@ -51,7 +51,7 @@
 
 .stepItem.selected {
   border-color: var(--selected-step-color, #0051ff);
-  box-shadow: 0 0 0 2px var(--selected-step-shadow, rgba(37, 99, 235, 0.15));
+  box-shadow: 0 0 0 4px var(--selected-step-shadow, rgba(37, 99, 235, 0.15));
 }
 
 .emptyState {

@@ -82,6 +82,13 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
     setSelectedNestedIndex(nextSteps.length - 1);
   };
 
+  const addNestedSet = () => {
+    const newStep: WorkoutSet = { type: StepType.SET, repeat: 1, steps: [] };
+    const nextSteps = [...step.steps, newStep];
+    onChange({ ...step, steps: nextSteps });
+    setSelectedNestedIndex(nextSteps.length - 1);
+  };
+
   return (
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
@@ -121,6 +128,7 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
         <div className={styles.addStepButton}>
           <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
           <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedRestStep}>Agregar descanso</MFButton>
+          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedSet}>Agregar set</MFButton>
         </div>
       </div>
       {selectedNestedStep ? (
