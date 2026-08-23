@@ -4,12 +4,13 @@ import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
 import { ComponentTheme } from '../../../../../themes/enums';
 import { GymStep, WorkoutStep, StepType } from '../../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../../models/workoutCategories';
 import styles from './../stepEditor.module.scss';
 import { CONST_GYM_STEP_TYPE_OPTIONS } from '../../../../../const/gymStepTypeOptions';
 
 interface GymStepEditorProps {
   step: GymStep;
-  workoutCategory: string;
+  workoutCategory: WorkoutCategory;
   onChange: (step: WorkoutStep) => void;
   onDelete: () => void;
 }
@@ -18,7 +19,7 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
   return (
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
-        <h3 className={styles.title}>{workoutCategory === 'gym' ? 'Editar ejercicio' : 'Editar paso'}</h3>
+        <h3 className={styles.title}>{workoutCategory === WorkoutCategory.GYM ? 'Editar ejercicio' : 'Editar paso'}</h3>
         <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
       <MFSelector

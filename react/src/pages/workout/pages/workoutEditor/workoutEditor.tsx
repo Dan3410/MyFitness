@@ -1,7 +1,17 @@
 import { FC, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Workout } from '../../../../models/workout';
-import { WorkoutStep, WorkoutSet, StepType } from '../../../../models/workoutSteps';
+import {
+  WorkoutStep,
+  WorkoutSet,
+  GymStep,
+  RunStep,
+  SwimStep,
+  RestStep,
+  StepType,
+  SwimStroke,
+} from '../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../models/workoutCategories';
 import MFButton from '../../../../components/mf-button/mf-button';
 import { ComponentTheme } from '../../../../themes/enums';
 import { workoutService } from '../../../../services/workoutService';
@@ -32,9 +42,10 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
 
     if (id === 'new') {
       const categoryFromQuery = searchParams.get('category');
-      const category = categoryFromQuery === 'swim' || categoryFromQuery === 'run' || categoryFromQuery === 'gym'
-        ? categoryFromQuery
-        : 'gym';
+      const category = Object.values(WorkoutCategory).includes(categoryFromQuery as WorkoutCategory)
+        && categoryFromQuery !== WorkoutCategory.ALL
+        ? categoryFromQuery as WorkoutCategory
+        : WorkoutCategory.GYM;
 
       setWorkout({
         id: '',
@@ -74,6 +85,35 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     setSelectedStepIndex(nextSteps.length - 1);
   };
 
+  const addExercise = () => {
+    if (!workout) return;
+
+    let newStep: WorkoutStep;
+
+    if (workout.category === WorkoutCategory.GYM) {
+      newStep = { type: StepType.EXERCISE, exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
+    } else if (workout.category === WorkoutCategory.SWIM) {
+      newStep = { type: StepType.SWIMDISTANCE, distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
+    } else if (workout.category === WorkoutCategory.RUN) {
+      newStep = { type: StepType.RUNDISTANCE, distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
+    } else {
+      newStep = { type: StepType.REST, seconds: 30 };
+    }
+
+    const nextSteps = [...workout.steps, newStep];
+    setWorkout({ ...workout, steps: nextSteps });
+    setSelectedStepIndex(nextSteps.length - 1);
+  };
+
+  const addRestStep = () => {
+    if (!workout) return;
+
+    const newStep: RestStep = { type: StepType.REST, seconds: 30 };
+    const nextSteps = [...workout.steps, newStep];
+    setWorkout({ ...workout, steps: nextSteps });
+    setSelectedStepIndex(nextSteps.length - 1);
+  };
+
   const deleteSelectedStep = () => {
     if (workout === undefined || selectedStepIndex === null) {
       return;
@@ -93,7 +133,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
       const payload = {
         ...workout,
         name: workout.name.trim() || 'Nueva rutina',
-        category: workout.category || 'gym'
+        category: workout.category || WorkoutCategory.GYM
       };
 
       const currentWorkoutId = id ?? 'new';
@@ -127,11 +167,11 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     return <div>Cargando...</div>;
   }
 
-  const workoutTypeLabel = workout.category === 'swim'
+  const workoutTypeLabel = workout.category === WorkoutCategory.SWIM
     ? 'Entrenamiento de natación'
-    : workout.category === 'gym'
+    : workout.category === WorkoutCategory.GYM
       ? 'Entrenamiento de gimnasio'
-      : workout.category === 'run'
+      : workout.category === WorkoutCategory.RUN
         ? 'Entrenamiento de carrera'
         : 'Entrenamiento';
 
@@ -167,6 +207,8 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
           />
           <div className={styles.stepsActions}>
             <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addSet}>Agregar set</MFButton>
+            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addExercise}>Agregar ejercicio</MFButton>
+            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addRestStep}>Agregar descanso</MFButton>
           </div>
         </div>
         <div className={styles.editorColumn}>

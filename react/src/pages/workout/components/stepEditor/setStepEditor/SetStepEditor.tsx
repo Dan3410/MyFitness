@@ -12,13 +12,14 @@ import {
   StepType,
   SwimStroke,
 } from '../../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../../models/workoutCategories';
 import styles from './../stepEditor.module.scss';
 import StepEditor from '../stepEditor';
 import { getStepLabel } from '../stepEditorUtils';
 
 interface SetStepEditorProps {
   step: WorkoutSet;
-  workoutCategory: string;
+  workoutCategory: WorkoutCategory;
   onChange: (step: WorkoutStep) => void;
   onDelete: () => void;
 }
@@ -59,16 +60,23 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
   const addNestedStep = () => {
     let newStep: WorkoutStep;
 
-    if (workoutCategory === 'gym') {
+    if (workoutCategory === WorkoutCategory.GYM) {
       newStep = { type: StepType.EXERCISE, exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
-    } else if (workoutCategory === 'swim') {
+    } else if (workoutCategory === WorkoutCategory.SWIM) {
       newStep = { type: StepType.SWIMDISTANCE, distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
-    } else if (workoutCategory === 'run') {
+    } else if (workoutCategory === WorkoutCategory.RUN) {
       newStep = { type: StepType.RUNDISTANCE, distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
     } else {
       newStep = { type: StepType.REST, seconds: 30 } as RestStep;
     }
 
+    const nextSteps = [...step.steps, newStep];
+    onChange({ ...step, steps: nextSteps });
+    setSelectedNestedIndex(nextSteps.length - 1);
+  };
+
+  const addNestedRestStep = () => {
+    const newStep: RestStep = { type: StepType.REST, seconds: 30 };
     const nextSteps = [...step.steps, newStep];
     onChange({ ...step, steps: nextSteps });
     setSelectedNestedIndex(nextSteps.length - 1);
@@ -111,7 +119,8 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
           </div>
         )}
         <div className={styles.addStepButton}>
-        <MFButton  theme={ComponentTheme.generic} type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
+          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
+          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedRestStep}>Agregar descanso</MFButton>
         </div>
       </div>
       {selectedNestedStep ? (

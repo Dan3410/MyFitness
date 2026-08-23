@@ -1,3 +1,5 @@
+import { WorkoutCategory } from '../models/workoutCategories';
+
 const API_URL = 'http://localhost:3000/workout/'
 
 class WorkoutService {
@@ -9,7 +11,7 @@ class WorkoutService {
         }).catch((err: Error) => err)
     }
 
-    async getWorkoutsListItem(id: string, category: string) {
+    async getWorkoutsListItem(id: string, category: WorkoutCategory) {
         return fetch(API_URL + "list/" + id + `?category=${category}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }

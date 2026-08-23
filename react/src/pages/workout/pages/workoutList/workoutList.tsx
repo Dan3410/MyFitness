@@ -7,7 +7,7 @@ import MFModal from '../../../../components/mf-modal/mf-modal';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
-import { WorkoutCategory } from '../../../../models/workoutCategories';
+import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { NavigateFunction, useNavigate, useSearchParams } from 'react-router-dom';
 
 interface WorkoutListProps { }
@@ -18,7 +18,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const [list, setList] = useState<WorkoutListItem[]>([])
   const [open, setOpen] = useState<boolean>(false)
   const [workoutSelected, setWorkoutSelected] = useState<WorkoutListItem | undefined>(undefined)
-  const [categories, setCategories] = useState<WorkoutCategory[]>()
+  const [categories, setCategories] = useState<WorkoutCategoryOption[]>()
   const [category, setCategory] = useState<string>("")
   const navigate: NavigateFunction = useNavigate();
 
@@ -30,7 +30,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const getWorkoutList = async () => {
     //Falta ver que esto no salte dos veces
     let category = searchParams.get("category")
-    setList(await workoutService.getWorkoutsListItem("0", category ? category : "all"))
+    setList(await workoutService.getWorkoutsListItem("0", category as WorkoutCategory || WorkoutCategory.ALL))
   }
 
   const openDeletePopup = (workout: WorkoutListItem) => {
@@ -85,7 +85,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     <MFFormField theme={ComponentTheme.workout}>
       <label>Actividad</label>
       <select name="category" value={category} onChange={handleCategoryChange}>
-        {categories && categories.map((item: WorkoutCategory) => (
+        {categories && categories.map((item) => (
           <option key={item.value} value={item.value}>{item.label}</option>
         ))}
       </select>

@@ -1,11 +1,12 @@
 import { FC } from 'react';
 import styles from '../step.module.scss';
 import { WorkoutSet } from '../../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../../models/workoutCategories';
 import Step from '../step';
 
 interface SetStepProps {
   step: WorkoutSet;
-  workoutCategory: string;
+  workoutCategory: WorkoutCategory;
 }
 
 const SetStep: FC<SetStepProps> = ({ step, workoutCategory }) => {

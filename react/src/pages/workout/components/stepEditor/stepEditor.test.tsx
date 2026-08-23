@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import StepEditor from './stepEditor';
+import { WorkoutCategory } from '../../../../models/workoutCategories';
 import { RestStep, StepType } from '../../../../models/workoutSteps';
 
 it('renders the selected step details', () => {
@@ -10,7 +11,7 @@ it('renders the selected step details', () => {
   const root = createRoot(div);
 
   root.render(
-    <StepEditor step={step} workoutCategory="gym" onChange={() => {}} onDelete={() => {}} />,
+    <StepEditor step={step} workoutCategory={WorkoutCategory.GYM} onChange={() => {}} onDelete={() => {}} />,
   );
 
   expect(div.textContent).toContain('Editar paso');

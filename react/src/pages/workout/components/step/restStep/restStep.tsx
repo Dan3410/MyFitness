@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import styles from '../step.module.scss';
 import { RestStep as RestStepType } from '../../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../../models/workoutCategories';
 
 interface RestStepProps {
   step: RestStepType;
-  workoutCategory: string;
+  workoutCategory: WorkoutCategory;
 }
 
 const RestStep: FC<RestStepProps> = ({ step, workoutCategory }) => {

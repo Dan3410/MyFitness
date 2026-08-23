@@ -8,6 +8,7 @@ import {
   WorkoutStep,
   StepType,
 } from '../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../models/workoutCategories';
 import styles from './stepEditor.module.scss';
 import RestStepEditor from './restStepEditor/RestStepEditor';
 import SetStepEditor from './setStepEditor/SetStepEditor';
@@ -17,7 +18,7 @@ import GymStepEditor from './gymStepEditor/GymStepEditor';
 
 interface StepEditorProps {
   step: WorkoutStep | null;
-  workoutCategory: string;
+  workoutCategory: WorkoutCategory;
   onChange: (step: WorkoutStep) => void;
   onDelete: () => void;
 }

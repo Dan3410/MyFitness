@@ -8,6 +8,7 @@ import {
   RestStep as RestStepType,
   WorkoutStep,
 } from '../../../../models/workoutSteps';
+import { WorkoutCategory } from '../../../../models/workoutCategories';
 import GymStep from './gymStep/gymStep';
 import SwimStep from './swimStep/swimStep';
 import RunStep from './runStep/runStep';
@@ -15,7 +16,7 @@ import RestStep from './restStep/restStep';
 import SetStep from './setStep/setStep';
 
 interface StepProps {
-  workoutCategory: string;
+  workoutCategory: WorkoutCategory;
   step: WorkoutStep;
 }
 
@@ -28,11 +29,11 @@ const Step: FC<StepProps> = ({ workoutCategory, step }) => {
   }
 
   switch (workoutCategory) {
-    case 'gym':
+    case WorkoutCategory.GYM:
       return <GymStep step={step as GymStepType} />;
-    case 'swim':
+    case WorkoutCategory.SWIM:
       return <SwimStep step={step as SwimStepType} />;
-    case 'run':
+    case WorkoutCategory.RUN:
       return <RunStep step={step as RunStepType} />;
     default:
       return null;

@@ -1,9 +1,9 @@
-export type WorkoutCategoryValue = 'swim' | 'gym' | 'run';
+import { WorkoutCategory } from './workoutCategories';
 
 export interface WorkoutListItem {
     id: string
     name: string
-    category: WorkoutCategoryValue
+    category: WorkoutCategory
     estimatedTime: number
     lastTimeDone: String
     createdDate: String
