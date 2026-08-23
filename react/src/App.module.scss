@@ -31,3 +31,15 @@
   --scrollbar-thumb-color: rgb(55, 180, 110);
 
 }
+
+:global(html[data-workout-category='gym']) {
+  --scrollbar-thumb-color: #ff4949;
+}
+
+:global(html[data-workout-category='swim']) {
+  --scrollbar-thumb-color: #4992ff;
+}
+
+:global(html[data-workout-category='run']) {
+  --scrollbar-thumb-color: #e4ff49;
+}

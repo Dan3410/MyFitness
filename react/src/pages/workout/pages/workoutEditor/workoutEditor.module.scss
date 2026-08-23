@@ -4,11 +4,54 @@
 }
 
 .editorPage {
+  --editor-accent-color: #326ce7;
+  --steps-column-background-color: #00031e;
+  --nested-step-background-color: #00031e;
+  --selector-border-color: rgb(0, 80, 167);
+  --selector-background-color: rgb(30, 35, 82);
+  --selector-selected-color: rgb(0, 80, 167);
+  --form-field-border-color: rgb(0, 80, 167);
+  --form-field-background-color: rgb(30, 35, 82);
+  --form-field-text-color: #fafafaff;
+  background-color: var(--editor-background-color);
   display: flex;
   flex-direction: column;
   height: calc(100vh - 40px);
   min-height: 0;
   overflow: hidden;
+}
+
+.gymEditor {
+  --editor-accent-color: #ff4949;
+  --steps-column-background-color: #140909;
+  --nested-step-background-color: #2c1313;
+  --selector-border-color: #ff4949;
+  --selector-background-color: #2c1313;
+  --selector-selected-color: #c83b3b;
+  --form-field-border-color: #ff4949;
+  --form-field-background-color: #2c1313;
+}
+
+.swimEditor {
+  --editor-accent-color: #4992ff;
+  --steps-column-background-color: #070911;
+  --nested-step-background-color: #13182c;
+  --selector-border-color: #4992ff;
+  --selector-background-color: #13182c;
+  --selector-selected-color: #3673cc;
+  --form-field-border-color: #4992ff;
+  --form-field-background-color: #13182c;
+}
+
+.runEditor {
+  --editor-accent-color: #3ec400;
+  --steps-column-background-color: #0a1106;
+  --nested-step-background-color: #252a0f;
+  --selector-border-color: #3ec400;
+  --selector-background-color: #152a0f;
+  --selector-selected-color: #3b9420;
+  --form-field-border-color: #3b9420;
+  --form-field-background-color: #172a0f;
 }
 
 .nameEditor {
@@ -36,7 +79,8 @@
   margin-top: 16px;
   flex: 1 1 auto;
   min-height: 0;
-  > * {
+
+  >* {
     flex: 1;
     min-width: 0;
     min-height: 0;
@@ -47,25 +91,27 @@
   display: flex;
   justify-content: center;
   margin-top: 16px;
-  column-gap: 20px
+  column-gap: 40px
 }
 
 .stepsColumn,
 .editorColumn {
-  background: #00031e;
+  background: var(--steps-column-background-color);
+  border: 2px solid var(--editor-accent-color);
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
   overflow: auto;
   min-height: 0;
 }
 
-.stepsColumn{
+.stepsColumn {
   padding: 16px 8px 16px 8px;
   border-radius: 16px 0 0 16px;
 }
 
-.editorColumn{
+.editorColumn {
   padding: 16px 8px 16px 8px;
   border-radius: 0px 16px 16px 0px;
+  border-left: none;
 }
 
 @media (max-width: 900px) {

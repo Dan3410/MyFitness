@@ -66,6 +66,16 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     void getWorkout();
   }, [id, searchParams]);
 
+  useEffect(() => {
+    if (workout) {
+      document.documentElement.dataset.workoutCategory = workout.category;
+    }
+
+    return () => {
+      delete document.documentElement.dataset.workoutCategory;
+    };
+  }, [workout?.category]);
+
   const updateSelectedStep = (updatedStep: WorkoutStep) => {
     if (workout === undefined || selectedStepIndex === null) {
       return;
@@ -178,7 +188,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const selectedStep = selectedStepIndex === null ? null : workout.steps[selectedStepIndex] ?? null;
 
   return (
-    <div className={styles.editorPage}>
+    <div className={`${styles.editorPage} ${styles[`${workout.category}Editor`]}`}>
       <div className="pageHeader">
         <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: workout.name }]} />
         <div className={styles.nameEditor}>
@@ -206,9 +216,9 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
             onSelectStep={setSelectedStepIndex}
           />
           <div className={styles.stepsActions}>
-            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addSet}>Agregar set</MFButton>
             <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addExercise}>Agregar ejercicio</MFButton>
             <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addRestStep}>Agregar descanso</MFButton>
+            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addSet}>Agregar set</MFButton>
           </div>
         </div>
         <div className={styles.editorColumn}>

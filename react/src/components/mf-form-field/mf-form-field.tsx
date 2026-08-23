@@ -27,9 +27,9 @@ const MFFormField: FC<MFFormFieldProps> = ({
     <>
       <div className={styles.MFFormField}
         style={{
-          borderColor: disabled ? 'transparent' : inputTheme.borderColor,
-          backgroundColor: inputTheme.backgroundColor,
-          color: inputTheme.textColor,
+          borderColor: disabled ? 'transparent' : `var(--form-field-border-color, ${inputTheme.borderColor})`,
+          backgroundColor: `var(--form-field-background-color, ${inputTheme.backgroundColor})`,
+          color: `var(--form-field-text-color, ${inputTheme.textColor})`,
           opacity: disabled ? 0.85 : 1,
           pointerEvents: disabled ? "none" : "all",
         }}>

@@ -45,13 +45,10 @@
         tbody {
             tr:nth-child(odd) {
                 td {
+                    background-color: rgb(21, 26, 34);
                 }
             }
 
-            tr:nth-child(even) {
-                td {
-                }
-            }
         }
     }
 }

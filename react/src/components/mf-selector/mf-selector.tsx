@@ -72,9 +72,9 @@ const MFSelector: FC<MFSelectorProps> = ({
     <div
       className={styles.selectorContainer}
       style={{
-        borderColor: disabled ? 'transparent' : inputTheme.borderColor,
-        backgroundColor: inputTheme.backgroundColor,
-        color: inputTheme.textColor,
+        borderColor: disabled ? 'transparent' : `var(--selector-border-color, ${inputTheme.borderColor})`,
+        backgroundColor: `var(--selector-background-color, ${inputTheme.backgroundColor})`,
+        color: `var(--selector-text-color, ${inputTheme.textColor})`,
         opacity: disabled ? 0.85 : 1,
         pointerEvents: disabled ? 'none' : 'all',
       }}
@@ -90,9 +90,11 @@ const MFSelector: FC<MFSelectorProps> = ({
               className={`${styles.option} ${isSelected ? styles.selected : ''}`}
               onClick={() => toggleOption(option.value)}
               style={{
-                borderColor: inputTheme.borderColor,
-                backgroundColor: isSelected ? inputTheme.borderColor : inputTheme.backgroundColor,
-                color: inputTheme.textColor,
+                borderColor: 'var(--selector-border-color, ' + inputTheme.borderColor + ')',
+                backgroundColor: isSelected
+                  ? 'var(--selector-selected-color, var(--selector-border-color, ' + inputTheme.borderColor + '))'
+                  : 'var(--selector-background-color, ' + inputTheme.backgroundColor + ')',
+                color: 'var(--selector-text-color, ' + inputTheme.textColor + ')',
               }}
             >
               {option.label}
