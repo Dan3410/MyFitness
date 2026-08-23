@@ -138,7 +138,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const selectedStep = selectedStepIndex === null ? null : workout.steps[selectedStepIndex] ?? null;
 
   return (
-    <>
+    <div className={styles.editorPage}>
       <div className="pageHeader">
         <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: workout.name }]} />
         <div className={styles.nameEditor}>
@@ -191,7 +191,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
         <h2>Error</h2>
         <div className={styles.errorMessage}>{error}</div>
       </MFModal>
-    </>
+    </div>
   );
 };
 

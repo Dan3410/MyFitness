@@ -2,11 +2,11 @@ import type { ButtonTheme, CheckboxTheme, InputTheme, TooltipTheme } from "./int
 
 export const workoutButtonTheme: ButtonTheme = {
     textColor: '#fafafaff',
-    backgroundColor: 'rgb(0, 159, 255)'
+    backgroundColor: 'rgb(0, 130, 211)'
 }
 
 export const workoutInputTheme: InputTheme = {
-    borderColor: "rgb(0, 124, 255)",
+    borderColor: "rgb(0, 80, 167)",
     backgroundColor: "rgb(30, 35, 82)",
     textColor: '#fafafaff'
 }

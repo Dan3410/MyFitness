@@ -2,12 +2,12 @@ import type { ButtonTheme, CheckboxTheme, InputTheme, TooltipTheme } from "./int
 
 export const profileAndHealthButtonTheme : ButtonTheme = {
     textColor: '#ffffffff',
-    backgroundColor: '#0f920fff'
+    backgroundColor: 'rgb(0, 175, 0)'
 }
 
 export const profileAndHealthInputTheme : InputTheme = {
-    borderColor: "rgb(0, 255, 0)",
-    backgroundColor: "rgb(25, 61, 25)",
+    borderColor: "rgb(0, 131, 0)",
+    backgroundColor: "rgb(16, 29, 16)",
     textColor: '#fafafaff'
 }
 

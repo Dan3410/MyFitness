@@ -12,7 +12,7 @@ interface StepsListProps {
 
 const StepsList: FC<StepsListProps> = ({ workout, selectedStepIndex, onSelectStep }) => {
   return (
-    <div className={styles.stepsList}>
+    <div className={`${styles.stepsList} ${styles[`${workout.category}Steps`]}`}>
       <h3 className={styles.sectionTitle}>Pasos del entrenamiento</h3>
       {workout.steps.length === 0 ? (
         <p className={styles.emptyState}>Todavía no hay pasos para editar.</p>

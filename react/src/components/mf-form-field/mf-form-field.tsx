@@ -30,7 +30,7 @@ const MFFormField: FC<MFFormFieldProps> = ({
           borderColor: disabled ? 'transparent' : inputTheme.borderColor,
           backgroundColor: inputTheme.backgroundColor,
           color: inputTheme.textColor,
-          opacity: disabled ? 0.75 : 1,
+          opacity: disabled ? 0.85 : 1,
           pointerEvents: disabled ? "none" : "all",
         }}>
         {children}

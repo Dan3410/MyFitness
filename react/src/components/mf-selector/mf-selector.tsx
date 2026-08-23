@@ -75,7 +75,7 @@ const MFSelector: FC<MFSelectorProps> = ({
         borderColor: disabled ? 'transparent' : inputTheme.borderColor,
         backgroundColor: inputTheme.backgroundColor,
         color: inputTheme.textColor,
-        opacity: disabled ? 0.75 : 1,
+        opacity: disabled ? 0.85 : 1,
         pointerEvents: disabled ? 'none' : 'all',
       }}
     >
@@ -91,8 +91,8 @@ const MFSelector: FC<MFSelectorProps> = ({
               onClick={() => toggleOption(option.value)}
               style={{
                 borderColor: inputTheme.borderColor,
-                backgroundColor: isSelected ? inputTheme.borderColor : 'transparent',
-                color: isSelected ? inputTheme.backgroundColor : inputTheme.textColor,
+                backgroundColor: isSelected ? inputTheme.borderColor : inputTheme.backgroundColor,
+                color: inputTheme.textColor,
               }}
             >
               {option.label}

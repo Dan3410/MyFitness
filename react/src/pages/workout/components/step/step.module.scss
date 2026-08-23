@@ -1,5 +1,5 @@
 .stepCard {
-  border: 1px solid #d1d5db;
+  border: var(--steps-border-width) solid #d1d5db;
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 14px;

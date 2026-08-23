@@ -3,6 +3,14 @@
   margin: 0;
 }
 
+.editorPage {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 40px);
+  min-height: 0;
+  overflow: hidden;
+}
+
 .nameEditor {
   margin-top: 16px;
   margin-bottom: 12px;
@@ -24,10 +32,15 @@
 }
 
 .editorLayout {
-  display: grid;
-  grid-template-columns: minmax(280px, 1.1fr) minmax(320px, 1.2fr);
-  align-items: start;
-  margin-top: 20px;
+  display: flex;
+  margin-top: 16px;
+  flex: 1 1 auto;
+  min-height: 0;
+  > * {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+  }
 }
 
 .stepsActions {
@@ -38,18 +51,19 @@
 
 .stepsColumn,
 .editorColumn {
-  background: #000;
-  padding: 16px;
+  background: #00031e;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
-  height: 78vh;
   overflow: auto;
+  min-height: 0;
 }
 
 .stepsColumn{
+  padding: 16px 8px 16px 8px;
   border-radius: 16px 0 0 16px;
 }
 
 .editorColumn{
+  padding: 16px 8px 16px 8px;
   border-radius: 0px 16px 16px 0px;
 }
 

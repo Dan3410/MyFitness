@@ -4,6 +4,30 @@
   gap: 12px;
 }
 
+.gymSteps {
+  --selected-step-color: #ff4949;
+  --selected-step-shadow: rgba(255, 73, 73, 0.15);
+  --hover-step-color: #c83b3b;
+}
+
+.swimSteps {
+  --selected-step-color: #4992ff;
+  --selected-step-shadow: rgba(73, 146, 255, 0.15);
+  --hover-step-color: #3673cc;
+}
+
+.runSteps {
+  --selected-step-color: #e4ff49;
+  --selected-step-shadow: rgba(228, 255, 73, 0.15);
+  --hover-step-color: #b5cc3a;
+}
+
+.defaultSteps {
+  --selected-step-color: #b3b3b3;
+  --selected-step-shadow: rgba(179, 179, 179, 0.15);
+  --hover-step-color: #8f8f8f;
+}
+
 .sectionTitle {
   margin: 0 0 8px;
   font-size: 1rem;
@@ -12,7 +36,7 @@
 
 .stepItem {
   width: 100%;
-  border: 1px solid #e2e8f0;
+  border: var(--steps-border-width) solid #e2e8f0;
   border-radius: 12px;
   padding: 10px;
   background: #000;
@@ -22,12 +46,12 @@
 }
 
 .stepItem:hover {
-  border-color: #94a3b8;
+  border-color: var(--hover-step-color, #326ce7);
 }
 
 .stepItem.selected {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  border-color: var(--selected-step-color, #0051ff);
+  box-shadow: 0 0 0 2px var(--selected-step-shadow, rgba(37, 99, 235, 0.15));
 }
 
 .emptyState {

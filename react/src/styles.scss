@@ -1,14 +1,25 @@
 * {
   box-sizing: border-box;
+  scrollbar-width: thin;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #root {
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
+
+  --border-radius-big: 24px;
+  --border-radius-medium: 16px;
+  --border-radius-small: 8px;
+  
 }
 
-h1, h2 h3, h4, h5, h6 {
+h1,
+h2 h3,
+h4,
+h5,
+h6 {
   color: #ffffff;
 }
 
@@ -50,41 +61,42 @@ h6 {
   margin: 20px 0
 }
 
-.form-buttons-container{
-    display: flex;
-    margin: 40px 0 0 auto;
-    width: fit-content;
-    column-gap: 40px;
+.form-buttons-container {
+  display: flex;
+  margin: 40px 0 0 auto;
+  width: fit-content;
+  column-gap: 40px;
 }
 
-input {   
-    :focus{
-      outline: none;
-      border: none;
-    }
-    :focus-visible{
-      outline:none;
-      border: none;
-    }
+input {
+  :focus {
+    outline: none;
+    border: none;
+  }
+
+  :focus-visible {
+    outline: none;
+    border: none;
+  }
 }
 
 .pageHeader {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .pageTitleBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .footerActions {
-    display: flex;
-    margin-top: 20px;
-    column-gap: 20px;
-    text-align: right;
+  display: flex;
+  margin-top: 20px;
+  column-gap: 20px;
+  text-align: right;
 }
