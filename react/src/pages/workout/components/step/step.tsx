@@ -24,7 +24,7 @@ const Step: FC<StepProps> = ({ workoutCategory, step }) => {
     return <SetStep step={step as WorkoutSet} workoutCategory={workoutCategory} />;
   }
   if (step.type === StepType.REST) {
-    return <RestStep step={step as RestStepType} />;
+    return <RestStep step={step as RestStepType} workoutCategory={workoutCategory} />;
   }
 
   switch (workoutCategory) {

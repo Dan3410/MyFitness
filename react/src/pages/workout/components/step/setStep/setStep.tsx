@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './setStep.module.scss';
+import styles from '../step.module.scss';
 import { WorkoutSet } from '../../../../../models/workoutSteps';
 import Step from '../step';
 
@@ -10,7 +10,7 @@ interface SetStepProps {
 
 const SetStep: FC<SetStepProps> = ({ step, workoutCategory }) => {
   return (
-    <div className={`${styles.stepCard} ${styles.setStep}`}>
+    <div className={`${styles.stepCard} ${styles.setStep} ${styles[`${workoutCategory}Step`]}`}>
       <div className={styles.setHeader}>
         <div className={styles.stepLabel}>{`Repetir ${step.repeat}x`}</div>
       </div>

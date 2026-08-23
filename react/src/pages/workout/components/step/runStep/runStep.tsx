@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './runStep.module.scss';
+import styles from '../step.module.scss';
 import { RunStep as RunStepType, StepType } from '../../../../../models/workoutSteps';
 
 interface RunStepProps {
@@ -20,7 +20,7 @@ const RunStep: FC<RunStepProps> = ({ step }) => {
       : `${step.calories} kcal`;
 
   return (
-    <div className={styles.stepCard}>
+    <div className={`${styles.stepCard} ${styles.runStep}`}>
       <div className={styles.stepHeader}>
         <div>
           <div className={styles.stepTitle}>{title}</div>

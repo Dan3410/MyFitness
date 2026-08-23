@@ -1,14 +1,15 @@
 import { FC } from 'react';
-import styles from './restStep.module.scss';
+import styles from '../step.module.scss';
 import { RestStep as RestStepType } from '../../../../../models/workoutSteps';
 
 interface RestStepProps {
   step: RestStepType;
+  workoutCategory: string;
 }
 
-const RestStep: FC<RestStepProps> = ({ step }) => {
+const RestStep: FC<RestStepProps> = ({ step, workoutCategory }) => {
   return (
-    <div className={`${styles.stepCard} ${styles.step}`}>
+    <div className={`${styles.stepCard} ${styles.step} ${styles.restStep} ${styles[`${workoutCategory}Step`]}`}>
       <div className={styles.stepHeader}>
         <div className={styles.stepTitle}>Descanso</div>
         <div className={styles.stepLabel}>Descanso</div>

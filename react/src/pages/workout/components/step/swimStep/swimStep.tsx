@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './swimStep.module.scss';
+import styles from '../step.module.scss';
 import { SwimStep as SwimStepType, StepType } from '../../../../../models/workoutSteps';
 
 interface SwimStepProps {
@@ -15,7 +15,7 @@ const SwimStep: FC<SwimStepProps> = ({ step }) => {
   const gearText = step.gear.length > 0 ? step.gear.join(', ') : null;
 
   return (
-    <div className={styles.stepCard}>
+    <div className={`${styles.stepCard} ${styles.swimStep}`}>
       <div className={styles.stepHeader}>
         <div>
           <div className={styles.stepTitle}>{title}</div>

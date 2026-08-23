@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './gymStep.module.scss';
+import styles from '../step.module.scss';
 import { GymStep as GymStepType } from '../../../../../models/workoutSteps';
 
 interface GymStepProps {
@@ -14,7 +14,7 @@ const GymStep: FC<GymStepProps> = ({ step }) => {
     : repetitionLabel;
 
   return (
-    <div className={`${styles.stepCard} ${styles.step}`}>
+    <div className={`${styles.stepCard} ${styles.step} ${styles.gymStep}`}>
       <div className={styles.stepHeader}>
         <div>
           <div className={styles.stepTitle}>{exerciseLabel}</div>
