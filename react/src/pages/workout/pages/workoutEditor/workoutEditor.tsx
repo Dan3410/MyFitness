@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Workout } from '../../../../models/workout';
-import { WorkoutStep, WorkoutSet } from '../../../../models/workoutSteps';
+import { WorkoutStep, WorkoutSet, StepType } from '../../../../models/workoutSteps';
 import MFButton from '../../../../components/mf-button/mf-button';
 import { ComponentTheme } from '../../../../themes/enums';
 import { workoutService } from '../../../../services/workoutService';
@@ -68,7 +68,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const addSet = () => {
     if (!workout) return;
 
-    const newSet: WorkoutSet = { type: 'SET', repeat: 1, steps: [] };
+    const newSet: WorkoutSet = { type: StepType.SET, repeat: 1, steps: [] };
     const nextSteps = [...workout.steps, newSet];
     setWorkout({ ...workout, steps: nextSteps });
     setSelectedStepIndex(nextSteps.length - 1);

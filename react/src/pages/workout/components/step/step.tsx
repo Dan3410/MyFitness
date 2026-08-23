@@ -2,7 +2,7 @@ import { FC } from 'react';
 import {
   GymStep as GymStepType,
   RunStep as RunStepType,
-  stepType,
+  StepType,
   SwimStep as SwimStepType,
   WorkoutSet,
   RestStep as RestStepType,
@@ -20,10 +20,10 @@ interface StepProps {
 }
 
 const Step: FC<StepProps> = ({ workoutCategory, step }) => {
-  if (step.type === stepType.SET) {
+  if (step.type === StepType.SET) {
     return <SetStep step={step as WorkoutSet} workoutCategory={workoutCategory} />;
   }
-  if (step.type === stepType.REST) {
+  if (step.type === StepType.REST) {
     return <RestStep step={step as RestStepType} />;
   }
 

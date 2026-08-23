@@ -3,7 +3,7 @@ import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
 import { ComponentTheme } from '../../../../../themes/enums';
-import { RunStep, WorkoutStep, stepType } from '../../../../../models/workoutSteps';
+import { RunStep, WorkoutStep, StepType } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import { CONST_RUN_STEP_TYPE_OPTIONS } from '../../../../../const/runStepTypeOptions';
 
@@ -37,7 +37,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
           onChange={(event) => onChange({ ...step, distance: Number(event.target.value) || 0 })}
         />
       </MFFormField>
-      {step.type === stepType.RUNTIME ? (
+      {step.type === StepType.RUNTIME ? (
         <>
           <MFFormField theme={ComponentTheme.workout}>
             <label>Tiempo</label>
@@ -59,7 +59,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
           </MFFormField>
         </>
       ) : null}
-      {step.type === stepType.RUNCALORIES ? (
+      {step.type === StepType.RUNCALORIES ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Calorías</label>
           <input

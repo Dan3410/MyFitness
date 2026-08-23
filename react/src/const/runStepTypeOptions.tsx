@@ -1,10 +1,10 @@
 import { Option } from "../models/option";
-import { stepType } from "../models/workoutSteps";
+import { StepType } from "../models/workoutSteps";
 
 export const CONST_RUN_STEP_TYPE_OPTIONS: Array<Option> = [
-    { label: 'Distancia', value: stepType.RUNDISTANCE },
-    { label: 'Tiempo', value: stepType.RUNTIME },
-    { label: 'Calorías', value: stepType.RUNCALORIES },
-    { label: 'Calentamiento', value: stepType.RUNWARMUP },
-    { label: 'Enfriamiento', value: stepType.RUNCOOLDOWN },
+    { label: 'Distancia', value: StepType.RUNDISTANCE },
+    { label: 'Tiempo', value: StepType.RUNTIME },
+    { label: 'Calorías', value: StepType.RUNCALORIES },
+    { label: 'Calentamiento', value: StepType.RUNWARMUP },
+    { label: 'Enfriamiento', value: StepType.RUNCOOLDOWN },
 ]

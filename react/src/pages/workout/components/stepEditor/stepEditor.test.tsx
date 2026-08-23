@@ -1,21 +1,21 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import StepEditor from './stepEditor';
-import { stepType } from '../../../../models/workoutSteps';
+import { RestStep, StepType } from '../../../../models/workoutSteps';
 
 it('renders the selected step details', () => {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
-  const step = { type: stepType.REST, seconds: 45 };
+  const step: RestStep = { type: StepType.REST, seconds: 45 };
+  const root = createRoot(div);
 
-  ReactDOM.render(
+  root.render(
     <StepEditor step={step} workoutCategory="gym" onChange={() => {}} onDelete={() => {}} />,
-    div,
   );
 
   expect(div.textContent).toContain('Editar paso');
   expect(div.textContent).toContain('Segundos');
 
-  ReactDOM.unmountComponentAtNode(div);
+  root.unmount();
   div.remove();
 });

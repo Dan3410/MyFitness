@@ -6,7 +6,7 @@ import {
   SwimStep,
   WorkoutSet,
   WorkoutStep,
-  stepType,
+  StepType,
 } from '../../../../models/workoutSteps';
 import styles from './stepEditor.module.scss';
 import RestStepEditor from './restStepEditor/RestStepEditor';
@@ -26,7 +26,7 @@ const StepEditor: FC<StepEditorProps> = ({ step, workoutCategory, onChange, onDe
   const [selectedNestedIndex, setSelectedNestedIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (step && step.type === stepType.SET) {
+    if (step && step.type === StepType.SET) {
       const setStep = step as WorkoutSet;
       if (setStep.steps.length > 0 && (selectedNestedIndex === null || selectedNestedIndex >= setStep.steps.length)) {
         setSelectedNestedIndex(0);
@@ -49,31 +49,31 @@ const StepEditor: FC<StepEditorProps> = ({ step, workoutCategory, onChange, onDe
     onChange(updatedStep);
   };
 
-  if (step.type === stepType.REST) {
+  if (step.type === StepType.REST) {
     return <RestStepEditor step={step as RestStep} onChange={updateStep} onDelete={onDelete} />;
   }
 
-  if (step.type === stepType.SET) {
+  if (step.type === StepType.SET) {
     return <SetStepEditor step={step as WorkoutSet} workoutCategory={workoutCategory} onChange={updateStep} onDelete={onDelete} />;
   }
 
-  if (step.type === stepType.SWIMWARMUP || step.type === stepType.SWIMCOOLDOWN) {
+  if (step.type === StepType.SWIMWARMUP || step.type === StepType.SWIMCOOLDOWN) {
     return <SwimStepEditor step={step as SwimStep} onChange={updateStep} onDelete={onDelete} />;
 
   }
-  if (step.type === stepType.RUNWARMUP || step.type === stepType.RUNCOOLDOWN) {
+  if (step.type === StepType.RUNWARMUP || step.type === StepType.RUNCOOLDOWN) {
     return <RunStepEditor step={step as RunStep} onChange={updateStep} onDelete={onDelete} />;
   }
 
-  if (step.type === stepType.GYMWARMUP || step.type === stepType.GYMCOOLDOWN) {
+  if (step.type === StepType.GYMWARMUP || step.type === StepType.GYMCOOLDOWN) {
     return <GymStepEditor step={step as GymStep} workoutCategory={workoutCategory} onChange={updateStep} onDelete={onDelete} />;
   }
 
-  if (step.type === stepType.SWIMDISTANCE || step.type === stepType.SWIMTIME) {
+  if (step.type === StepType.SWIMDISTANCE || step.type === StepType.SWIMTIME) {
     return <SwimStepEditor step={step as SwimStep} onChange={updateStep} onDelete={onDelete} />;
   }
 
-  if (step.type === stepType.RUNDISTANCE || step.type === stepType.RUNTIME || step.type === stepType.RUNCALORIES) {
+  if (step.type === StepType.RUNDISTANCE || step.type === StepType.RUNTIME || step.type === StepType.RUNCALORIES) {
     return <RunStepEditor step={step as RunStep} onChange={updateStep} onDelete={onDelete} />;
   }
 

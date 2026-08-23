@@ -3,7 +3,7 @@ import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
 import { ComponentTheme } from '../../../../../themes/enums';
-import { GymStep, WorkoutStep, stepType } from '../../../../../models/workoutSteps';
+import { GymStep, WorkoutStep, StepType } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import { CONST_GYM_STEP_TYPE_OPTIONS } from '../../../../../const/gymStepTypeOptions';
 
@@ -30,7 +30,7 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         value={step.type}
         onChange={(value) => {
           const nextType = value as GymStep['type'];
-          onChange({ ...step, type: nextType, byTime: nextType === stepType.INTERVAL || nextType === stepType.EXERCISE || nextType === stepType.GYMWARMUP || nextType === stepType.GYMCOOLDOWN ? false : step.byTime });
+          onChange({ ...step, type: nextType, byTime: nextType === StepType.INTERVAL || nextType === StepType.EXERCISE || nextType === StepType.GYMWARMUP || nextType === StepType.GYMCOOLDOWN ? false : step.byTime });
         }}
       />
       <MFFormField theme={ComponentTheme.workout}>

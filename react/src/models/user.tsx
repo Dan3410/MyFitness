@@ -8,11 +8,11 @@ export interface User {
   name: string
   lastName: string
   weight: number
-  weightUnit: WEIGHTUNIT.KG | WEIGHTUNIT.LB
+  weightUnit: WEIGHTUNIT
   height: number
-  heightUnit: HEIGHTUNIT.CM | HEIGHTUNIT.FEET
+  heightUnit: HEIGHTUNIT
   birthDay: string
-  gender: GENDER.MALE | GENDER.FEMALE
-  physicalActivityLvl: PHYSICALACTIVITYLVL.NONE | PHYSICALACTIVITYLVL.LOW | PHYSICALACTIVITYLVL.MEDIUM | PHYSICALACTIVITYLVL.HIGH
-  objective: OBJECTIVE.REDUCE | OBJECTIVE.MAINTAIN | OBJECTIVE.INCREASE
+  gender: GENDER
+  physicalActivityLvl: PHYSICALACTIVITYLVL
+  objective: OBJECTIVE
 }

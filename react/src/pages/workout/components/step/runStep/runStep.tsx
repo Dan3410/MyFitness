@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './runStep.module.scss';
-import { RunStep as RunStepType, stepType } from '../../../../../models/workoutSteps';
+import { RunStep as RunStepType, StepType } from '../../../../../models/workoutSteps';
 
 interface RunStepProps {
   step: RunStepType;
@@ -8,14 +8,14 @@ interface RunStepProps {
 
 const RunStep: FC<RunStepProps> = ({ step }) => {
   const title = 'Correr';
-  const label = step.type === stepType.RUNTIME
+  const label = step.type === StepType.RUNTIME
     ? 'Por tiempo'
-    : step.type === stepType.RUNDISTANCE
+    : step.type === StepType.RUNDISTANCE
       ? 'Por distancia'
       : 'Por calorías';
-  const detail = step.type === stepType.RUNTIME
+  const detail = step.type === StepType.RUNTIME
     ? `${step.time} segundos`
-    : step.type === stepType.RUNDISTANCE
+    : step.type === StepType.RUNDISTANCE
       ? `${step.distance} m`
       : `${step.calories} kcal`;
 

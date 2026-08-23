@@ -3,7 +3,7 @@ import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
 import { ComponentTheme } from '../../../../../themes/enums';
-import { SwimStep, SwimStroke, WorkoutStep, stepType, swimGear } from '../../../../../models/workoutSteps';
+import { SwimStep, SwimStroke, WorkoutStep, StepType, swimGear } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import { CONST_SWIM_STEP_TYPE_OPTIONS } from '../../../../../const/swimStepTypeOptions';
 import { CONST_SWIMMING_GEAR_OPTIONS } from '../../../../../const/swimmingGearOptions';
@@ -29,7 +29,7 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as SwimStep['type'] })}
         />
-      {step.type !== stepType.SWIMTIME ? (
+      {step.type !== StepType.SWIMTIME ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Distancia</label>
           <input
@@ -40,7 +40,7 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
           />
         </MFFormField>
       ) : null}
-      {step.type === stepType.SWIMTIME ? (
+      {step.type === StepType.SWIMTIME ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Tiempo</label>
           <input

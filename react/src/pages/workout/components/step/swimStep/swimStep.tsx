@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './swimStep.module.scss';
-import { SwimStep as SwimStepType, stepType } from '../../../../../models/workoutSteps';
+import { SwimStep as SwimStepType, StepType } from '../../../../../models/workoutSteps';
 
 interface SwimStepProps {
   step: SwimStepType;
@@ -8,8 +8,8 @@ interface SwimStepProps {
 
 const SwimStep: FC<SwimStepProps> = ({ step }) => {
   const title = step.stroke || 'Nadar';
-  const label = step.type === stepType.SWIMTIME ? 'Por tiempo' : 'Por distancia';
-  const detail = step.type === stepType.SWIMTIME
+  const label = step.type === StepType.SWIMTIME ? 'Por tiempo' : 'Por distancia';
+  const detail = step.type === StepType.SWIMTIME
     ? `${step.time ?? 0} segundos`
     : `${step.distance ?? 0} m`;
   const gearText = step.gear.length > 0 ? step.gear.join(', ') : null;

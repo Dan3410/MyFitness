@@ -1,9 +1,9 @@
 import { Option } from "../models/option";
-import { stepType } from "../models/workoutSteps";
+import { StepType } from "../models/workoutSteps";
 
 export const CONST_SWIM_STEP_TYPE_OPTIONS: Array<Option> = [
-    { label: 'Distancia', value: stepType.SWIMDISTANCE },
-    { label: 'Tiempo', value: stepType.SWIMTIME },
-    { label: 'Calentamiento', value: stepType.SWIMWARMUP },
-    { label: 'Enfriamiento', value: stepType.SWIMCOOLDOWN },
+    { label: 'Distancia', value: StepType.SWIMDISTANCE },
+    { label: 'Tiempo', value: StepType.SWIMTIME },
+    { label: 'Calentamiento', value: StepType.SWIMWARMUP },
+    { label: 'Enfriamiento', value: StepType.SWIMCOOLDOWN },
 ]

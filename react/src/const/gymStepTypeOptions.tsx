@@ -1,9 +1,9 @@
 import { Option } from "../models/option";
-import { stepType } from "../models/workoutSteps";
+import { StepType } from "../models/workoutSteps";
 
 export const CONST_GYM_STEP_TYPE_OPTIONS: Array<Option> = [
-    { label: 'Ejercicio', value: stepType.EXERCISE },
-    { label: 'Intervalo', value: stepType.INTERVAL },
-    { label: 'Calentamiento', value: stepType.GYMWARMUP },
-    { label: 'Enfriamiento', value: stepType.GYMCOOLDOWN },
+    { label: 'Ejercicio', value: StepType.EXERCISE },
+    { label: 'Intervalo', value: StepType.INTERVAL },
+    { label: 'Calentamiento', value: StepType.GYMWARMUP },
+    { label: 'Enfriamiento', value: StepType.GYMCOOLDOWN },
 ]
