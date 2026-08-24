@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styles from '../step.module.scss';
-import { GymStep as GymStepType } from '../../../../../models/workoutSteps';
+import { GymStep as GymStepType, StepType } from '../../../../../models/workoutSteps';
+import { formatDuration } from '../../../utils/stepFormatters';
 
 interface GymStepProps {
   step: GymStepType;
@@ -8,7 +9,12 @@ interface GymStepProps {
 
 const GymStep: FC<GymStepProps> = ({ step }) => {
   const exerciseLabel = step.exercise;
-  const repetitionLabel = step.byTime ? `${step.time} segundos` : `${step.reps} repeticiones`;
+  const stepLabel = step.type === StepType.GYMWARMUP
+    ? 'Calentamiento'
+    : step.type === StepType.GYMCOOLDOWN
+      ? 'Ablande'
+      : step.byTime ? 'Por tiempo' : 'Por repeticiones';
+  const repetitionLabel = step.byTime ? formatDuration(step.time) : `${step.reps} repeticiones`;
   const detailText = step.weight
     ? `${repetitionLabel} - ${step.weight} kg`
     : repetitionLabel;
@@ -19,7 +25,7 @@ const GymStep: FC<GymStepProps> = ({ step }) => {
         <div>
           <div className={styles.stepTitle}>{exerciseLabel}</div>
         </div>
-        <div className={styles.stepLabel}>{step.byTime ? 'Por tiempo' : 'Por repeticiones'}</div>
+        <div className={styles.stepLabel}>{stepLabel}</div>
       </div>
       <div className={styles.stepDetail}>{detailText}</div>
     </div>

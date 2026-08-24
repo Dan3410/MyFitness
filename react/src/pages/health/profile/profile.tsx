@@ -15,6 +15,7 @@ import HeightSection from '../components/height-section/height-section';
 import { GENDER } from '../../../models/gender';
 import { profileService } from '../../../services/profileService'
 import MFBreadcrumb from '../../../components/mf-breadcrumb/mf-breadcrumb';
+import { GET_DATA_ERROR_MESSAGE } from '../../../const/errorMessages';
 
 interface ProfileProps { }
 
@@ -47,10 +48,16 @@ const Profile: FC<ProfileProps> = () => {
   })
 
   const [edit, setEdit] = useState<boolean>(false)
+  const [loadError, setLoadError] = useState(false)
   const getData = async () => {
-    const data = await profileService.getUserData('123')
-    setOriginalData(data)
-    setForm(data)
+    try {
+      setLoadError(false)
+      const data = await profileService.getUserData('123')
+      setOriginalData(data)
+      setForm(data)
+    } catch {
+      setLoadError(true)
+    }
   }
 
   useEffect(() => {
@@ -98,7 +105,7 @@ const Profile: FC<ProfileProps> = () => {
           </div>
         </div>
       </div>
-      <form onSubmit={handleSubmit} className={styles.profileForm}>
+      {loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <form onSubmit={handleSubmit} className={styles.profileForm}>
         <div className={styles.profileImgContainer}>
           <img className={styles.profileImg} src={defaultProfileImage}></img>
         </div>
@@ -121,7 +128,7 @@ const Profile: FC<ProfileProps> = () => {
             <MFButton type='submit' theme={ComponentTheme.profileAndHealth}><label>Guardar</label></MFButton>
           </div>)
         }
-      </form>
+      </form>}
     </div>)
 };
 

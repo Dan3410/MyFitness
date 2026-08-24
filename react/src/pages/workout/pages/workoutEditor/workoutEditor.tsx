@@ -22,6 +22,7 @@ import StepsList from '../../components/stepsList/stepsList';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import MFModal from '../../../../components/mf-modal/mf-modal';
+import { GET_DATA_ERROR_MESSAGE, SAVE_WORKOUT_ERROR_MESSAGE } from '../../../../const/errorMessages';
 
 interface WorkoutEditorProps { }
 
@@ -31,6 +32,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState(false);
   const id = useParams().id;
   const [searchParams] = useSearchParams();
   const navigate: NavigateFunction = useNavigate();
@@ -39,6 +41,8 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     if (!id) {
       return;
     }
+
+    setLoadError(false);
 
     if (id === 'new') {
       const categoryFromQuery = searchParams.get('category');
@@ -57,9 +61,14 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
       return;
     }
 
-    const res = await workoutService.getWorkoutSteps(id);
-    setWorkout(res);
-    setSelectedStepIndex(res?.steps?.length ? 0 : null);
+    try {
+      const res = await workoutService.getWorkoutSteps(id);
+      setWorkout(res);
+      setSelectedStepIndex(res?.steps?.length ? 0 : null);
+    } catch {
+      setWorkout(undefined);
+      setLoadError(true);
+    }
   };
 
   useEffect(() => {
@@ -139,6 +148,8 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const saveWorkout = async () => {
     if (!workout) return;
     setSaving(true);
+    setSaved(false);
+    setError(null);
     try {
       const payload = {
         ...workout,
@@ -151,14 +162,15 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
         ? await workoutService.createWorkout('0', payload)
         : await workoutService.editWorkout(currentWorkoutId, payload);
 
-      if (res && res.id) {
-        setWorkout(res);
+      if (!res || !res.id) {
+        throw new Error('No se pudo guardar la rutina');
       }
 
+      setWorkout(res);
+
       setSaved(true);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Ocurrió un error al guardar la rutina';
-      setError(errorMessage);
+    } catch {
+      setError(SAVE_WORKOUT_ERROR_MESSAGE);
     } finally {
       setSaving(false);
     }
@@ -172,6 +184,17 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const handleErrorClose = () => {
     setError(null);
   };
+
+  if (loadError) {
+    return (
+      <div className={styles.editorPage}>
+        <div className="pageHeader">
+          <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: 'Editar rutina' }]} />
+        </div>
+        <div>{GET_DATA_ERROR_MESSAGE}</div>
+      </div>
+    );
+  }
 
   if (workout === undefined) {
     return <div>Cargando...</div>;

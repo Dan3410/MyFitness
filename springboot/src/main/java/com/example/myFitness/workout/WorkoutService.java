@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.myFitness.workout.model.GymStep;
 import com.example.myFitness.workout.model.RestStep;
+import com.example.myFitness.workout.model.RunStep;
 import com.example.myFitness.workout.model.Set;
 import com.example.myFitness.workout.model.Step;
 import com.example.myFitness.workout.model.StepType;
@@ -43,7 +44,8 @@ public class WorkoutService {
     // workouts list items
     workoutsListItems = new WorkoutListItem[] {
         new WorkoutListItem(0, "Swim Swim", WorkoutListItem.Category.SWIM, 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
-        new WorkoutListItem(1, "Lift heavy things", WorkoutListItem.Category.GYM, 100, LocalDate.now(), LocalDate.now(), LocalDate.now())
+      new WorkoutListItem(1, "Lift heavy things", WorkoutListItem.Category.GYM, 100, LocalDate.now(), LocalDate.now(), LocalDate.now()),
+      new WorkoutListItem(2, "Run training", WorkoutListItem.Category.RUN, 45, LocalDate.now(), LocalDate.now(), LocalDate.now())
     };
 
     // --- Swim steps ---
@@ -78,9 +80,19 @@ public class WorkoutService {
             createGymStep(StepType.GYM_INTERVAL, "Squats", true, 0, 60, 70.0)), 4));
     gymSteps.add(this.createSet(Arrays.asList(createGymStep(StepType.GYM_COOLDOWN, "Stretching", true, 0, 5, 0.0)), 4));
 
+    // --- Run steps ---
+    List<Step> runSteps = new ArrayList<>();
+    runSteps.add(this.createSet(Arrays.asList(createRunStep(StepType.RUN_WARMUP, 0, 0, 300, 8.0)), 1));
+    runSteps.add(this.createSet(Arrays.asList(createRunStep(StepType.RUN_DISTANCE, 5000, 0, null, 10.0)), 1));
+    runSteps.add(this.createSet(Arrays.asList(createRunStep(StepType.RUN_TIME, 0, 0, 1200, 10.0)), 2));
+    runSteps.add(this.createSet(Arrays.asList(createRunStep(StepType.RUN_CALORIES, 0, 300, null, 9.0)), 1));
+    runSteps.add(this.createSet(Arrays.asList(createRestStep(60)), 1));
+    runSteps.add(this.createSet(Arrays.asList(createRunStep(StepType.RUN_COOLDOWN, 0, 0, 300, 6.0)), 1));
+
     workouts = new Workout[] {
         new Workout("0", "Swim Swim", "swim", swimSteps),
-        new Workout("1", "Gym workout", "gym", gymSteps)
+      new Workout("1", "Gym workout", "gym", gymSteps),
+      new Workout("2", "Run training", "run", runSteps)
     };
   }
 
@@ -98,6 +110,10 @@ public class WorkoutService {
 
   private GymStep createGymStep(StepType type, String exercise, boolean byTime, int reps, int time, double weight) {
     return new GymStep(type, exercise, byTime, reps, time, weight);
+  }
+
+  private RunStep createRunStep(StepType type, int distance, int calories, Integer time, Double speed) {
+    return new RunStep(type, distance, calories, time, speed);
   }
 
   private RestStep createRestStep(int time) {

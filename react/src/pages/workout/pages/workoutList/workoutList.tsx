@@ -9,6 +9,7 @@ import { ComponentTheme } from '../../../../themes/enums';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { NavigateFunction, useNavigate, useSearchParams } from 'react-router-dom';
+import { GET_DATA_ERROR_MESSAGE } from '../../../../const/errorMessages';
 
 interface WorkoutListProps { }
 
@@ -20,6 +21,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const [workoutSelected, setWorkoutSelected] = useState<WorkoutListItem | undefined>(undefined)
   const [categories, setCategories] = useState<WorkoutCategoryOption[]>()
   const [category, setCategory] = useState<string>("")
+  const [loadError, setLoadError] = useState(false)
   const navigate: NavigateFunction = useNavigate();
 
   //Probably this gonna get moved to a file
@@ -29,8 +31,14 @@ const WorkoutList: FC<WorkoutListProps> = () => {
 
   const getWorkoutList = async () => {
     //Falta ver que esto no salte dos veces
-    let category = searchParams.get("category")
-    setList(await workoutService.getWorkoutsListItem("0", category as WorkoutCategory || WorkoutCategory.ALL))
+    const selectedCategory = searchParams.get("category")
+    try {
+      setLoadError(false)
+      setList(await workoutService.getWorkoutsListItem("0", selectedCategory as WorkoutCategory || WorkoutCategory.ALL))
+    } catch {
+      setList([])
+      setLoadError(true)
+    }
   }
 
   const openDeletePopup = (workout: WorkoutListItem) => {
@@ -85,13 +93,13 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     <MFFormField theme={ComponentTheme.workout}>
       <label>Actividad</label>
       <select name="category" value={category} onChange={handleCategoryChange}>
-        {categories && categories.map((item) => (
+        {categories && categories?.length > 0 && categories.map((item) => (
           <option key={item.value} value={item.value}>{item.label}</option>
         ))}
       </select>
     </MFFormField>
 
-    <div className={styles.workoutList}>
+    {loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.workoutList}>
       <table cellSpacing="0" cellPadding="0">
         <thead>
           <tr>
@@ -131,7 +139,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
           <MFButton onClickEvent={() => workoutSelected && deleteWorkout(workoutSelected?.id)} theme={ComponentTheme.workout}>Eliminar</MFButton>
         </div>
       </MFModal>
-    </div>
+    </div>}
   </>
   )
 };
