@@ -1,5 +1,5 @@
 import { ChangeEvent, FC } from 'react';
-import { ComponentTheme } from '../../../../themes/enums';
+import { ComponentTheme } from '../../../../models/componentTheme';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './personal-data-section.module.scss'
 import { User } from '../../../../models/user';

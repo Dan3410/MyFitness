@@ -2,7 +2,7 @@ import { FC } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../../themes/enums';
+import { ComponentTheme } from '../../../../../models/componentTheme';
 import { SwimStep, SwimStroke, WorkoutStep, StepType, swimGear } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import { CONST_SWIM_STEP_TYPE_OPTIONS } from '../../../../../const/swimStepTypeOptions';

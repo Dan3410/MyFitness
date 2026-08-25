@@ -3,7 +3,7 @@ import styles from "./home.module.scss";
 import MFButton from "../../components/mf-button/mf-button";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { SectionButton } from "../../models/section";
-import { ComponentTheme } from "../../themes/enums";
+import { ComponentTheme } from "../../models/componentTheme";
 
 interface HomeProps { }
 

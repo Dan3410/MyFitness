@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import styles from "./mf-button.module.scss"
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 
 interface MFButtonProps {
    theme?: ComponentTheme,

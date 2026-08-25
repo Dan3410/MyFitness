@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MFFormField from './mf-form-field';
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 
 it('It should mount', () => {
   const div = document.createElement('div');

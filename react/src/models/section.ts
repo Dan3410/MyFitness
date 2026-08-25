@@ -1,4 +1,4 @@
-import { ComponentTheme } from "../themes/enums";
+import { ComponentTheme } from "./componentTheme";
 
 export interface SectionButton {
     name: string,

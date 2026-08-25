@@ -1,6 +1,6 @@
 import { ChangeEventHandler, FC, ReactNode } from 'react';
 import styles from './mf-checkbox.module.scss';
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 
 interface MFCheckboxProps {
   children: ReactNode,

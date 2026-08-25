@@ -13,7 +13,7 @@ import {
 } from '../../../../models/workoutSteps';
 import { WorkoutCategory } from '../../../../models/workoutCategories';
 import MFButton from '../../../../components/mf-button/mf-button';
-import { ComponentTheme } from '../../../../themes/enums';
+import { ComponentTheme } from '../../../../models/componentTheme';
 import { workoutService } from '../../../../services/workoutService';
 import styles from './workoutEditor.module.scss';
 

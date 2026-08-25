@@ -5,7 +5,7 @@ import { workoutService } from '../../../../services/workoutService';
 import MFButton from '../../../../components/mf-button/mf-button';
 import MFModal from '../../../../components/mf-modal/mf-modal';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
-import { ComponentTheme } from '../../../../themes/enums';
+import { ComponentTheme } from '../../../../models/componentTheme';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { NavigateFunction, useNavigate, useSearchParams } from 'react-router-dom';

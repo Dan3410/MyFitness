@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { ComponentTheme } from '../../../themes/enums';
+import { ComponentTheme } from '../../../models/componentTheme';
 import { WEIGHTUNIT } from '../../../models/weightUnit';
 import { HEIGHTUNIT } from '../../../models/heightUnit';
 import styles from './profile.module.scss'

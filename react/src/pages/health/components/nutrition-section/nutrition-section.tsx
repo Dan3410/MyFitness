@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { User } from '../../../../models/user';
 import { PHYSICALACTIVITYLVL } from '../../../../models/physical-activity';
 import MFTooltip from '../../../../components/mf-tooltip/mf-tooltip';
-import { ComponentTheme } from '../../../../themes/enums';
+import { ComponentTheme } from '../../../../models/componentTheme';
 import { OBJECTIVE } from '../../../../models/objective';
 import { WEIGHTUNIT } from '../../../../models/weightUnit';
 

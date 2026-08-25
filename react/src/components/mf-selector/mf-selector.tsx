@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './mf-selector.module.scss';
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 import { Option } from '../../models/option';
 
 type SelectorValue = string | number | Array<string | number>;
 
 interface MFSelectorProps {
   label?: string;
-  theme?: ComponentTheme;
+  theme: ComponentTheme;
   options: Option[];
   value?: SelectorValue;
   defaultValue?: SelectorValue;
@@ -26,7 +26,7 @@ const normalizeValues = (value?: SelectorValue): (string | number)[] => {
 
 const MFSelector: FC<MFSelectorProps> = ({
   label = 'Select',
-  theme = ComponentTheme.profileAndHealth,
+  theme,
   options,
   value,
   defaultValue = [],

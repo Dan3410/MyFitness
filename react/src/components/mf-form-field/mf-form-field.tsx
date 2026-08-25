@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import styles from './mf-form-field.module.scss';
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 
 interface MFFormFieldProps {
   theme: ComponentTheme,

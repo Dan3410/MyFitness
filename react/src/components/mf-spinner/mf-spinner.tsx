@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 import styles from './mf-spinner.module.scss';
 
 interface MFSpinnerProps {

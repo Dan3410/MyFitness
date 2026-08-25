@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState, type FC, type ReactNode } from 'react'
 import styles from "./mf-tooltip.module.scss"
-import { ComponentTheme } from '../../themes/enums';
+import { ComponentTheme } from '../../models/componentTheme';
 import { tooltipPlacement } from '../../models/tooltipPlacement';
 import { createPortal } from 'react-dom';
 
 interface MFTooltipProps {
-   theme?: ComponentTheme,
+   theme: ComponentTheme,
    children: ReactNode,
    placement?: tooltipPlacement,
    delay?: number
 }
 
 const MFTooltip: FC<MFTooltipProps> = ({
-   theme = ComponentTheme.profileAndHealth,
+   theme,
    children,
    placement = tooltipPlacement.TOP,
    delay = 100,

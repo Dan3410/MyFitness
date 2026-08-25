@@ -4,7 +4,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { workoutService } from '../../../../services/workoutService';
 import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
-import { ComponentTheme } from '../../../../themes/enums';
+import { ComponentTheme } from '../../../../models/componentTheme';
 
 interface WorkoutCategoriesProps { }
 
