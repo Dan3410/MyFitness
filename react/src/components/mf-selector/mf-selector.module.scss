@@ -6,6 +6,8 @@
   border-width: 2px;
   border-style: solid;
   border-color: var(--selector-border-color, var(--mf-selector-border-color));
+  background-color: var(--selector-background-color, var(--mf-selector-background-color));
+  color: var(--selector-text-color, var(--mf-selector-text-color));
   display: flex;
   flex-direction: column;
   gap: 10px;
