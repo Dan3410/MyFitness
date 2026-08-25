@@ -1,10 +1,6 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './mf-selector.module.scss';
 import { ComponentTheme } from '../../themes/enums';
-import { InputTheme } from '../../themes/interfaces';
-import { profileAndHealthInputTheme } from '../../themes/profileHealth';
-import { dietInputTheme } from '../../themes/diet';
-import { workoutInputTheme } from '../../themes/workout';
 import { Option } from '../../models/option';
 
 type SelectorValue = string | number | Array<string | number>;
@@ -46,17 +42,6 @@ const MFSelector: FC<MFSelectorProps> = ({
     }
   }, [value]);
 
-  const inputTheme: InputTheme = useMemo(() => {
-    switch (theme) {
-      case ComponentTheme.diet:
-        return dietInputTheme;
-      case ComponentTheme.workout:
-        return workoutInputTheme;
-      default:
-        return profileAndHealthInputTheme;
-    }
-  }, [theme]);
-
   const toggleOption = (optionValue: string | number) => {
     const nextValues = multiple
       ? (selectedValues.includes(optionValue)
@@ -70,14 +55,7 @@ const MFSelector: FC<MFSelectorProps> = ({
 
   return (
     <div
-      className={styles.selectorContainer}
-      style={{
-        borderColor: disabled ? 'transparent' : `var(--selector-border-color, ${inputTheme.borderColor})`,
-        backgroundColor: `var(--selector-background-color, ${inputTheme.backgroundColor})`,
-        color: `var(--selector-text-color, ${inputTheme.textColor})`,
-        opacity: disabled ? 0.85 : 1,
-        pointerEvents: disabled ? 'none' : 'all',
-      }}
+      className={`${styles.selectorContainer} ${styles[theme] || styles.profileAndHealthTheme} ${disabled ? styles.disabled : ''}`}
     >
       {label && <span className={styles.label}>{label}</span>}
       <div className={styles.optionGroup}>
@@ -89,13 +67,6 @@ const MFSelector: FC<MFSelectorProps> = ({
               type="button"
               className={`${styles.option} ${isSelected ? styles.selected : ''}`}
               onClick={() => toggleOption(option.value)}
-              style={{
-                borderColor: 'var(--selector-border-color, ' + inputTheme.borderColor + ')',
-                backgroundColor: isSelected
-                  ? 'var(--selector-selected-color, var(--selector-border-color, ' + inputTheme.borderColor + '))'
-                  : 'var(--selector-background-color, ' + inputTheme.backgroundColor + ')',
-                color: 'var(--selector-text-color, ' + inputTheme.textColor + ')',
-              }}
             >
               {option.label}
             </button>

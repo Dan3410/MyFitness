@@ -23,6 +23,7 @@ import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import MFModal from '../../../../components/mf-modal/mf-modal';
 import { GET_DATA_ERROR_MESSAGE, SAVE_WORKOUT_ERROR_MESSAGE } from '../../../../const/errorMessages';
+import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
 
 interface WorkoutEditorProps { }
 
@@ -33,12 +34,14 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const id = useParams().id;
   const [searchParams] = useSearchParams();
   const navigate: NavigateFunction = useNavigate();
 
   const getWorkout = async () => {
     if (!id) {
+      setLoading(false);
       return;
     }
 
@@ -58,6 +61,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
         steps: []
       });
       setSelectedStepIndex(null);
+      setLoading(false);
       return;
     }
 
@@ -68,6 +72,8 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     } catch {
       setWorkout(undefined);
       setLoadError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -196,8 +202,8 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     );
   }
 
-  if (workout === undefined) {
-    return <div>Cargando...</div>;
+  if (loading || workout === undefined) {
+    return <MFSpinner theme={ComponentTheme.workout} />;
   }
 
   const workoutTypeLabel = workout.category === WorkoutCategory.SWIM

@@ -3,20 +3,16 @@ import styles from "./mf-tooltip.module.scss"
 import { ComponentTheme } from '../../themes/enums';
 import { tooltipPlacement } from '../../models/tooltipPlacement';
 import { createPortal } from 'react-dom';
-import { TooltipTheme } from '../../themes/interfaces';
-import { profileAndHealthTooltipTheme } from '../../themes/profileHealth';
-import { workoutTooltipTheme } from '../../themes/workout';
-import { dietTooltipTheme } from '../../themes/diet';
 
 interface MFTooltipProps {
-   theme: ComponentTheme,
+   theme?: ComponentTheme,
    children: ReactNode,
    placement?: tooltipPlacement,
    delay?: number
 }
 
 const MFTooltip: FC<MFTooltipProps> = ({
-   theme,
+   theme = ComponentTheme.profileAndHealth,
    children,
    placement = tooltipPlacement.TOP,
    delay = 100,
@@ -27,9 +23,6 @@ const MFTooltip: FC<MFTooltipProps> = ({
    const targetRef = useRef<HTMLElement | null>(null);
    const tipRef = useRef<HTMLDivElement | null>(null)
    const timeoutRef = useRef<number>(undefined);
-
-   const tooltipTheme: TooltipTheme = theme == ComponentTheme.profileAndHealth ? profileAndHealthTooltipTheme :
-      theme == ComponentTheme.diet ? dietTooltipTheme : workoutTooltipTheme
 
    useEffect(() => {
       return () => clearTimeout(timeoutRef.current);
@@ -83,14 +76,12 @@ const MFTooltip: FC<MFTooltipProps> = ({
       <div
          ref={tipRef}
          role="tooltip"
-         className={[styles.mfTooltip, visible ? styles.mfTooltipVisible : undefined].join(' ')}
+         className={[styles.mfTooltip, styles[theme], visible ? styles.mfTooltipVisible : undefined].join(' ')}
          style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(-4px)",
             left: coords.left,
             top: coords.top,
-            background: tooltipTheme.backgroundColor,
-            color: tooltipTheme.textColor
          }}
       >
          {children}
@@ -101,7 +92,7 @@ const MFTooltip: FC<MFTooltipProps> = ({
 
 
    return (<>
-      <span className={styles.mfTooltipIcon}
+      <span className={`${styles.mfTooltipIcon} ${styles[theme]}`}
          ref={targetRef}
          onMouseEnter={show}
          onMouseLeave={hide}
@@ -109,7 +100,6 @@ const MFTooltip: FC<MFTooltipProps> = ({
          onBlur={hide}
          tabIndex={0}
          aria-describedby={"tooltip"}
-         style={{ color: tooltipTheme.iconColor, borderColor: tooltipTheme.iconColor }}
       >
          ?
       </span>

@@ -30,3 +30,33 @@
   text-align: center;
   pointer-events: none;
 }
+
+.profileAndHealthTheme {
+  background: rgba(19, 129, 19, 1);
+  color: #fafafa;
+}
+
+.dietTheme {
+  background: #ac8757;
+  color: #fafafa;
+}
+
+.workoutTheme {
+  background: rgb(19, 45, 129);
+  color: rgb(10, 8, 8);
+}
+
+.mfTooltipIcon.profileAndHealthTheme {
+  color: rgb(77, 255, 77);
+  border-color: rgb(77, 255, 77);
+}
+
+.mfTooltipIcon.dietTheme {
+  color: rgb(251, 255, 0);
+  border-color: rgb(251, 255, 0);
+}
+
+.mfTooltipIcon.workoutTheme {
+  color: rgb(77, 148, 255);
+  border-color: rgb(77, 148, 255);
+}

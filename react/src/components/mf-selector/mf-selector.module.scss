@@ -5,9 +5,37 @@
   border-radius: 10px;
   border-width: 2px;
   border-style: solid;
+  border-color: var(--selector-border-color, var(--mf-selector-border-color));
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.profileAndHealthTheme {
+  --mf-selector-border-color: rgb(0, 131, 0);
+  --mf-selector-background-color: rgb(16, 29, 16);
+  --mf-selector-text-color: #fafafa;
+  --mf-selector-selected-color: rgb(0, 131, 0);
+}
+
+.dietTheme {
+  --mf-selector-border-color: #fdff82;
+  --mf-selector-background-color: #525300;
+  --mf-selector-text-color: #fafafa;
+  --mf-selector-selected-color: #fdff82;
+}
+
+.workoutTheme {
+  --mf-selector-border-color: rgb(0, 80, 167);
+  --mf-selector-background-color: rgb(30, 35, 82);
+  --mf-selector-text-color: #fafafa;
+  --mf-selector-selected-color: rgb(0, 80, 167);
+}
+
+.disabled {
+  border-color: transparent;
+  opacity: 0.85;
+  pointer-events: none;
 }
 
 .label {
@@ -29,6 +57,13 @@
   font-size: 14px;
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-color: var(--selector-border-color, var(--mf-selector-border-color));
+  background-color: var(--selector-background-color, var(--mf-selector-background-color));
+  color: var(--selector-text-color, var(--mf-selector-text-color));
+}
+
+.option.selected {
+  background-color: var(--selector-selected-color, var(--mf-selector-selected-color));
 }
 
 .option:hover {

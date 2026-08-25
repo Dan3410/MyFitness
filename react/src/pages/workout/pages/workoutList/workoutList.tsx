@@ -10,6 +10,7 @@ import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { NavigateFunction, useNavigate, useSearchParams } from 'react-router-dom';
 import { GET_DATA_ERROR_MESSAGE } from '../../../../const/errorMessages';
+import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
 
 interface WorkoutListProps { }
 
@@ -22,6 +23,8 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const [categories, setCategories] = useState<WorkoutCategoryOption[]>()
   const [category, setCategory] = useState<string>("")
   const [loadError, setLoadError] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [loadingCategories, setLoadingCategories] = useState(true)
   const navigate: NavigateFunction = useNavigate();
 
   //Probably this gonna get moved to a file
@@ -38,6 +41,8 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     } catch {
       setList([])
       setLoadError(true)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -61,9 +66,13 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   }
 
 
-  const getCategories = async () => (
-    setCategories(await workoutService.getCategories())
-  )
+  const getCategories = async () => {
+    try {
+      setCategories(await workoutService.getCategories())
+    } finally {
+      setLoadingCategories(false)
+    }
+  }
 
   const handleCategoryChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -99,7 +108,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       </select>
     </MFFormField>
 
-    {loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.workoutList}>
+    {loading || loadingCategories ? <MFSpinner theme={ComponentTheme.workout} /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.workoutList}>
       <table cellSpacing="0" cellPadding="0">
         <thead>
           <tr>

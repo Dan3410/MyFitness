@@ -1,10 +1,6 @@
 import { FC, ReactNode } from 'react';
 import styles from './mf-form-field.module.scss';
-import { InputTheme } from '../../themes/interfaces';
 import { ComponentTheme } from '../../themes/enums';
-import { profileAndHealthInputTheme } from '../../themes/profileHealth';
-import { dietInputTheme } from '../../themes/diet';
-import { workoutInputTheme } from '../../themes/workout';
 
 interface MFFormFieldProps {
   theme: ComponentTheme,
@@ -20,19 +16,9 @@ const MFFormField: FC<MFFormFieldProps> = ({
   disabled = false
 }) => {
 
-  const inputTheme: InputTheme = theme == ComponentTheme.profileAndHealth ? profileAndHealthInputTheme :
-    theme == ComponentTheme.diet ? dietInputTheme : workoutInputTheme;
-
   return (
     <>
-      <div className={styles.MFFormField}
-        style={{
-          borderColor: disabled ? 'transparent' : `var(--form-field-border-color, ${inputTheme.borderColor})`,
-          backgroundColor: `var(--form-field-background-color, ${inputTheme.backgroundColor})`,
-          color: `var(--form-field-text-color, ${inputTheme.textColor})`,
-          opacity: disabled ? 0.85 : 1,
-          pointerEvents: disabled ? "none" : "all",
-        }}>
+      <div className={`${styles.MFFormField} ${styles[theme]} ${disabled ? styles.disabled : ''}`}>
         {children}
       </div>
     </>

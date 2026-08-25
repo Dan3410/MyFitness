@@ -8,6 +8,34 @@
     position: relative;
     display: block;
 
+    &.profileAndHealthTheme {
+        --mf-form-field-border-color: rgb(0, 131, 0);
+        --mf-form-field-background-color: rgb(16, 29, 16);
+        --mf-form-field-text-color: #fafafa;
+    }
+
+    &.dietTheme {
+        --mf-form-field-border-color: #fdff82;
+        --mf-form-field-background-color: #525300;
+        --mf-form-field-text-color: #fafafa;
+    }
+
+    &.workoutTheme {
+        --mf-form-field-border-color: rgb(0, 80, 167);
+        --mf-form-field-background-color: rgb(30, 35, 82);
+        --mf-form-field-text-color: #fafafa;
+    }
+
+    &.disabled {
+        border-color: transparent;
+        opacity: 0.85;
+        pointer-events: none;
+    }
+
+    border-color: var(--form-field-border-color, var(--mf-form-field-border-color));
+    background-color: var(--form-field-background-color, var(--mf-form-field-background-color));
+    color: var(--form-field-text-color, var(--mf-form-field-text-color));
+
     label:first-child {
         position: absolute;
         top: 10px;

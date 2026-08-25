@@ -1,0 +1,38 @@
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 96px;
+  color: currentColor;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.profileAndHealthTheme {
+  color: rgb(0, 255, 0);
+}
+
+.dietTheme {
+  color: #fdff82;
+}
+
+.workoutTheme {
+  color: #4992ff;
+}
+
+.generic {
+  color: #fafafa;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

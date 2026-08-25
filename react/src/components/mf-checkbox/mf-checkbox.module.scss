@@ -20,6 +20,29 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
+.profileAndHealthTheme {
+  --checkbox-fill-color: rgb(0, 255, 0);
+  --checkbox-background-color: rgb(25, 61, 25);
+  --checkbox-border-color: rgb(0, 255, 0);
+}
+
+.dietTheme {
+  --checkbox-fill-color: #fdff82;
+  --checkbox-background-color: #525300;
+  --checkbox-border-color: #fdff82;
+}
+
+.workoutTheme {
+  --checkbox-fill-color: rgb(0, 124, 255);
+  --checkbox-background-color: rgb(30, 35, 82);
+  --checkbox-border-color: rgb(0, 124, 255);
+}
+
+.disabled {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
 .checkboxInput:checked::before {
   content: "";
   width: 0.4rem;

@@ -3,6 +3,8 @@ import styles from './workoutCategories.module.scss';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { workoutService } from '../../../../services/workoutService';
+import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
+import { ComponentTheme } from '../../../../themes/enums';
 
 interface WorkoutCategoriesProps { }
 
@@ -16,6 +18,7 @@ const categoryIcons: Record<WorkoutCategory, string> = {
 const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
 
   const [categories, setCategories] = useState<WorkoutCategoryOption[]>()
+  const [loading, setLoading] = useState(true)
 
   const navigate: NavigateFunction = useNavigate();
 
@@ -24,8 +27,12 @@ const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
   }
 
   const getCategories = async () => {
-    const allCategories = await workoutService.getCategories();
-    setCategories(allCategories.filter((category: WorkoutCategoryOption) => category.value !== WorkoutCategory.ALL));
+    try {
+      const allCategories = await workoutService.getCategories();
+      setCategories(allCategories.filter((category: WorkoutCategoryOption) => category.value !== WorkoutCategory.ALL));
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -37,14 +44,14 @@ const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
       <div className={styles.header}>
         <h2>Elige el tipo de entrenamiento</h2>
       </div>
-      <div className={styles.categoriesContainer}>
+      {loading ? <MFSpinner theme={ComponentTheme.workout} /> : <div className={styles.categoriesContainer}>
         {categories?.map((category) => (
           <button key={category.value} type="button" className={styles.category} onClick={() => redirectTo(category.value)}>
             <span className={styles.icon} aria-hidden="true">{categoryIcons[category.value] ?? '🏋️‍♂️'}</span>
             <span className={styles.label}>{category.label}</span>
           </button>
         ))}
-      </div>
+      </div>}
     </div>
   )
 };

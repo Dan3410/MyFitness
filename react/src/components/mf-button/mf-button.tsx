@@ -1,11 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import styles from "./mf-button.module.scss"
-import type { ButtonTheme } from '../../themes/interfaces';
 import { ComponentTheme } from '../../themes/enums';
-import { profileAndHealthButtonTheme } from '../../themes/profileHealth';
-import { workoutButtonTheme } from '../../themes/workout';
-import { dietButtonTheme } from '../../themes/diet';
-import { cancelButtonTheme } from '../../themes/generic';
 
 interface MFButtonProps {
    theme?: ComponentTheme,
@@ -30,22 +25,17 @@ const MFButton: FC<MFButtonProps> = ({
    onClickEvent
 }) => {
 
-   const buttonTheme: ButtonTheme = theme == ComponentTheme.profileAndHealth ? profileAndHealthButtonTheme :
-      theme == ComponentTheme.diet ? dietButtonTheme : theme == ComponentTheme.workout ? workoutButtonTheme : cancelButtonTheme;
-
    const handleClick = () => {
       if (onClickEvent)
          onClickEvent()
    }
 
    return (<>
-      <button className={styles.mfButtonContainer} disabled={isDisabled}
+      <button className={`${styles.mfButtonContainer} ${styles[theme || ComponentTheme.generic]}`} disabled={isDisabled}
          onClick={!isDisabled ? handleClick : () => { }} type={type}
          style={{
             width: width,
-            backgroundColor: buttonTheme.backgroundColor,
             height: height,
-            color: buttonTheme.textColor,
             fontSize: fontSize
          }}>
          {children}
