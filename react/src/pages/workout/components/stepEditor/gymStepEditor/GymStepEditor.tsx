@@ -35,6 +35,13 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         }}
       />
       <MFFormField theme={ComponentTheme.workout}>
+        <label>Descripción</label>
+        <textarea
+          value={step.description ?? ''}
+          onChange={(event) => onChange({ ...step, description: event.target.value })}
+        />
+      </MFFormField>
+      <MFFormField theme={ComponentTheme.workout}>
         <label>Ejercicio</label>
         <input
           type="text"

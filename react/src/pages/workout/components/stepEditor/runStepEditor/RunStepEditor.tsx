@@ -27,6 +27,13 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as RunStep['type'] })}
         />
+      <MFFormField theme={ComponentTheme.workout}>
+        <label>Descripción</label>
+        <textarea
+          value={step.description ?? ''}
+          onChange={(event) => onChange({ ...step, description: event.target.value })}
+        />
+      </MFFormField>
 
       <MFFormField theme={ComponentTheme.workout}>
         <label>Distancia</label>

@@ -61,13 +61,13 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
     let newStep: WorkoutStep;
 
     if (workoutCategory === WorkoutCategory.GYM) {
-      newStep = { type: StepType.EXERCISE, exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
+      newStep = { type: StepType.EXERCISE, description: '', exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
     } else if (workoutCategory === WorkoutCategory.SWIM) {
-      newStep = { type: StepType.SWIMDISTANCE, distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
+      newStep = { type: StepType.SWIMDISTANCE, description: '', distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
     } else if (workoutCategory === WorkoutCategory.RUN) {
-      newStep = { type: StepType.RUNDISTANCE, distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
+      newStep = { type: StepType.RUNDISTANCE, description: '', distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
     } else {
-      newStep = { type: StepType.REST, seconds: 30 } as RestStep;
+      newStep = { type: StepType.REST, description: '', seconds: 30 } as RestStep;
     }
 
     const nextSteps = [...step.steps, newStep];
@@ -76,14 +76,14 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
   };
 
   const addNestedRestStep = () => {
-    const newStep: RestStep = { type: StepType.REST, seconds: 30 };
+    const newStep: RestStep = { type: StepType.REST, description: '', seconds: 30 };
     const nextSteps = [...step.steps, newStep];
     onChange({ ...step, steps: nextSteps });
     setSelectedNestedIndex(nextSteps.length - 1);
   };
 
   const addNestedSet = () => {
-    const newStep: WorkoutSet = { type: StepType.SET, repeat: 1, steps: [] };
+    const newStep: WorkoutSet = { type: StepType.SET, description: '', repeat: 1, steps: [] };
     const nextSteps = [...step.steps, newStep];
     onChange({ ...step, steps: nextSteps });
     setSelectedNestedIndex(nextSteps.length - 1);
@@ -95,6 +95,13 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
         <h3 className={styles.title}>Editar set</h3>
         <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
+      <MFFormField theme={ComponentTheme.workout}>
+        <label>Descripción</label>
+        <textarea
+          value={step.description ?? ''}
+          onChange={(event) => onChange({ ...step, description: event.target.value })}
+        />
+      </MFFormField>
       <MFFormField theme={ComponentTheme.workout}>
         <label>Repeticiones</label>
         <input

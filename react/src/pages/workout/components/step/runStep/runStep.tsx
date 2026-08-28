@@ -32,6 +32,7 @@ const RunStep: FC<RunStepProps> = ({ step }) => {
         </div>
         <div className={styles.stepLabel}>{label}</div>
       </div>
+      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
       <div className={styles.stepDetail}>{detail}</div>
       {step.speed !== null && step.speed !== undefined && (
         <div className={styles.stepDetail}>{`${step.speed} Km/h`}</div>

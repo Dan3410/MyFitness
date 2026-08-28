@@ -61,6 +61,7 @@
   --step-label-background: #7e7e7e;
   --step-accent-color: #ffffff;
   --step-background-color: #131313;
+  
 }
 
 .step {
@@ -106,7 +107,7 @@
 }
 
 .stepDescription {
-  color: #334155;
+  color: var(--step-detail-color);
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -125,7 +126,7 @@
 }
 
 .setDescription {
-  color: #475569;
+  color: var(--step-detail-color);
   font-size: 0.95rem;
   line-height: 1.5;
 }

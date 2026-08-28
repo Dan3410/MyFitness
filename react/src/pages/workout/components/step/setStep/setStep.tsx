@@ -15,6 +15,7 @@ const SetStep: FC<SetStepProps> = ({ step, workoutCategory }) => {
       <div className={styles.setHeader}>
         <div className={styles.stepLabel}>{`Repetir ${step.repeat}x`}</div>
       </div>
+      {step.description && <div className={styles.setDescription}>{step.description}</div>}
       <div className={styles.nestedSteps}>
         {step.steps.map((innerStep, index) => (
           <div key={`${innerStep.type}-${index}`} className={styles.nestedStep}>

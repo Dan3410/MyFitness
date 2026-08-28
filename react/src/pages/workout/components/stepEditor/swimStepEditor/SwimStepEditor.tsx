@@ -29,6 +29,13 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as SwimStep['type'] })}
         />
+      <MFFormField theme={ComponentTheme.workout}>
+        <label>Descripción</label>
+        <textarea
+          value={step.description ?? ''}
+          onChange={(event) => onChange({ ...step, description: event.target.value })}
+        />
+      </MFFormField>
       {step.type !== StepType.SWIMTIME ? (
         <MFFormField theme={ComponentTheme.workout}>
           <label>Distancia</label>

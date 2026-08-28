@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 })
 public abstract class Step {
     private StepType type;
+    private String description;
 
     public StepType getType() {
         return type;
@@ -30,6 +31,14 @@ public abstract class Step {
 
     public void setType(StepType type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Step() {

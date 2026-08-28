@@ -39,6 +39,7 @@ export type SwimStroke =
 
 export interface BaseStep {
     type: StepType;
+    description?: string;
 }
 
 export interface RestStep extends BaseStep {

@@ -16,6 +16,7 @@ const RestStep: FC<RestStepProps> = ({ step, workoutCategory }) => {
         <div className={styles.stepTitle}>Descanso</div>
         <div className={styles.stepLabel}>Descanso</div>
       </div>
+      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
       <div className={styles.stepDetail}>{formatDuration(step.seconds)}</div>
     </div>
   );

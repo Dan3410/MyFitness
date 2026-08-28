@@ -27,6 +27,7 @@ const GymStep: FC<GymStepProps> = ({ step }) => {
         </div>
         <div className={styles.stepLabel}>{stepLabel}</div>
       </div>
+      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
       <div className={styles.stepDetail}>{detailText}</div>
     </div>
   );

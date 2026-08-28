@@ -27,6 +27,7 @@ const SwimStep: FC<SwimStepProps> = ({ step }) => {
         </div>
         <div className={styles.stepLabel}>{label}</div>
       </div>
+      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
       <div className={styles.stepDetail}>{detail}</div>
       {gearText && <div className={styles.stepDetail}>{gearText}</div>}
     </div>

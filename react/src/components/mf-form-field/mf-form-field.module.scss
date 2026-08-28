@@ -45,7 +45,8 @@
     }
 
     input,
-    select {
+    select,
+    textarea {
         height: 26px;
         margin: 19px 0 0 0;
         font-size: 18px;
@@ -54,6 +55,15 @@
         width: 100%;
         outline: none;
         color: inherit;
+    }
+
+    textarea {
+        box-sizing: border-box;
+        min-height: 80px;
+        height: auto;
+        padding: 4px 0;
+        resize: none;
+        font-family: inherit;
     }
 
     select[multiple] {
@@ -69,7 +79,8 @@
     }
 
     input:disabled,
-    select:disabled {
+    select:disabled,
+    textarea:disabled {
         pointer-events: none;
     }
 

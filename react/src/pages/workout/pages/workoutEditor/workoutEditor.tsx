@@ -68,7 +68,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     try {
       const res = await workoutService.getWorkoutSteps(id);
       setWorkout(res);
-      setSelectedStepIndex(res?.steps?.length ? 0 : null);
+      setSelectedStepIndex(null);
     } catch {
       setWorkout(undefined);
       setLoadError(true);
@@ -104,7 +104,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const addSet = () => {
     if (!workout) return;
 
-    const newSet: WorkoutSet = { type: StepType.SET, repeat: 1, steps: [] };
+    const newSet: WorkoutSet = { type: StepType.SET, description: '', repeat: 1, steps: [] };
     const nextSteps = [...workout.steps, newSet];
     setWorkout({ ...workout, steps: nextSteps });
     setSelectedStepIndex(nextSteps.length - 1);
@@ -116,13 +116,13 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
     let newStep: WorkoutStep;
 
     if (workout.category === WorkoutCategory.GYM) {
-      newStep = { type: StepType.EXERCISE, exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
+      newStep = { type: StepType.EXERCISE, description: '', exercise: '', byTime: false, reps: 10, time: 0, weight: 0 } as GymStep;
     } else if (workout.category === WorkoutCategory.SWIM) {
-      newStep = { type: StepType.SWIMDISTANCE, distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
+      newStep = { type: StepType.SWIMDISTANCE, description: '', distance: 0, time: 0, gear: [], stroke: SwimStroke.CHOICE } as SwimStep;
     } else if (workout.category === WorkoutCategory.RUN) {
-      newStep = { type: StepType.RUNDISTANCE, distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
+      newStep = { type: StepType.RUNDISTANCE, description: '', distance: 0, calories: 0, time: 0, speed: 0 } as RunStep;
     } else {
-      newStep = { type: StepType.REST, seconds: 30 };
+      newStep = { type: StepType.REST, description: '', seconds: 30 };
     }
 
     const nextSteps = [...workout.steps, newStep];
@@ -133,7 +133,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const addRestStep = () => {
     if (!workout) return;
 
-    const newStep: RestStep = { type: StepType.REST, seconds: 30 };
+    const newStep: RestStep = { type: StepType.REST, description: '', seconds: 30 };
     const nextSteps = [...workout.steps, newStep];
     setWorkout({ ...workout, steps: nextSteps });
     setSelectedStepIndex(nextSteps.length - 1);
