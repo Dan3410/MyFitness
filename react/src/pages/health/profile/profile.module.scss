@@ -1,27 +1,33 @@
-.profileFormSection{
+.profileFormSection {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     row-gap: 40px;
     column-gap: 20px
 }
 
-.profileFormButtons{
+.profileFormButtons {
     display: flex;
     margin: 40px 0 0 auto;
     width: fit-content;
     column-gap: 40px;
 }
 
-.profileImgContainer{
+.profileImgContainer {
     margin: 0 auto;
     width: fit-content;
     display: flex;
 }
 
-.profileImg{
+.profileImg {
     width: 128px;
     height: 128px;
     border-radius: 128px;
+}
+
+.profileForm {
+    padding: 0px 0px 20px 0px; row-gap: 16px;
+    display: flex;
+    flex-direction: column;
 }
 
 .breadcrumb {
@@ -48,7 +54,7 @@
     opacity: 0.85;
 }
 
-.profileEditButton{
+.profileEditButton {
     font-size: 16px;
     cursor: pointer;
 }

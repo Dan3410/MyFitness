@@ -4,12 +4,32 @@
     display: flex;
     cursor: pointer;
     font-weight: 600;
+
+    background-color: var(--mf-button-background-color);
+    color: var(--mf-button-text-color);
+
     
     label{
         margin: auto;            
         cursor: pointer
     } 
+
+    &.profileAndHealthTheme {
+        --mf-button-background-color: rgb(0, 131, 0);
+        --mf-button-text-color: rgb(16, 29, 16);
+    }
+
+    &.dietTheme {
+        --mf-button-background-color: #fdff82;
+        --mf-button-text-color: #000;
+    }
+
+    &.workoutTheme {
+        --mf-button-background-color: rgb(0, 80, 167);
+        --mf-button-text-color: #fafafa;
+    }
 }
+
 
 .profileAndHealthTheme {
     background-color: rgb(0, 175, 0);

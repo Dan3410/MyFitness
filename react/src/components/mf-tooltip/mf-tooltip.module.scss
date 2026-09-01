@@ -31,32 +31,23 @@
   pointer-events: none;
 }
 
-.profileAndHealthTheme {
-  background: rgba(19, 129, 19, 1);
-  color: #fafafa;
-}
+.mfTooltipIcon {
+  pointer-events: all;
+  color: var(--tooltip-icon-color);
+  border-color: var(--tooltip-border-color);
 
-.dietTheme {
-  background: #ac8757;
-  color: #fafafa;
-}
+  &.profileAndHealthTheme {
+    --tooltip-icon-color: #fafafa;
+    --tooltip-border-color: rgb(77, 255, 77);
+  }
 
-.workoutTheme {
-  background: rgb(19, 45, 129);
-  color: rgb(10, 8, 8);
-}
+  &.dietTheme {
+    --tooltip-icon-color: #fafafa;
+    --tooltip-border-color: #ac8757;
+  }
 
-.mfTooltipIcon.profileAndHealthTheme {
-  color: rgb(77, 255, 77);
-  border-color: rgb(77, 255, 77);
-}
-
-.mfTooltipIcon.dietTheme {
-  color: rgb(251, 255, 0);
-  border-color: rgb(251, 255, 0);
-}
-
-.mfTooltipIcon.workoutTheme {
-  color: rgb(77, 148, 255);
-  border-color: rgb(77, 148, 255);
+  &.workoutTheme {
+    --tooltip-icon-color: rgb(10, 8, 8);
+    --tooltip-border-color: rgb(19, 45, 129);
+  }
 }

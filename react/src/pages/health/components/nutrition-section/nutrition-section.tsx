@@ -5,6 +5,7 @@ import MFTooltip from '../../../../components/mf-tooltip/mf-tooltip';
 import { ComponentTheme } from '../../../../models/componentTheme';
 import { OBJECTIVE } from '../../../../models/objective';
 import { WEIGHTUNIT } from '../../../../models/weightUnit';
+import MFExpandablePanel from '../../../../components/mf-expandable-panel/mf-expandable-panel';
 
 
 
@@ -23,9 +24,9 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
   }
 
   const getWeightInKg = () => {
-    if(!form.weight || form.weight < 0)
+    if (!form.weight || form.weight < 0)
       return 0
-    if(form.weightUnit == WEIGHTUNIT.LB)
+    if (form.weightUnit == WEIGHTUNIT.LB)
       return form.weight * 0.453592
     return form.weight
   }
@@ -60,36 +61,36 @@ const NutritionSection: FC<NutritionSectionProps> = ({ form }) => {
 
   return (<>
 
-    <h6>Nutrición</h6>
-    <div>
-      Estos valores son calculados en base a tu nivel de actividad física, objetivo y peso
-    </div>
-    <div>
-      Calorias<MFTooltip theme={ComponentTheme.profileAndHealth}>
-        Unidad de energia obtenida de alimentos y gastadas en el día a día. El exceso se almacena. Cada item debajo aporta calorias:
-        <ul>
-          <li> Proteina: 4kcal/g</li>
-          <li> Carbohidratos: 4kcal/g</li>
-          <li> Grasa: 9kcal/g</li>
-        </ul>
-      </MFTooltip>: Entre {getMinimumCalories()}kcal - {getMaximumCalories()}kcal
-    </div>
-    <div>
-      Proteinas<MFTooltip theme={ComponentTheme.profileAndHealth}>
-        Fundamental para la reparación, construcción y fortalecimiento muscular. Consumir más de lo requerido no produce ningún beneficio y puede ser dañino a largo plazo.
-      </MFTooltip>: Entre {getMinimumProtein()}g - {getMaximumProtein()}g
-    </div>
-    <div>
-      Carbohidratos<MFTooltip theme={ComponentTheme.profileAndHealth}>
-        Fuente principal de energía del ser humano. Si bien se necesita altas cantidades, se recomienda evitar que sean azucares.
-      </MFTooltip>: Entre {getMinimumCarbohidrates()}g - {getMaximumCarbohidrates()}g
-    </div>
-    <div>
-      Grasas<MFTooltip theme={ComponentTheme.profileAndHealth}>
-        Ayudan a absorber vitaminas, formar hormonas y membranas y protegen los organos. Se recomienda consumir grasas saludables (insaturadas) ya que las insalubres (saturadas) aumentan el colesterol "malo".
-      </MFTooltip>: Entre {getMinimumFats()}g - {getMaximumFats()}g
-    </div>
-
+    <MFExpandablePanel title="Nutrición" theme={ComponentTheme.profileAndHealth}>
+      <div>
+        Estos valores son calculados en base a tu nivel de actividad física, objetivo y peso
+      </div>
+      <div>
+        Calorias<MFTooltip theme={ComponentTheme.profileAndHealth}>
+          Unidad de energia obtenida de alimentos y gastadas en el día a día. El exceso se almacena. Cada item debajo aporta calorias:
+          <ul>
+            <li> Proteina: 4kcal/g</li>
+            <li> Carbohidratos: 4kcal/g</li>
+            <li> Grasa: 9kcal/g</li>
+          </ul>
+        </MFTooltip>: Entre {getMinimumCalories()}kcal - {getMaximumCalories()}kcal
+      </div>
+      <div>
+        Proteinas<MFTooltip theme={ComponentTheme.profileAndHealth}>
+          Fundamental para la reparación, construcción y fortalecimiento muscular. Consumir más de lo requerido no produce ningún beneficio y puede ser dañino a largo plazo.
+        </MFTooltip>: Entre {getMinimumProtein()}g - {getMaximumProtein()}g
+      </div>
+      <div>
+        Carbohidratos<MFTooltip theme={ComponentTheme.profileAndHealth}>
+          Fuente principal de energía del ser humano. Si bien se necesita altas cantidades, se recomienda evitar que sean azucares.
+        </MFTooltip>: Entre {getMinimumCarbohidrates()}g - {getMaximumCarbohidrates()}g
+      </div>
+      <div>
+        Grasas<MFTooltip theme={ComponentTheme.profileAndHealth}>
+          Ayudan a absorber vitaminas, formar hormonas y membranas y protegen los organos. Se recomienda consumir grasas saludables (insaturadas) ya que las insalubres (saturadas) aumentan el colesterol "malo".
+        </MFTooltip>: Entre {getMinimumFats()}g - {getMaximumFats()}g
+      </div>
+    </MFExpandablePanel>
   </>
   )
 };
