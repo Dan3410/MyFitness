@@ -14,13 +14,20 @@ import com.example.myFitness.workout.model.WorkoutListItem;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import com.example.myFitness.auth.AuthService;
 
 @RestController
 @RequestMapping("/workout")
+@CrossOrigin(origins = { "http://localhost:5173", "https://localhost:5173" })
 public class WorkoutController {
 
   @Autowired
     private WorkoutService workoutService;
+
+  @Autowired
+    private AuthService authService;
 
   @GetMapping("/categories")
   public WorkoutCategory[] getCategories() {
@@ -28,26 +35,31 @@ public class WorkoutController {
   }
 
   @GetMapping("/list/{userId}")
-  public WorkoutListItem[] getWorkouts(@PathVariable String userId, @RequestParam String category){
-    return workoutService.getWorkoutsListItems(userId, category);
+  public WorkoutListItem[] getWorkouts(@PathVariable String userId, @RequestParam String category,
+      @RequestHeader(value = "Authorization", required = false) String authorization){
+    return workoutService.getWorkoutsListItems(authService.requireUserId(authorization), category);
   }
 
   @GetMapping("/{workoutId}")
-  public Workout createWorkout(@PathVariable String workoutId){
-    return workoutService.getWorkout(workoutId);
+  public Workout createWorkout(@PathVariable String workoutId,
+      @RequestHeader(value = "Authorization", required = false) String authorization){
+    return workoutService.getWorkout(authService.requireUserId(authorization), workoutId);
   }
   @PostMapping("/{workoutId}")
-  public Workout createWorkout(@PathVariable String workoutId, @RequestBody Workout workout){
-    return workoutService.createWorkout(workoutId, workout);
+  public Workout createWorkout(@PathVariable String workoutId, @RequestBody Workout workout,
+      @RequestHeader(value = "Authorization", required = false) String authorization){
+    return workoutService.createWorkout(authService.requireUserId(authorization), workout);
   }
 
   @PutMapping("/{workoutId}")
-  public Workout editWorkout(@PathVariable String workoutId, @RequestBody Workout workout){
-    return workoutService.editWorkout(workoutId, workout);
+  public Workout editWorkout(@PathVariable String workoutId, @RequestBody Workout workout,
+      @RequestHeader(value = "Authorization", required = false) String authorization){
+    return workoutService.editWorkout(authService.requireUserId(authorization), workoutId, workout);
   }
 
   @DeleteMapping("/{workoutId}")
-  public WorkoutListItem[] deleteWorkout(@PathVariable String workoutId){
-    return workoutService.deleteWorkout(workoutId);
+  public WorkoutListItem[] deleteWorkout(@PathVariable String workoutId,
+      @RequestHeader(value = "Authorization", required = false) String authorization){
+    return workoutService.deleteWorkout(authService.requireUserId(authorization), workoutId);
   }
 }

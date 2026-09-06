@@ -4,6 +4,7 @@ import MFButton from "../../components/mf-button/mf-button";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { SectionButton } from "../../models/section";
 import { ComponentTheme } from "../../models/componentTheme";
+import { useAuth } from "../../context/AuthContext";
 
 interface HomeProps { }
 
@@ -46,10 +47,15 @@ const Home: FC<HomeProps> = () => {
   ]
 
   const navigate: NavigateFunction = useNavigate();
+  const { session, logout } = useAuth();
 
   return (
     <>
       <div className={styles.homeContainer}>
+        <div className={styles.sessionBar}>
+          <span>{session?.email}</span>
+          <button type="button" onClick={logout}>Cerrar sesión</button>
+        </div>
         {sectionsButtons.map((item: SectionButton) => (
           <div className={styles.button}>
             <label>{!item.disabled ? item.description : "No disponible"}</label>

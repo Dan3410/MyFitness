@@ -1,7 +1,9 @@
 import styles from './App.module.scss'
 import './styles.scss'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Login from './pages/auth/login';
 import Home from './pages/home/home';
 import Profile from './pages/health/profile/profile';
 import Workout from './pages/workout/workout';
@@ -11,10 +13,14 @@ import WorkoutEditor from './pages/workout/pages/workoutEditor/workoutEditor';
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <AuthProvider><BrowserRouter><AppRoutes /></BrowserRouter></AuthProvider>
   )
+}
+
+function RequireAuth({ children }: { children: React.ReactNode }) {
+  const { session } = useAuth();
+  const location = useLocation();
+  return session ? children : <Navigate to="/login" replace state={{ from: location.pathname }} />;
 }
 
 function AppRoutes() {
@@ -38,14 +44,15 @@ function AppRoutes() {
     <>
       <div className={styles.appContainer}>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/workout" element={<Workout />}>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<RequireAuth><Home /></RequireAuth>}></Route>
+          <Route path="/workout" element={<RequireAuth><Workout /></RequireAuth>}>
             <Route path="/workout/categories" element={<WorkoutCategories />}></Route>
             <Route path="/workout/list" element={<WorkoutList />}></Route>
             <Route path="/workout/edit/:id" element={<WorkoutEditor />}></Route>
           </Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/diet" element={<Home />}></Route>
+          <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>}></Route>
+          <Route path="/diet" element={<RequireAuth><Home /></RequireAuth>}></Route>
         </Routes>
       </div>
     </>

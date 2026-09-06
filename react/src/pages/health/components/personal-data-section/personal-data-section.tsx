@@ -28,6 +28,13 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
       <div className={styles.profileFormSection}>
         <div>
           <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+            <label>Username</label>
+            <input name="username" value={form.username} onChange={handleChange}></input>
+          </MFFormField>
+          <MFError hidden={!edit || !!form.username}>Este campo es obligatorio</MFError>
+        </div>
+        <div>
+          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
             <label>Nombre</label>
             <input name="name" value={form.name} onChange={handleChange}></input>
           </MFFormField>

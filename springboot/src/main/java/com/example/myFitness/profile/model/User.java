@@ -2,6 +2,9 @@ package com.example.myFitness.profile.model;
 
 //Profile object
 public class User {
+    private String id;
+    private String username;
+    private String email;
     private String name;
     private String lastName;
     private Double weight;
@@ -14,9 +17,12 @@ public class User {
     private Objective objective;
 
     // Constructor
-    public User(String name, String lastName, Double weight, WeightUnit weightUnit,
+    public User(String id, String username, String email, String name, String lastName, Double weight, WeightUnit weightUnit,
                 Double height, HeightUnit heightUnit, String birthDay, Gender gender,
                 PhysicalActivityLvl physicalActivityLvl, Objective objective) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
         this.name = name;
         this.lastName = lastName;
         this.weight = weight;
@@ -30,6 +36,22 @@ public class User {
     }
 
     // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getName() {
         return name;
     }

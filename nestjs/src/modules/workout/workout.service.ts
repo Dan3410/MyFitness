@@ -20,40 +20,41 @@ export class WorkoutService {
   async getWorkouts(
     id: string,
     category: string,
+    authorization: string,
   ): Promise<WorkoutListItem[]> {
     const response = await firstValueFrom(
       this.httpService.get<WorkoutListItem[]>(
         `${this.workoutApiUrl}/list/${id}?category=${category}`,
+        { headers: { authorization } },
       ),
     );
     return response.data;
   }
 
-  async deleteWorkout(id: string): Promise<WorkoutListItem[]> {
+  async deleteWorkout(id: string, authorization: string): Promise<WorkoutListItem[]> {
     const response = await firstValueFrom(
-      this.httpService.delete<WorkoutListItem[]>(`${this.workoutApiUrl}/${id}`),
+      this.httpService.delete<WorkoutListItem[]>(`${this.workoutApiUrl}/${id}`, { headers: { authorization } }),
     );
     return response.data;
   }
 
-  async getWorkout(id: string): Promise<Workout> {
+  async getWorkout(id: string, authorization: string): Promise<Workout> {
     const response = await firstValueFrom(
-      this.httpService.get<Workout>(`${this.workoutApiUrl}/${id}`),
+      this.httpService.get<Workout>(`${this.workoutApiUrl}/${id}`, { headers: { authorization } }),
     );
     return response.data;
   }
 
-  async createWorkout(id: string, workout: Workout): Promise<Workout> {
+  async createWorkout(id: string, workout: Workout, authorization: string): Promise<Workout> {
     const response = await firstValueFrom(
-      this.httpService.post<Workout>(`${this.workoutApiUrl}/${id}`, workout),
+      this.httpService.post<Workout>(`${this.workoutApiUrl}/${id}`, workout, { headers: { authorization } }),
     );
     return response.data;
   }
 
-  async editWorkout(id: string, workout: Workout): Promise<Workout> {
-    console.log(workout);
+  async editWorkout(id: string, workout: Workout, authorization: string): Promise<Workout> {
     const response = await firstValueFrom(
-      this.httpService.put<Workout>(`${this.workoutApiUrl}/${id}`, workout),
+      this.httpService.put<Workout>(`${this.workoutApiUrl}/${id}`, workout, { headers: { authorization } }),
     );
     return response.data;
   }

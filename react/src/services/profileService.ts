@@ -1,14 +1,20 @@
 import { User } from "../models/user";
 import { GET_DATA_ERROR_MESSAGE } from "../const/errorMessages";
+import { SESSION_STORAGE_KEY } from './authService';
 
 const API_URL = 'http://localhost:3000/user/'
+
+const authHeaders = () => ({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || '{}').token || ''}`
+})
 
 class ProfileService {
     constructor() { }
 
-    async getUserData(id: string) {
-        //It does nothing with the id for now
-        return fetch(API_URL + id).then(async (response: Response) => {
+    async getUserData() {
+        const userId = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || '{}').userId || ''
+        return fetch(API_URL + userId, { headers: authHeaders() }).then(async (response: Response) => {
             if (!response.ok) {
                 throw new Error(GET_DATA_ERROR_MESSAGE);
             }
@@ -17,11 +23,12 @@ class ProfileService {
         })
     }
 
-    async editUserData(id: string, userData: User) {
-        return fetch(API_URL + id, {
+    async editUserData(userData: User) {
+        const userId = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || '{}').userId || ''
+        return fetch(API_URL + userId, {
             method: 'PUT',
             body: JSON.stringify(userData),
-            headers: { 'Content-Type': 'application/json' }
+            headers: authHeaders()
         }).then((response: Response) => { return response.json() }).catch((err: Error) => err);
     }
 }

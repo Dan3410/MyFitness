@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import com.example.myFitness.workout.model.SwimStroke;
 import com.example.myFitness.workout.model.Workout;
 import com.example.myFitness.workout.model.WorkoutCategory;
 import com.example.myFitness.workout.model.WorkoutListItem;
+import com.example.myFitness.auth.AuthService;
 
 import jakarta.annotation.PostConstruct;
 
@@ -28,8 +31,13 @@ import jakarta.annotation.PostConstruct;
 public class WorkoutService {
 
   private WorkoutCategory[] categories;
-  private WorkoutListItem[] workoutsListItems;
   private Workout[] workouts;
+  private final Map<String, List<Workout>> workoutsByUser = new ConcurrentHashMap<>();
+  private final AuthService authService;
+
+  public WorkoutService(AuthService authService) {
+    this.authService = authService;
+  }
 
   @PostConstruct
   public void init() {
@@ -39,13 +47,6 @@ public class WorkoutService {
         new WorkoutCategory("Natación", "swim"),
         new WorkoutCategory("Gimnasio", "gym"),
         new WorkoutCategory("Correr", "run")
-    };
-
-    // workouts list items
-    workoutsListItems = new WorkoutListItem[] {
-        new WorkoutListItem(0, "Swim Swim", WorkoutListItem.Category.SWIM, 60, LocalDate.now(), LocalDate.now(), LocalDate.now()),
-      new WorkoutListItem(1, "Lift heavy things", WorkoutListItem.Category.GYM, 100, LocalDate.now(), LocalDate.now(), LocalDate.now()),
-      new WorkoutListItem(2, "Run training", WorkoutListItem.Category.RUN, 45, LocalDate.now(), LocalDate.now(), LocalDate.now())
     };
 
     // --- Swim steps ---
@@ -91,9 +92,13 @@ public class WorkoutService {
 
     workouts = new Workout[] {
         new Workout("0", "Swim Swim", "swim", swimSteps),
-      new Workout("1", "Gym workout", "gym", gymSteps),
+      new Workout("1", "Lift heavy things", "gym", gymSteps),
       new Workout("2", "Run training", "run", runSteps)
     };
+
+    workoutsByUser.put(authService.getUserId("Swim"), new ArrayList<>(List.of(workouts[0])));
+    workoutsByUser.put(authService.getUserId("Gym"), new ArrayList<>(List.of(workouts[1])));
+    workoutsByUser.put(authService.getUserId("Run"), new ArrayList<>(List.of(workouts[2])));
   }
 
   private Set createSet(List<Step> step, int repeat) {
@@ -125,85 +130,66 @@ public class WorkoutService {
     return categories;
   }
 
-  public WorkoutListItem[] getWorkoutsListItems(String id, String category) {
+  private List<Workout> workoutsForUser(String userId) {
+    return workoutsByUser.computeIfAbsent(userId, ignored -> new ArrayList<>());
+  }
+
+  private WorkoutListItem[] listItemsForUser(String userId) {
+    return workoutsForUser(userId).stream()
+        .map(workout -> new WorkoutListItem(
+            Integer.parseInt(workout.getId()),
+            workout.getName(),
+            WorkoutListItem.Category.valueOf(workout.getCategory().toUpperCase()),
+            workout.getSteps() == null ? 0 : workout.getSteps().size(),
+            LocalDate.now(), LocalDate.now(), LocalDate.now()))
+        .toArray(WorkoutListItem[]::new);
+  }
+
+  public WorkoutListItem[] getWorkoutsListItems(String userId, String category) {
+    WorkoutListItem[] items = listItemsForUser(userId);
     if (!category.equals("all")) {
-      return Arrays.stream(workoutsListItems)
+      return Arrays.stream(items)
           .filter(item -> category.equalsIgnoreCase(item.getCategory().name()))
           .collect(Collectors.toList()).toArray(WorkoutListItem[]::new);
     } else
-      return workoutsListItems;
+      return items;
   }
 
-  public Workout createWorkout(String id, Workout workout) {
+  public Workout createWorkout(String userId, Workout workout) {
     if (workout == null) {
       return null;
     }
 
     if (workout.getId() == null || workout.getId().isBlank()) {
-      workout.setId(String.valueOf(workouts.length));
+      workout.setId(String.valueOf(workoutsForUser(userId).size()));
     }
 
-    Workout[] updatedWorkouts = Arrays.copyOf(workouts, workouts.length + 1);
-    updatedWorkouts[workouts.length] = workout;
-    workouts = updatedWorkouts;
-    syncWorkoutListItem(workout);
+    workoutsForUser(userId).add(workout);
 
     return workout;
   }
 
-  private void syncWorkoutListItem(Workout updatedWorkout) {
-    if (updatedWorkout == null) {
-      return;
-    }
-
-    List<WorkoutListItem> list = new ArrayList<>(Arrays.asList(workoutsListItems));
-    for (WorkoutListItem item : list) {
-      if (item.getId().equals(Integer.parseInt(updatedWorkout.getId()))) {
-        item.setName(updatedWorkout.getName());
-        item.setCategory(WorkoutListItem.Category.valueOf(updatedWorkout.getCategory().toUpperCase()));
-        item.setModifiedDate(LocalDate.now());
-        workoutsListItems = list.toArray(new WorkoutListItem[0]);
-        return;
-      }
-    }
-
-    list.add(new WorkoutListItem(
-        Integer.parseInt(updatedWorkout.getId()),
-        updatedWorkout.getName(),
-        WorkoutListItem.Category.valueOf(updatedWorkout.getCategory().toUpperCase()),
-        updatedWorkout.getSteps() == null ? 0 : updatedWorkout.getSteps().stream().mapToInt(step -> 0).sum(),
-        LocalDate.now(),
-        LocalDate.now(),
-        LocalDate.now()));
-    workoutsListItems = list.toArray(new WorkoutListItem[0]);
-  }
-
-  public Workout getWorkout(String id) {
-    return Arrays.stream(workouts)
+  public Workout getWorkout(String userId, String id) {
+    return workoutsForUser(userId).stream()
         .filter(item -> id.equals(item.getId()))
         .findFirst().orElse(null);
   }
 
-  public Workout editWorkout(String id, Workout newWorkout) {
-    for (Workout workout : workouts) {
+  public Workout editWorkout(String userId, String id, Workout newWorkout) {
+    for (Workout workout : workoutsForUser(userId)) {
       if (id.equals(workout.getId())) {
         workout.setName(newWorkout.getName());
         workout.setCategory(newWorkout.getCategory());
         workout.setSteps(newWorkout.getSteps());
-        syncWorkoutListItem(workout);
         return workout; // edit successful
       }
     }
     return null; // workout not found
   }
 
-  public WorkoutListItem[] deleteWorkout(String id) {
-    List<WorkoutListItem> list = new ArrayList<WorkoutListItem>(Arrays.asList(workoutsListItems));
-
-    list.removeIf(workoutItem -> workoutItem.getId().equals(Integer.parseInt(id)));
-    workoutsListItems = list.toArray(new WorkoutListItem[0]);
-
-    return workoutsListItems;
+  public WorkoutListItem[] deleteWorkout(String userId, String id) {
+    workoutsForUser(userId).removeIf(workout -> workout.getId().equals(id));
+    return listItemsForUser(userId);
   }
 
 }

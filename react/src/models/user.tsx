@@ -5,6 +5,9 @@ import { PHYSICALACTIVITYLVL } from "./physical-activity"
 import { WEIGHTUNIT } from "./weightUnit"
 
 export interface User {
+  id: string,
+  username: string,
+  email: string,
   name: string
   lastName: string
   weight: number

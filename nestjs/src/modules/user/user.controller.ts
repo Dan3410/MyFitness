@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import type { User } from 'src/models/user';
 
@@ -7,15 +7,16 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @Get(':id')
-  async getUser(@Param('id') id: string): Promise<User> {
-    let response = await this.userService.getUser(id);
+  async getUser(@Param('id') id: string, @Headers('authorization') authorization: string): Promise<User> {
+    let response = await this.userService.getUser(id, authorization);
     return response
   }
 
   @Put(':id')
   editUser(
     @Param('id') id: string,
-    @Body() userData: User): Promise<User> {
-    return this.userService.editUser(id, userData);
+    @Body() userData: User,
+    @Headers('authorization') authorization: string): Promise<User> {
+    return this.userService.editUser(id, userData, authorization);
   }
 }

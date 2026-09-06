@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, Post, Put, Query } from '@nestjs/common';
 import { WorkoutService } from './workout.service';
 import type { WorkoutListItem, Workout } from 'src/models/workout';
 import type { WorkoutCategories } from 'src/models/workoutCategories';
@@ -16,36 +16,41 @@ export class WorkoutController {
   @Get('/list/:id')
   getWorkouts(
     @Param('id') id: string,
-    @Query() query: Record<string, string>): Promise<WorkoutListItem[]> {
-    return this.workoutService.getWorkouts(id, query.category);
+    @Query() query: Record<string, string>,
+    @Headers('authorization') authorization: string): Promise<WorkoutListItem[]> {
+    return this.workoutService.getWorkouts(id, query.category, authorization);
   }
 
   @Get("/:id")
   getWorkout(
-    @Param('id') id: string
+    @Param('id') id: string,
+    @Headers('authorization') authorization: string
   ): any{
-    return this.workoutService.getWorkout(id);
+    return this.workoutService.getWorkout(id, authorization);
   }
 
   @Post('/:id')
   createWorkout(
     @Param('id') id: string,
     @Body() workout: Workout,
+    @Headers('authorization') authorization: string,
   ): Promise<Workout> {
-    return this.workoutService.createWorkout(id, workout);
+    return this.workoutService.createWorkout(id, workout, authorization);
   }
 
   @Put('/:id')
   editWorkout(
     @Param('id') id: string,
     @Body() workout: Workout,
+    @Headers('authorization') authorization: string,
   ): Promise<Workout> {
-    return this.workoutService.editWorkout(id, workout);
+    return this.workoutService.editWorkout(id, workout, authorization);
   }
 
   @Delete('/:id')
   deleteWorkouts(
-    @Param('id') id: string): Promise<WorkoutListItem[]> {
-    return this.workoutService.deleteWorkout(id);
+    @Param('id') id: string,
+    @Headers('authorization') authorization: string): Promise<WorkoutListItem[]> {
+    return this.workoutService.deleteWorkout(id, authorization);
   }
 }

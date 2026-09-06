@@ -9,13 +9,13 @@ export class UserService {
   private profileApiUrl = "http://localhost:8080/profile";
   constructor(private readonly httpService: HttpService) { }
 
-  async getUser(id: string): Promise<User> {
-    const response = await firstValueFrom(this.httpService.get(this.profileApiUrl + `?id=${id}`));
+  async getUser(id: string, authorization: string): Promise<User> {
+    const response = await firstValueFrom(this.httpService.get(this.profileApiUrl, { headers: { authorization } }));
     return response.data;
   }
 
-  async editUser(id: string, userData: User): Promise<User> {
-    const response = await firstValueFrom(this.httpService.put(this.profileApiUrl + `?id=${id}`, userData));
+  async editUser(id: string, userData: User, authorization: string): Promise<User> {
+    const response = await firstValueFrom(this.httpService.put(this.profileApiUrl, userData, { headers: { authorization } }));
     return response.data;
   }
 }

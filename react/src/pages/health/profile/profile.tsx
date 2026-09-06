@@ -23,6 +23,9 @@ interface ProfileProps { }
 const Profile: FC<ProfileProps> = () => {
 
   const [form, setForm] = useState<User>({
+    id: '',
+    username: '',
+    email: '',
     name: '',
     lastName: "",
     weight: 0,
@@ -36,6 +39,9 @@ const Profile: FC<ProfileProps> = () => {
   })
 
   const [originalData, setOriginalData] = useState<User>({
+    id: '',
+    username: '',
+    email: '',
     name: '',
     lastName: "",
     weight: 0,
@@ -54,7 +60,7 @@ const Profile: FC<ProfileProps> = () => {
   const getData = async () => {
     try {
       setLoadError(false)
-      const data = await profileService.getUserData('123')
+      const data = await profileService.getUserData()
       setOriginalData(data)
       setForm(data)
     } catch {
@@ -91,7 +97,7 @@ const Profile: FC<ProfileProps> = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    profileService.editUserData('123', form).then((userData: User) => {
+    profileService.editUserData(form).then((userData: User) => {
       setForm(userData)
       setOriginalData(userData)
       setEdit(false)

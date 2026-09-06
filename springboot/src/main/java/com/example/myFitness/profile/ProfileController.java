@@ -9,22 +9,32 @@ import com.example.myFitness.profile.model.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestHeader;
+
+import com.example.myFitness.auth.AuthService;
 
 @RestController
 @RequestMapping("/profile")
+@CrossOrigin(origins = { "http://localhost:5173", "https://localhost:5173" })
 public class ProfileController {
 
   @Autowired
     private ProfileService profileService;
 
+  @Autowired
+    private AuthService authService;
+
   @GetMapping("")
-  public User getProfile(@RequestParam String id) {
-    return profileService.getProfile(id);
+  public User getProfile(@RequestHeader(value = "Authorization", required = false) String authorization) {
+    return profileService.getProfile(authService.requireUserId(authorization));
   }
 
   @PutMapping("")
-  public User saveProfile(@RequestParam String id, @RequestBody User profile){
-    return profileService.saveProfile(id, profile);
+  public User saveProfile(@RequestHeader(value = "Authorization", required = false) String authorization, @RequestBody User profile){
+    String userId = authService.requireUserId(authorization);
+    authService.updateUsername(userId, profile.getUsername());
+    return profileService.saveProfile(userId, profile);
   }
 
 }

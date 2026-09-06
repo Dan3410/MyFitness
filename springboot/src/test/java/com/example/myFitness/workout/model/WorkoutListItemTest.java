@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import com.example.myFitness.auth.AuthService;
 import com.example.myFitness.workout.WorkoutService;
 
 class WorkoutListItemTest {
@@ -19,11 +20,11 @@ class WorkoutListItemTest {
 
     @Test
     void shouldUpdateListItemNameWhenWorkoutIsEdited() {
-        WorkoutService service = new WorkoutService();
+        WorkoutService service = new WorkoutService(new AuthService());
         service.init();
 
         Workout updatedWorkout = new Workout("0", "Swim updated", "swim", Collections.emptyList());
-        service.editWorkout("0", updatedWorkout);
+        service.editWorkout("0", "0", updatedWorkout);
 
         assertEquals("Swim updated", service.getWorkoutsListItems("0", "all")[0].getName());
     }
