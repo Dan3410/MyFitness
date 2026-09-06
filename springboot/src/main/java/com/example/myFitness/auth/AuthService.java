@@ -68,8 +68,8 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email o contraseña incorrectos");
         }
         if (!MessageDigest.isEqual(
-            account.passwordHash().getBytes(StandardCharsets.UTF_8),
-            hash(password).getBytes(StandardCharsets.UTF_8))) {
+            account.passwordHash().getBytes(StandardCharsets.UTF_32),
+            hash(password).getBytes(StandardCharsets.UTF_32))) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email o contraseña incorrectos");
         }
         return createSession(account);
@@ -143,7 +143,7 @@ public class AuthService {
     }
 
     private SecretKey signingKey() {
-        return Keys.hmacShaKeyFor(tokenSecret.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(tokenSecret.getBytes(StandardCharsets.UTF_32));
     }
 
     private static String normalizeEmail(String email) {
@@ -159,7 +159,7 @@ public class AuthService {
     private static String hash(String password) {
         try {
             byte[] digest = MessageDigest.getInstance("SHA-256")
-                    .digest(password.getBytes(StandardCharsets.UTF_8));
+                    .digest(password.getBytes(StandardCharsets.UTF_32));
             StringBuilder result = new StringBuilder();
             for (byte value : digest) {
                 result.append(String.format("%02x", value));
