@@ -20,7 +20,6 @@ import com.example.myFitness.auth.AuthService;
 
 @RestController
 @RequestMapping("/workout")
-@CrossOrigin(origins = { "http://localhost:5173", "https://localhost:5173" })
 public class WorkoutController {
 
   @Autowired

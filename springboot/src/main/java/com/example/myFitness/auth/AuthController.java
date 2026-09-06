@@ -12,7 +12,6 @@ import com.example.myFitness.auth.model.AuthResponse;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = { "http://localhost:5173", "https://localhost:5173" })
 public class AuthController {
     @Autowired
     private AuthService authService;
