@@ -28,6 +28,11 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
     navigate('/workout/list');
   };
 
+  const goToCalendar = () => {
+    setIsHamburgerOpen(false);
+    navigate('/calendar');
+  };
+
   const goToProfile = () => {
     setIsMenuOpen(false);
     navigate('/profile');
@@ -61,7 +66,8 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
           />
           <div className={`${styles.hamburgerPanel} ${isHamburgerOpen ? '' : styles.hamburgerPanel__closed}`} role="menu">
             <div className={styles.hamburgerPanel__content}>
-              <button type="button" role="menuitem" onClick={goToWorkout}>Workout</button>
+              <button type="button" role="menuitem" onClick={goToWorkout}>Rutina de ejercicios</button>
+              <button type="button" role="menuitem" onClick={goToCalendar}>Calendario</button>
             </div>
           </div>
         </div>

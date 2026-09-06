@@ -21,14 +21,6 @@ export class WorkoutController {
     return this.workoutService.getWorkouts(id, query.category, authorization);
   }
 
-  @Get("/:id")
-  getWorkout(
-    @Param('id') id: string,
-    @Headers('authorization') authorization: string
-  ): any{
-    return this.workoutService.getWorkout(id, authorization);
-  }
-
   @Post('/:id')
   createWorkout(
     @Param('id') id: string,
@@ -45,6 +37,14 @@ export class WorkoutController {
     @Headers('authorization') authorization: string,
   ): Promise<Workout> {
     return this.workoutService.editWorkout(id, workout, authorization);
+  }
+
+  @Get("/:id")
+  getWorkout(
+    @Param('id') id: string,
+    @Headers('authorization') authorization: string
+  ): any{
+    return this.workoutService.getWorkout(id, authorization);
   }
 
   @Delete('/:id')

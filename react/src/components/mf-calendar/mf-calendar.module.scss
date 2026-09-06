@@ -1,0 +1,193 @@
+.calendar {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.calendarHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.calendarHeader h2 {
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.calendarHeader button {
+  align-items: center;
+  background: #1769aa;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 28px;
+  height: 36px;
+  justify-content: center;
+  line-height: 1;
+  width: 36px;
+  padding: 0;
+}
+
+.weekDays,
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.weekDays {
+  font-size: 16px;
+  font-weight: 600;
+  gap: 6px;
+  margin-bottom: 6px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.daysGrid {
+  gap: 6px;
+}
+
+.emptyDay,
+.day {
+  height: 110px;
+}
+
+.emptyDay {
+  display: block;
+}
+
+.day {
+  background: #fff;
+  border: 1px solid #d7dce2;
+  border-radius: 4px;
+  color: #222;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 8px;
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.day:hover,
+.day:focus-visible,
+.selectedDay {
+  border-color: #1769aa;
+  box-shadow: 0 0 0 2px rgb(23 105 170 / 15%);
+  outline: none;
+  border-width: 3px;
+}
+
+.today strong {
+  align-items: center;
+  background: #1769aa;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.dayWorkouts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.dayWorkouts span,
+.dayWorkouts small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dayWorkouts span {
+  background: #e5f2fb;
+  border-left: 3px solid #1769aa;
+  font-size: 11px;
+  padding: 3px 4px;
+}
+
+.dayWorkouts small {
+  color: #555;
+  font-size: 11px;
+}
+
+.dayDetails {
+  border-top: 2px solid #1769aa;
+  margin-top: 22px;
+  padding-top: 16px;
+}
+
+.dayDetails h3 {
+  margin: 0 0 12px;
+}
+
+.dayDetails p {
+  color: #666;
+}
+
+.dayDetails ul {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+}
+
+.dayDetails li {
+  align-items: center;
+  border-bottom: 1px solid #e1e5e8;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.dayDetails li button,
+.addWorkout button {
+  background: #1769aa;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+
+.dayDetails li button {
+  background: transparent;
+  color: #b3261e;
+}
+
+.addWorkout {
+  display: flex;
+  gap: 8px;
+}
+
+.addWorkout select {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+}
+
+.addWorkout button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+  .emptyDay,
+  .day {
+    min-height: 68px;
+  }
+
+  .day {
+    padding: 5px;
+  }
+
+  .dayWorkouts span {
+    font-size: 9px;
+  }
+}

@@ -175,6 +175,10 @@ public class WorkoutService {
         .findFirst().orElse(null);
   }
 
+  public boolean hasWorkout(String userId, String id) {
+    return getWorkout(userId, id) != null;
+  }
+
   public Workout editWorkout(String userId, String id, Workout newWorkout) {
     for (Workout workout : workoutsForUser(userId)) {
       if (id.equals(workout.getId())) {

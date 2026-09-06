@@ -1,8 +1,9 @@
 .appContainer {
-  margin: 20px auto;
+  margin: 60px auto 20px auto;
   min-height: calc(100vh - 100px);
   width: 100%;
   max-width: 1280px;
+  padding: 20px 0;
 }
 
 :global( ::-webkit-scrollbar) {

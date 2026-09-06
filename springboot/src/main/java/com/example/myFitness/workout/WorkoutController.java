@@ -60,4 +60,5 @@ public class WorkoutController {
       @RequestHeader(value = "Authorization", required = false) String authorization){
     return workoutService.deleteWorkout(authService.requireUserId(authorization), workoutId);
   }
+
 }

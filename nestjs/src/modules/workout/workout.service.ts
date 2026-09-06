@@ -58,4 +58,29 @@ export class WorkoutService {
     );
     return response.data;
   }
+
+  async getCalendar(authorization: string): Promise<Record<string, string[]>> {
+    const response = await firstValueFrom(
+      this.httpService.get<Record<string, string[]>>(`${this.workoutApiUrl}/calendar`, { headers: { authorization } }),
+    );
+    return response.data;
+  }
+
+  async addToCalendar(date: string, workoutId: string, authorization: string): Promise<Record<string, string[]>> {
+    const response = await firstValueFrom(
+      this.httpService.post<Record<string, string[]>>(
+        `${this.workoutApiUrl}/calendar`, { date, workoutId }, { headers: { authorization } },
+      ),
+    );
+    return response.data;
+  }
+
+  async removeFromCalendar(date: string, workoutId: string, authorization: string): Promise<Record<string, string[]>> {
+    const response = await firstValueFrom(
+      this.httpService.delete<Record<string, string[]>>(
+        `${this.workoutApiUrl}/calendar/${date}/${workoutId}`, { headers: { authorization } },
+      ),
+    );
+    return response.data;
+  }
 }
