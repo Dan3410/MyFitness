@@ -8,7 +8,7 @@
   --step-detail-color: #475569;
 
   border: var(--steps-border-width) solid var(--step-border-color);
-  border-radius: 14px;
+  border-radius: var(--border-radius-medium);
   padding: 16px;
   margin-bottom: 14px;
   background-color: var(--step-background-color);

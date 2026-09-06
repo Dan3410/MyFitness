@@ -1,6 +1,6 @@
 .mfButtonContainer{
     padding: 8px 16px;
-    border-radius: 30px;
+    border-radius: var(--border-radius-big);
     display: flex;
     cursor: pointer;
     font-weight: 600;

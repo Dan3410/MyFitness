@@ -16,6 +16,11 @@
     margin: 0 auto;
     width: fit-content;
     display: flex;
+    position: relative;
+}
+
+.profileNotification {
+    z-index: 1;
 }
 
 .profileImg {

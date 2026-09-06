@@ -1,5 +1,4 @@
 :root {
-    --radius: 8px;
     --padding: 12px 16px;
 }
 
@@ -24,7 +23,7 @@
 /* Container */
 .expandablePanel {
     border: 1px solid var(--panel-border);
-    border-radius: var(--radius);
+    border-radius: var(--border-radius-small, 4px);
     background: var(--panel-bg);
     margin-bottom: 12px;
     overflow: visible;
@@ -52,7 +51,7 @@
 .trigger:focus {
     outline: none;
     box-shadow: 0 0 0 3px var(--focus-ring);
-    border-radius: 4px;
+    border-radius: var(--border-radius-small);
 }
 
 /* Title */
@@ -90,8 +89,8 @@
 /* Inner padding */
 .inner {
     padding: var(--padding);
-    border-bottom-left-radius: var(--radius);
-    border-bottom-right-radius: var(--radius);
+    border-bottom-left-radius: var(--border-radius-small, 4px);
+    border-bottom-right-radius: var(--border-radius-small, 4px);
     border-style: solid;
     border-color: var(--panel-border);
     border-width: 0 1px 1px 1px;

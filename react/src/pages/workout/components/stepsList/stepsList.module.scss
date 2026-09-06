@@ -37,7 +37,7 @@
 .stepItem {
   width: 100%;
   border: var(--steps-border-width) solid #b4b4b4;
-  border-radius: 12px;
+  border-radius: var(--border-radius-medium);
   padding: 10px;
   background: #000;
   text-align: left;

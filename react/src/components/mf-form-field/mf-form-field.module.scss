@@ -2,7 +2,7 @@
     min-height: 60px;
     height: auto;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
     border-width: 2px;
     border-style: solid;
     position: relative;

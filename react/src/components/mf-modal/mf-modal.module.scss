@@ -9,7 +9,7 @@
 .modalContent {
   background: rgb(83, 83, 83);
   padding: 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius-small);
   max-width: 90%;
   max-height: 90%;
   overflow: auto;

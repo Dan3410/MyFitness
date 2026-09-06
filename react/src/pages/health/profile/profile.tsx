@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { ComponentTheme } from '../../../models/componentTheme';
 import { WEIGHTUNIT } from '../../../models/weightUnit';
 import { HEIGHTUNIT } from '../../../models/heightUnit';
@@ -17,6 +17,7 @@ import { profileService } from '../../../services/profileService'
 import MFBreadcrumb from '../../../components/mf-breadcrumb/mf-breadcrumb';
 import { GET_DATA_ERROR_MESSAGE } from '../../../const/errorMessages';
 import MFSpinner from '../../../components/mf-spinner/mf-spinner';
+import MFNotification, { type MFNotificationType } from '../../../components/mf-notification/mf-notification';
 
 interface ProfileProps { }
 
@@ -57,6 +58,21 @@ const Profile: FC<ProfileProps> = () => {
   const [edit, setEdit] = useState<boolean>(false)
   const [loadError, setLoadError] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [notification, setNotification] = useState<{ type: MFNotificationType, message: string } | null>(null)
+  const notificationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (notificationTimeout.current) clearTimeout(notificationTimeout.current)
+    }
+  }, [])
+
+  const showNotification = (type: MFNotificationType, message: string) => {
+    if (notificationTimeout.current) clearTimeout(notificationTimeout.current)
+    setNotification({ type, message })
+    notificationTimeout.current = setTimeout(() => setNotification(null), 5000)
+  }
+
   const getData = async () => {
     try {
       setLoadError(false)
@@ -95,13 +111,17 @@ const Profile: FC<ProfileProps> = () => {
       setForm((prev: User) => ({ ...prev, [name]: value }));
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    profileService.editUserData(form).then((userData: User) => {
+    try {
+      const userData = await profileService.editUserData(form)
       setForm(userData)
       setOriginalData(userData)
       setEdit(false)
-    })
+      showNotification('success', 'Perfil guardado correctamente')
+    } catch {
+      showNotification('failure', 'No se pudo guardar el perfil')
+    }
   }
 
   return (
@@ -111,11 +131,16 @@ const Profile: FC<ProfileProps> = () => {
         <div className="pageTitleBar">
           <h2>Perfil</h2>
           <div className="headerActions">
-            {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton> }
+            {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
           </div>
         </div>
       </div>
       {loading ? <MFSpinner /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <form onSubmit={handleSubmit} className={styles.profileForm}>
+        {notification && (
+          <div className={styles.profileNotification}>
+            <MFNotification type={notification.type} message={notification.message} />
+          </div>
+        )}
         <div className={styles.profileImgContainer}>
           <img className={styles.profileImg} src={defaultProfileImage}></img>
         </div>

@@ -11,12 +11,12 @@
 
 :global(::-webkit-scrollbar-track) {
   background: rgb(59, 59, 59);
-  border-radius: 20px;
+  border-radius: var(--border-radius-big);
 }
 
 :global(::-webkit-scrollbar-thumb) {
   background-color: var(--scrollbar-thumb-color, rgb(255, 51, 51));
-  border-radius: 20px;
+  border-radius: var(--border-radius-big);
 }
 
 :global(html) {

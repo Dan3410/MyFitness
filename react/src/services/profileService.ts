@@ -25,11 +25,13 @@ class ProfileService {
 
     async editUserData(userData: User) {
         const userId = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || '{}').userId || ''
-        return fetch(API_URL + userId, {
+        const response = await fetch(API_URL + userId, {
             method: 'PUT',
             body: JSON.stringify(userData),
             headers: authHeaders()
-        }).then((response: Response) => { return response.json() }).catch((err: Error) => err);
+        })
+        if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
+        return response.json() as Promise<User>
     }
 }
 
