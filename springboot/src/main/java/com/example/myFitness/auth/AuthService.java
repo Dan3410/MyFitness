@@ -35,14 +35,14 @@ public class AuthService {
 
     @PostConstruct
     public void seedUsers() {
-        seedUser("Swim", "swimswam@email.com", "SwimSwam", "0");
-        seedUser("Gym", "gym@email.com", "LiftHeavyThings", "1");
-        seedUser("Run", "run@email.com", "WontStopRunning.", "2");
+        seedUser("Swim", "swimswam@email.com", "SwimSwam", "0", "John", "Swim");
+        seedUser("Gym", "gym@email.com", "LiftHeavyThings", "1", "John", "Gym");
+        seedUser("Run", "run@email.com", "WontStopRunning.", "2", "Jane", "Run");
     }
 
-    private void seedUser(String username, String email, String password, String userId) {
+    private void seedUser(String username, String email, String password, String userId, String name, String lastName) {
         String normalizedEmail = normalizeEmail(email);
-        Account account = new Account(userId, username, normalizedEmail, hash(password));
+        Account account = new Account(userId, username, normalizedEmail, hash(password), name, lastName);
         accountsByEmail.put(normalizedEmail, account);
         accountsByEmail.put(normalizeEmail(username), account);
         accountsById.put(userId, account);
@@ -55,7 +55,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El email ya está registrado");
         }
 
-        Account account = new Account(UUID.randomUUID().toString(), normalizedEmail, normalizedEmail, hash(password));
+        Account account = new Account(UUID.randomUUID().toString(), normalizedEmail, normalizedEmail, hash(password), "", "");
         accountsByEmail.put(normalizedEmail, account);
         accountsById.put(account.userId(), account);
         return createSession(account);
@@ -122,7 +122,7 @@ public class AuthService {
         }
 
         accountsByEmail.remove(normalizeEmail(currentAccount.username()), currentAccount);
-        Account updatedAccount = new Account(userId, username.trim(), currentAccount.email(), currentAccount.passwordHash());
+        Account updatedAccount = new Account(userId, username.trim(), currentAccount.email(), currentAccount.passwordHash(), currentAccount.name(), currentAccount.lastName());
         accountsById.put(userId, updatedAccount);
         accountsByEmail.put(normalizedUsername, updatedAccount);
         accountsByEmail.put(normalizeEmail(updatedAccount.email()), updatedAccount);
@@ -139,7 +139,7 @@ public class AuthService {
             .id(UUID.randomUUID().toString())
             .signWith(signingKey())
             .compact();
-        return new AuthResponse(token, account.userId(), account.email());
+        return new AuthResponse(token, account.userId(), account.email(), account.name(), account.lastName());
     }
 
     private SecretKey signingKey() {
@@ -170,6 +170,6 @@ public class AuthService {
         }
     }
 
-    private record Account(String userId, String username, String email, String passwordHash) {
+    private record Account(String userId, String username, String email, String passwordHash, String name, String lastName) {
     }
 }

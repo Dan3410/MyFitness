@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - 80px);
     :disabled{
         opacity: 0.4;
         cursor: default;

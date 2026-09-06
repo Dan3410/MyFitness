@@ -11,7 +11,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
-function readSession(): AuthResponse | null {
+export function readSession(): AuthResponse | null {
   const stored = localStorage.getItem(SESSION_STORAGE_KEY)
   return stored ? JSON.parse(stored) as AuthResponse : null
 }
