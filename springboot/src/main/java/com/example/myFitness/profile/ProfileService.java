@@ -23,10 +23,22 @@ public class ProfileService {
 
     private static final int WEIGHT_HISTORY_LIMIT = 15;
 
-    private static final Map<String, double[]> WEIGHT_CHANGES_BY_USER = Map.of(
-      "0", new double[] {-1.9, -1.6, -1.7, -1.3, -1.4, -1.0, -1.2, -0.9, -0.7, -0.8, -0.5, -0.6, -0.2, -0.3, 0.0},
-      "1", new double[] {0.0, 0.3, 0.1, 0.5, 0.4, 0.7, 0.6, 0.9, 0.8, 1.1, 0.9, 1.3, 1.2, 1.5, 1.4},
-      "2", new double[] {-0.8, -0.4, -0.6, -0.2, -0.3, 0.1, -0.1, 0.2, 0.0, 0.4, 0.2, 0.5, 0.3, 0.7, 0.6}
+    private static final Map<String, List<WeightUpdate>> UPDATES_BY_USER = Map.of(
+      "0", List.of(
+        update(-1.9, LocalDate.now().minusDays(105)), update(-1.6, LocalDate.now().minusDays(98)), update(-1.7, LocalDate.now().minusDays(91)), update(-1.3, LocalDate.now().minusDays(84)), update(-1.4, LocalDate.now().minusDays(77)),
+        update(-1.0, LocalDate.now().minusDays(70)), update(-1.2, LocalDate.now().minusDays(63)), update(-0.9, LocalDate.now().minusDays(56)), update(-0.7, LocalDate.now().minusDays(49)), update(-0.8, LocalDate.now().minusDays(42)),
+        update(-0.5, LocalDate.now().minusDays(35)), update(-0.6, LocalDate.now().minusDays(28)), update(-0.2, LocalDate.now().minusDays(21)), update(-0.3, LocalDate.now().minusDays(14)), update(0.0, LocalDate.now())
+      ),
+      "1", List.of(
+        update(0.0, LocalDate.now().minusDays(112)), update(0.3, LocalDate.now().minusDays(104)), update(0.1, LocalDate.now().minusDays(96)), update(0.5, LocalDate.now().minusDays(88)), update(0.4, LocalDate.now().minusDays(80)),
+        update(0.7, LocalDate.now().minusDays(72)), update(0.6, LocalDate.now().minusDays(64)), update(0.9, LocalDate.now().minusDays(56)), update(0.8, LocalDate.now().minusDays(48)), update(1.1, LocalDate.now().minusDays(40)),
+        update(0.9, LocalDate.now().minusDays(32)), update(1.3, LocalDate.now().minusDays(24)), update(1.2, LocalDate.now().minusDays(16)), update(1.5, LocalDate.now().minusDays(8)), update(1.4, LocalDate.now())
+      ),
+      "2", List.of(
+        update(-0.8, LocalDate.now().minusDays(120)), update(-0.4, LocalDate.now().minusDays(111)), update(-0.6, LocalDate.now().minusDays(102)), update(-0.2, LocalDate.now().minusDays(93)), update(-0.3, LocalDate.now().minusDays(84)),
+        update(0.1, LocalDate.now().minusDays(75)), update(-0.1, LocalDate.now().minusDays(66)), update(0.2, LocalDate.now().minusDays(57)), update(0.0, LocalDate.now().minusDays(48)), update(0.4, LocalDate.now().minusDays(39)),
+        update(0.2, LocalDate.now().minusDays(30)), update(0.5, LocalDate.now().minusDays(21)), update(0.3, LocalDate.now().minusDays(12)), update(0.7, LocalDate.now().minusDays(6)), update(0.6, LocalDate.now())
+      )
     );
 
     private final Map<String, User> savedUsers = new ConcurrentHashMap<>();
@@ -85,9 +97,9 @@ public class ProfileService {
         savedUsers.put("0", swimUser);
         savedUsers.put("1", gymUser);
         savedUsers.put("2", runUser);
-      weightHistoryByUser.put("0", createMockWeightHistory("0", swimUser));
-      weightHistoryByUser.put("1", createMockWeightHistory("1", gymUser));
-      weightHistoryByUser.put("2", createMockWeightHistory("2", runUser));
+      weightHistoryByUser.put("0", createWeightHistory("0", swimUser));
+      weightHistoryByUser.put("1", createWeightHistory("1", gymUser));
+      weightHistoryByUser.put("2", createWeightHistory("2", runUser));
     }
 
     public User getProfile(String id) {
@@ -98,15 +110,22 @@ public class ProfileService {
       savedUsers.put(id, user);
       List<WeightHistoryPoint> history = new ArrayList<>(getWeightHistory(id));
       WeightHistoryPoint latestPoint = new WeightHistoryPoint(LocalDate.now(), user.getWeight());
+      int sameDayIndex = -1;
 
-      if (!history.isEmpty() && history.get(history.size() - 1).date().equals(latestPoint.date())) {
-        history.set(history.size() - 1, latestPoint);
-      } else {
-        history.add(latestPoint);
+      for (int index = 0; index < history.size(); index++) {
+        if (history.get(index).date().equals(latestPoint.date())) {
+          sameDayIndex = index;
+          break;
+        }
       }
 
-      while (history.size() > WEIGHT_HISTORY_LIMIT) {
-        history.remove(0);
+      if (sameDayIndex >= 0) {
+        history.set(sameDayIndex, latestPoint);
+      } else {
+        if (history.size() >= WEIGHT_HISTORY_LIMIT) {
+          history.remove(0);
+        }
+        history.add(latestPoint);
       }
       weightHistoryByUser.put(id, history);
       return user;
@@ -114,22 +133,28 @@ public class ProfileService {
 
     public synchronized List<WeightHistoryPoint> getWeightHistory(String id) {
       User user = getProfile(id);
-      List<WeightHistoryPoint> history = weightHistoryByUser.computeIfAbsent(id, ignored -> createMockWeightHistory(id, user));
+      List<WeightHistoryPoint> history = weightHistoryByUser.computeIfAbsent(id, ignored -> createWeightHistory(id, user));
       return List.copyOf(history);
     }
 
-    private List<WeightHistoryPoint> createMockWeightHistory(String userId, User user) {
+    private List<WeightHistoryPoint> createWeightHistory(String userId, User user) {
       double currentWeight = user.getWeight() == null ? 0.0 : user.getWeight();
-      double[] weightChanges = WEIGHT_CHANGES_BY_USER.getOrDefault(userId, new double[0]);
-      LocalDate lastDate = LocalDate.now();
+      List<WeightUpdate> updates = UPDATES_BY_USER.getOrDefault(userId, List.of());
       List<WeightHistoryPoint> history = new ArrayList<>();
 
-      for (int index = 0; index < weightChanges.length; index++) {
+      for (WeightUpdate update : updates) {
         history.add(new WeightHistoryPoint(
-            lastDate.minusDays(weightChanges.length - 1L - index),
-            Math.round((currentWeight + weightChanges[index]) * 10.0) / 10.0));
+            update.date(),
+            Math.round((currentWeight + update.weightChange()) * 10.0) / 10.0));
       }
 
       return history;
+    }
+
+    private static WeightUpdate update(double weightChange, LocalDate date) {
+      return new WeightUpdate(weightChange, date);
+    }
+
+    private record WeightUpdate(double weightChange, LocalDate date) {
     }
 }
