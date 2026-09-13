@@ -1,6 +1,7 @@
 import { User } from "../models/user";
 import { GET_DATA_ERROR_MESSAGE } from "../const/errorMessages";
 import { SESSION_STORAGE_KEY } from './authService';
+import { WeightHistoryPoint } from '../models/weightHistory';
 
 const API_URL = 'http://localhost:3000/user/'
 
@@ -32,6 +33,13 @@ class ProfileService {
         })
         if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
         return response.json() as Promise<User>
+    }
+
+    async getWeightHistory(): Promise<WeightHistoryPoint[]> {
+        const userId = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || '{}').userId || ''
+        const response = await fetch(`${API_URL}${userId}/weight-history`, { headers: authHeaders() })
+        if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
+        return response.json() as Promise<WeightHistoryPoint[]>
     }
 }
 

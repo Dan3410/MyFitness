@@ -58,6 +58,7 @@ const Profile: FC<ProfileProps> = () => {
   const [edit, setEdit] = useState<boolean>(false)
   const [loadError, setLoadError] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [weightHistoryRefresh, setWeightHistoryRefresh] = useState(0)
   const [notification, setNotification] = useState<{ type: MFNotificationType, message: string } | null>(null)
   const notificationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -103,7 +104,7 @@ const Profile: FC<ProfileProps> = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "weightUnit") {
-      let changes: User = { ...form }
+      const changes: User = { ...form }
       changes.weightUnit = value as WEIGHTUNIT
       changes.weight = value == WEIGHTUNIT.KG ? Math.round(changes.weight * 0.453592) : Math.round(changes.weight * 2.20462)
       setForm(() => (changes));
@@ -118,6 +119,7 @@ const Profile: FC<ProfileProps> = () => {
       setForm(userData)
       setOriginalData(userData)
       setEdit(false)
+      setWeightHistoryRefresh((current) => current + 1)
       showNotification('success', 'Perfil guardado correctamente')
     } catch {
       showNotification('failure', 'No se pudo guardar el perfil')
@@ -151,7 +153,12 @@ const Profile: FC<ProfileProps> = () => {
           <HeightSection handleChange={handleChange} form={form} edit={edit}></HeightSection>
         </div>
         <div>
-          <WeightSection handleChange={handleChange} form={form} edit={edit}></WeightSection>
+          <WeightSection
+            handleChange={handleChange}
+            form={form}
+            edit={edit}
+            refreshWeightHistory={weightHistoryRefresh}
+          ></WeightSection>
         </div>
         <div>
           <NutritionSection form={form}></NutritionSection>

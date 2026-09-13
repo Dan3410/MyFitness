@@ -4,3 +4,101 @@
     row-gap: 40px;
     column-gap: 20px
 }
+
+.weightHistory {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.chartHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.chartHeader h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.chartHeader p {
+    margin: 6px 0 0;
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 13px;
+}
+
+.chartUnit {
+    padding: 4px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.chartContainer {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.chartStatus {
+    margin: 0;
+    min-height: 220px;
+    display: grid;
+    place-items: center;
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 13px;
+}
+
+.chart {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 220px;
+}
+
+.gridLine {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-dasharray: 3 5;
+}
+
+.axisLine {
+    stroke: rgba(255, 255, 255, 0.3);
+}
+
+.axisLabel {
+    fill: rgba(255, 255, 255, 0.62);
+    font-size: 11px;
+}
+
+.chartLine {
+    fill: none;
+    stroke: #7ee787;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+}
+
+.chartPoint {
+    fill: #17351b;
+    stroke: #7ee787;
+    stroke-width: 2;
+}
+
+@media (max-width: 700px) {
+    .profileFormSection {
+        grid-template-columns: 1fr;
+    }
+
+    .weightHistory {
+        margin-top: 28px;
+    }
+
+    .chart {
+        min-height: 180px;
+    }
+}
