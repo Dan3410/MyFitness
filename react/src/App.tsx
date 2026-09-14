@@ -12,6 +12,7 @@ import WorkoutList from './pages/workout/pages/workoutList/workoutList';
 import WorkoutEditor from './pages/workout/pages/workoutEditor/workoutEditor';
 import MFHeader from './components/mf-header/mf-header';
 import Calendar from './pages/calendar/calendar';
+import Users from './pages/users/users';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function AppRoutes() {
             </Route>
             <Route path="/calendar" element={<Calendar></Calendar>}></Route>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/users" element={<Users />}></Route>
             <Route path="/diet" element={<Home />}></Route>
           </Route>
           <Route path="*" element={<Navigate to={session ? "/" : "/login"} />} />

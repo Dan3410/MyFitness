@@ -43,6 +43,4 @@ public class CalendarController {
     return calendarService.removeFromCalendar(authService.requireUserId(authorization), date, workoutId);
   }
 
-  public record CalendarRequest(String date, String workoutId) {
-  }
 }

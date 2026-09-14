@@ -26,6 +26,12 @@
         --mf-form-field-text-color: #fafafa;
     }
 
+    &.genericTheme {
+        --mf-form-field-border-color: #d5d5d5;
+        --mf-form-field-background-color: #ffffff;
+        --mf-form-field-text-color: #000000;
+    }
+
     &.disabled {
         border-color: transparent;
         opacity: 0.85;

@@ -1,0 +1,54 @@
+.usersPage {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.pageHeader {
+    margin-bottom: 28px;
+}
+
+.pageHeader h2 {
+    margin: 20px 0 0;
+}
+
+.userList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.userItem {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 72px;
+    padding: 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+}
+
+.userItem img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.userItem span {
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .usersPage {
+        padding: 16px;
+    }
+
+    .userList {
+        grid-template-columns: 1fr;
+    }
+}

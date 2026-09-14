@@ -20,3 +20,8 @@ export interface User {
   objective: OBJECTIVE
   profileImage?: string
 }
+
+export interface UserSearchResult {
+  name: string
+  profileImage?: string
+}

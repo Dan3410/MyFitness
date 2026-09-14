@@ -14,3 +14,8 @@ export interface User {
   objective: string
   profileImage?: string
 }
+
+export interface UserSearchResult {
+  name: string,
+  profileImage?: string
+}

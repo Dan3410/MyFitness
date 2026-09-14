@@ -7,14 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import com.example.myFitness.profile.model.Gender;
 import com.example.myFitness.profile.model.HeightUnit;
 import com.example.myFitness.profile.model.Objective;
 import com.example.myFitness.profile.model.PhysicalActivityLvl;
 import com.example.myFitness.profile.model.User;
+import com.example.myFitness.profile.model.UserSearchResult;
 import com.example.myFitness.profile.model.WeightHistoryPoint;
 import com.example.myFitness.profile.model.WeightUnit;
+import com.example.myFitness.profile.model.WeightUpdate;
 
 import jakarta.annotation.PostConstruct;
 
@@ -109,6 +113,30 @@ public class ProfileService {
         return savedUsers.computeIfAbsent(id, ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null));
     }
 
+    public List<UserSearchResult> searchUsers(String name) {
+      String query = name == null ? "" : name.trim().toLowerCase(Locale.ROOT);
+      return savedUsers.values().stream()
+          .filter(user -> query.isBlank() || matchesUser(user, query))
+          .map(user -> new UserSearchResult(displayName(user), user.getProfileImage()))
+          .collect(Collectors.toList());
+    }
+
+    private String displayName(User user) {
+      String fullName = String.join(" ", user.getName() == null ? "" : user.getName(),
+          user.getLastName() == null ? "" : user.getLastName()).trim();
+      return fullName.isBlank() ? user.getUsername() : fullName;
+    }
+
+    private boolean matchesUser(User user, String query) {
+      return contains(user.getName(), query)
+          || contains(user.getLastName(), query)
+          || contains(user.getUsername(), query);
+    }
+
+    private boolean contains(String value, String query) {
+      return value != null && value.toLowerCase(Locale.ROOT).contains(query);
+    }
+
     public synchronized User saveProfile(String id, User user) {
       savedUsers.put(id, user);
       List<WeightHistoryPoint> history = new ArrayList<>(getWeightHistory(id));
@@ -158,6 +186,4 @@ public class ProfileService {
       return new WeightUpdate(weightChange, date);
     }
 
-    private record WeightUpdate(double weightChange, LocalDate date) {
-    }
 }

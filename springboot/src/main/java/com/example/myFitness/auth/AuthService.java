@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.annotation.PostConstruct;
 
 import com.example.myFitness.auth.model.AuthResponse;
+import com.example.myFitness.auth.model.Account;
 
 @Service
 public class AuthService {
@@ -170,6 +171,4 @@ public class AuthService {
         }
     }
 
-    private record Account(String userId, String username, String email, String passwordHash, String name, String lastName) {
-    }
 }

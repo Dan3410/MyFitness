@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import com.example.myFitness.profile.model.User;
+import com.example.myFitness.profile.model.UserSearchResult;
 import com.example.myFitness.profile.model.WeightHistoryPoint;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,14 @@ public class ProfileController {
   @GetMapping("")
   public User getProfile(@RequestHeader(value = "Authorization", required = false) String authorization) {
     return profileService.getProfile(authService.requireUserId(authorization));
+  }
+
+  @GetMapping("/users")
+  public List<UserSearchResult> searchUsers(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @org.springframework.web.bind.annotation.RequestParam(defaultValue = "") String name) {
+    authService.requireUserId(authorization);
+    return profileService.searchUsers(name);
   }
 
   @GetMapping("/weight-history")

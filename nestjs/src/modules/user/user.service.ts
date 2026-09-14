@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import type { User } from 'src/models/user';
+import type { User, UserSearchResult } from 'src/models/user';
 import type { WeightHistoryPoint } from 'src/models/weightHistory';
 
 @Injectable()
@@ -12,6 +12,14 @@ export class UserService {
 
   async getUser(id: string, authorization: string): Promise<User> {
     const response = await firstValueFrom(this.httpService.get(this.profileApiUrl, { headers: { authorization } }));
+    return response.data;
+  }
+
+  async searchUsers(name: string, authorization: string): Promise<UserSearchResult[]> {
+    const response = await firstValueFrom(this.httpService.get<UserSearchResult[]>(`${this.profileApiUrl}/users`, {
+      params: { name },
+      headers: { authorization },
+    }));
     return response.data;
   }
 

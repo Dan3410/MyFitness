@@ -1,11 +1,16 @@
-import { Body, Controller, Get, Headers, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Put, Query } from '@nestjs/common';
 import { UserService } from './user.service';
-import type { User } from 'src/models/user';
+import type { User, UserSearchResult } from 'src/models/user';
 import type { WeightHistoryPoint } from 'src/models/weightHistory';
 
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) { }
+
+  @Get('users')
+  searchUsers(@Headers('authorization') authorization: string, @Query('name') name = ''): Promise<UserSearchResult[]> {
+    return this.userService.searchUsers(name, authorization);
+  }
 
   @Get(':id')
   async getUser(@Param('id') id: string, @Headers('authorization') authorization: string): Promise<User> {

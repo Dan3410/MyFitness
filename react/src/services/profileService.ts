@@ -1,4 +1,4 @@
-import { User } from "../models/user";
+import { User, UserSearchResult } from "../models/user";
 import { GET_DATA_ERROR_MESSAGE } from "../const/errorMessages";
 import { SESSION_STORAGE_KEY } from './authService';
 import { WeightHistoryPoint } from '../models/weightHistory';
@@ -22,6 +22,12 @@ class ProfileService {
 
             return response.json()
         })
+    }
+
+    async searchUsers(name: string): Promise<UserSearchResult[]> {
+        const response = await fetch(`${API_URL}users?name=${encodeURIComponent(name)}`, { headers: authHeaders() })
+        if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
+        return response.json() as Promise<UserSearchResult[]>
     }
 
     async editUserData(userData: User) {
