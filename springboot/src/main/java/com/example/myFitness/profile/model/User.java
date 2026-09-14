@@ -15,11 +15,12 @@ public class User {
     private Gender gender;
     private PhysicalActivityLvl physicalActivityLvl;
     private Objective objective;
+    private String profileImage;
 
     // Constructor
     public User(String id, String username, String email, String name, String lastName, Double weight, WeightUnit weightUnit,
                 Double height, HeightUnit heightUnit, String birthDay, Gender gender,
-                PhysicalActivityLvl physicalActivityLvl, Objective objective) {
+                PhysicalActivityLvl physicalActivityLvl, Objective objective, String profileImage) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -33,6 +34,7 @@ public class User {
         this.gender = gender;
         this.physicalActivityLvl = physicalActivityLvl;
         this.objective = objective;
+        this.profileImage = profileImage;
     }
 
     // Getters and Setters
@@ -130,5 +132,13 @@ public class User {
 
     public void setObjective(Objective objective) {
         this.objective = objective;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

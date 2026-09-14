@@ -17,6 +17,7 @@
     width: fit-content;
     display: flex;
     position: relative;
+    border-radius: 128px;
 }
 
 .profileNotification {
@@ -27,6 +28,48 @@
     width: 128px;
     height: 128px;
     border-radius: 128px;
+    object-fit: cover;
+}
+
+.profileImgEditable {
+    cursor: pointer;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: rgba(0, 0, 0, 0.38);
+        opacity: 0;
+        transition: opacity 160ms ease;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+        opacity: 1;
+    }
+}
+
+.profileImgEditLabel {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+}
+
+.profileImgEditable:hover .profileImgEditLabel,
+.profileImgEditable:focus-visible .profileImgEditLabel {
+    opacity: 1;
+}
+
+.profileImgInput {
+    display: none;
 }
 
 .profileForm {

@@ -21,6 +21,8 @@ import MFNotification, { type MFNotificationType } from '../../../components/mf-
 
 interface ProfileProps { }
 
+const MAX_PROFILE_IMAGE_SIZE_BYTES = 1024 * 1024
+
 const Profile: FC<ProfileProps> = () => {
 
   const [form, setForm] = useState<User>({
@@ -61,6 +63,7 @@ const Profile: FC<ProfileProps> = () => {
   const [weightHistoryRefresh, setWeightHistoryRefresh] = useState(0)
   const [notification, setNotification] = useState<{ type: MFNotificationType, message: string } | null>(null)
   const notificationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const imageInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     return () => {
@@ -112,6 +115,25 @@ const Profile: FC<ProfileProps> = () => {
       setForm((prev: User) => ({ ...prev, [name]: value }));
   }
 
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    if (file.size > MAX_PROFILE_IMAGE_SIZE_BYTES) {
+      event.target.value = ''
+      showNotification('failure', 'La imagen es demasiado grande. El tamaño máximo permitido es 1 MB.')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setForm((prev) => ({ ...prev, profileImage: reader.result as string }))
+      }
+    }
+    reader.readAsDataURL(file)
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
@@ -143,8 +165,25 @@ const Profile: FC<ProfileProps> = () => {
             <MFNotification type={notification.type} message={notification.message} />
           </div>
         )}
-        <div className={styles.profileImgContainer}>
-          <img className={styles.profileImg} src={defaultProfileImage}></img>
+        <div
+          className={`${styles.profileImgContainer} ${edit ? styles.profileImgEditable : ''}`}
+          onClick={() => edit && imageInputRef.current?.click()}
+          role={edit ? 'button' : undefined}
+          tabIndex={edit ? 0 : undefined}
+          onKeyDown={(event) => {
+            if (edit && (event.key === 'Enter' || event.key === ' ')) imageInputRef.current?.click()
+          }}
+        >
+          <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
+          {edit && <span className={styles.profileImgEditLabel}>Editar</span>}
+          {edit && <input
+            ref={imageInputRef}
+            className={styles.profileImgInput}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            aria-label="Seleccionar imagen de perfil"
+          />}
         </div>
         <div >
           <PersonalDataSection handleChange={handleChange} form={form} edit={edit}></PersonalDataSection>

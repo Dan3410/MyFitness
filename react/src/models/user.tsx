@@ -18,4 +18,5 @@ export interface User {
   gender: GENDER
   physicalActivityLvl: PHYSICALACTIVITYLVL
   objective: OBJECTIVE
+  profileImage?: string
 }

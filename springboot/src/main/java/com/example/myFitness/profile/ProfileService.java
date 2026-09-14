@@ -57,7 +57,8 @@ public class ProfileService {
         "1985-12-10",
         Gender.male,
         PhysicalActivityLvl.medium,
-        Objective.maintain
+        Objective.maintain,
+        null
       );
 
       private User gymUser = new User(
@@ -73,7 +74,8 @@ public class ProfileService {
         "1985-12-10",
         Gender.male,
         PhysicalActivityLvl.medium,
-        Objective.maintain
+        Objective.maintain,
+        null
       );
 
       private User runUser = new User(
@@ -89,7 +91,8 @@ public class ProfileService {
         "1985-12-10",
         Gender.female,
         PhysicalActivityLvl.medium,
-        Objective.maintain
+        Objective.maintain,
+        null
       );
 
     @PostConstruct
@@ -103,7 +106,7 @@ public class ProfileService {
     }
 
     public User getProfile(String id) {
-        return savedUsers.computeIfAbsent(id, ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null));
+        return savedUsers.computeIfAbsent(id, ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null));
     }
 
     public synchronized User saveProfile(String id, User user) {
