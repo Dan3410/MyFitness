@@ -11,6 +11,7 @@ import { Option } from '../../../../models/option';
 import { WEIGHTUNIT } from '../../../../models/weightUnit';
 import { WeightHistoryPoint } from '../../../../models/weightHistory';
 import { profileService } from '../../../../services/profileService';
+import { useSearchParams } from 'react-router';
 
 
 interface WeightSectionProps {
@@ -22,11 +23,14 @@ interface WeightSectionProps {
 
 const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refreshWeightHistory }) => {
 
+  const [searchParams] = useSearchParams()
   const weightUnit: Array<Option> = CONST_WEIGHTUNIT_OPTIONS
   const objective: Array<Option> = CONST_OBJETIVE_OPTIONS
   const [weightHistory, setWeightHistory] = useState<WeightHistoryPoint[]>([])
 
   useEffect(() => {
+    const id = searchParams.get('id')
+    id ? profileService.getWeightHistoryById(id).then(setWeightHistory).catch(() => setWeightHistory([])) : 
     profileService.getWeightHistory().then(setWeightHistory).catch(() => setWeightHistory([]))
   }, [refreshWeightHistory])
 

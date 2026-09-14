@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import defaultProfileImage from '../../assets/defaultProfileImage.jpg';
 import MFBreadcrumb from '../../components/mf-breadcrumb/mf-breadcrumb';
 import MFSpinner from '../../components/mf-spinner/mf-spinner';
@@ -10,6 +10,7 @@ import styles from './users.module.scss';
 const Users: FC = () => {
   const [searchParams] = useSearchParams();
   const name = searchParams.get('name')?.trim() || '';
+  const navigate = useNavigate();
   const [users, setUsers] = useState<UserSearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState(false);
@@ -53,10 +54,15 @@ const Users: FC = () => {
       {!loading && !loadError && users.length > 0 && (
         <div className={styles.userList}>
           {users.map((user, index) => (
-            <div className={styles.userItem} key={`${user.name}-${index}`}>
+            <button
+              className={styles.userItem}
+              key={`${user.name}-${index}`}
+              type="button"
+              onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}`)}
+            >
               <img src={user.profileImage || defaultProfileImage} alt="" />
               <span>{user.name}</span>
-            </div>
+            </button>
           ))}
         </div>
       )}

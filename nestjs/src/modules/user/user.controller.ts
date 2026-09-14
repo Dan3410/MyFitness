@@ -7,9 +7,20 @@ import type { WeightHistoryPoint } from 'src/models/weightHistory';
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
-  @Get('users')
-  searchUsers(@Headers('authorization') authorization: string, @Query('name') name = ''): Promise<UserSearchResult[]> {
+  @Get('users/search')
+  searchUsers(@Headers('authorization') authorization: string, @Query('name') name: string): Promise<UserSearchResult[]> {
     return this.userService.searchUsers(name, authorization);
+  }
+
+  @Get('userById/:id')
+  getUserById(@Headers('authorization') authorization: string, @Param('id') id: string): Promise<User> {
+    console.log("userById")
+    return this.userService.getUserById(id, authorization);
+  }
+
+  @Get('weight-history/:id')
+  getWeightHistoryById(@Headers('authorization') authorization: string, @Param('id') id: string): Promise<WeightHistoryPoint[]> {
+    return this.userService.getWeightHistoryById(id, authorization);
   }
 
   @Get(':id')

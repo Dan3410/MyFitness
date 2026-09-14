@@ -58,6 +58,7 @@ function AppRoutes() {
             </Route>
             <Route path="/calendar" element={<Calendar></Calendar>}></Route>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/users/profile" element={<Profile readOnly />}></Route>
             <Route path="/users" element={<Users />}></Route>
             <Route path="/diet" element={<Home />}></Route>
           </Route>

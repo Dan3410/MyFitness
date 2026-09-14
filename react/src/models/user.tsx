@@ -22,6 +22,7 @@ export interface User {
 }
 
 export interface UserSearchResult {
+  id: string,
   name: string
   profileImage?: string
 }

@@ -25,9 +25,15 @@ class ProfileService {
     }
 
     async searchUsers(name: string): Promise<UserSearchResult[]> {
-        const response = await fetch(`${API_URL}users?name=${encodeURIComponent(name)}`, { headers: authHeaders() })
+        const response = await fetch(`${API_URL}users/search?name=${encodeURIComponent(name)}`, { headers: authHeaders() })
         if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
         return response.json() as Promise<UserSearchResult[]>
+    }
+
+    async getUserById(id: string): Promise<User> {
+        const response = await fetch(`${API_URL}userById/${encodeURIComponent(id)}`, { headers: authHeaders() })
+        if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
+        return response.json() as Promise<User>
     }
 
     async editUserData(userData: User) {
@@ -47,6 +53,14 @@ class ProfileService {
         if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
         return response.json() as Promise<WeightHistoryPoint[]>
     }
+
+    async getWeightHistoryById(id: string): Promise<WeightHistoryPoint[]> {
+        const userId = id
+        const response = await fetch(`${API_URL}weight-history/${userId}`, { headers: authHeaders() })
+        if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
+        return response.json() as Promise<WeightHistoryPoint[]>
+    }
+
 }
 
 export const profileService = new ProfileService()

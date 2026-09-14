@@ -23,6 +23,13 @@ export class UserService {
     return response.data;
   }
 
+  async getUserById(id: string, authorization: string): Promise<User> {
+    const response = await firstValueFrom(this.httpService.get<User>(`${this.profileApiUrl}/userById/${id}`, {
+      headers: { authorization },
+    }));
+    return response.data;
+  }
+
   async editUser(id: string, userData: User, authorization: string): Promise<User> {
     const response = await firstValueFrom(this.httpService.put(this.profileApiUrl, userData, { headers: { authorization } }));
     return response.data;
@@ -32,6 +39,14 @@ export class UserService {
     const response = await firstValueFrom(
       this.httpService.get<WeightHistoryPoint[]>(`${this.profileApiUrl}/weight-history`, { headers: { authorization } }),
     );
+    return response.data;
+  }
+
+  async getWeightHistoryById(id: string, authorization: string): Promise<WeightHistoryPoint[]> {
+    const response = await firstValueFrom(
+      this.httpService.get<WeightHistoryPoint[]>(`${this.profileApiUrl}/weight-history/${id}`, {
+        headers: { authorization },
+      }));
     return response.data;
   }
 }

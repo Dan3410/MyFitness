@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ComponentTheme } from '../../../models/componentTheme';
 import { WEIGHTUNIT } from '../../../models/weightUnit';
 import { HEIGHTUNIT } from '../../../models/heightUnit';
@@ -19,11 +20,14 @@ import { GET_DATA_ERROR_MESSAGE } from '../../../const/errorMessages';
 import MFSpinner from '../../../components/mf-spinner/mf-spinner';
 import MFNotification, { type MFNotificationType } from '../../../components/mf-notification/mf-notification';
 
-interface ProfileProps { }
+interface ProfileProps {
+  readOnly?: boolean
+}
 
 const MAX_PROFILE_IMAGE_SIZE_BYTES = 1024 * 1024
 
-const Profile: FC<ProfileProps> = () => {
+const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
+  const [searchParams] = useSearchParams()
 
   const [form, setForm] = useState<User>({
     id: '',
@@ -80,7 +84,10 @@ const Profile: FC<ProfileProps> = () => {
   const getData = async () => {
     try {
       setLoadError(false)
-      const data = await profileService.getUserData()
+      const id = searchParams.get('id')
+      const data = readOnly && id
+        ? await profileService.getUserById(id)
+        : await profileService.getUserData()
       setOriginalData(data)
       setForm(data)
     } catch {
@@ -92,7 +99,7 @@ const Profile: FC<ProfileProps> = () => {
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [readOnly, searchParams])
 
   const clickEdit = () => {
     setOriginalData(form)
@@ -151,11 +158,11 @@ const Profile: FC<ProfileProps> = () => {
   return (
     <div className="profile">
       <div className="pageHeader">
-        <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Perfil' }]} />
+        <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: readOnly ? 'Perfil de usuario' : 'Perfil' }]} />
         <div className="pageTitleBar">
-          <h2>Perfil</h2>
+          <h2>{readOnly ? 'Perfil de usuario' : 'Perfil'}</h2>
           <div className="headerActions">
-            {!edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
+            {!readOnly && !edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
           </div>
         </div>
       </div>

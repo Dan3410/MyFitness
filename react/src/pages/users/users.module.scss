@@ -26,7 +26,17 @@
     padding: 12px;
     border: 1px solid #d5d5d5;
     border-radius: var(--border-radius-small);
+    color: inherit;
     cursor: pointer;
+    text-align: left;
+    font: inherit;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.userItem:hover,
+.userItem:focus-visible {
+    border-color: #1769aa;
+    box-shadow: 0 2px 8px rgba(23, 105, 170, 0.2);
 }
 
 .userItem img {

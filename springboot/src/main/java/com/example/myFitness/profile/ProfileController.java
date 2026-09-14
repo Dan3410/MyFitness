@@ -1,8 +1,11 @@
 package com.example.myFitness.profile;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import com.example.myFitness.profile.model.User;
@@ -33,9 +36,23 @@ public class ProfileController {
   @GetMapping("/users")
   public List<UserSearchResult> searchUsers(
       @RequestHeader(value = "Authorization", required = false) String authorization,
-      @org.springframework.web.bind.annotation.RequestParam(defaultValue = "") String name) {
+      @RequestParam(defaultValue = "") String name) {
+    return profileService.searchUsers(name, authService.requireUserId(authorization));
+  }
+
+  @GetMapping("/userById/{id}")
+  public User getUserById(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @PathVariable("id") String id) {
     authService.requireUserId(authorization);
-    return profileService.searchUsers(name);
+    return profileService.getUserById(id);
+  }
+
+   @GetMapping("/weight-history/{id}")
+  public List<WeightHistoryPoint> getWetHistory(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @PathVariable("id") String id) {
+    return profileService.getWeightHistoryById(id);
   }
 
   @GetMapping("/weight-history")
