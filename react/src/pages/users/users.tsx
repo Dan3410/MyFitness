@@ -58,7 +58,7 @@ const Users: FC = () => {
               className={styles.userItem}
               key={`${user.name}-${index}`}
               type="button"
-              onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}`)}
+              onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(name)}`)}
             >
               <img src={user.profileImage || defaultProfileImage} alt="" />
               <span>{user.name}</span>

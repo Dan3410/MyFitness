@@ -13,6 +13,7 @@ export interface User {
   physicalActivityLvl: string
   objective: string
   profileImage?: string
+  isProfilePrivate: boolean
 }
 
 export interface UserSearchResult {

@@ -76,7 +76,8 @@ public class ProfileService {
       Gender.male,
       PhysicalActivityLvl.medium,
       Objective.maintain,
-      null);
+      null,
+      false);
 
   private User gymUser = new User(
       "1",
@@ -92,7 +93,8 @@ public class ProfileService {
       Gender.male,
       PhysicalActivityLvl.medium,
       Objective.maintain,
-      null);
+      null,
+      true);
 
   private User runUser = new User(
       "2",
@@ -108,7 +110,8 @@ public class ProfileService {
       Gender.female,
       PhysicalActivityLvl.medium,
       Objective.maintain,
-      null);
+      null,
+      false);
 
   @PostConstruct
   public void init() {
@@ -122,7 +125,7 @@ public class ProfileService {
 
   public User getProfile(String id) {
     return savedUsers.computeIfAbsent(id,
-        ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+      ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null, false));
   }
 
   public List<UserSearchResult> searchUsers(String name, String currentUserId) {
@@ -134,17 +137,27 @@ public class ProfileService {
         .collect(Collectors.toList());
   }
 
-  public User getUserById(String id) {
-    return savedUsers.values().stream()
-        .filter(user -> id.equals(user.getId()))
+  public User getUserById(String id, String viewerId) {
+    User profile = savedUsers.values().stream()
+      .filter(candidate -> id.equals(candidate.getId()))
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+    if (profile.getIsProfilePrivate() && !id.equals(viewerId)) {
+      return new User(id, null, null, null, null, null, null, null, null, null, null, null, null,
+        profile.getProfileImage(), true);
+    }
+    return profile;
   }
 
-  public List<WeightHistoryPoint> getWeightHistoryById(String id) {
-    User user = getProfile(id);
+  public List<WeightHistoryPoint> getWeightHistoryById(String id, String viewerId) {
+    User user = getUserById(id, viewerId);
+    if (user.getIsProfilePrivate() && !id.equals(viewerId)) {
+      throw new org.springframework.web.server.ResponseStatusException(
+          org.springframework.http.HttpStatus.FORBIDDEN, "Esta información es privada");
+    }
+    User profile = getProfile(id);
     List<WeightHistoryPoint> history = weightHistoryByUser.computeIfAbsent(id,
-        ignored -> createWeightHistory(id, user));
+      ignored -> createWeightHistory(id, profile));
     return List.copyOf(history);
   }
 

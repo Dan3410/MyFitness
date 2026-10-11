@@ -44,15 +44,16 @@ public class ProfileController {
   public User getUserById(
       @RequestHeader(value = "Authorization", required = false) String authorization,
       @PathVariable("id") String id) {
-    authService.requireUserId(authorization);
-    return profileService.getUserById(id);
+    String viewerId = authService.requireUserId(authorization);
+    return profileService.getUserById(id, viewerId);
   }
 
    @GetMapping("/weight-history/{id}")
   public List<WeightHistoryPoint> getWetHistory(
       @RequestHeader(value = "Authorization", required = false) String authorization,
       @PathVariable("id") String id) {
-    return profileService.getWeightHistoryById(id);
+    String viewerId = authService.requireUserId(authorization);
+    return profileService.getWeightHistoryById(id, viewerId);
   }
 
   @GetMapping("/weight-history")

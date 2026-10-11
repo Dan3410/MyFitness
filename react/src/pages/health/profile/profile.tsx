@@ -19,6 +19,7 @@ import MFBreadcrumb from '../../../components/mf-breadcrumb/mf-breadcrumb';
 import { GET_DATA_ERROR_MESSAGE } from '../../../const/errorMessages';
 import MFSpinner from '../../../components/mf-spinner/mf-spinner';
 import MFNotification, { type MFNotificationType } from '../../../components/mf-notification/mf-notification';
+import MFCheckbox from '../../../components/mf-checkbox/mf-checkbox';
 
 interface ProfileProps {
   readOnly?: boolean
@@ -42,7 +43,8 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
     gender: GENDER.MALE,
     birthDay: '',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
-    objective: OBJECTIVE.MAINTAIN
+    objective: OBJECTIVE.MAINTAIN,
+    isProfilePrivate: false
   })
 
   const [originalData, setOriginalData] = useState<User>({
@@ -58,7 +60,8 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
     gender: GENDER.MALE,
     birthDay: '',
     physicalActivityLvl: PHYSICALACTIVITYLVL.MEDIUM,
-    objective: OBJECTIVE.MAINTAIN
+    objective: OBJECTIVE.MAINTAIN,
+    isProfilePrivate: false
   })
 
   const [edit, setEdit] = useState<boolean>(false)
@@ -155,10 +158,34 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
     }
   }
 
+  if (loading) return <MFSpinner />;
+  if (loadError) return <p>{GET_DATA_ERROR_MESSAGE}</p>;
+  const breadcrumbItems = readOnly
+    ? [
+      { label: 'Inicio', to: '/' },
+      { label: 'Usuarios', to: `/users?name=${encodeURIComponent(searchParams.get('name') || '')}` },
+      { label: 'Perfil de usuario' },
+    ]
+    : [{ label: 'Inicio', to: '/' }, { label: 'Perfil' }];
+
+  if (readOnly && form.isProfilePrivate) {
+    return (
+      <div className="profile">
+        <div className="pageHeader">
+          <MFBreadcrumb items={breadcrumbItems} />
+        </div>
+        <div className={styles.privateProfile}>
+          <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
+          <p>Esta información es privada</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="profile">
       <div className="pageHeader">
-        <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: readOnly ? 'Perfil de usuario' : 'Perfil' }]} />
+        <MFBreadcrumb items={breadcrumbItems} />
         <div className="pageTitleBar">
           <h2>{readOnly ? 'Perfil de usuario' : 'Perfil'}</h2>
           <div className="headerActions">
@@ -166,7 +193,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           </div>
         </div>
       </div>
-      {loading ? <MFSpinner /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <form onSubmit={handleSubmit} className={styles.profileForm}>
+      <form onSubmit={handleSubmit} className={styles.profileForm}>
         {notification && (
           <div className={styles.profileNotification}>
             <MFNotification type={notification.type} message={notification.message} />
@@ -210,13 +237,21 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           <NutritionSection form={form}></NutritionSection>
         </div>
 
+        {edit && <MFCheckbox
+          theme={ComponentTheme.profileAndHealth}
+          checked={form.isProfilePrivate}
+          onChange={(event) => setForm((prev) => ({ ...prev, isProfilePrivate: event.target.checked }))}
+        >
+          Ocultar mi información a otros usuarios
+        </MFCheckbox>}
+
         {
           edit && (<div className="form-buttons-container">
             <MFButton theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
             <MFButton type='submit' theme={ComponentTheme.profileAndHealth}><label>Guardar</label></MFButton>
           </div>)
         }
-      </form>}
+      </form>
     </div>)
 };
 

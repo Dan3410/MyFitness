@@ -16,11 +16,12 @@ public class User {
     private PhysicalActivityLvl physicalActivityLvl;
     private Objective objective;
     private String profileImage;
+    private boolean isProfilePrivate;
 
     // Constructor
     public User(String id, String username, String email, String name, String lastName, Double weight, WeightUnit weightUnit,
                 Double height, HeightUnit heightUnit, String birthDay, Gender gender,
-                PhysicalActivityLvl physicalActivityLvl, Objective objective, String profileImage) {
+                PhysicalActivityLvl physicalActivityLvl, Objective objective, String profileImage, boolean isProfilePrivate) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -35,6 +36,7 @@ public class User {
         this.physicalActivityLvl = physicalActivityLvl;
         this.objective = objective;
         this.profileImage = profileImage;
+        this.isProfilePrivate = isProfilePrivate;
     }
 
     // Getters and Setters
@@ -140,5 +142,13 @@ public class User {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public boolean getIsProfilePrivate() {
+        return isProfilePrivate;
+    }
+
+    public void setIsProfilePrivate(boolean isProfilePrivate) {
+        this.isProfilePrivate = isProfilePrivate;
     }
 }
