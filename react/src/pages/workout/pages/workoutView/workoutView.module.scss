@@ -1,0 +1,51 @@
+.workoutView {
+  width: min(100% - 40px, 900px);
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.workoutHeader {
+  margin: 28px 0 32px;
+  border-bottom: 1px solid #cbd5d1;
+  padding-bottom: 20px;
+}
+
+.workoutHeader p {
+  margin: 0 0 8px;
+  color: #42705d;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.workoutHeader h1 {
+  margin: 0;
+  color: #1b3027;
+  font-size: 1.8rem;
+}
+
+.steps {
+  display: grid;
+  gap: 12px;
+}
+
+.steps h2 {
+  margin: 0 0 8px;
+  color: #244938;
+  font-size: 1.25rem;
+}
+
+.step {
+  border: 1px solid #cbd5d1;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.emptyState {
+  color: #68766f;
+}
+
+@media (max-width: 640px) {
+  .workoutView {
+    width: min(100% - 32px, 500px);
+  }
+}

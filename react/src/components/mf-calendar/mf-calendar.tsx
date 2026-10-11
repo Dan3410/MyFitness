@@ -1,12 +1,12 @@
-import { useState, type FC } from 'react'
+import type { FC } from 'react'
 import styles from './mf-calendar.module.scss'
-import type { WorkoutListItem } from '../../models/workoutListItem'
-import type { PlannedWorkouts } from '../../services/workoutService'
+import type { PlannedWorkouts } from '../../services/calendarService'
 
 interface MFCalendarProps {
-  workouts: WorkoutListItem[]
   plannedWorkouts: PlannedWorkouts
+  currentMonth: Date
   selectedDate: string
+  onMonthChange: (month: Date) => void
   onDateSelect: (date: string) => void
   onRemoveWorkout: (date: string, workoutId: string) => void
 }
@@ -20,17 +20,13 @@ const dateKey = (date: Date) => {
   return `${year}-${month}-${day}`
 }
 
-const MFCalendar: FC<MFCalendarProps> = ({ workouts, plannedWorkouts, selectedDate, onDateSelect, onRemoveWorkout }) => {
+const MFCalendar: FC<MFCalendarProps> = ({ plannedWorkouts, currentMonth, selectedDate, onMonthChange, onDateSelect, onRemoveWorkout }) => {
   const today = new Date()
-  const [currentMonth, setCurrentMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1))
   const changeMonth = (offset: number) => {
     const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + offset, 1)
-    setCurrentMonth(nextMonth)
+    onMonthChange(nextMonth)
     onDateSelect(dateKey(nextMonth))
   }
-
-  const getWorkoutById = (workoutId: string) =>
-    workouts.find((workout) => String(workout.id) === String(workoutId))
 
   const firstDayOffset = (currentMonth.getDay() + 6) % 7
   const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate()
@@ -42,9 +38,7 @@ const MFCalendar: FC<MFCalendarProps> = ({ workouts, plannedWorkouts, selectedDa
       : null
   })
 
-  const selectedWorkoutNames = (plannedWorkouts[selectedDate] || [])
-    .map(getWorkoutById)
-    .filter((workout): workout is WorkoutListItem => Boolean(workout))
+  const selectedWorkouts = plannedWorkouts[selectedDate] || []
 
   return (
     <section className={styles.calendar} aria-label="Calendario de workouts">
@@ -70,8 +64,8 @@ const MFCalendar: FC<MFCalendarProps> = ({ workouts, plannedWorkouts, selectedDa
             >
               <strong>{date.getDate()}</strong>
               <span className={styles.dayWorkouts}>
-                {planned.slice(0, 2).map((workoutId) => (
-                  <span key={workoutId}>{getWorkoutById(workoutId)?.name || 'Workout'}</span>
+                {planned.slice(0, 2).map((workout) => (
+                  <span key={workout.id}>{workout.title}</span>
                 ))}
                 {planned.length > 2 && <small>+{planned.length - 2} más</small>}
               </span>
@@ -82,12 +76,12 @@ const MFCalendar: FC<MFCalendarProps> = ({ workouts, plannedWorkouts, selectedDa
 
       <div className={styles.dayDetails}>
         <h3>Rutinas del {selectedDate}</h3>
-        {selectedWorkoutNames.length === 0 ? <p>No hay rutinas planificadas.</p> : (
+        {selectedWorkouts.length === 0 ? <p>No hay rutinas planificadas.</p> : (
           <ul>
-            {selectedWorkoutNames.map((workout) => (
+            {selectedWorkouts.map((workout) => (
               <li key={workout.id}>
-                <span>{workout.name}</span>
-                <button type="button" onClick={() => onRemoveWorkout(selectedDate, String(workout.id))} aria-label={`Quitar ${workout.name}`}>Quitar</button>
+                <span>{workout.title}</span>
+                <button type="button" onClick={() => onRemoveWorkout(selectedDate, workout.id)} aria-label={`Quitar ${workout.title}`}>Quitar</button>
               </li>
             ))}
           </ul>

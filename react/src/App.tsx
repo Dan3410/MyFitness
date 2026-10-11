@@ -10,6 +10,7 @@ import Workout from './pages/workout/workout';
 import WorkoutCategories from './pages/workout/components/workoutCategories/workoutCategories';
 import WorkoutList from './pages/workout/pages/workoutList/workoutList';
 import WorkoutEditor from './pages/workout/pages/workoutEditor/workoutEditor';
+import WorkoutView from './pages/workout/pages/workoutView/workoutView';
 import MFHeader from './components/mf-header/mf-header';
 import Calendar from './pages/calendar/calendar';
 import Users from './pages/users/users';
@@ -54,6 +55,7 @@ function AppRoutes() {
             <Route path="/workout" element={<Workout />}>
               <Route path="/workout/categories" element={<WorkoutCategories />}></Route>
               <Route path="/workout/list" element={<WorkoutList />}></Route>
+              <Route path="/workout/view/:id" element={<WorkoutView />}></Route>
               <Route path="/workout/edit/:id" element={<WorkoutEditor />}></Route>
             </Route>
             <Route path="/calendar" element={<Calendar></Calendar>}></Route>

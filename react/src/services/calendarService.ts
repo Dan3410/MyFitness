@@ -1,7 +1,13 @@
 import { GET_DATA_ERROR_MESSAGE, SAVE_WORKOUT_ERROR_MESSAGE } from '../const/errorMessages'
 import { SESSION_STORAGE_KEY } from './authService'
 
-export type PlannedWorkouts = Record<string, string[]>
+export interface PlannedWorkout {
+  id: string
+  title: string
+  category: string
+}
+
+export type PlannedWorkouts = Record<string, PlannedWorkout[]>
 
 const API_URL = 'http://localhost:3000/workout/calendar'
 
@@ -11,8 +17,9 @@ const authHeaders = () => ({
 })
 
 class CalendarService {
-  async getCalendar(): Promise<PlannedWorkouts> {
-    const response = await fetch(API_URL, { headers: authHeaders() })
+  async getCalendar(month?: string): Promise<PlannedWorkouts> {
+    const monthQuery = month ? `?month=${encodeURIComponent(month)}` : ''
+    const response = await fetch(`${API_URL}${monthQuery}`, { headers: authHeaders() })
     if (!response.ok) throw new Error(GET_DATA_ERROR_MESSAGE)
     return response.json()
   }

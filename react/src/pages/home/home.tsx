@@ -1,72 +1,93 @@
-import type { FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import styles from "./home.module.scss";
-import MFButton from "../../components/mf-button/mf-button";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { SectionButton } from "../../models/section";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { ComponentTheme } from "../../models/componentTheme";
+import { WorkoutCategory } from "../../models/workoutCategories";
+import MFSpinner from "../../components/mf-spinner/mf-spinner";
+import { calendarService, type PlannedWorkout } from "../../services/calendarService";
 
 interface HomeProps { }
 
 const Home: FC<HomeProps> = () => {
+  const { session } = useAuth();
+  const [workoutsByDate, setWorkoutsByDate] = useState<Record<string, PlannedWorkout[]>>({});
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
-  const redirectToWorkoutList = () => {
-    navigate("/workout/list");
+  useEffect(() => {
+    if (!session?.userId) return;
+
+    const loadWorkouts = async () => {
+      try {
+        setLoadError(false);
+        setWorkoutsByDate(await calendarService.getCalendar());
+      } catch {
+        setLoadError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadWorkouts();
+  }, [session?.userId]);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const days = [
+    { date: today, title: "Hoy" },
+    { date: tomorrow, title: "Mañana" },
+  ];
+  const categoryDetails: Record<string, { icon: string; label: string }> = {
+    [WorkoutCategory.GYM]: { icon: "🏋️‍♂️", label: "Gimnasio" },
+    [WorkoutCategory.SWIM]: { icon: "🏊‍♂️", label: "Natación" },
+    [WorkoutCategory.RUN]: { icon: "🏃‍♂️", label: "Correr" },
   };
-
-  const redirectToProfile = () => {
-    navigate("/profile");
-  };
-
-  const redirectToDiet = () => {
-    navigate("/diet");
-  };
-
-  const sectionsButtons: SectionButton[] = [
-    {
-      name: "Rutinas de ejercicios",
-      description: "Para ver tus entrenamientos, hace click aquí",
-      disabled: false,
-      buttonTheme: ComponentTheme.workout,
-      redirectFunction: redirectToWorkoutList
-    },
-    {
-      name: "Perfil y Salud",
-      description: "Para administrar la información sobre ti y tus objetivos, hace click aquí",
-      disabled: false,
-      buttonTheme: ComponentTheme.profileAndHealth,
-      redirectFunction: redirectToProfile
-    },
-    {
-      name: "Dieta",
-      description: "Para planificar tu dieta, hace click aquí",
-      disabled: true,
-      buttonTheme: ComponentTheme.diet,
-      redirectFunction: redirectToDiet
-    },
-  ]
-
-  const navigate: NavigateFunction = useNavigate();
 
   return (
-    <>
-      <div className={styles.homeContainer}>
-        {sectionsButtons.map((item: SectionButton) => (
-          <div className={styles.button}>
-            <label>{!item.disabled ? item.description : "No disponible"}</label>
-            <MFButton
-              width="100%"
-              height="80px"
-              fontSize="24px"
-              isDisabled={item.disabled}
-              theme={item.buttonTheme}
-              onClickEvent={item.redirectFunction}
-            >
-              <label>{item.name}</label>
-            </MFButton>
-          </div>
-        ))}
-      </div>
-    </>
+    <main className={styles.homeContainer}>
+      <header className={styles.pageHeader}>
+        <h1>Próximas rutinas</h1>
+      </header>
+      {loading ? <MFSpinner theme={ComponentTheme.workout} /> :
+        loadError ? <p className={styles.status}>No se pudieron cargar los entrenamientos.</p> :
+          <div className={styles.daysGrid}>
+            {days.map(({ date, title }) => {
+              const dateKey = [
+                date.getFullYear(),
+                String(date.getMonth() + 1).padStart(2, "0"),
+                String(date.getDate()).padStart(2, "0"),
+              ].join("-");
+              const workouts = workoutsByDate[dateKey] || [];
+
+              return (
+                <section className={styles.daySection} key={dateKey}>
+                  <h2>{title}</h2>
+                  <p className={styles.date}>{date.toLocaleDateString("es", { weekday: "long", day: "numeric", month: "long" })}</p>
+                  {workouts.length ? <ul className={styles.workoutList}>
+                    {workouts.map((workout) => (
+                      <li key={workout.id}>
+                        <Link to={`/workout/view/${workout.id}`} className={styles.workoutLink}>
+                          <span className={styles.workoutIcon} aria-hidden="true">
+                            {categoryDetails[workout.category]?.icon ?? "🏋️‍♂️"}
+                          </span>
+                          <span className={styles.workoutText}>
+                            <span className={styles.workoutCategory}>
+                              {categoryDetails[workout.category]?.label ?? "Entrenamiento"}
+                            </span>
+                            <span className={styles.workoutTitle}>{workout.title}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul> : <p className={styles.emptyState}>No hay rutinas programadas.</p>}
+                </section>
+              );
+            })}
+          </div>}
+    </main>
   );
 };
 

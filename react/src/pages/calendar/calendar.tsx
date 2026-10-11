@@ -10,10 +10,13 @@ import { calendarService, type PlannedWorkouts } from '../../services/calendarSe
 
 interface CalendarProps { }
 
+const monthKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
 const Calendar: FC<CalendarProps> = () => {
   const { session } = useAuth();
   const today = new Date();
   const [selectedDate, setSelectedDate] = useState(today.toISOString().slice(0, 10));
+  const [currentMonth, setCurrentMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [workouts, setWorkouts] = useState<WorkoutListItem[]>([]);
   const [plannedWorkouts, setPlannedWorkouts] = useState<PlannedWorkouts>({});
   const [selectedWorkoutId, setSelectedWorkoutId] = useState('');
@@ -23,10 +26,11 @@ const Calendar: FC<CalendarProps> = () => {
   useEffect(() => {
     const loadCalendar = async () => {
       try {
+        setLoading(true)
         setLoadError(false)
         const [workoutList, calendarData] = await Promise.all([
           workoutService.getWorkoutsListItem(session?.userId || '', WorkoutCategory.ALL),
-          calendarService.getCalendar(),
+          calendarService.getCalendar(monthKey(currentMonth)),
         ])
         setWorkouts(workoutList)
         setPlannedWorkouts(calendarData)
@@ -38,12 +42,18 @@ const Calendar: FC<CalendarProps> = () => {
     }
 
     if (session?.userId) void loadCalendar()
-  }, [session?.userId]);
+  }, [session?.userId, currentMonth]);
+
+  const changeMonth = (month: Date) => {
+    setCurrentMonth(month)
+    setSelectedDate(`${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}-01`)
+  }
 
   const addWorkout = async () => {
     if (!selectedWorkoutId) return
     try {
-      setPlannedWorkouts(await calendarService.addPlannedWorkout(selectedDate, selectedWorkoutId))
+      await calendarService.addPlannedWorkout(selectedDate, selectedWorkoutId)
+      setPlannedWorkouts(await calendarService.getCalendar(monthKey(currentMonth)))
       setSelectedWorkoutId('')
     } catch {
       setLoadError(true)
@@ -52,7 +62,8 @@ const Calendar: FC<CalendarProps> = () => {
 
   const removeWorkout = async (date: string, workoutId: string) => {
     try {
-      setPlannedWorkouts(await calendarService.removePlannedWorkout(date, workoutId))
+      await calendarService.removePlannedWorkout(date, workoutId)
+      setPlannedWorkouts(await calendarService.getCalendar(monthKey(currentMonth)))
     } catch {
       setLoadError(true)
     }
@@ -62,9 +73,10 @@ const Calendar: FC<CalendarProps> = () => {
     <div className={styles.workoutList}>
       {loading ? <p>Cargando calendario...</p> : loadError ? <p>No se pudo cargar el calendario.</p> : <>
         <MFCalendar
-          workouts={workouts}
           plannedWorkouts={plannedWorkouts}
+          currentMonth={currentMonth}
           selectedDate={selectedDate}
+          onMonthChange={changeMonth}
           onDateSelect={setSelectedDate}
           onRemoveWorkout={removeWorkout}
         />

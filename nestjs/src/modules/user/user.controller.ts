@@ -14,7 +14,6 @@ export class UserController {
 
   @Get('userById/:id')
   getUserById(@Headers('authorization') authorization: string, @Param('id') id: string): Promise<User> {
-    console.log("userById")
     return this.userService.getUserById(id, authorization);
   }
 

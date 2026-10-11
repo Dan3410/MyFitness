@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
+import type { PlannedWorkouts } from 'src/models/plannedWorkout';
 
 @Injectable()
 export class CalendarService {
@@ -8,16 +9,17 @@ export class CalendarService {
 
   constructor(private readonly httpService: HttpService) {}
 
-  async getCalendar(authorization: string): Promise<Record<string, string[]>> {
+  async getCalendar(authorization: string, month?: string): Promise<PlannedWorkouts> {
+    const monthQuery = month ? `?month=${encodeURIComponent(month)}` : '';
     const response = await firstValueFrom(
-      this.httpService.get<Record<string, string[]>>(this.calendarApiUrl, { headers: { authorization } }),
+      this.httpService.get<PlannedWorkouts>(`${this.calendarApiUrl}${monthQuery}`, { headers: { authorization } }),
     );
     return response.data;
   }
 
-  async addToCalendar(date: string, workoutId: string, authorization: string): Promise<Record<string, string[]>> {
+  async addToCalendar(date: string, workoutId: string, authorization: string): Promise<PlannedWorkouts> {
     const response = await firstValueFrom(
-      this.httpService.post<Record<string, string[]>>(
+      this.httpService.post<PlannedWorkouts>(
         this.calendarApiUrl,
         { date, workoutId },
         { headers: { authorization } },
@@ -26,9 +28,9 @@ export class CalendarService {
     return response.data;
   }
 
-  async removeFromCalendar(date: string, workoutId: string, authorization: string): Promise<Record<string, string[]>> {
+  async removeFromCalendar(date: string, workoutId: string, authorization: string): Promise<PlannedWorkouts> {
     const response = await firstValueFrom(
-      this.httpService.delete<Record<string, string[]>>(
+      this.httpService.delete<PlannedWorkouts>(
         `${this.calendarApiUrl}/${date}/${workoutId}`,
         { headers: { authorization } },
       ),
