@@ -4,6 +4,7 @@
   width: 100%;
   max-width: 1280px;
   padding: 20px 0;
+  width: min(100% - 40px, 1100px);
 }
 
 :global( ::-webkit-scrollbar) {
@@ -45,4 +46,10 @@
 
 :global(html[data-workout-category='run']) {
   --scrollbar-thumb-color: #e4ff49;
+}
+
+@media (max-width: 640px) {
+  .appContainer {
+    width: min(100% - 32px, 500px);
+  }
 }

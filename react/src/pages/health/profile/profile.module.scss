@@ -31,6 +31,16 @@
     object-fit: cover;
 }
 
+.trainerLabel {
+    width: fit-content;
+    margin: 0 auto -8px;
+    border-radius: 4px;
+    padding: 4px 10px;
+    background: #000000;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 .profileImgEditable {
     cursor: pointer;
 

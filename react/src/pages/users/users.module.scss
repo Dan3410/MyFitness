@@ -1,7 +1,5 @@
 .usersPage {
-    max-width: 980px;
     margin: 0 auto;
-    padding: 24px;
 }
 
 .pageHeader {
@@ -46,18 +44,30 @@
     object-fit: cover;
 }
 
-.userItem span {
+.userDetails {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.userName {
     overflow: hidden;
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-@media (max-width: 640px) {
-    .usersPage {
-        padding: 16px;
-    }
+.trainerLabel {
+    width: fit-content;
+    border-radius: 4px;
+    padding: 2px 6px;
+    background: #000000;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
 
+@media (max-width: 640px) {
     .userList {
         grid-template-columns: 1fr;
     }

@@ -1,8 +1,6 @@
 .homeContainer {
-    width: min(100% - 40px, 1100px);
     min-height: calc(100vh - 100px);
     margin: 0 auto;
-    padding: 56px 0;
 }
 
 .pageHeader {
@@ -104,7 +102,7 @@
 
 @media (max-width: 640px) {
     .homeContainer {
-        width: min(100% - 32px, 500px);
+
         padding: 36px 0;
     }
 

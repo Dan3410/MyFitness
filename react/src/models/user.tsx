@@ -20,10 +20,12 @@ export interface User {
   objective: OBJECTIVE
   profileImage?: string
   isProfilePrivate: boolean
+  isTrainer?: boolean
 }
 
 export interface UserSearchResult {
   id: string,
   name: string
   profileImage?: string
+  isTrainer: boolean
 }

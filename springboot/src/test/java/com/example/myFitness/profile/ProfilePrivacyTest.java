@@ -19,7 +19,7 @@ class ProfilePrivacyTest {
     ownerProfile.setIsProfilePrivate(true);
     profileService.saveProfile("0", ownerProfile);
 
-    User visibleToOther = profileService.getUserById("0", "1");
+    User visibleToOther = profileService.getUserById("0", "2");
 
     assertEquals("0", visibleToOther.getId());
     assertEquals("profile-image", visibleToOther.getProfileImage());
@@ -27,6 +27,9 @@ class ProfilePrivacyTest {
     assertNull(visibleToOther.getName());
     assertNull(visibleToOther.getWeight());
     assertEquals("John", profileService.getUserById("0", "0").getName());
-    assertThrows(ResponseStatusException.class, () -> profileService.getWeightHistoryById("0", "1"));
+    assertThrows(ResponseStatusException.class, () -> profileService.getWeightHistoryById("0", "2"));
+
+    assertEquals("John", profileService.getUserById("0", "1").getName());
+    assertEquals(15, profileService.getWeightHistoryById("0", "1").size());
   }
 }

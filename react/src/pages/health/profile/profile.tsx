@@ -175,6 +175,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           <MFBreadcrumb items={breadcrumbItems} />
         </div>
         <div className={styles.privateProfile}>
+          {form.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
           <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
           <p>Esta información es privada</p>
         </div>
@@ -199,6 +200,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
             <MFNotification type={notification.type} message={notification.message} />
           </div>
         )}
+        {form.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
         <div
           className={`${styles.profileImgContainer} ${edit ? styles.profileImgEditable : ''}`}
           onClick={() => edit && imageInputRef.current?.click()}

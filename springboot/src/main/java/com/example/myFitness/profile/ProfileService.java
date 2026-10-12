@@ -77,6 +77,7 @@ public class ProfileService {
       PhysicalActivityLvl.medium,
       Objective.maintain,
       null,
+      false,
       false);
 
   private User gymUser = new User(
@@ -94,6 +95,7 @@ public class ProfileService {
       PhysicalActivityLvl.medium,
       Objective.maintain,
       null,
+      true,
       true);
 
   private User runUser = new User(
@@ -111,6 +113,7 @@ public class ProfileService {
       PhysicalActivityLvl.medium,
       Objective.maintain,
       null,
+      false,
       false);
 
   @PostConstruct
@@ -125,7 +128,7 @@ public class ProfileService {
 
   public User getProfile(String id) {
     return savedUsers.computeIfAbsent(id,
-      ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null, false));
+      ignored -> new User(null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, false));
   }
 
   public List<UserSearchResult> searchUsers(String name, String currentUserId) {
@@ -133,8 +136,22 @@ public class ProfileService {
     return savedUsers.values().stream()
         .filter(user -> !currentUserId.equals(user.getId()))
         .filter(user -> query.isBlank() || matchesUser(user, query))
-        .map(user -> new UserSearchResult(user.getId(), displayName(user), user.getProfileImage()))
+        .map(user -> new UserSearchResult(user.getId(), displayName(user), user.getProfileImage(), user.getIsTrainer()))
         .collect(Collectors.toList());
+  }
+
+  public boolean isTrainer(String userId) {
+    User user = savedUsers.get(userId);
+    return user != null && user.getIsTrainer();
+  }
+
+  public UserSearchResult getUserSearchResult(String userId) {
+    User user = savedUsers.get(userId);
+    if (user == null) {
+      throw new org.springframework.web.server.ResponseStatusException(
+          org.springframework.http.HttpStatus.NOT_FOUND, "Usuario no encontrado");
+    }
+    return new UserSearchResult(user.getId(), displayName(user), user.getProfileImage(), user.getIsTrainer());
   }
 
   public User getUserById(String id, String viewerId) {
@@ -142,16 +159,16 @@ public class ProfileService {
       .filter(candidate -> id.equals(candidate.getId()))
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-    if (profile.getIsProfilePrivate() && !id.equals(viewerId)) {
+    if (profile.getIsProfilePrivate() && !id.equals(viewerId) && !isTrainer(viewerId)) {
       return new User(id, null, null, null, null, null, null, null, null, null, null, null, null,
-        profile.getProfileImage(), true);
+        profile.getProfileImage(), true, profile.getIsTrainer());
     }
     return profile;
   }
 
   public List<WeightHistoryPoint> getWeightHistoryById(String id, String viewerId) {
     User user = getUserById(id, viewerId);
-    if (user.getIsProfilePrivate() && !id.equals(viewerId)) {
+    if (user.getIsProfilePrivate() && !id.equals(viewerId) && !isTrainer(viewerId)) {
       throw new org.springframework.web.server.ResponseStatusException(
           org.springframework.http.HttpStatus.FORBIDDEN, "Esta información es privada");
     }
@@ -178,6 +195,8 @@ public class ProfileService {
   }
 
   public synchronized User saveProfile(String id, User user) {
+    User existingUser = savedUsers.get(id);
+    user.setIsTrainer(existingUser != null && existingUser.getIsTrainer());
     savedUsers.put(id, user);
     List<WeightHistoryPoint> history = new ArrayList<>(getWeightHistory(id));
     WeightHistoryPoint latestPoint = new WeightHistoryPoint(LocalDate.now(), user.getWeight());
