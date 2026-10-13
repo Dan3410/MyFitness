@@ -17,6 +17,7 @@ const MFCheckbox: FC<MFCheckboxProps> = ({ children, theme, disabled = false, ch
       <input
         className={styles.checkboxInput}
         type="checkbox"
+        disabled={disabled}
         checked={checked}
         onChange={onChange}
       />

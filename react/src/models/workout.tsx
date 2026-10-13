@@ -6,4 +6,5 @@ export interface Workout {
     name: string;
     category: WorkoutCategory;
     steps: WorkoutStep[];
+    sourceTrainerName?: string;
 }

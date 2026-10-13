@@ -1,3 +1,9 @@
+:root {
+  --border-radius-big: 24px;
+  --border-radius-medium: 16px;
+  --border-radius-small: 8px;
+}
+
 * {
   box-sizing: border-box;
   scrollbar-width: thin;
@@ -7,11 +13,6 @@
 #root {
   width: 100%;
   margin: 0 auto;
-
-  --border-radius-big: 24px;
-  --border-radius-medium: 16px;
-  --border-radius-small: 8px;
-  
 }
 
 h1,

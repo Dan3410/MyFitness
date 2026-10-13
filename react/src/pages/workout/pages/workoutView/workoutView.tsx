@@ -48,6 +48,7 @@ const WorkoutView: FC = () => {
         <header className={styles.workoutHeader}>
           <p>{workout.category}</p>
           <h1>{workout.name}</h1>
+          {workout.sourceTrainerName && <p className={styles.trainerAttribution}>Rutina asignada por {workout.sourceTrainerName}. No puedes editarla.</p>}
         </header>
         <section className={styles.steps}>
           <h2>Pasos del entrenamiento</h2>

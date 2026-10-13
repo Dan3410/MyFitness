@@ -7,6 +7,9 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import com.example.myFitness.auth.AuthService;
+import com.example.myFitness.notification.NotificationService;
+import com.example.myFitness.profile.ProfileService;
+import com.example.myFitness.trainerStudent.TrainerStudentService;
 import com.example.myFitness.workout.WorkoutService;
 
 class WorkoutListItemTest {
@@ -20,7 +23,13 @@ class WorkoutListItemTest {
 
     @Test
     void shouldUpdateListItemNameWhenWorkoutIsEdited() {
-        WorkoutService service = new WorkoutService(new AuthService());
+        ProfileService profileService = new ProfileService();
+        profileService.init();
+        TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
+        trainerStudentService.seedDemoTrainerStudentLink();
+        WorkoutService service = new WorkoutService(
+            new AuthService(), profileService, trainerStudentService,
+            new NotificationService(profileService, trainerStudentService));
         service.init();
 
         Workout updatedWorkout = new Workout("0", "Swim updated", "swim", Collections.emptyList());

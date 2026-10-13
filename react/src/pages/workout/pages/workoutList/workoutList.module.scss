@@ -36,6 +36,7 @@
             justify-content: center;
             padding: 10px 0;
             overflow: hidden;
+            height: 100%;
         }
 
         td:first-child {
@@ -62,4 +63,26 @@
     display: flex;
     float: right;
     column-gap: 20px;
+}
+
+.trainerAttribution {
+    display: block;
+    color: #8a9b91;
+    font-size: 0.85rem;
+}
+
+.studentSelection {
+    display: grid;
+    gap: 10px;
+    margin: 16px 0;
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+.workoutListNotifications {
+    margin-bottom: 16px;
 }

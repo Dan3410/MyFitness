@@ -53,6 +53,27 @@ export class WorkoutService {
     return response.data;
   }
 
+  async shareWorkout(id: string, studentIds: string[], authorization: string): Promise<string[]> {
+    const response = await firstValueFrom(
+      this.httpService.post<string[]>(
+        `${this.workoutApiUrl}/${encodeURIComponent(id)}/share`,
+        { studentIds },
+        { headers: { authorization } },
+      ),
+    );
+    return response.data;
+  }
+
+  async getSharedStudentIds(id: string, authorization: string): Promise<string[]> {
+    const response = await firstValueFrom(
+      this.httpService.get<string[]>(
+        `${this.workoutApiUrl}/${encodeURIComponent(id)}/shared-students`,
+        { headers: { authorization } },
+      ),
+    );
+    return response.data;
+  }
+
   async editWorkout(id: string, workout: Workout, authorization: string): Promise<Workout> {
     const response = await firstValueFrom(
       this.httpService.put<Workout>(`${this.workoutApiUrl}/${id}`, workout, { headers: { authorization } }),

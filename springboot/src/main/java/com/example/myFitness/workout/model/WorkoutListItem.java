@@ -27,17 +27,18 @@ public class WorkoutListItem {
         }
     }
 
-    Integer id;
+    String id;
     String name;
     Category category;
     Integer estimatedTime;
     LocalDate lastTimeDone;
     LocalDate createdDate;
     LocalDate modifiedDate;
+    String sourceTrainerName;
 
     // Constructor
-    public WorkoutListItem(Integer id, String name, Category category, Integer estimatedTime,
-            LocalDate lastTimeDone, LocalDate createdDate, LocalDate modifiedDate) {
+    public WorkoutListItem(String id, String name, Category category, Integer estimatedTime,
+            LocalDate lastTimeDone, LocalDate createdDate, LocalDate modifiedDate, String sourceTrainerName) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -45,11 +46,16 @@ public class WorkoutListItem {
         this.lastTimeDone = lastTimeDone;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
+        this.sourceTrainerName = sourceTrainerName;
     }
 
     // Getters
-    public Integer getId() {
+    public String getId() {
         return id;
+    }
+
+    public String getSourceTrainerName() {
+        return sourceTrainerName;
     }
 
     public String getName() {
@@ -77,8 +83,12 @@ public class WorkoutListItem {
     }
 
     // Setters
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void setSourceTrainerName(String sourceTrainerName) {
+        this.sourceTrainerName = sourceTrainerName;
     }
 
     public void setName(String name) {

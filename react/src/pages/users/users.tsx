@@ -54,18 +54,22 @@ const Users: FC = () => {
       {!loading && !loadError && users.length > 0 && (
         <div className={styles.userList}>
           {users.map((user, index) => (
-            <button
+            <article
               className={styles.userItem}
               key={`${user.name}-${index}`}
-              type="button"
-              onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(name)}`)}
             >
-              <img src={user.profileImage || defaultProfileImage} alt="" />
-              <span className={styles.userDetails}>
-                <span className={styles.userName}>{user.name}</span>
-                {user.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
-              </span>
-            </button>
+              <button
+                className={styles.userProfileLink}
+                type="button"
+                onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(name)}`)}
+              >
+                <img src={user.profileImage || defaultProfileImage} alt="" />
+                <span className={styles.userDetails}>
+                  <span className={styles.userName}>{user.name}</span>
+                  {user.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
+                </span>
+              </button>
+            </article>
           ))}
         </div>
       )}

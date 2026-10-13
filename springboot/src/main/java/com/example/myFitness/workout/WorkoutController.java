@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.myFitness.workout.model.Workout;
 import com.example.myFitness.workout.model.WorkoutCategory;
 import com.example.myFitness.workout.model.WorkoutListItem;
+import com.example.myFitness.workout.model.ShareWorkoutRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +43,22 @@ public class WorkoutController {
   public Workout createWorkout(@PathVariable String workoutId,
       @RequestHeader(value = "Authorization", required = false) String authorization){
     return workoutService.getWorkout(authService.requireUserId(authorization), workoutId);
+  }
+
+  @PostMapping("/{workoutId}/share")
+  public java.util.List<String> shareWorkout(
+      @PathVariable String workoutId,
+      @RequestBody ShareWorkoutRequest request,
+      @RequestHeader(value = "Authorization", required = false) String authorization) {
+    return workoutService.shareWorkout(
+        authService.requireUserId(authorization), workoutId, request.studentIds());
+  }
+
+  @GetMapping("/{workoutId}/shared-students")
+  public java.util.List<String> getSharedStudentIds(
+      @PathVariable String workoutId,
+      @RequestHeader(value = "Authorization", required = false) String authorization) {
+    return workoutService.getSharedStudentIds(authService.requireUserId(authorization), workoutId);
   }
   @PostMapping("/{workoutId}")
   public Workout createWorkout(@PathVariable String workoutId, @RequestBody Workout workout,

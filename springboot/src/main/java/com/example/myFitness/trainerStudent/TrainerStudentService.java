@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.myFitness.profile.ProfileService;
 import com.example.myFitness.profile.model.UserSearchResult;
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class TrainerStudentService {
@@ -20,6 +21,11 @@ public class TrainerStudentService {
 
   public TrainerStudentService(ProfileService profileService) {
     this.profileService = profileService;
+  }
+
+  @PostConstruct
+  public void seedDemoTrainerStudentLink() {
+    linkStudent("1", "0");
   }
 
   public UserSearchResult linkStudent(String trainerId, String studentId) {
@@ -41,6 +47,35 @@ public class TrainerStudentService {
         .collect(Collectors.toList());
   }
 
+  public List<UserSearchResult> getTrainersForStudent(String studentId) {
+    requireStudent(studentId);
+    return studentsByTrainer.entrySet().stream()
+        .filter(entry -> entry.getValue().contains(studentId))
+        .map(entry -> profileService.getUserSearchResult(entry.getKey()))
+        .collect(Collectors.toList());
+  }
+
+  public List<UserSearchResult> getRelationshipsForProfile(String userId) {
+    UserSearchResult profileUser = profileService.getUserSearchResult(userId);
+    return profileUser.isTrainer()
+        ? getStudentsWithoutRoleCheck(userId)
+        : studentsByTrainer.entrySet().stream()
+            .filter(entry -> entry.getValue().contains(userId))
+            .map(entry -> profileService.getUserSearchResult(entry.getKey()))
+            .collect(Collectors.toList());
+  }
+
+  private List<UserSearchResult> getStudentsWithoutRoleCheck(String trainerId) {
+    return studentsByTrainer.getOrDefault(trainerId, Set.of()).stream()
+        .map(profileService::getUserSearchResult)
+        .collect(Collectors.toList());
+  }
+
+  public boolean isLinkedStudent(String trainerId, String studentId) {
+    requireTrainer(trainerId);
+    return studentsByTrainer.getOrDefault(trainerId, Set.of()).contains(studentId);
+  }
+
   public List<UserSearchResult> unlinkStudent(String trainerId, String studentId) {
     requireTrainer(trainerId);
     studentsByTrainer.computeIfPresent(trainerId, (ignored, students) -> {
@@ -48,6 +83,22 @@ public class TrainerStudentService {
       return students.isEmpty() ? null : students;
     });
     return getStudentsForTrainer(trainerId);
+  }
+
+  public List<UserSearchResult> unlinkTrainer(String studentId, String trainerId) {
+    requireStudent(studentId);
+    studentsByTrainer.computeIfPresent(trainerId, (ignored, students) -> {
+      students.remove(studentId);
+      return students.isEmpty() ? null : students;
+    });
+    return getTrainersForStudent(studentId);
+  }
+
+  private void requireStudent(String studentId) {
+    if (profileService.isTrainer(studentId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+          "Solo los alumnos pueden gestionar sus entrenadores");
+    }
   }
 
   private void requireTrainer(String trainerId) {

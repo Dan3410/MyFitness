@@ -5,7 +5,8 @@ export interface WorkoutListItem {
     name: string
     category: WorkoutCategory
     estimatedTime: number
-    lastTimeDone: String
-    createdDate: String
-    modifiedDate: String
+    lastTimeDone: string
+    createdDate: string
+    modifiedDate: string
+    sourceTrainerName?: string
 }

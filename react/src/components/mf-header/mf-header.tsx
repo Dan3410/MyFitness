@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import MFFormField from '../mf-form-field/mf-form-field';
 import { ComponentTheme } from '../../models/componentTheme';
+import { notificationService } from '../../services/notificationService';
+import type { TrainerRequestNotification } from '../../models/notification';
 interface MFHeaderProps {
 }
 
@@ -13,12 +15,41 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [userSearch, setUserSearch] = useState('');
+  const [notifications, setNotifications] = useState<TrainerRequestNotification[]>([]);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [notificationError, setNotificationError] = useState(false);
+  const [notificationResponseError, setNotificationResponseError] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let active = true;
+    const loadNotifications = async () => {
+      try {
+        const items = await notificationService.getNotifications();
+        if (active) {
+          setNotifications(items);
+          setNotificationError(false);
+        }
+      } catch {
+        if (active) setNotificationError(true);
+      }
+    };
+    void loadNotifications();
+    const intervalId = window.setInterval(loadNotifications, 30000);
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
   useEffect(() => {
     const handleDocumentClick = (event: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setIsNotificationsOpen(false);
       }
     };
 
@@ -56,6 +87,18 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
     const name = userSearch.trim();
     if (name) navigate(`/users?name=${encodeURIComponent(name)}`);
   };
+
+  const respondToRequest = async (notificationId: string, decision: 'accept' | 'decline') => {
+    setNotificationResponseError(false);
+    try {
+      const updated = await notificationService.respondToTrainerRequest(notificationId, decision);
+      setNotifications((current) => current.map((item) => item.id === updated.id ? updated : item));
+    } catch {
+      setNotificationResponseError(true);
+    }
+  };
+
+  const unreadCount = notifications.filter((notification) => !notification.seen).length;
 
   return (
     <>
@@ -98,6 +141,61 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
           </MFFormField>
           <button type="submit">Buscar</button>
         </form>
+        <div className={styles.notifications} ref={notificationRef}>
+          <button
+            type="button"
+            className={styles.notificationTrigger}
+            aria-label={`Notificaciones${unreadCount ? `, ${unreadCount} sin leer` : ''}`}
+            aria-expanded={isNotificationsOpen}
+            onClick={() => setIsNotificationsOpen((open) => !open)}
+          >
+            <span aria-hidden="true">🔔</span>
+            {unreadCount > 0 && <span className={styles.notificationCount}>{unreadCount}</span>}
+          </button>
+          {isNotificationsOpen && (
+            <div className={styles.notificationDropdown}>
+              <h2>Notificaciones</h2>
+              {notificationError && <p>No se pudieron cargar las notificaciones.</p>}
+              {notificationResponseError && <p>Hubo un error al responder la notificación.</p>}
+              {!notificationError && notifications.length === 0 && <p>No tienes notificaciones.</p>}
+              <ul>
+                {notifications.map((notification) => (
+                  <li key={notification.id} className={!notification.seen ? styles.unseenNotification : ''}>
+                    {notification.type !== 'TRAINER_REQUEST' ? (
+                      <p>{notification.message}</p>
+                    ) : (
+                      <>
+                        <p>
+                          <button
+                            type="button"
+                            className={styles.trainerLink}
+                            onClick={() => {
+                              navigate(`/users/profile?id=${encodeURIComponent(notification.trainerId)}`);
+                              setIsNotificationsOpen(false);
+                            }}
+                          >
+                            {notification.trainerName}
+                          </button>{' '}
+                          quiere ser tu entrenador
+                        </p>
+                        {notification.status === 'PENDING' ? (
+                          <div className={styles.notificationActions}>
+                            <button type="button" onClick={() => void respondToRequest(notification.id, 'decline')}>Rechazar</button>
+                            <button type="button" onClick={() => void respondToRequest(notification.id, 'accept')}>Aceptar</button>
+                          </div>
+                        ) : notification.status ? (
+                          <span className={styles.notificationStatus}>
+                            {notification.status === 'ACCEPTED' ? 'Aceptada' : 'Rechazada'}
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
         <div ref={userMenuRef} className={styles.userMenu}>
           <button
             type="button"

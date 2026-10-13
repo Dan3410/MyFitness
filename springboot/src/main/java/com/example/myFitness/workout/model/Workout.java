@@ -8,6 +8,7 @@ public class Workout {
     private String name;
     private String category;
     private List<Step> steps;
+    private String sourceTrainerName;
 
     // Getters and setters
     // Getter and Setter for id
@@ -44,6 +45,14 @@ public class Workout {
 
     public void setSteps(List<Step> steps) {
         this.steps = steps;
+    }
+
+    public String getSourceTrainerName() {
+        return sourceTrainerName;
+    }
+
+    public void setSourceTrainerName(String sourceTrainerName) {
+        this.sourceTrainerName = sourceTrainerName;
     }
 
     public Workout() {

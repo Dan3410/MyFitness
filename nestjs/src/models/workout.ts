@@ -1,13 +1,14 @@
 export type WorkoutCategoryValue = 'swim' | 'gym' | 'run';
 
 export interface WorkoutListItem {
-    id: number;
+    id: string;
     name: string;
     category: WorkoutCategoryValue;
     estimatedTime: number;
     lastTimeDone: Date;
     createdDate: Date;
     modifiedDate: Date;
+    sourceTrainerName?: string;
 }
 
 export enum StepType {
@@ -91,4 +92,5 @@ export interface Workout {
     name: string;
     category: string;
     steps: WorkoutStep[];
+    sourceTrainerName?: string;
 }

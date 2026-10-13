@@ -20,6 +20,12 @@ import { GET_DATA_ERROR_MESSAGE } from '../../../const/errorMessages';
 import MFSpinner from '../../../components/mf-spinner/mf-spinner';
 import MFNotification, { type MFNotificationType } from '../../../components/mf-notification/mf-notification';
 import MFCheckbox from '../../../components/mf-checkbox/mf-checkbox';
+import MFModal from '../../../components/mf-modal/mf-modal';
+import type { UserSearchResult } from '../../../models/user';
+import { trainerStudentService } from '../../../services/trainerStudentService';
+import TrainerStudentSection from '../components/trainer-student-section/trainer-student-section';
+import { useAuth } from '../../../context/AuthContext';
+import { notificationService } from '../../../services/notificationService';
 
 interface ProfileProps {
   readOnly?: boolean
@@ -29,6 +35,7 @@ const MAX_PROFILE_IMAGE_SIZE_BYTES = 1024 * 1024
 
 const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
   const [searchParams] = useSearchParams()
+  const { session } = useAuth()
 
   const [form, setForm] = useState<User>({
     id: '',
@@ -69,6 +76,15 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
   const [loading, setLoading] = useState(true)
   const [weightHistoryRefresh, setWeightHistoryRefresh] = useState(0)
   const [notification, setNotification] = useState<{ type: MFNotificationType, message: string } | null>(null)
+  const [relationships, setRelationships] = useState<UserSearchResult[]>([])
+  const [originalRelationships, setOriginalRelationships] = useState<UserSearchResult[]>([])
+  const [selectedRelationshipIds, setSelectedRelationshipIds] = useState<string[]>([])
+  const [relationshipError, setRelationshipError] = useState(false)
+  const [canViewPrivateProfile, setCanViewPrivateProfile] = useState(false)
+  const [viewerIsTrainer, setViewerIsTrainer] = useState(false)
+  const [requestSent, setRequestSent] = useState(false)
+  const [requestSending, setRequestSending] = useState(false)
+  const [confirmRelationshipRemoval, setConfirmRelationshipRemoval] = useState(false)
   const notificationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const imageInputRef = useRef<HTMLInputElement>(null)
 
@@ -87,12 +103,54 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
   const getData = async () => {
     try {
       setLoadError(false)
+      setRelationships([])
+      setOriginalRelationships([])
+      setRelationshipError(false)
+      setCanViewPrivateProfile(false)
+      setViewerIsTrainer(false)
+      setRequestSent(false)
       const id = searchParams.get('id')
       const data = readOnly && id
         ? await profileService.getUserById(id)
         : await profileService.getUserData()
       setOriginalData(data)
       setForm(data)
+      const isProfileOwner = data.id === session?.userId
+      if (readOnly && !isProfileOwner) {
+        try {
+          const viewer = await profileService.getUserData()
+          setViewerIsTrainer(viewer.isTrainer)
+          if (viewer.isTrainer) {
+            const linkedStudents = await trainerStudentService.getStudents()
+            const isLinked = linkedStudents.some((user) => user.id === id)
+            setCanViewPrivateProfile(isLinked)
+          } else if (data.isProfilePrivate) {
+            const linkedTrainers = await trainerStudentService.getTrainers()
+            setCanViewPrivateProfile(linkedTrainers.some((user) => user.id === id))
+          }
+        } catch {
+          setCanViewPrivateProfile(false)
+        }
+        try {
+          const linkedUsers = await trainerStudentService.getRelationshipsForProfile(data.id)
+          setRelationships(linkedUsers)
+          setRelationshipError(false)
+        } catch {
+          setRelationshipError(true)
+        }
+      } else if (!readOnly || isProfileOwner) {
+        try {
+          const linkedUsers = data.isTrainer
+            ? await trainerStudentService.getStudents()
+            : await trainerStudentService.getTrainers()
+          setRelationships(linkedUsers)
+          setOriginalRelationships(linkedUsers)
+          setSelectedRelationshipIds(linkedUsers.map((user) => user.id))
+          setRelationshipError(false)
+        } catch {
+          setRelationshipError(true)
+        }
+      }
     } catch {
       setLoadError(true)
     } finally {
@@ -102,15 +160,18 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
 
   useEffect(() => {
     getData()
-  }, [readOnly, searchParams])
+  }, [readOnly, searchParams, session?.userId])
 
   const clickEdit = () => {
     setOriginalData(form)
+    setSelectedRelationshipIds(originalRelationships.map((user) => user.id))
     setEdit(true)
   }
 
   const cancelEdit = () => {
     setForm(originalData)
+    setSelectedRelationshipIds(originalRelationships.map((user) => user.id))
+    setConfirmRelationshipRemoval(false)
     setEdit(false)
   }
 
@@ -144,13 +205,27 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
     reader.readAsDataURL(file)
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const saveProfile = async () => {
     try {
+      const removedIds = originalRelationships
+        .filter((linkedUser) => !selectedRelationshipIds.includes(linkedUser.id))
+        .map((linkedUser) => linkedUser.id)
+      if (removedIds.length > 0) {
+        let updatedRelationships = originalRelationships
+        for (const id of removedIds) {
+          updatedRelationships = form.isTrainer
+            ? await trainerStudentService.unlinkStudent(id)
+            : await trainerStudentService.unlinkTrainer(id)
+          setRelationships(updatedRelationships)
+          setOriginalRelationships(updatedRelationships)
+          setSelectedRelationshipIds(updatedRelationships.map((user) => user.id))
+        }
+      }
       const userData = await profileService.editUserData(form)
       setForm(userData)
       setOriginalData(userData)
       setEdit(false)
+      setConfirmRelationshipRemoval(false)
       setWeightHistoryRefresh((current) => current + 1)
       showNotification('success', 'Perfil guardado correctamente')
     } catch {
@@ -158,8 +233,35 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
     }
   }
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const hasRelationshipRemovals = originalRelationships.some(
+      (linkedUser) => !selectedRelationshipIds.includes(linkedUser.id),
+    )
+    if (hasRelationshipRemovals) {
+      setConfirmRelationshipRemoval(true)
+      return
+    }
+    void saveProfile()
+  }
+
+  const requestTrainerLink = async () => {
+    if (requestSending) return
+    setRequestSending(true)
+    try {
+      await notificationService.sendTrainerRequest(form.id)
+      setRequestSent(true)
+      showNotification('success', 'Solicitud de vinculación enviada')
+    } catch {
+      showNotification('failure', 'No se pudo enviar la solicitud de vinculación')
+    } finally {
+      setRequestSending(false)
+    }
+  }
+
   if (loading) return <MFSpinner />;
   if (loadError) return <p>{GET_DATA_ERROR_MESSAGE}</p>;
+  const isOwner = !readOnly || form.id === session?.userId
   const breadcrumbItems = readOnly
     ? [
       { label: 'Inicio', to: '/' },
@@ -168,7 +270,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
     ]
     : [{ label: 'Inicio', to: '/' }, { label: 'Perfil' }];
 
-  if (readOnly && form.isProfilePrivate) {
+  if (readOnly && !isOwner && form.isProfilePrivate && !canViewPrivateProfile) {
     return (
       <div className="profile">
         <div className="pageHeader">
@@ -178,6 +280,18 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           {form.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
           <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
           <p>Esta información es privada</p>
+          {notification && <MFNotification type={notification.type} message={notification.message} />}
+          {viewerIsTrainer && !form.isTrainer && !requestSent && (
+            <MFButton
+              type="button"
+              theme={ComponentTheme.profileAndHealth}
+              isDisabled={requestSending}
+              onClickEvent={() => void requestTrainerLink()}
+            >
+              {requestSending ? 'Enviando...' : 'Solicitar vinculación'}
+            </MFButton>
+          )}
+          {viewerIsTrainer && !form.isTrainer && requestSent && <span>Solicitud enviada</span>}
         </div>
       </div>
     );
@@ -190,7 +304,20 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         <div className="pageTitleBar">
           <h2>{readOnly ? 'Perfil de usuario' : 'Perfil'}</h2>
           <div className="headerActions">
-            {!readOnly && !edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
+            {isOwner && !edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
+            {readOnly && !isOwner && viewerIsTrainer && !form.isTrainer && !requestSent && (
+              <MFButton
+                type="button"
+                theme={ComponentTheme.profileAndHealth}
+                isDisabled={requestSending}
+                onClickEvent={() => void requestTrainerLink()}
+              >
+                {requestSending ? 'Enviando...' : 'Solicitar vinculación'}
+              </MFButton>
+            )}
+            {readOnly && !isOwner && viewerIsTrainer && !form.isTrainer && requestSent && (
+              <span>Solicitud enviada</span>
+            )}
           </div>
         </div>
       </div>
@@ -239,8 +366,28 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           <NutritionSection form={form}></NutritionSection>
         </div>
 
-        {edit && <MFCheckbox
+        {relationshipError ? (
+          <MFNotification
+            type="failure"
+            message="No se pudieron cargar las relaciones de entrenador y alumno."
+          />
+        ) : (
+          <TrainerStudentSection
+            isTrainer={!!form.isTrainer}
+            isOwner={isOwner}
+            edit={edit}
+            users={relationships}
+            selectedUserIds={selectedRelationshipIds}
+            onSelectionChange={(userId, selected) => setSelectedRelationshipIds((current) =>
+              selected
+                ? [...current, userId]
+                : current.filter((id) => id !== userId))}
+          />
+        )}
+
+        {isOwner && <MFCheckbox
           theme={ComponentTheme.profileAndHealth}
+          disabled={!edit}
           checked={form.isProfilePrivate}
           onChange={(event) => setForm((prev) => ({ ...prev, isProfilePrivate: event.target.checked }))}
         >
@@ -249,11 +396,37 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
 
         {
           edit && (<div className="form-buttons-container">
-            <MFButton theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
+            <MFButton type="button" theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
             <MFButton type='submit' theme={ComponentTheme.profileAndHealth}><label>Guardar</label></MFButton>
           </div>)
         }
       </form>
+      <MFModal
+        isOpen={confirmRelationshipRemoval}
+        onClose={() => setConfirmRelationshipRemoval(false)}
+      >
+        <h2>Confirmar eliminación</h2>
+        <p>
+          Vas a remover {form.isTrainer ? 'estudiantes' : 'entrenadores'}, ¿estás seguro de hacer esto?
+          La acción es irreversible.
+        </p>
+        <div className="form-buttons-container">
+          <MFButton
+            type="button"
+            theme={ComponentTheme.generic}
+            onClickEvent={() => setConfirmRelationshipRemoval(false)}
+          >
+            Cancelar
+          </MFButton>
+          <MFButton
+            type="button"
+            theme={ComponentTheme.profileAndHealth}
+            onClickEvent={() => void saveProfile()}
+          >
+            Confirmar
+          </MFButton>
+        </div>
+      </MFModal>
     </div>)
 };
 

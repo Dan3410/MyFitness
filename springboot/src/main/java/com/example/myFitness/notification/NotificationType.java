@@ -1,0 +1,9 @@
+package com.example.myFitness.notification;
+
+public enum NotificationType {
+  TRAINER_REQUEST,
+  TRAINER_REQUEST_RESPONSE,
+  WORKOUT_SHARED,
+  WORKOUT_UNSHARED,
+  TRAINER_STUDENT_UNLINKED
+}

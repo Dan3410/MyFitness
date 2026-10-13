@@ -8,13 +8,26 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import com.example.myFitness.auth.AuthService;
+import com.example.myFitness.notification.NotificationService;
+import com.example.myFitness.profile.ProfileService;
+import com.example.myFitness.trainerStudent.TrainerStudentService;
 import com.example.myFitness.workout.WorkoutService;
 
 class CalendarServiceTest {
+  private WorkoutService createWorkoutService(AuthService authService) {
+    ProfileService profileService = new ProfileService();
+    profileService.init();
+    TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
+    trainerStudentService.seedDemoTrainerStudentLink();
+    return new WorkoutService(
+        authService, profileService, trainerStudentService,
+        new NotificationService(profileService, trainerStudentService));
+  }
+
   @Test
   void shouldReturnWorkoutIdAndTitleForPlannedWorkout() {
     AuthService authService = new AuthService();
-    WorkoutService workoutService = new WorkoutService(authService);
+    WorkoutService workoutService = createWorkoutService(authService);
     workoutService.init();
     CalendarService calendarService = new CalendarService(workoutService);
     String userId = authService.getUserId("Swim");
@@ -27,7 +40,7 @@ class CalendarServiceTest {
   @Test
   void shouldReturnFullCalendarOrOnlyTheRequestedMonth() {
     AuthService authService = new AuthService();
-    WorkoutService workoutService = new WorkoutService(authService);
+    WorkoutService workoutService = createWorkoutService(authService);
     workoutService.init();
     CalendarService calendarService = new CalendarService(workoutService);
     String userId = authService.getUserId("Swim");

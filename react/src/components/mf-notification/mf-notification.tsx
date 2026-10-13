@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import styles from './mf-notification.module.scss'
 
-export type MFNotificationType = 'inform' | 'failure' | 'success'
+export type MFNotificationType = 'inform' | 'warning' | 'failure' | 'success'
 
 interface MFNotificationProps {
   type: MFNotificationType
@@ -10,6 +10,7 @@ interface MFNotificationProps {
 
 const notificationIcons: Record<MFNotificationType, string> = {
   inform: '!',
+  warning: '!',
   failure: 'X',
   success: '✓',
 }
