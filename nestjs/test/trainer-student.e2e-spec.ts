@@ -8,7 +8,13 @@ describe('TrainerStudentController (e2e)', () => {
   let app: INestApplication;
   const trainerStudentService = {
     getRelationshipsForProfile: jest.fn().mockResolvedValue([
-      { id: '0', name: 'John Swim', profileImage: null, isTrainer: false },
+      {
+        id: '0',
+        name: 'John Swim',
+        profileImage: null,
+        isTrainer: false,
+        relationshipType: 'STUDENT',
+      },
     ]),
   };
 
@@ -32,7 +38,13 @@ describe('TrainerStudentController (e2e)', () => {
       .get('/trainer/students/profile/1')
       .set('authorization', 'Bearer test-token')
       .expect(200)
-      .expect([{ id: '0', name: 'John Swim', profileImage: null, isTrainer: false }]);
+      .expect([{
+        id: '0',
+        name: 'John Swim',
+        profileImage: null,
+        isTrainer: false,
+        relationshipType: 'STUDENT',
+      }]);
 
     expect(trainerStudentService.getRelationshipsForProfile).toHaveBeenCalledWith(
       '1',

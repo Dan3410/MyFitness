@@ -43,7 +43,7 @@ public class TrainerStudentController {
   }
 
   @GetMapping("/profile/{userId}")
-  public List<UserSearchResult> getRelationshipsForProfile(
+  public List<TrainerStudentRelationship> getRelationshipsForProfile(
       @RequestHeader(value = "Authorization", required = false) String authorization,
       @PathVariable String userId) {
     authService.requireUserId(authorization);

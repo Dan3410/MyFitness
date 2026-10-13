@@ -21,7 +21,7 @@ import MFSpinner from '../../../components/mf-spinner/mf-spinner';
 import MFNotification, { type MFNotificationType } from '../../../components/mf-notification/mf-notification';
 import MFCheckbox from '../../../components/mf-checkbox/mf-checkbox';
 import MFModal from '../../../components/mf-modal/mf-modal';
-import type { UserSearchResult } from '../../../models/user';
+import type { TrainerStudentRelationship } from '../../../models/user';
 import { trainerStudentService } from '../../../services/trainerStudentService';
 import TrainerStudentSection from '../components/trainer-student-section/trainer-student-section';
 import { useAuth } from '../../../context/AuthContext';
@@ -76,8 +76,8 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
   const [loading, setLoading] = useState(true)
   const [weightHistoryRefresh, setWeightHistoryRefresh] = useState(0)
   const [notification, setNotification] = useState<{ type: MFNotificationType, message: string } | null>(null)
-  const [relationships, setRelationships] = useState<UserSearchResult[]>([])
-  const [originalRelationships, setOriginalRelationships] = useState<UserSearchResult[]>([])
+  const [relationships, setRelationships] = useState<TrainerStudentRelationship[]>([])
+  const [originalRelationships, setOriginalRelationships] = useState<TrainerStudentRelationship[]>([])
   const [selectedRelationshipIds, setSelectedRelationshipIds] = useState<string[]>([])
   const [relationshipError, setRelationshipError] = useState(false)
   const [canViewPrivateProfile, setCanViewPrivateProfile] = useState(false)
@@ -120,14 +120,8 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         try {
           const viewer = await profileService.getUserData()
           setViewerIsTrainer(viewer.isTrainer)
-          if (viewer.isTrainer) {
-            const linkedStudents = await trainerStudentService.getStudents()
-            const isLinked = linkedStudents.some((user) => user.id === id)
-            setCanViewPrivateProfile(isLinked)
-          } else if (data.isProfilePrivate) {
-            const linkedTrainers = await trainerStudentService.getTrainers()
-            setCanViewPrivateProfile(linkedTrainers.some((user) => user.id === id))
-          }
+          const viewerRelationships = await trainerStudentService.getRelationshipsForProfile(viewer.id)
+          setCanViewPrivateProfile(viewerRelationships.some((user) => user.id === id))
         } catch {
           setCanViewPrivateProfile(false)
         }
@@ -140,12 +134,10 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         }
       } else if (!readOnly || isProfileOwner) {
         try {
-          const linkedUsers = data.isTrainer
-            ? await trainerStudentService.getStudents()
-            : await trainerStudentService.getTrainers()
+          const linkedUsers = await trainerStudentService.getRelationshipsForProfile(data.id)
           setRelationships(linkedUsers)
           setOriginalRelationships(linkedUsers)
-          setSelectedRelationshipIds(linkedUsers.map((user) => user.id))
+          setSelectedRelationshipIds(linkedUsers.map(relationshipKey))
           setRelationshipError(false)
         } catch {
           setRelationshipError(true)
@@ -164,13 +156,13 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
 
   const clickEdit = () => {
     setOriginalData(form)
-    setSelectedRelationshipIds(originalRelationships.map((user) => user.id))
+    setSelectedRelationshipIds(originalRelationships.map(relationshipKey))
     setEdit(true)
   }
 
   const cancelEdit = () => {
     setForm(originalData)
-    setSelectedRelationshipIds(originalRelationships.map((user) => user.id))
+    setSelectedRelationshipIds(originalRelationships.map(relationshipKey))
     setConfirmRelationshipRemoval(false)
     setEdit(false)
   }
@@ -207,19 +199,25 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
 
   const saveProfile = async () => {
     try {
-      const removedIds = originalRelationships
-        .filter((linkedUser) => !selectedRelationshipIds.includes(linkedUser.id))
-        .map((linkedUser) => linkedUser.id)
-      if (removedIds.length > 0) {
-        let updatedRelationships = originalRelationships
-        for (const id of removedIds) {
-          updatedRelationships = form.isTrainer
-            ? await trainerStudentService.unlinkStudent(id)
-            : await trainerStudentService.unlinkTrainer(id)
-          setRelationships(updatedRelationships)
-          setOriginalRelationships(updatedRelationships)
-          setSelectedRelationshipIds(updatedRelationships.map((user) => user.id))
+      const removedRelationships = originalRelationships
+        .filter((relationship) => !selectedRelationshipIds.includes(relationshipKey(relationship)))
+      if (removedRelationships.length > 0) {
+        for (const relationship of removedRelationships) {
+          if (relationship.relationshipType === 'STUDENT') {
+            await trainerStudentService.unlinkStudent(relationship.id)
+          } else {
+            await trainerStudentService.unlinkTrainer(relationship.id)
+          }
+          setRelationships((current) => current.filter(
+            (item) => relationshipKey(item) !== relationshipKey(relationship),
+          ))
+          setOriginalRelationships((current) => current.filter(
+            (item) => relationshipKey(item) !== relationshipKey(relationship),
+          ))
         }
+        setSelectedRelationshipIds((current) => current.filter(
+          (key) => !removedRelationships.some((relationship) => relationshipKey(relationship) === key),
+        ))
       }
       const userData = await profileService.editUserData(form)
       setForm(userData)
@@ -236,13 +234,17 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const hasRelationshipRemovals = originalRelationships.some(
-      (linkedUser) => !selectedRelationshipIds.includes(linkedUser.id),
+      (relationship) => !selectedRelationshipIds.includes(relationshipKey(relationship)),
     )
     if (hasRelationshipRemovals) {
       setConfirmRelationshipRemoval(true)
       return
     }
     void saveProfile()
+  }
+
+  function relationshipKey(relationship: TrainerStudentRelationship): string {
+    return `${relationship.relationshipType}:${relationship.id}`
   }
 
   const requestTrainerLink = async () => {
@@ -281,7 +283,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
           <p>Esta información es privada</p>
           {notification && <MFNotification type={notification.type} message={notification.message} />}
-          {viewerIsTrainer && !form.isTrainer && !requestSent && (
+          {viewerIsTrainer && !requestSent && (
             <MFButton
               type="button"
               theme={ComponentTheme.profileAndHealth}
@@ -291,7 +293,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
               {requestSending ? 'Enviando...' : 'Solicitar vinculación'}
             </MFButton>
           )}
-          {viewerIsTrainer && !form.isTrainer && requestSent && <span>Solicitud enviada</span>}
+          {viewerIsTrainer && requestSent && <span>Solicitud enviada</span>}
         </div>
       </div>
     );
@@ -305,7 +307,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           <h2>{readOnly ? 'Perfil de usuario' : 'Perfil'}</h2>
           <div className="headerActions">
             {isOwner && !edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
-            {readOnly && !isOwner && viewerIsTrainer && !form.isTrainer && !requestSent && (
+            {readOnly && !isOwner && viewerIsTrainer && !requestSent && (
               <MFButton
                 type="button"
                 theme={ComponentTheme.profileAndHealth}
@@ -315,7 +317,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
                 {requestSending ? 'Enviando...' : 'Solicitar vinculación'}
               </MFButton>
             )}
-            {readOnly && !isOwner && viewerIsTrainer && !form.isTrainer && requestSent && (
+            {readOnly && !isOwner && viewerIsTrainer && requestSent && (
               <span>Solicitud enviada</span>
             )}
           </div>
@@ -378,10 +380,12 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
             edit={edit}
             users={relationships}
             selectedUserIds={selectedRelationshipIds}
-            onSelectionChange={(userId, selected) => setSelectedRelationshipIds((current) =>
-              selected
-                ? [...current, userId]
-                : current.filter((id) => id !== userId))}
+            onSelectionChange={(relationship, selected) => setSelectedRelationshipIds((current) => {
+              const key = relationshipKey(relationship)
+              return selected
+                ? [...current, key]
+                : current.filter((currentKey) => currentKey !== key)
+            })}
           />
         )}
 
@@ -407,7 +411,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
       >
         <h2>Confirmar eliminación</h2>
         <p>
-          Vas a remover {form.isTrainer ? 'estudiantes' : 'entrenadores'}, ¿estás seguro de hacer esto?
+          Vas a remover entrenadores / estudiantes, ¿estás seguro de hacer esto?
           La acción es irreversible.
         </p>
         <div className="form-buttons-container">

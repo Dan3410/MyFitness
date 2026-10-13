@@ -1,4 +1,4 @@
-import type { UserSearchResult } from '../models/user'
+import type { TrainerStudentRelationship, UserSearchResult } from '../models/user'
 import { SESSION_STORAGE_KEY } from './authService'
 
 const API_URL = 'http://localhost:3000/trainer/students'
@@ -21,7 +21,7 @@ class TrainerStudentService {
     return response.json()
   }
 
-  async getRelationshipsForProfile(userId: string): Promise<UserSearchResult[]> {
+  async getRelationshipsForProfile(userId: string): Promise<TrainerStudentRelationship[]> {
     const response = await fetch(`${API_URL}/profile/${encodeURIComponent(userId)}`, { headers: authHeaders() })
     if (!response.ok) throw new Error('No se pudieron cargar las relaciones del usuario')
     return response.json()

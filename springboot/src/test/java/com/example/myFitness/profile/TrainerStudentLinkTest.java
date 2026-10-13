@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.myFitness.trainerStudent.TrainerStudentService;
+import com.example.myFitness.trainerStudent.TrainerStudentRelationship;
+import com.example.myFitness.profile.model.User;
 
 class TrainerStudentLinkTest {
   @Test
@@ -58,6 +60,31 @@ class TrainerStudentLinkTest {
 
     assertEquals("0", trainerStudentService.getRelationshipsForProfile("1").get(0).id());
     assertEquals("1", trainerStudentService.getRelationshipsForProfile("0").get(0).id());
+  }
+
+  @Test
+  void trainersCanLinkToOtherTrainersAndAppearInBothRelationshipGroups() {
+    ProfileService profileService = new ProfileService();
+    profileService.init();
+    User secondTrainer = profileService.getProfile("2");
+    secondTrainer.setIsTrainer(true);
+    TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
+    trainerStudentService.seedDemoTrainerStudentLink();
+
+    trainerStudentService.linkStudent("1", "2");
+
+    var firstTrainerRelationships = trainerStudentService.getRelationshipsForProfile("1");
+    var trainerStudentLink = firstTrainerRelationships.stream()
+        .filter(relationship -> "2".equals(relationship.id()))
+        .findFirst()
+        .orElseThrow();
+    assertEquals(TrainerStudentRelationship.RelationshipType.STUDENT, trainerStudentLink.relationshipType());
+    assertTrue(trainerStudentLink.isTrainer());
+
+    var secondTrainerRelationships = trainerStudentService.getRelationshipsForProfile("2");
+    assertEquals("1", secondTrainerRelationships.get(0).id());
+    assertEquals(TrainerStudentRelationship.RelationshipType.TRAINER,
+        secondTrainerRelationships.get(0).relationshipType());
   }
 
   @Test

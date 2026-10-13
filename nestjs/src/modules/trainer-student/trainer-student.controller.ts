@@ -1,5 +1,5 @@
 import { Controller, Delete, Get, Headers, Param, Post } from '@nestjs/common';
-import type { UserSearchResult } from 'src/models/user';
+import type { TrainerStudentRelationship, UserSearchResult } from 'src/models/user';
 import { TrainerStudentService } from './trainer-student.service';
 
 @Controller('trainer/students')
@@ -20,7 +20,7 @@ export class TrainerStudentController {
   getRelationshipsForProfile(
     @Param('userId') userId: string,
     @Headers('authorization') authorization: string,
-  ): Promise<UserSearchResult[]> {
+  ): Promise<TrainerStudentRelationship[]> {
     return this.trainerStudentService.getRelationshipsForProfile(userId, authorization);
   }
 

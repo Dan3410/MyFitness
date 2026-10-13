@@ -55,9 +55,6 @@ public class NotificationService {
 
     UserSearchResult trainer = profileService.getUserSearchResult(trainerId);
     UserSearchResult recipient = profileService.getUserSearchResult(recipientId);
-    if (recipient.isTrainer()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede vincular otro entrenador como alumno");
-    }
 
     boolean alreadyPending = notifications.values().stream()
         .anyMatch(notification -> notification.trainerId().equals(trainerId)
@@ -69,7 +66,10 @@ public class NotificationService {
 
     TrainerRequestNotification notification = new TrainerRequestNotification(
         UUID.randomUUID().toString(), trainerId, trainer.name(), recipientId,
-        trainer.name() + " quiere ser tu entrenador", Instant.now(), false, TrainerRequestStatus.PENDING,
+        trainer.name() + (recipient.isTrainer()
+            ? " quiere que seas su entrenador"
+            : " quiere ser tu entrenador"),
+        Instant.now(), false, TrainerRequestStatus.PENDING,
         NotificationType.TRAINER_REQUEST);
     notifications.put(notification.id(), notification);
     return notification;
@@ -126,7 +126,11 @@ public class NotificationService {
 
   public TrainerRequestNotification acceptTrainerRequest(String recipientId, String notificationId) {
     TrainerRequestNotification notification = requirePendingNotification(recipientId, notificationId);
-    trainerStudentService.linkStudent(notification.trainerId(), recipientId);
+    if (profileService.isTrainer(recipientId)) {
+      trainerStudentService.linkStudent(recipientId, notification.trainerId());
+    } else {
+      trainerStudentService.linkStudent(notification.trainerId(), recipientId);
+    }
     return updateStatus(notification, TrainerRequestStatus.ACCEPTED);
   }
 

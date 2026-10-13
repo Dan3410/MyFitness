@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import type { UserSearchResult } from 'src/models/user';
+import type { TrainerStudentRelationship, UserSearchResult } from 'src/models/user';
 
 @Injectable()
 export class TrainerStudentService {
@@ -25,9 +25,12 @@ export class TrainerStudentService {
     return response.data;
   }
 
-  async getRelationshipsForProfile(userId: string, authorization: string): Promise<UserSearchResult[]> {
+  async getRelationshipsForProfile(
+    userId: string,
+    authorization: string,
+  ): Promise<TrainerStudentRelationship[]> {
     const response = await firstValueFrom(
-      this.httpService.get<UserSearchResult[]>(
+      this.httpService.get<TrainerStudentRelationship[]>(
         `${this.trainerStudentApiUrl}/profile/${encodeURIComponent(userId)}`,
         { headers: { authorization } },
       ),

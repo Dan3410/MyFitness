@@ -23,3 +23,7 @@ export interface UserSearchResult {
   profileImage?: string
   isTrainer: boolean
 }
+
+export interface TrainerStudentRelationship extends UserSearchResult {
+  relationshipType: 'TRAINER' | 'STUDENT'
+}

@@ -31,9 +31,9 @@ public class TrainerStudentService {
   public UserSearchResult linkStudent(String trainerId, String studentId) {
     requireTrainer(trainerId);
     UserSearchResult student = profileService.getUserSearchResult(studentId);
-    if (trainerId.equals(studentId) || student.isTrainer()) {
+    if (trainerId.equals(studentId)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "El usuario seleccionado no puede ser vinculado como alumno");
+          "No puedes vincularte contigo mismo");
     }
 
     studentsByTrainer.computeIfAbsent(trainerId, ignored -> ConcurrentHashMap.newKeySet()).add(studentId);
@@ -48,27 +48,36 @@ public class TrainerStudentService {
   }
 
   public List<UserSearchResult> getTrainersForStudent(String studentId) {
-    requireStudent(studentId);
+    profileService.getUserSearchResult(studentId);
     return studentsByTrainer.entrySet().stream()
         .filter(entry -> entry.getValue().contains(studentId))
         .map(entry -> profileService.getUserSearchResult(entry.getKey()))
         .collect(Collectors.toList());
   }
 
-  public List<UserSearchResult> getRelationshipsForProfile(String userId) {
+  public List<TrainerStudentRelationship> getRelationshipsForProfile(String userId) {
     UserSearchResult profileUser = profileService.getUserSearchResult(userId);
-    return profileUser.isTrainer()
-        ? getStudentsWithoutRoleCheck(userId)
-        : studentsByTrainer.entrySet().stream()
+    List<TrainerStudentRelationship> relationships = studentsByTrainer.entrySet().stream()
             .filter(entry -> entry.getValue().contains(userId))
-            .map(entry -> profileService.getUserSearchResult(entry.getKey()))
+            .map(entry -> asRelationship(
+                profileService.getUserSearchResult(entry.getKey()),
+                TrainerStudentRelationship.RelationshipType.TRAINER))
             .collect(Collectors.toList());
+    if (profileUser.isTrainer()) {
+      studentsByTrainer.getOrDefault(userId, Set.of()).stream()
+          .map(profileService::getUserSearchResult)
+          .map(student -> asRelationship(
+              student, TrainerStudentRelationship.RelationshipType.STUDENT))
+          .forEach(relationships::add);
+    }
+    return relationships;
   }
 
-  private List<UserSearchResult> getStudentsWithoutRoleCheck(String trainerId) {
-    return studentsByTrainer.getOrDefault(trainerId, Set.of()).stream()
-        .map(profileService::getUserSearchResult)
-        .collect(Collectors.toList());
+  private TrainerStudentRelationship asRelationship(
+      UserSearchResult user,
+      TrainerStudentRelationship.RelationshipType relationshipType) {
+    return new TrainerStudentRelationship(
+        user.id(), user.name(), user.profileImage(), user.isTrainer(), relationshipType);
   }
 
   public boolean isLinkedStudent(String trainerId, String studentId) {
@@ -77,11 +86,8 @@ public class TrainerStudentService {
   }
 
   public boolean areLinkedUsers(String firstUserId, String secondUserId) {
-    String trainerId = profileService.isTrainer(firstUserId) ? firstUserId : secondUserId;
-    String studentId = trainerId.equals(firstUserId) ? secondUserId : firstUserId;
-    return profileService.isTrainer(trainerId)
-        && !profileService.isTrainer(studentId)
-        && studentsByTrainer.getOrDefault(trainerId, Set.of()).contains(studentId);
+    return studentsByTrainer.getOrDefault(firstUserId, Set.of()).contains(secondUserId)
+        || studentsByTrainer.getOrDefault(secondUserId, Set.of()).contains(firstUserId);
   }
 
   public List<UserSearchResult> unlinkStudent(String trainerId, String studentId) {
@@ -94,19 +100,12 @@ public class TrainerStudentService {
   }
 
   public List<UserSearchResult> unlinkTrainer(String studentId, String trainerId) {
-    requireStudent(studentId);
+    requireTrainer(trainerId);
     studentsByTrainer.computeIfPresent(trainerId, (ignored, students) -> {
       students.remove(studentId);
       return students.isEmpty() ? null : students;
     });
     return getTrainersForStudent(studentId);
-  }
-
-  private void requireStudent(String studentId) {
-    if (profileService.isTrainer(studentId)) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-          "Solo los alumnos pueden gestionar sus entrenadores");
-    }
   }
 
   private void requireTrainer(String trainerId) {

@@ -10,7 +10,13 @@ interface MFCheckboxProps {
   onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
-const MFCheckbox: FC<MFCheckboxProps> = ({ children, theme, disabled = false, checked = false, onChange }) => {
+const MFCheckbox: FC<MFCheckboxProps> = ({
+  children,
+  theme,
+  disabled = false,
+  checked = false,
+  onChange,
+}) => {
 
   return (
     <div className={`${styles.mfCheckbox} ${styles[theme || ComponentTheme.workout]} ${disabled ? styles.disabled : ''}`}>
@@ -21,7 +27,7 @@ const MFCheckbox: FC<MFCheckboxProps> = ({ children, theme, disabled = false, ch
         checked={checked}
         onChange={onChange}
       />
-      <span className={styles.checkboxLabel}>{children}</span>
+      <span className={`${styles.checkboxLabel}` }>{children}</span>
     </div>
   );
 };

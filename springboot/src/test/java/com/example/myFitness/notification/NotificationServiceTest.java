@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import com.example.myFitness.profile.model.User;
 import com.example.myFitness.profile.ProfileService;
 import com.example.myFitness.trainerStudent.TrainerStudentService;
 
@@ -92,5 +93,26 @@ class NotificationServiceTest {
     var trainerNotification = service.getNotifications("1").get(0);
     assertEquals("Ya no eres entrenador de John Swim", trainerNotification.message());
     assertEquals(NotificationType.TRAINER_STUDENT_UNLINKED, trainerNotification.type());
+  }
+
+  @Test
+  void trainerCanRequestAnotherTrainerAndLinkIsCreatedWhenAccepted() {
+    ProfileService profileService = new ProfileService();
+    profileService.init();
+    User secondTrainer = profileService.getProfile("2");
+    secondTrainer.setIsTrainer(true);
+    TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
+    NotificationService service = new NotificationService(profileService, trainerStudentService);
+
+    TrainerRequestNotification request = service.sendTrainerRequest("1", "2");
+
+    assertEquals("John Gym quiere que seas su entrenador", request.message());
+    service.acceptTrainerRequest("2", request.id());
+    var gymRelationships = trainerStudentService.getRelationshipsForProfile("1");
+    var runRelationships = trainerStudentService.getRelationshipsForProfile("2");
+    assertTrue(gymRelationships.stream().anyMatch(item -> "2".equals(item.id())
+        && item.relationshipType() == com.example.myFitness.trainerStudent.TrainerStudentRelationship.RelationshipType.TRAINER));
+    assertTrue(runRelationships.stream().anyMatch(item -> "1".equals(item.id())
+        && item.relationshipType() == com.example.myFitness.trainerStudent.TrainerStudentRelationship.RelationshipType.STUDENT));
   }
 }
