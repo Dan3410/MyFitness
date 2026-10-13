@@ -1,0 +1,1 @@
+Copyright 2026 Daniel Matías Salvia. All rights reserved. No usage, modification, distribution, or reproduction of this code is allowed for any purpose without explicit permission.
