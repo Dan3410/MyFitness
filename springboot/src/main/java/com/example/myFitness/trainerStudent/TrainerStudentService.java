@@ -76,6 +76,14 @@ public class TrainerStudentService {
     return studentsByTrainer.getOrDefault(trainerId, Set.of()).contains(studentId);
   }
 
+  public boolean areLinkedUsers(String firstUserId, String secondUserId) {
+    String trainerId = profileService.isTrainer(firstUserId) ? firstUserId : secondUserId;
+    String studentId = trainerId.equals(firstUserId) ? secondUserId : firstUserId;
+    return profileService.isTrainer(trainerId)
+        && !profileService.isTrainer(studentId)
+        && studentsByTrainer.getOrDefault(trainerId, Set.of()).contains(studentId);
+  }
+
   public List<UserSearchResult> unlinkStudent(String trainerId, String studentId) {
     requireTrainer(trainerId);
     studentsByTrainer.computeIfPresent(trainerId, (ignored, students) -> {

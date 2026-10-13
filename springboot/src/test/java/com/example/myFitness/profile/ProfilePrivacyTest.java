@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.myFitness.profile.model.User;
+import com.example.myFitness.trainerStudent.TrainerStudentService;
 
 class ProfilePrivacyTest {
   @Test
@@ -31,5 +32,22 @@ class ProfilePrivacyTest {
 
     assertEquals("John", profileService.getUserById("0", "1").getName());
     assertEquals(15, profileService.getWeightHistoryById("0", "1").size());
+  }
+
+  @Test
+  void linkedStudentCanViewPrivateTrainerProfileAndWeightHistory() {
+    ProfileService profileService = new ProfileService();
+    profileService.init();
+    TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
+    trainerStudentService.seedDemoTrainerStudentLink();
+
+    User trainer = profileService.getProfile("1");
+    trainer.setIsProfilePrivate(true);
+    profileService.saveProfile("1", trainer);
+
+    boolean areLinked = trainerStudentService.areLinkedUsers("0", "1");
+    assertEquals("John", profileService.getUserById("1", "0", areLinked).getName());
+    assertEquals(15, profileService.getWeightHistoryById("1", "0", areLinked).size());
+    assertEquals(false, trainerStudentService.areLinkedUsers("2", "1"));
   }
 }

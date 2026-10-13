@@ -155,11 +155,15 @@ public class ProfileService {
   }
 
   public User getUserById(String id, String viewerId) {
+    return getUserById(id, viewerId, false);
+  }
+
+  public User getUserById(String id, String viewerId, boolean linkedUsers) {
     User profile = savedUsers.values().stream()
       .filter(candidate -> id.equals(candidate.getId()))
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-    if (profile.getIsProfilePrivate() && !id.equals(viewerId) && !isTrainer(viewerId)) {
+    if (profile.getIsProfilePrivate() && !id.equals(viewerId) && !isTrainer(viewerId) && !linkedUsers) {
       return new User(id, null, null, null, null, null, null, null, null, null, null, null, null,
         profile.getProfileImage(), true, profile.getIsTrainer());
     }
@@ -167,8 +171,12 @@ public class ProfileService {
   }
 
   public List<WeightHistoryPoint> getWeightHistoryById(String id, String viewerId) {
-    User user = getUserById(id, viewerId);
-    if (user.getIsProfilePrivate() && !id.equals(viewerId) && !isTrainer(viewerId)) {
+    return getWeightHistoryById(id, viewerId, false);
+  }
+
+  public List<WeightHistoryPoint> getWeightHistoryById(String id, String viewerId, boolean linkedUsers) {
+    User user = getUserById(id, viewerId, linkedUsers);
+    if (user.getIsProfilePrivate() && !id.equals(viewerId) && !isTrainer(viewerId) && !linkedUsers) {
       throw new org.springframework.web.server.ResponseStatusException(
           org.springframework.http.HttpStatus.FORBIDDEN, "Esta información es privada");
     }

@@ -11,6 +11,7 @@ import java.util.List;
 import com.example.myFitness.profile.model.User;
 import com.example.myFitness.profile.model.UserSearchResult;
 import com.example.myFitness.profile.model.WeightHistoryPoint;
+import com.example.myFitness.trainerStudent.TrainerStudentService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,9 @@ public class ProfileController {
 
   @Autowired
     private AuthService authService;
+
+  @Autowired
+    private TrainerStudentService trainerStudentService;
 
   @GetMapping("")
   public User getProfile(@RequestHeader(value = "Authorization", required = false) String authorization) {
@@ -45,7 +49,8 @@ public class ProfileController {
       @RequestHeader(value = "Authorization", required = false) String authorization,
       @PathVariable("id") String id) {
     String viewerId = authService.requireUserId(authorization);
-    return profileService.getUserById(id, viewerId);
+    boolean linkedUsers = trainerStudentService.areLinkedUsers(viewerId, id);
+    return profileService.getUserById(id, viewerId, linkedUsers);
   }
 
    @GetMapping("/weight-history/{id}")
@@ -53,7 +58,8 @@ public class ProfileController {
       @RequestHeader(value = "Authorization", required = false) String authorization,
       @PathVariable("id") String id) {
     String viewerId = authService.requireUserId(authorization);
-    return profileService.getWeightHistoryById(id, viewerId);
+    boolean linkedUsers = trainerStudentService.areLinkedUsers(viewerId, id);
+    return profileService.getWeightHistoryById(id, viewerId, linkedUsers);
   }
 
   @GetMapping("/weight-history")

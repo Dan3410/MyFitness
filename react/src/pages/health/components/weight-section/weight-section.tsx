@@ -30,9 +30,11 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
 
   useEffect(() => {
     const id = searchParams.get('id')
-    id ? profileService.getWeightHistoryById(id).then(setWeightHistory).catch(() => setWeightHistory([])) : 
-    profileService.getWeightHistory().then(setWeightHistory).catch(() => setWeightHistory([]))
-  }, [refreshWeightHistory])
+    const historyRequest = id
+      ? profileService.getWeightHistoryById(id)
+      : profileService.getWeightHistory()
+    historyRequest.then(setWeightHistory).catch(() => setWeightHistory([]))
+  }, [refreshWeightHistory, searchParams])
 
   const historyData = weightHistory.map(({ date, weight }, index) => ({
     date,
