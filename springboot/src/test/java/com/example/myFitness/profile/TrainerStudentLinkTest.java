@@ -22,6 +22,9 @@ class TrainerStudentLinkTest {
 
     assertTrue(trainerStudentService.isLinkedStudent("1", "0"));
     assertEquals("0", trainerStudentService.getStudentsForTrainer("1").get(0).id());
+    assertTrue(profileService.isTrainer("2"));
+    assertTrue(trainerStudentService.isLinkedStudent("2", "1"));
+    assertEquals("1", trainerStudentService.getStudentsForTrainer("2").get(0).id());
   }
 
   @Test
@@ -52,13 +55,18 @@ class TrainerStudentLinkTest {
   }
 
   @Test
-  void profileRelationshipLookupDoesNotRequireViewerToHaveTheProfilesRole() {
+  void profileRelationshipsListTrainersBeforeStudents() {
     ProfileService profileService = new ProfileService();
     profileService.init();
     TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
     trainerStudentService.seedDemoTrainerStudentLink();
 
-    assertEquals("0", trainerStudentService.getRelationshipsForProfile("1").get(0).id());
+    var relationships = trainerStudentService.getRelationshipsForProfile("1");
+    assertEquals("2", relationships.get(0).id());
+    assertEquals(TrainerStudentRelationship.RelationshipType.TRAINER,
+        relationships.get(0).relationshipType());
+    assertTrue(relationships.stream().anyMatch(relationship -> "0".equals(relationship.id())
+        && relationship.relationshipType() == TrainerStudentRelationship.RelationshipType.STUDENT));
     assertEquals("1", trainerStudentService.getRelationshipsForProfile("0").get(0).id());
   }
 
@@ -71,6 +79,7 @@ class TrainerStudentLinkTest {
     TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
     trainerStudentService.seedDemoTrainerStudentLink();
 
+    trainerStudentService.unlinkStudent("2", "1");
     trainerStudentService.linkStudent("1", "2");
 
     var firstTrainerRelationships = trainerStudentService.getRelationshipsForProfile("1");
@@ -88,13 +97,13 @@ class TrainerStudentLinkTest {
   }
 
   @Test
-  void regularUserCannotLinkStudentsAndTrainerCannotLinkAnotherTrainer() {
+  void onlyTrainersCanLinkAndTrainersCanLinkOtherTrainers() {
     ProfileService profileService = new ProfileService();
     profileService.init();
     TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
 
     assertThrows(ResponseStatusException.class, () -> trainerStudentService.linkStudent("0", "2"));
-    assertThrows(ResponseStatusException.class, () -> trainerStudentService.linkStudent("1", "1"));
+    assertEquals("2", trainerStudentService.linkStudent("1", "2").id());
     assertThrows(ResponseStatusException.class, () -> trainerStudentService.unlinkTrainer("1", "0"));
   }
 }

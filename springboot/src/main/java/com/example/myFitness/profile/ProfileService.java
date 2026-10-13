@@ -114,7 +114,7 @@ public class ProfileService {
       Objective.maintain,
       null,
       false,
-      false);
+      true);
 
   @PostConstruct
   public void init() {

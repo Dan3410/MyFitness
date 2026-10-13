@@ -26,6 +26,7 @@ public class TrainerStudentService {
   @PostConstruct
   public void seedDemoTrainerStudentLink() {
     linkStudent("1", "0");
+    linkStudent("2", "1");
   }
 
   public UserSearchResult linkStudent(String trainerId, String studentId) {
