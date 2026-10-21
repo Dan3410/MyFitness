@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import type { PlannedWorkouts } from 'src/models/plannedWorkout';
+import type { CalendarEvent, PlannedWorkouts } from 'src/models/plannedWorkout';
 
 @Injectable()
 export class CalendarService {
@@ -36,5 +36,38 @@ export class CalendarService {
       ),
     );
     return response.data;
+  }
+
+  async getEvents(authorization: string, month?: string): Promise<CalendarEvent[]> {
+    const monthQuery = month ? `?month=${encodeURIComponent(month)}` : '';
+    const response = await firstValueFrom(
+      this.httpService.get<CalendarEvent[]>(`${this.calendarApiUrl}/events${monthQuery}`, {
+        headers: { authorization },
+      }),
+    );
+    return response.data;
+  }
+
+  async createEvent(
+    date: string,
+    studentId: string,
+    authorization: string,
+  ): Promise<CalendarEvent> {
+    const response = await firstValueFrom(
+      this.httpService.post<CalendarEvent>(
+        `${this.calendarApiUrl}/events`,
+        { date, studentId },
+        { headers: { authorization } },
+      ),
+    );
+    return response.data;
+  }
+
+  async cancelEvent(eventId: string, authorization: string): Promise<void> {
+    await firstValueFrom(
+      this.httpService.delete(`${this.calendarApiUrl}/events/${encodeURIComponent(eventId)}`, {
+        headers: { authorization },
+      }),
+    );
   }
 }

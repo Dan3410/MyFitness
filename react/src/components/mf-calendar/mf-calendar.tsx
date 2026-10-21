@@ -1,6 +1,10 @@
-import type { FC } from 'react'
+import { useState, type FC } from 'react'
 import styles from './mf-calendar.module.scss'
-import type { PlannedWorkouts } from '../../services/calendarService'
+import type { CalendarEvent, PlannedWorkouts } from '../../services/calendarService'
+import MFButton from '../mf-button/mf-button'
+import { ComponentTheme } from '../../models/componentTheme'
+import { useNavigate } from 'react-router-dom'
+import MFModal from '../mf-modal/mf-modal'
 
 interface MFCalendarProps {
   plannedWorkouts: PlannedWorkouts
@@ -9,6 +13,9 @@ interface MFCalendarProps {
   onMonthChange: (month: Date) => void
   onDateSelect: (date: string) => void
   onRemoveWorkout: (date: string, workoutId: string) => void
+  events?: Record<string, CalendarEvent[]>
+  isTrainer?: boolean
+  onCancelEvent?: (eventId: string) => void
 }
 
 const weekDays = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
@@ -20,7 +27,20 @@ const dateKey = (date: Date) => {
   return `${year}-${month}-${day}`
 }
 
-const MFCalendar: FC<MFCalendarProps> = ({ plannedWorkouts, currentMonth, selectedDate, onMonthChange, onDateSelect, onRemoveWorkout }) => {
+const MFCalendar: FC<MFCalendarProps> = ({
+  plannedWorkouts,
+  currentMonth,
+  selectedDate,
+  onMonthChange,
+  onDateSelect,
+  onRemoveWorkout,
+  events = {},
+  isTrainer = false,
+  onCancelEvent,
+}) => {
+  const navigate = useNavigate()
+  const [workoutToRemove, setWorkoutToRemove] = useState<{ id: string; title: string } | null>(null)
+  const [removingWorkout, setRemovingWorkout] = useState(false)
   const today = new Date()
   const changeMonth = (offset: number) => {
     const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + offset, 1)
@@ -39,8 +59,21 @@ const MFCalendar: FC<MFCalendarProps> = ({ plannedWorkouts, currentMonth, select
   })
 
   const selectedWorkouts = plannedWorkouts[selectedDate] || []
+  const selectedEvents = events[selectedDate] || []
+
+  const confirmWorkoutRemoval = async () => {
+    if (!workoutToRemove) return
+    setRemovingWorkout(true)
+    try {
+      await onRemoveWorkout(selectedDate, workoutToRemove.id)
+      setWorkoutToRemove(null)
+    } finally {
+      setRemovingWorkout(false)
+    }
+  }
 
   return (
+    <>
     <section className={styles.calendar} aria-label="Calendario de workouts">
       <div className={styles.calendarHeader}>
         <button type="button" onClick={() => changeMonth(-1)} aria-label="Mes anterior"><label>&#8249;</label></button>
@@ -69,25 +102,85 @@ const MFCalendar: FC<MFCalendarProps> = ({ plannedWorkouts, currentMonth, select
                 ))}
                 {planned.length > 2 && <small>+{planned.length - 2} más</small>}
               </span>
+              <span className={styles.dayEvents}>
+                {(events[key] || []).slice(0, 2).map((event) => (
+                  <span key={event.id}>{isTrainer ? event.studentName : event.trainerName}</span>
+                ))}
+                {(events[key] || []).length > 2 && <small>+{(events[key] || []).length - 2} más</small>}
+              </span>
             </div>
           )
         })}
       </div>
 
       <div className={styles.dayDetails}>
-        <h3>Rutinas del {selectedDate}</h3>
+        <h3>Eventos ({selectedDate})</h3>
+        <h4>Rutinas</h4>
         {selectedWorkouts.length === 0 ? <p>No hay rutinas planificadas.</p> : (
           <ul>
             {selectedWorkouts.map((workout) => (
               <li key={workout.id}>
                 <span>{workout.title}</span>
-                <button type="button" onClick={() => onRemoveWorkout(selectedDate, workout.id)} aria-label={`Quitar ${workout.title}`}>Quitar</button>
+                <div className={styles.workoutActions}>
+                  <MFButton
+                    theme={ComponentTheme.workout}
+                    onClickEvent={() => navigate(`/workout/view/${workout.id}`)}
+                  >
+                    Ver
+                  </MFButton>
+                  <MFButton
+                    theme={ComponentTheme.workout}
+                    onClickEvent={() => setWorkoutToRemove(workout)}
+                  >
+                    Quitar
+                  </MFButton>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <h4>Eventos con estudiantes</h4>
+        {selectedEvents.length === 0 ? <p>No hay eventos planificados.</p> : (
+          <ul>
+            {selectedEvents.map((event) => (
+              <li key={event.id}>
+                <span>{isTrainer ? event.studentName : event.trainerName}</span>
+                <MFButton
+                  theme={ComponentTheme.workout}
+                  onClickEvent={() => onCancelEvent?.(event.id)}
+                >
+                  Cancelar evento
+                </MFButton>
               </li>
             ))}
           </ul>
         )}
       </div>
     </section>
+    <MFModal isOpen={workoutToRemove !== null} onClose={() => setWorkoutToRemove(null)}>
+      <h2>Quitar rutina</h2>
+      <p>
+        ¿Estas seguro que queres quitar la rutina {workoutToRemove?.title}?
+        <br />
+        Esta acción no se puede deshacer
+      </p>
+      <div className={styles.workoutConfirmationButtons}>
+        <MFButton
+          onClickEvent={() => setWorkoutToRemove(null)}
+          isDisabled={removingWorkout}
+        >
+          Volver
+        </MFButton>
+        <MFButton
+          theme={ComponentTheme.workout}
+          onClickEvent={() => void confirmWorkoutRemoval()}
+          isDisabled={removingWorkout}
+        >
+          {removingWorkout ? 'Quitando...' : 'Quitar rutina'}
+        </MFButton>
+      </div>
+    </MFModal>
+    </>
   )
 }
 

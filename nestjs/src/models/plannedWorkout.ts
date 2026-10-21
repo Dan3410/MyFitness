@@ -5,3 +5,12 @@ export interface PlannedWorkout {
 }
 
 export type PlannedWorkouts = Record<string, PlannedWorkout[]>;
+
+export interface CalendarEvent {
+  id: string;
+  trainerId: string;
+  trainerName: string;
+  studentId: string;
+  studentName: string;
+  date: string;
+}

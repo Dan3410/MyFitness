@@ -1,9 +1,10 @@
 import { useEffect, useState, type FC } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GET_DATA_ERROR_MESSAGE } from '../../../../const/errorMessages';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
 import { ComponentTheme } from '../../../../models/componentTheme';
+import MFButton from '../../../../components/mf-button/mf-button';
 import type { Workout } from '../../../../models/workout';
 import Step from '../../components/step/step';
 import { workoutService } from '../../../../services/workoutService';
@@ -11,6 +12,7 @@ import styles from './workoutView.module.scss';
 
 const WorkoutView: FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [workout, setWorkout] = useState<Workout>();
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -47,7 +49,17 @@ const WorkoutView: FC = () => {
       {loadError || !workout ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <>
         <header className={styles.workoutHeader}>
           <p>{workout.category}</p>
-          <h1>{workout.name}</h1>
+          <div className={styles.titleRow}>
+            <h1>{workout.name}</h1>
+            {!workout.sourceTrainerName && (
+              <MFButton
+                theme={ComponentTheme.workout}
+                onClickEvent={() => navigate(`/workout/edit/${workout.id}`)}
+              >
+                Editar
+              </MFButton>
+            )}
+          </div>
           {workout.sourceTrainerName && <p className={styles.trainerAttribution}>Rutina asignada por {workout.sourceTrainerName}. No puedes editarla.</p>}
         </header>
         <section className={styles.steps}>

@@ -13,14 +13,14 @@ const authHeaders = () => ({
 class ProfileService {
     constructor() { }
 
-    async getUserData() {
+    async getUserData(): Promise<User> {
         const userId = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || '{}').userId || ''
         return fetch(API_URL + userId, { headers: authHeaders() }).then(async (response: Response) => {
             if (!response.ok) {
                 throw new Error(GET_DATA_ERROR_MESSAGE);
             }
 
-            return response.json()
+            return response.json() as Promise<User>
         })
     }
 

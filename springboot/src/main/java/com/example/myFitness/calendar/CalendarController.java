@@ -45,4 +45,26 @@ public class CalendarController {
     return calendarService.removeFromCalendar(authService.requireUserId(authorization), date, workoutId);
   }
 
+  @GetMapping("/events")
+  public List<CalendarEvent> getEvents(
+      @RequestParam(value = "month", required = false) String month,
+      @RequestHeader(value = "Authorization", required = false) String authorization) {
+    return calendarService.getEvents(authService.requireUserId(authorization), month);
+  }
+
+  @PostMapping("/events")
+  public CalendarEvent createEvent(
+      @RequestBody CalendarEventRequest request,
+      @RequestHeader(value = "Authorization", required = false) String authorization) {
+    return calendarService.createEvent(
+        authService.requireUserId(authorization), request.date(), request.studentId());
+  }
+
+  @DeleteMapping("/events/{eventId}")
+  public void cancelEvent(
+      @PathVariable String eventId,
+      @RequestHeader(value = "Authorization", required = false) String authorization) {
+    calendarService.cancelEvent(authService.requireUserId(authorization), eventId);
+  }
+
 }

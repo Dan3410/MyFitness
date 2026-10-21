@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Headers, Param, Post, Query } from '@nestjs/common';
-import type { PlannedWorkouts } from 'src/models/plannedWorkout';
+import type { CalendarEvent, PlannedWorkouts } from 'src/models/plannedWorkout';
 import { CalendarService } from './calendar.service';
 
 @Controller('workout/calendar')
@@ -29,5 +29,29 @@ export class CalendarController {
     @Headers('authorization') authorization: string,
   ): Promise<PlannedWorkouts> {
     return this.calendarService.removeFromCalendar(date, workoutId, authorization);
+  }
+
+  @Get('events')
+  getEvents(
+    @Headers('authorization') authorization: string,
+    @Query('month') month?: string,
+  ): Promise<CalendarEvent[]> {
+    return this.calendarService.getEvents(authorization, month);
+  }
+
+  @Post('events')
+  createEvent(
+    @Body() request: { date: string; studentId: string },
+    @Headers('authorization') authorization: string,
+  ): Promise<CalendarEvent> {
+    return this.calendarService.createEvent(request.date, request.studentId, authorization);
+  }
+
+  @Delete('events/:eventId')
+  cancelEvent(
+    @Param('eventId') eventId: string,
+    @Headers('authorization') authorization: string,
+  ): Promise<void> {
+    return this.calendarService.cancelEvent(eventId, authorization);
   }
 }

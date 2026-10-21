@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.myFitness.profile.ProfileService;
 import com.example.myFitness.profile.model.UserSearchResult;
 import com.example.myFitness.trainerStudent.TrainerStudentService;
+import com.example.myFitness.calendar.CalendarEvent;
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -97,6 +98,39 @@ public class NotificationService {
         UUID.randomUUID().toString(), trainerId, trainer.name(), studentId,
         trainer.name() + " ha dejado de compartir la rutina " + workoutName + " contigo",
         Instant.now(), false, null, NotificationType.WORKOUT_UNSHARED);
+    notifications.put(notification.id(), notification);
+  }
+
+  public void notifyEventCreated(CalendarEvent event) {
+    addEventNotification(
+        event.trainerId(), event.trainerName(), event.studentId(),
+        "El entrenador " + event.trainerName() + " creo un evento el dia " + event.date(),
+        NotificationType.EVENT_CREATED);
+  }
+
+  public void notifyEventCancelled(CalendarEvent event, String cancellingUserId) {
+    boolean cancelledByTrainer = event.trainerId().equals(cancellingUserId);
+    String cancellingName = cancelledByTrainer ? event.trainerName() : event.studentName();
+    String recipientId = cancelledByTrainer ? event.studentId() : event.trainerId();
+    addEventNotification(
+        event.trainerId(), event.trainerName(), recipientId,
+        cancellingName + " ha cancelado un evento del dia " + event.date(),
+        NotificationType.EVENT_CANCELLED);
+    addEventNotification(
+        event.trainerId(), event.trainerName(), cancellingUserId,
+        "Has cancelado un evento del dia " + event.date(),
+        NotificationType.EVENT_CANCELLED);
+  }
+
+  private void addEventNotification(
+      String trainerId,
+      String trainerName,
+      String recipientId,
+      String message,
+      NotificationType type) {
+    TrainerRequestNotification notification = new TrainerRequestNotification(
+        UUID.randomUUID().toString(), trainerId, trainerName, recipientId,
+        message, Instant.now(), false, null, type);
     notifications.put(notification.id(), notification);
   }
 
