@@ -1,9 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
+import { AuthProvider } from '../../context/AuthContext'
 import Calendar from './calendar';
 
-it('It should mount', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Calendar />, div);
-  ReactDOM.unmountComponentAtNode(div);
+it('renders the loading state when no authenticated session is available', () => {
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <Calendar />
+      </MemoryRouter>
+    </AuthProvider>,
+  )
+
+  expect(screen.getByText('Cargando calendario...')).toBeTruthy()
 });

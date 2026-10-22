@@ -1,22 +1,13 @@
-import { createRoot } from 'react-dom/client';
+import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import StepEditor from './stepEditor';
 import { WorkoutCategory } from '../../../../models/workoutCategories';
 import { RestStep, StepType } from '../../../../models/workoutSteps';
 
 it('renders the selected step details', () => {
-  const div = document.createElement('div');
-  document.body.appendChild(div);
-
   const step: RestStep = { type: StepType.REST, seconds: 45 };
-  const root = createRoot(div);
+  render(<StepEditor step={step} workoutCategory={WorkoutCategory.GYM} onChange={() => {}} onDelete={() => {}} />)
 
-  root.render(
-    <StepEditor step={step} workoutCategory={WorkoutCategory.GYM} onChange={() => {}} onDelete={() => {}} />,
-  );
-
-  expect(div.textContent).toContain('Editar paso');
-  expect(div.textContent).toContain('Segundos');
-
-  root.unmount();
-  div.remove();
+  expect(screen.getByText('Segundos')).toBeTruthy()
+  expect(screen.getByRole('button', { name: /eliminar/i })).toBeTruthy()
 });

@@ -1,6 +1,24 @@
-import { FC, ReactNode } from 'react';
+import { Children, cloneElement, isValidElement, type FC, type ReactElement, type ReactNode } from 'react';
 import styles from './mf-form-field.module.scss';
 import { ComponentTheme } from '../../models/componentTheme';
+
+const setControlsDisabled = (children: ReactNode): ReactNode => (
+  Children.map(children, (child) => {
+    if (!isValidElement(child)) return child;
+
+    const element = child as ReactElement<{ children?: ReactNode; disabled?: boolean }>;
+    if (
+      typeof element.type === 'string'
+      && ['input', 'select', 'textarea', 'button'].includes(element.type)
+    ) {
+      return cloneElement(element, { disabled: true });
+    }
+
+    return element.props.children
+      ? cloneElement(element, undefined, setControlsDisabled(element.props.children))
+      : child;
+  })
+);
 
 interface MFFormFieldProps {
   theme: ComponentTheme,
@@ -19,7 +37,7 @@ const MFFormField: FC<MFFormFieldProps> = ({
   return (
     <>
       <div className={`${styles.MFFormField} ${styles[theme]} ${disabled ? styles.disabled : ''}`}>
-        {children}
+        {disabled ? setControlsDisabled(children) : children}
       </div>
     </>
   )

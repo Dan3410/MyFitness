@@ -1,9 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
+import { AuthProvider } from '../../context/AuthContext'
 import Home from './home';
 
-it('It should mount', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Home />, div);
-  ReactDOM.unmountComponentAtNode(div);
+it('renders the upcoming workouts heading', () => {
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    </AuthProvider>,
+  )
+
+  expect(screen.getByRole('heading', { name: 'Próximas rutinas' })).toBeTruthy()
 });

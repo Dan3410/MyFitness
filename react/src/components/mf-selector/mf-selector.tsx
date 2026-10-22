@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './mf-selector.module.scss';
 import { ComponentTheme } from '../../models/componentTheme';
 import { Option } from '../../models/option';
@@ -34,22 +34,19 @@ const MFSelector: FC<MFSelectorProps> = ({
   multiple = false,
   onChange,
 }) => {
-  const [selectedValues, setSelectedValues] = useState<(string | number)[]>(() => normalizeValues(defaultValue));
-
-  useEffect(() => {
-    if (value !== undefined) {
-      setSelectedValues(normalizeValues(value));
-    }
-  }, [value]);
+  const [uncontrolledValues, setUncontrolledValues] = useState<(string | number)[]>(() => normalizeValues(defaultValue));
+  const selectedValues = value === undefined ? uncontrolledValues : normalizeValues(value);
 
   const toggleOption = (optionValue: string | number) => {
+    if (disabled) return;
+
     const nextValues = multiple
       ? (selectedValues.includes(optionValue)
         ? selectedValues.filter((selectedValue) => selectedValue !== optionValue)
         : [...selectedValues, optionValue])
       : [optionValue];
 
-    setSelectedValues(nextValues);
+    if (value === undefined) setUncontrolledValues(nextValues);
     onChange?.(multiple ? nextValues : nextValues[0] ?? '');
   };
 
@@ -65,6 +62,7 @@ const MFSelector: FC<MFSelectorProps> = ({
             <button
               key={option.value}
               type="button"
+              disabled={disabled}
               className={`${styles.option} ${isSelected ? styles.selected : ''}`}
               onClick={() => toggleOption(option.value)}
             >

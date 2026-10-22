@@ -1,9 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, screen } from '@testing-library/react'
+import { expect, it } from 'vitest'
 import NutritionSection from './nutrition-section';
 
-it('It should mount', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<NutritionSection />, div);
-  ReactDOM.unmountComponentAtNode(div);
+import { userFixture } from '../../../../test/userFixture'
+
+it('calculates and displays nutrition targets from the user profile', () => {
+  render(<NutritionSection form={userFixture} />)
+
+  expect(screen.getByText(/Proteinas/).textContent).toContain('Entre 84g - 112g')
+  expect(screen.getAllByText(/Carbohidratos/)
+    .some((element) => element.textContent?.includes('Entre 350g - 455g'))).toBe(true)
 });
