@@ -112,52 +112,16 @@ const MFCalendar: FC<MFCalendarProps> = ({
               onClick={() => onDateSelect(key)}
             >
               <strong>{date.getDate()}</strong>
-              <span className={styles.dayWorkouts}>
-                {planned.slice(0, 2).map((workout) => (
-                  <span key={workout.id} className={styles.dayWorkout}>
-                    <span className={styles.eventIcon} aria-hidden="true">
-                      {workoutCategoryDetails[workout.category]?.icon ?? '🏋️‍♂️'}
-                    </span>
-                    <span className={styles.dayWorkoutText}>
-                      {workout.time ? `${workout.time} ` : ''}
-                      <Link
-                        to={`/workout/view/${workout.id}`}
-                        onClick={(clickEvent) => clickEvent.stopPropagation()}
-                      >
-                        {workout.title}
-                      </Link>
-                    </span>
-                  </span>
-                ))}
-                {planned.length > 2 && <small>+{planned.length - 2} más</small>}
-              </span>
-              <span className={styles.dayEvents}>
-                {(events[key] || []).slice(0, 2).map((event) => (
-                  <span key={event.id} className={styles.dayEvent}>
-                    <span className={styles.eventIcon} aria-hidden="true">
-                      {workoutCategoryDetails[event.workoutCategory ?? '']?.icon ?? '📅'}
-                    </span>
-                    <span className={styles.dayEventText}>
-                      {event.time ? `${event.time} ` : ''}
-                      {event.trainerId === currentUserId ? event.studentName : event.trainerName}
-                      {event.workoutTitle && (
-                        <>
-                          {' · '}
-                          {event.workoutId ? (
-                            <Link
-                              to={`/workout/view/${event.workoutId}`}
-                              onClick={(clickEvent) => clickEvent.stopPropagation()}
-                            >
-                              {event.workoutTitle}
-                            </Link>
-                          ) : event.workoutTitle}
-                        </>
-                      )}
-                    </span>
-                  </span>
-                ))}
-                {(events[key] || []).length > 2 && <small>+{(events[key] || []).length - 2} más</small>}
-              </span>
+              {planned.length > 0 && (
+                <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
+                  {planned.length} {planned.length === 1 ? 'rutina' : 'rutinas'}
+                </div>
+              )}
+              {(events[key] || []).length > 0 && (
+                <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
+                  {(events[key] || []).length} {(events[key] || []).length === 1 ? 'evento' : 'eventos'}
+                </div>
+              )}
             </div>
           )
         })}
