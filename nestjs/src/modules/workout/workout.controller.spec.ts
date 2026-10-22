@@ -3,20 +3,65 @@ import { WorkoutController } from './workout.controller';
 import { WorkoutService } from './workout.service';
 
 describe('WorkoutController', () => {
-  let appController: WorkoutController;
+  let workoutController: WorkoutController;
+  let workoutService: {
+    getWorkouts: jest.Mock;
+    shareWorkout: jest.Mock;
+    getSharedStudentIds: jest.Mock;
+  };
 
   beforeEach(async () => {
+    workoutService = {
+      getWorkouts: jest.fn(),
+      shareWorkout: jest.fn(),
+      getSharedStudentIds: jest.fn(),
+    };
     const app: TestingModule = await Test.createTestingModule({
       controllers: [WorkoutController],
-      providers: [WorkoutService],
+      providers: [{ provide: WorkoutService, useValue: workoutService }],
     }).compile();
 
-    appController = app.get<WorkoutController>(WorkoutController);
+    workoutController = app.get<WorkoutController>(WorkoutController);
   });
 
-  describe('root', () => {
-/*    it('should return "Hello World!"', () => {
-      expect(userController.getHello()).toBe('Hello World!');
-    });*/
+  it('forwards workout list filters and authorization to the service', async () => {
+    const workouts = [{ id: '1', name: 'Strength', category: 'gym' }];
+    workoutService.getWorkouts.mockResolvedValue(workouts);
+
+    await expect(
+      workoutController.getWorkouts('1', { category: 'gym' }, 'Bearer token'),
+    ).resolves.toBe(workouts);
+    expect(workoutService.getWorkouts).toHaveBeenCalledWith(
+      '1',
+      'gym',
+      'Bearer token',
+    );
+  });
+
+  it('forwards the selected students when sharing a workout', async () => {
+    const studentIds = ['0', '2'];
+    workoutService.shareWorkout.mockResolvedValue(studentIds);
+
+    await expect(
+      workoutController.shareWorkout('workout-1', studentIds, 'Bearer token'),
+    ).resolves.toBe(studentIds);
+    expect(workoutService.shareWorkout).toHaveBeenCalledWith(
+      'workout-1',
+      studentIds,
+      'Bearer token',
+    );
+  });
+
+  it('forwards the workout id and authorization when listing shared students', async () => {
+    const studentIds = ['0'];
+    workoutService.getSharedStudentIds.mockResolvedValue(studentIds);
+
+    await expect(
+      workoutController.getSharedStudentIds('workout-1', 'Bearer token'),
+    ).resolves.toBe(studentIds);
+    expect(workoutService.getSharedStudentIds).toHaveBeenCalledWith(
+      'workout-1',
+      'Bearer token',
+    );
   });
 });
