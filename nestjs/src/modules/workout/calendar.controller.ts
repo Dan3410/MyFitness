@@ -16,10 +16,10 @@ export class CalendarController {
 
   @Post()
   addToCalendar(
-    @Body() request: { date: string; workoutId: string },
+    @Body() request: { date: string; workoutId: string; time?: string },
     @Headers('authorization') authorization: string,
   ): Promise<PlannedWorkouts> {
-    return this.calendarService.addToCalendar(request.date, request.workoutId, authorization);
+    return this.calendarService.addToCalendar(request.date, request.workoutId, authorization, request.time);
   }
 
   @Delete(':date/:workoutId')
@@ -41,10 +41,16 @@ export class CalendarController {
 
   @Post('events')
   createEvent(
-    @Body() request: { date: string; studentId: string },
+    @Body() request: { date: string; studentId: string; time?: string; workoutId?: string },
     @Headers('authorization') authorization: string,
   ): Promise<CalendarEvent> {
-    return this.calendarService.createEvent(request.date, request.studentId, authorization);
+    return this.calendarService.createEvent(
+      request.date,
+      request.studentId,
+      authorization,
+      request.time,
+      request.workoutId,
+    );
   }
 
   @Delete('events/:eventId')

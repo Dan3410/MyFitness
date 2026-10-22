@@ -31,6 +31,15 @@
     font-size: 1.35rem;
 }
 
+.daySection h3 {
+    margin: 18px 0 10px;
+    font-size: 1.05rem;
+}
+
+.eventsSection {
+    margin-bottom: 18px;
+}
+
 .date {
     margin: 5px 0 20px;
     text-transform: capitalize;
@@ -58,6 +67,10 @@
     color: inherit;
     transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
     text-decoration: none;
+}
+
+.eventsSection .workoutLink {
+    cursor: pointer;
 }
 
 .workoutLink:hover {

@@ -37,7 +37,10 @@ const Calendar: FC<CalendarProps> = () => {
   const [isTrainer, setIsTrainer] = useState(false);
   const [calendarMode, setCalendarMode] = useState('workouts');
   const [selectedWorkoutId, setSelectedWorkoutId] = useState('');
+  const [workoutTime, setWorkoutTime] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState('');
+  const [eventTime, setEventTime] = useState('');
+  const [eventWorkoutId, setEventWorkoutId] = useState('');
   const [savingEvent, setSavingEvent] = useState(false);
   const [eventToCancel, setEventToCancel] = useState<CalendarEvent | null>(null);
   const [cancellingEvent, setCancellingEvent] = useState(false);
@@ -90,9 +93,10 @@ const Calendar: FC<CalendarProps> = () => {
   const addWorkout = async () => {
     if (!selectedWorkoutId) return
     try {
-      await calendarService.addPlannedWorkout(selectedDate, selectedWorkoutId)
+      await calendarService.addPlannedWorkout(selectedDate, selectedWorkoutId, workoutTime || undefined)
       setPlannedWorkouts(await calendarService.getCalendar(monthKey(currentMonth)))
       setSelectedWorkoutId('')
+      setWorkoutTime('')
     } catch {
       setLoadError(true)
     }
@@ -111,9 +115,16 @@ const Calendar: FC<CalendarProps> = () => {
     if (!selectedStudentId) return
     try {
       setSavingEvent(true)
-      await calendarService.createEvent(selectedDate, selectedStudentId)
+      await calendarService.createEvent(
+        selectedDate,
+        selectedStudentId,
+        eventTime || undefined,
+        eventWorkoutId || undefined,
+      )
       setEvents(await calendarService.getEvents(monthKey(currentMonth)))
       setSelectedStudentId('')
+      setEventTime('')
+      setEventWorkoutId('')
     } catch {
       setLoadError(true)
     } finally {
@@ -155,6 +166,7 @@ const Calendar: FC<CalendarProps> = () => {
           plannedWorkouts={plannedWorkouts}
           events={eventsByDate}
           isTrainer={isTrainer}
+          currentUserId={session?.userId || ''}
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onMonthChange={changeMonth}
@@ -183,17 +195,42 @@ const Calendar: FC<CalendarProps> = () => {
               <option value="">Seleccionar alumno</option>
               {students.map((student) => <option key={student.id} value={student.id}>{student.name}</option>)}
             </select>
+            <label htmlFor="calendar-event-time">Hora*</label>
+            <input
+              id="calendar-event-time"
+              type="time"
+              value={eventTime}
+              onChange={(event) => setEventTime(event.target.value)}
+            />
+            <label htmlFor="calendar-event-workout">Rutina*</label>
+            <select
+              id="calendar-event-workout"
+              value={eventWorkoutId}
+              onChange={(event) => setEventWorkoutId(event.target.value)}
+            >
+              <option value="">Sin rutina</option>
+              {workouts.filter((workout) => !workout.sourceTrainerName).map((workout) => (
+                <option key={workout.id} value={workout.id}>{workout.name}</option>
+              ))}
+            </select>
             <button type="button" onClick={createEvent} disabled={!selectedStudentId || savingEvent}>
               Crear evento
             </button>
           </div>
         ) : (
           <div className={styles.addWorkout}>
-            <label htmlFor="calendar-workout">Agregar rutina al {selectedDate}</label>
+            <label htmlFor="calendar-workout">Agregar rutina al {selectedDate}*</label>
             <select id="calendar-workout" value={selectedWorkoutId} onChange={(event) => setSelectedWorkoutId(event.target.value)}>
               <option value="">Seleccionar rutina</option>
               {workouts.map((workout) => <option key={workout.id} value={workout.id}>{workout.name}</option>)}
             </select>
+            <label htmlFor="calendar-workout-time">Hora</label>
+            <input
+              id="calendar-workout-time"
+              type="time"
+              value={workoutTime}
+              onChange={(event) => setWorkoutTime(event.target.value)}
+            />
             <button type="button" onClick={addWorkout} disabled={!selectedWorkoutId}>Agregar</button>
           </div>
         )}

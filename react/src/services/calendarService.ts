@@ -5,6 +5,7 @@ export interface PlannedWorkout {
   id: string
   title: string
   category: string
+  time?: string | null
 }
 
 export interface CalendarEvent {
@@ -14,6 +15,10 @@ export interface CalendarEvent {
   studentId: string
   studentName: string
   date: string
+  time?: string | null
+  workoutId?: string | null
+  workoutTitle?: string | null
+  workoutCategory?: string | null
 }
 
 export type PlannedWorkouts = Record<string, PlannedWorkout[]>
@@ -33,11 +38,11 @@ class CalendarService {
     return response.json()
   }
 
-  async addPlannedWorkout(date: string, workoutId: string): Promise<PlannedWorkouts> {
+  async addPlannedWorkout(date: string, workoutId: string, time?: string): Promise<PlannedWorkouts> {
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: authHeaders(),
-      body: JSON.stringify({ date, workoutId }),
+      body: JSON.stringify({ date, workoutId, time }),
     })
     if (!response.ok) throw new Error(SAVE_WORKOUT_ERROR_MESSAGE)
     return response.json()
@@ -59,11 +64,16 @@ class CalendarService {
     return response.json()
   }
 
-  async createEvent(date: string, studentId: string): Promise<CalendarEvent> {
+  async createEvent(
+    date: string,
+    studentId: string,
+    time?: string,
+    workoutId?: string,
+  ): Promise<CalendarEvent> {
     const response = await fetch(`${API_URL}/events`, {
       method: 'POST',
       headers: authHeaders(),
-      body: JSON.stringify({ date, studentId }),
+      body: JSON.stringify({ date, studentId, time, workoutId }),
     })
     if (!response.ok) throw new Error(await response.text() || SAVE_WORKOUT_ERROR_MESSAGE)
     return response.json()

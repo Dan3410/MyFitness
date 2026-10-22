@@ -300,6 +300,36 @@ public class WorkoutService {
     return uniqueStudentIds;
   }
 
+  public void assignWorkoutToStudent(String trainerId, String workoutId, String studentId) {
+    if (!profileService.isTrainer(trainerId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo los entrenadores pueden compartir rutinas");
+    }
+    Workout sourceWorkout = findWorkout(trainerId, workoutId);
+    if (sourceWorkout == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rutina no encontrada");
+    }
+    if (!trainerStudentService.isLinkedStudent(trainerId, studentId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo puedes compartir rutinas con tus alumnos");
+    }
+
+    boolean hasWorkoutWithSameId = workoutsForUser(studentId).stream()
+        .anyMatch(workout -> workoutId.equals(workout.getId()));
+    String existingTrainerId = sharedWorkoutTrainersByStudent
+        .getOrDefault(studentId, Map.of())
+        .get(workoutId);
+    if (hasWorkoutWithSameId || (existingTrainerId != null && !existingTrainerId.equals(trainerId))) {
+      throw new ResponseStatusException(
+          HttpStatus.CONFLICT, "El alumno ya tiene una rutina con el mismo identificador");
+    }
+
+    String previousTrainerId = sharedWorkoutTrainersByStudent
+        .computeIfAbsent(studentId, ignored -> new ConcurrentHashMap<>())
+        .putIfAbsent(workoutId, trainerId);
+    if (previousTrainerId == null) {
+      notificationService.notifyWorkoutShared(trainerId, studentId, sourceWorkout.getName());
+    }
+  }
+
   public List<String> getSharedStudentIds(String trainerId, String workoutId) {
     if (!profileService.isTrainer(trainerId)) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo los entrenadores pueden gestionar rutinas");

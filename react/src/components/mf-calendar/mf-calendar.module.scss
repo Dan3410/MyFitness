@@ -107,14 +107,42 @@
   overflow: hidden;
 }
 
-.dayEvents span,
-.dayEvents small {
+.dayEvents > span,
+.dayEvents > small {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.dayEvents span {
+.dayEvents .dayEvent {
+  align-items: center;
+  display: flex;
+  gap: 3px;
+}
+
+.dayEvents .dayEventText {
+  min-width: 0;
+}
+
+.dayEvents a {
+  color: inherit;
+}
+
+.eventIcon {
+  flex: 0 0 auto;
+}
+
+.eventDetails {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+}
+
+.eventDetails > .eventIcon {
+  font-size: 20px;
+}
+
+.dayEvents > .dayEvent {
   background: #f2e8ff;
   border-left: 3px solid #7040a0;
   font-size: 11px;
@@ -126,18 +154,35 @@
   font-size: 11px;
 }
 
-.dayWorkouts span,
-.dayWorkouts small {
+.dayWorkouts > span,
+.dayWorkouts > small {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.dayWorkouts span {
+.dayWorkouts > .dayWorkout {
   background: #e5f2fb;
   border-left: 3px solid #1769aa;
   font-size: 11px;
   padding: 3px 4px;
+}
+
+.dayWorkouts .dayWorkout {
+  align-items: center;
+  display: flex;
+  gap: 3px;
+}
+
+.dayWorkouts .dayWorkoutText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dayWorkouts a {
+  color: inherit;
 }
 
 .dayWorkouts small {
@@ -178,6 +223,21 @@
   align-items: center;
   display: flex;
   gap: 16px;
+}
+
+.workoutDetails {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.workoutDetails > .eventIcon {
+  font-size: 20px;
+}
+
+.eventWorkoutTitle {
+  display: block;
+  margin-top: 4px;
 }
 
 .workoutConfirmationButtons {

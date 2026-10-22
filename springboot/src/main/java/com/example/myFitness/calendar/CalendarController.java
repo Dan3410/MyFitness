@@ -36,7 +36,8 @@ public class CalendarController {
   @PostMapping
   public Map<String, List<PlannedWorkout>> addToCalendar(@RequestBody CalendarRequest request,
       @RequestHeader(value = "Authorization", required = false) String authorization) {
-    return calendarService.addToCalendar(authService.requireUserId(authorization), request.date(), request.workoutId());
+    return calendarService.addToCalendar(
+        authService.requireUserId(authorization), request.date(), request.workoutId(), request.time());
   }
 
   @DeleteMapping("/{date}/{workoutId}")
@@ -57,7 +58,8 @@ public class CalendarController {
       @RequestBody CalendarEventRequest request,
       @RequestHeader(value = "Authorization", required = false) String authorization) {
     return calendarService.createEvent(
-        authService.requireUserId(authorization), request.date(), request.studentId());
+        authService.requireUserId(authorization), request.date(), request.studentId(), request.time(),
+        request.workoutId());
   }
 
   @DeleteMapping("/events/{eventId}")

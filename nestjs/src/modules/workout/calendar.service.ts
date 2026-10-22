@@ -17,11 +17,16 @@ export class CalendarService {
     return response.data;
   }
 
-  async addToCalendar(date: string, workoutId: string, authorization: string): Promise<PlannedWorkouts> {
+  async addToCalendar(
+    date: string,
+    workoutId: string,
+    authorization: string,
+    time?: string,
+  ): Promise<PlannedWorkouts> {
     const response = await firstValueFrom(
       this.httpService.post<PlannedWorkouts>(
         this.calendarApiUrl,
-        { date, workoutId },
+        { date, workoutId, time },
         { headers: { authorization } },
       ),
     );
@@ -52,11 +57,13 @@ export class CalendarService {
     date: string,
     studentId: string,
     authorization: string,
+    time?: string,
+    workoutId?: string,
   ): Promise<CalendarEvent> {
     const response = await firstValueFrom(
       this.httpService.post<CalendarEvent>(
         `${this.calendarApiUrl}/events`,
-        { date, studentId },
+        { date, studentId, time, workoutId },
         { headers: { authorization } },
       ),
     );

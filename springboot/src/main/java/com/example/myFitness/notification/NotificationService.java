@@ -104,7 +104,8 @@ public class NotificationService {
   public void notifyEventCreated(CalendarEvent event) {
     addEventNotification(
         event.trainerId(), event.trainerName(), event.studentId(),
-        "El entrenador " + event.trainerName() + " creo un evento el dia " + event.date(),
+        "El entrenador " + event.trainerName() + " creo un evento el dia " + eventDateTime(event)
+            + (event.workoutTitle() == null ? "" : " con la rutina " + event.workoutTitle()),
         NotificationType.EVENT_CREATED);
   }
 
@@ -114,12 +115,16 @@ public class NotificationService {
     String recipientId = cancelledByTrainer ? event.studentId() : event.trainerId();
     addEventNotification(
         event.trainerId(), event.trainerName(), recipientId,
-        cancellingName + " ha cancelado un evento del dia " + event.date(),
+        cancellingName + " ha cancelado un evento del dia " + eventDateTime(event),
         NotificationType.EVENT_CANCELLED);
     addEventNotification(
         event.trainerId(), event.trainerName(), cancellingUserId,
-        "Has cancelado un evento del dia " + event.date(),
+        "Has cancelado un evento del dia " + eventDateTime(event),
         NotificationType.EVENT_CANCELLED);
+  }
+
+  private String eventDateTime(CalendarEvent event) {
+    return event.date() + (event.time() == null || event.time().isBlank() ? "" : " a las " + event.time());
   }
 
   private void addEventNotification(
