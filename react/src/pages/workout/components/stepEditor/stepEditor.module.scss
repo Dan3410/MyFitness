@@ -1,137 +1,137 @@
-.stepEditor {
+.StepEditor {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
 
-.headerRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
+  &__HeaderRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
 
-.title,
-.subTitle {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
+  &__Title,
+  &__SubTitle {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
 
-.subTitle {
-  font-size: 0.95rem;
-}
+  &__SubTitle {
+    font-size: 0.95rem;
+  }
 
-.deleteButton {
-  border: 0;
-  border-radius: 999px;
-  background: #fee2e2;
-  color: #b91c1c;
-  padding: 7px 12px;
-  cursor: pointer;
-}
+  &__DeleteButton {
+    border: 0;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  color: #334155;
-  font-size: 0.95rem;
-}
+  &__Field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #334155;
+    font-size: 0.95rem;
 
-.field input,
-.field select {
-  border: 1px solid #cbd5e1;
-  border-radius: var(--border-radius-small);
-  padding: 8px 10px;
-  font: inherit;
-}
+    input,
+    select {
+      border: 1px solid #cbd5e1;
+      border-radius: var(--border-radius-small);
+      padding: 8px 10px;
+      font: inherit;
+    }
+  }
 
-.checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: #334155;
-}
+  &__Checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #334155;
+  }
 
-.checkboxLabel {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+  &__CheckboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.helperText,
-.emptyText {
-  margin: 0;
-  color: #64748b;
-  font-size: 0.95rem;
-}
+  &__HelperText,
+  &__EmptyText {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.95rem;
+  }
 
-.emptyState {
-  border: 1px dashed #cbd5e1;
-  border-radius: var(--border-radius-medium);
-  padding: 24px;
-}
+  &__EmptyState {
+    border: 1px dashed #cbd5e1;
+    border-radius: var(--border-radius-medium);
+    padding: 24px;
+  }
 
-.emptyTitle {
-  margin: 0 0 8px;
-  font-size: 1rem;
-}
+  &__EmptyTitle {
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
 
-.nestedSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid #e2e8f0;
-  border-radius: var(--border-radius-medium);
-  padding: 10px;
-}
+  &__NestedSection {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius-medium);
+    padding: 10px;
+  }
 
-.nestedList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  &__NestedList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-.addStepButton {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-  column-gap: 40px;
-}
+  &__AddStepButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    column-gap: 40px;
+  }
 
-.nestedStepButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--editor-accent-color, #cbd5e1);
-  border-radius: var(--border-radius-small);
-  padding: 8px 10px;
-  background: var(--nested-step-background-color, #ffffff);
-  color: var(--form-field-text-color, #0f172a);
-  text-align: left;
-  cursor: pointer;
-}
+  &__NestedStepButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--editor-accent-color, #cbd5e1);
+    border-radius: var(--border-radius-small);
+    padding: 8px 10px;
+    background: var(--nested-step-background-color, #ffffff);
+    color: var(--form-field-text-color, #0f172a);
+    text-align: left;
+    cursor: pointer;
+  }
 
-.nestedStepIndex {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background: #e2e8f0;
-  color: #0f172a;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
+  &__NestedStepIndex {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #0f172a;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
 
-.selectedNested {
-  border-color: var(--editor-accent-color, #2563eb);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--editor-accent-color, #2563eb) 15%, transparent);
-}
+  &__NestedStepButton--Selected {
+    border-color: var(--editor-accent-color, #2563eb);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--editor-accent-color, #2563eb) 15%, transparent);
+  }
 
-.nestedEditor {
-  border-top: 1px solid #e2e8f0;
-  padding-top: 8px;
+  &__NestedEditor {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+  }
 }

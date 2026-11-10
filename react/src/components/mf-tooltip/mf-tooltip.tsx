@@ -76,7 +76,7 @@ const MFTooltip: FC<MFTooltipProps> = ({
       <div
          ref={tipRef}
          role="tooltip"
-         className={[styles.mfTooltip, styles[theme], visible ? styles.mfTooltipVisible : undefined].join(' ')}
+         className={[styles.MFTooltip, visible ? styles['MFTooltip--Visible'] : undefined].join(' ')}
          style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(-4px)",
@@ -92,7 +92,7 @@ const MFTooltip: FC<MFTooltipProps> = ({
 
 
    return (<>
-      <span className={`${styles.mfTooltipIcon} ${styles[theme]}`}
+      <span className={`${styles.MFTooltip__Icon} ${styles[`MFTooltip__Icon--${theme.charAt(0).toUpperCase()}${theme.slice(1)}`]}`}
          ref={targetRef}
          onMouseEnter={show}
          onMouseLeave={hide}

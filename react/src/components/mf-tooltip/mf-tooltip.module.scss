@@ -1,4 +1,4 @@
-.mfTooltip {
+.MFTooltip {
   background: rgba(33, 33, 33, 0.95);
   color: #fff;
   padding: 6px 10px;
@@ -11,43 +11,39 @@
   z-index: 9999;
   pointer-events: none;
   transition: opacity 500ms ease, transform 500ms ease;
-}
 
-.mfTooltipVisible {
-  pointer-events: none;
-}
-
-.mfTooltipIcon {
-  font-size: 10px;
-  margin: 0px 5px;
-  border: 1px solid;
-  border-radius: 100%;
-  color: lime;
-  display: inline-block;
-  font-weight: 600;
-  height: 16px;
-  width: 16px;
-  text-align: center;
-  pointer-events: none;
-}
-
-.mfTooltipIcon {
-  pointer-events: all;
-  color: var(--tooltip-icon-color);
-  border-color: var(--tooltip-border-color);
-
-  &.primary {
-    --tooltip-icon-color: var(--primary-color-light);
-    --tooltip-border-color: var(--primary-color-light);
+  &--Visible {
+    pointer-events: none;
   }
 
-  &.secondary {
-    --tooltip-icon-color: var(--secondary-color-light);
-    --tooltip-border-color: var(--secondary-color-light);
-  }
+  &__Icon {
+    font-size: 10px;
+    margin: 0px 5px;
+    border: 1px solid;
+    border-radius: 100%;
+    color: lime;
+    display: inline-block;
+    font-weight: 600;
+    height: 16px;
+    width: 16px;
+    text-align: center;
+    pointer-events: all;
+    color: var(--tooltip-icon-color);
+    border-color: var(--tooltip-border-color);
 
-  &.tertiary {
-    --tooltip-icon-color: var(--tertiary-color-light);
-    --tooltip-border-color: var(--tertiary-color-light);
+    &--Primary {
+      --tooltip-icon-color: var(--primary-color-light);
+      --tooltip-border-color: var(--primary-color-light);
+    }
+
+    &--Secondary {
+      --tooltip-icon-color: var(--secondary-color-light);
+      --tooltip-border-color: var(--secondary-color-light);
+    }
+
+    &--Tertiary {
+      --tooltip-icon-color: var(--tertiary-color-light);
+      --tooltip-border-color: var(--tertiary-color-light);
+    }
   }
 }

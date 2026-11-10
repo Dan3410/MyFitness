@@ -19,15 +19,15 @@ const MFCheckbox: FC<MFCheckboxProps> = ({
 }) => {
 
   return (
-    <div className={`${styles.mfCheckbox} ${styles[theme || 'primary']} ${disabled ? styles.disabled : ''}`}>
+    <div className={`${styles.MFCheckbox} ${styles[`MFCheckbox--${(theme || 'primary').charAt(0).toUpperCase()}${(theme || 'primary').slice(1)}`]} ${disabled ? styles['MFCheckbox--Disabled'] : ''}`}>
       <input
-        className={styles.checkboxInput}
+        className={styles.MFCheckbox__Input}
         type="checkbox"
         disabled={disabled}
         checked={checked}
         onChange={onChange}
       />
-      <span className={`${styles.checkboxLabel}` }>{children}</span>
+      <span className={styles.MFCheckbox__Label}>{children}</span>
     </div>
   );
 };

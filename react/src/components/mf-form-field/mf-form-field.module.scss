@@ -8,25 +8,25 @@
     position: relative;
     display: block;
 
-    &.primary {
+    &--Primary {
         --mf-form-field-border-color: var(--primary-color-light);
         --mf-form-field-background-color: var(--background-color);
         --mf-form-field-text-color: #fafafa;
     }
 
-    &.secondary {
+    &--Secondary {
         --mf-form-field-border-color: var(--secondary-color-light);
         --mf-form-field-background-color: var(--background-color);
         --mf-form-field-text-color: #fafafa;
     }
 
-    &.tertiary {
+    &--Tertiary {
         --mf-form-field-border-color: var(--tertiary-color-light);
         --mf-form-field-background-color: var(--background-color);
         --mf-form-field-text-color: #fafafa;
     }
 
-    &.disabled {
+    &--Disabled {
         border-color: transparent;
         background-color: transparent;
         opacity: 0.85;

@@ -27,14 +27,14 @@ const MFModal: FC<MFModalProp> = ({ isOpen , onClose, children }) => {
     <div
       role="dialog"
       aria-modal="true"
-      className={styles.modalOverlay}
+      className={styles.MFModal}
       onMouseDown={onClose} // close when clicking overlay
     >
       <div
-        className={styles.modalContent}
+        className={styles.MFModal__Content}
         onMouseDown={(e) => e.stopPropagation()} // prevent overlay click when clicking content
       >
-        <button className={styles.modalClose} onClick={onClose} aria-label="Close">
+        <button className={styles.MFModal__Close} onClick={onClose} aria-label="Close">
          X
         </button>
         {children}
@@ -45,4 +45,3 @@ const MFModal: FC<MFModalProp> = ({ isOpen , onClose, children }) => {
 }
 
 export default MFModal
-

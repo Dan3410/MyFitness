@@ -38,17 +38,17 @@ const WorkoutView: FC = () => {
   if (loading) return <MFSpinner theme="primary" />;
 
   return (
-    <div className={styles.workoutView}>
-      <div className="pageHeader">
+    <div className={styles.WorkoutView}>
+      <div className="PageHeader">
         <MFBreadcrumb items={[
           { label: 'Inicio', to: '/' },
           { label: 'Rutina' },
         ]} />
       </div>
       {loadError || !workout ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <>
-        <header className={styles.workoutHeader}>
+        <header className={styles.WorkoutView__WorkoutHeader}>
           <p>{workout.category}</p>
-          <div className={styles.titleRow}>
+          <div className={styles.WorkoutView__TitleRow}>
             <h1>{workout.name}</h1>
             {!workout.sourceTrainerName && (
               <MFButton
@@ -59,13 +59,13 @@ const WorkoutView: FC = () => {
               </MFButton>
             )}
           </div>
-          {workout.sourceTrainerName && <p className={styles.trainerAttribution}>Rutina asignada por {workout.sourceTrainerName}. No puedes editarla.</p>}
+          {workout.sourceTrainerName && <p className={styles.WorkoutView__TrainerAttribution}>Rutina asignada por {workout.sourceTrainerName}. No puedes editarla.</p>}
         </header>
-        <section className={styles.steps}>
+        <section className={styles.WorkoutView__Steps}>
           <h2>Pasos del entrenamiento</h2>
-          {workout.steps.length === 0 ? <p className={styles.emptyState}>Esta rutina todavía no tiene pasos.</p> :
+          {workout.steps.length === 0 ? <p className={styles.WorkoutView__EmptyState}>Esta rutina todavía no tiene pasos.</p> :
             workout.steps.map((step, index) => (
-              <div className={styles.step} key={`${step.type}-${index}`}>
+              <div className={styles.WorkoutView__Step} key={`${step.type}-${index}`}>
                 <Step step={step} workoutCategory={workout.category} />
               </div>
             ))}

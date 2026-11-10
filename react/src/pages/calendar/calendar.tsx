@@ -159,13 +159,13 @@ const Calendar: FC<CalendarProps> = () => {
   )
 
   return (<>
-    <div className={styles.workoutList}>
+    <div>
       {loading ? <p>Cargando calendario...</p> : loadError ? <p>No se pudo cargar el calendario.</p> : <>
         <MFCalendar
           plannedWorkouts={plannedWorkouts}
           events={eventsByDate}
           eventActions={(
-            <div className={styles.calendarActions}>
+            <div className={styles.Calendar__CalendarActions}>
               {isTrainer && (
                 <MFSelector
                   theme="primary"
@@ -175,7 +175,7 @@ const Calendar: FC<CalendarProps> = () => {
                 />
               )}
               {isTrainer && calendarMode === 'students' ? (
-                <div className={`${styles.addWorkout} ${styles.eventForm}`}>
+                <div className={`${styles.Calendar__AddWorkout} ${styles['Calendar__AddWorkout--EventForm']}`}>
                   {studentLoadError && <p>No se pudieron cargar los alumnos.</p>}
                   <label htmlFor="calendar-student">Seleccionar alumno para el {selectedDate}</label>
                   <select
@@ -215,7 +215,7 @@ const Calendar: FC<CalendarProps> = () => {
                   </MFButton>
                 </div>
               ) : (
-                <div className={`${styles.addWorkout} ${styles.eventForm}`}>
+                <div className={`${styles.Calendar__AddWorkout} ${styles['Calendar__AddWorkout--EventForm']}`}>
                   <label htmlFor="calendar-workout">Agregar rutina al {selectedDate}*</label>
                   <select
                     id="calendar-workout"
@@ -265,7 +265,7 @@ const Calendar: FC<CalendarProps> = () => {
         <br />
         Esta acción no se puede deshacer
       </p>
-      <div className={styles.confirmationButtons}>
+      <div className={styles.Calendar__ConfirmationButtons}>
         <MFButton
           type="button"
           theme="secondary"

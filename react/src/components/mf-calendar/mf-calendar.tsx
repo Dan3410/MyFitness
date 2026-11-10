@@ -91,8 +91,8 @@ const MFCalendar: FC<MFCalendarProps> = ({
 
   return (
     <>
-      <section className={styles.calendar} aria-label="Calendario de workouts">
-        <div className={styles.calendarHeader}>
+      <section className={styles.MFCalendar} aria-label="Calendario de workouts">
+        <div className={styles.MFCalendar__Header}>
           <button type="button" onClick={() => changeMonth(-1)} aria-label="Mes anterior"><label>&#8249;</label></button>
           <h2>{monthFormatter.format(currentMonth)}</h2>
           <button type="button" onClick={() => changeMonth(1)} aria-label="Mes siguiente"><label>&#8250;</label></button>
@@ -101,28 +101,28 @@ const MFCalendar: FC<MFCalendarProps> = ({
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }}>
           <div>
 
-            <div className={styles.weekDays}>
+            <div className={styles.MFCalendar__WeekDays}>
               {weekDays.map((day) => <span key={day}>{day}</span>)}
             </div>
-            <div className={styles.daysGrid}>
+            <div className={styles.MFCalendar__DaysGrid}>
               {days.map((date, index) => {
-                if (!date) return <span key={`empty-${index}`} className={styles.emptyDay} />
+                if (!date) return <span key={`empty-${index}`} className={styles.MFCalendar__EmptyDay} />
                 const key = dateKey(date)
                 const planned = plannedWorkouts[key] || []
                 return (
                   <div
                     key={key}
-                    className={`${styles.day} ${key === selectedDate ? styles.selectedDay : ''} ${key === dateKey(today) ? styles.today : ''}`}
+                    className={`${styles.MFCalendar__Day} ${key === selectedDate ? styles['MFCalendar__Day--Selected'] : ''} ${key === dateKey(today) ? styles['MFCalendar__Day--Today'] : ''}`}
                     onClick={() => onDateSelect(key)}
                   >
                     {date.getDate()}
                     {planned.length > 0 && (
-                      <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
+                      <div className={`${styles.MFCalendar__DayEvent} ${styles.MFCalendar__DayEvent}`}>
                         {planned.length} {planned.length === 1 ? 'rutina' : 'rutinas'}
                       </div>
                     )}
                     {(events[key] || []).length > 0 && (
-                      <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
+                      <div className={`${styles.MFCalendar__DayEvent} ${styles.MFCalendar__DayEvent}`}>
                         {(events[key] || []).length} {(events[key] || []).length === 1 ? 'evento' : 'eventos'}
                       </div>
                     )}
@@ -132,15 +132,15 @@ const MFCalendar: FC<MFCalendarProps> = ({
             </div>
 
           </div>
-          <div className={styles.dayDetails}>
+          <div className={styles.MFCalendar__DayDetails}>
             <h3>Eventos ({selectedDate})</h3>
             <h4>Rutinas</h4>
             {selectedWorkouts.length === 0 ? <p>No hay rutinas planificadas.</p> : (
               <ul>
                 {selectedWorkouts.map((workout) => (
                   <li key={workout.id}>
-                    <div className={styles.workoutDetails}>
-                      <span className={styles.eventIcon} aria-hidden="true">
+                    <div className={styles.MFCalendar__WorkoutDetails}>
+                      <span className={styles.MFCalendar__EventIcon} aria-hidden="true">
                         {workoutCategoryDetails[workout.category]?.icon ?? '🏋️‍♂️'}
                       </span>
                       <span>
@@ -148,7 +148,7 @@ const MFCalendar: FC<MFCalendarProps> = ({
                         <Link to={`/workout/view/${workout.id}`}>{workout.title}</Link>
                       </span>
                     </div>
-                    <div className={styles.workoutActions}>
+                    <div className={styles.MFCalendar__WorkoutActions}>
                       <MFButton
                         theme="tertiary"
                         onClickEvent={() => setWorkoutToRemove(workout)}
@@ -168,8 +168,8 @@ const MFCalendar: FC<MFCalendarProps> = ({
                     {sectionEvents.map((event) => (
                       <li key={event.id}>
                         <div>
-                          <div className={styles.eventDetails}>
-                            <span className={styles.eventIcon} aria-hidden="true">
+                          <div className={styles.MFCalendar__EventDetails}>
+                            <span className={styles.MFCalendar__EventIcon} aria-hidden="true">
                               {workoutCategoryDetails[event.workoutCategory ?? '']?.icon ?? '📅'}
                             </span>
                             <div>
@@ -180,13 +180,13 @@ const MFCalendar: FC<MFCalendarProps> = ({
                               {event.workoutTitle && (
                                 event.workoutId ? (
                                   <Link
-                                    className={styles.eventWorkoutTitle}
+                                    className={styles.MFCalendar__EventWorkoutTitle}
                                     to={`/workout/view/${event.workoutId}`}
                                   >
                                     Rutina: {event.workoutTitle}
                                   </Link>
                                 ) : (
-                                  <small className={styles.eventWorkoutTitle}>Rutina: {event.workoutTitle}</small>
+                                  <small className={styles.MFCalendar__EventWorkoutTitle}>Rutina: {event.workoutTitle}</small>
                                 )
                               )}
                             </div>
@@ -216,7 +216,7 @@ const MFCalendar: FC<MFCalendarProps> = ({
           <br />
           Esta acción no se puede deshacer
         </p>
-        <div className={styles.workoutConfirmationButtons}>
+        <div className={styles.MFCalendar__WorkoutConfirmationButtons}>
           <MFButton
             theme="secondary"
             onClickEvent={() => setWorkoutToRemove(null)}

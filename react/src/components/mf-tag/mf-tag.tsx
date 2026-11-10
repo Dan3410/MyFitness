@@ -9,7 +9,7 @@ interface MFTagProps {
 }
 
 const MFTag: FC<MFTagProps> = ({ children, theme = 'primary', className }) => (
-  <span className={`${styles.mfTag} ${styles[theme]} ${className || ''}`.trim()}>
+  <span className={`${styles.MFTag} ${styles[`MFTag--${theme.charAt(0).toUpperCase()}${theme.slice(1)}`]} ${className || ''}`.trim()}>
     {children}
   </span>
 )

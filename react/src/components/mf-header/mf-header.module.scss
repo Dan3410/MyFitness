@@ -15,51 +15,51 @@
     position: fixed;
     top: 0px;
     z-index: 10;
-}
 
-.hamburgerMenu {
-    position: relative;
-    margin-right: auto;
-}
-
-.MFHeader .hamburgerTrigger {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-    width: 40px;
-    height: 40px;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    padding: 8px;
-}
-
-.hamburgerTrigger span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background-color: currentColor;
-}
-
-.hamburgerPanel {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: -21px;
-    z-index: 30;
-    width: 250px;
-    padding: 6px 0;
-    background-color: var(--background-color-header);
-    height: calc(100vh - var(--header-height) - 10px);
-    transition: width 0.3s ease-in-out;
-    overflow: hidden;
-
-    &__closed {
-        width: 0px
+    &__HamburgerMenu {
+        position: relative;
+        margin-right: auto;
     }
 
-    &__content {
+    &__HamburgerTrigger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        width: 40px;
+        height: 40px;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        padding: 8px;
+
+        span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: currentColor;
+        }
+    }
+
+    &__HamburgerPanel {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: -21px;
+        z-index: 30;
+        width: 250px;
+        padding: 6px 0;
+        background-color: var(--background-color-header);
+        height: calc(100vh - var(--header-height) - 10px);
+        transition: width 0.3s ease-in-out;
+        overflow: hidden;
+
+        &--Closed {
+            width: 0px;
+        }
+    }
+
+    &__HamburgerPanelContent {
         padding: 0 20px;
 
         >button {
@@ -78,230 +78,222 @@
 
         >button:hover {
             background-color: var(--primary-color-light);
-
         }
     }
-}
 
-.pageOverlay {
-    position: fixed;
-    top: var(--header-height);
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 20;
-    border: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    cursor: default;
-}
+    &__HamburgerPanelButton:hover,
+    &__HamburgerPanelButton:focus-visible,
+    &__DropdownButton:hover,
+    &__DropdownButton:focus-visible {
+        background: #707070;
+        filter: unset;
+    }
 
-.userMenu {
-    position: relative;
-}
+    &__PageOverlay {
+        position: fixed;
+        top: var(--header-height);
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 20;
+        border: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: default;
+    }
 
-.MFHeader .userMenuTrigger {
-    border: 0;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    font: inherit;
-    padding: 8px 0;
-}
+    &__UserMenu {
+        position: relative;
+    }
 
-.userMenuDropdown {
-    position: absolute;
-    top: calc(100% + 4px);
-    right: 0;
-    z-index: 1;
-    min-width: 150px;
-    padding: 6px;
-    background-color: #333333;
-    border: 1px solid #9c9c9c;
-}
+    &__UserMenuTrigger {
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        padding: 8px 0;
+    }
 
-.MFHeader .dropdownButton {
-    display: block;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    padding: 9px 10px;
-    text-align: left;
-    transition: background 0.2s ease-in-out;
-    justify-content: flex-start;
-}
+    &__UserMenuDropdown {
+        position: absolute;
+        top: calc(100% + 4px);
+        right: 0;
+        z-index: 1;
+        min-width: 150px;
+        padding: 6px;
+        background-color: #333333;
+        border: 1px solid #9c9c9c;
+    }
 
-.MFHeader .dropdownButton:hover,
-.MFHeader .dropdownButton:focus-visible,
-.MFHeader .panelButton:hover,
-.MFHeader .panelButton:focus-visible {
-    background: #707070;
-    filter: unset
-}
+    &__DropdownButton {
+        display: block;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        padding: 9px 10px;
+        text-align: left;
+        transition: background 0.2s ease-in-out;
+        justify-content: flex-start;
+    }
 
-.userSearch {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-right: 24px;
-}
+    &__UserSearch {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-right: 24px;
 
-.userSearch>div {
-    min-height: 0;
-    height: 34px;
-    padding: 0 8px;
-    border: 1px solid #9c9c9c;
-}
+        >div {
+            min-height: 0;
+            height: 34px;
+            padding: 0 8px;
+            border: 1px solid #9c9c9c;
+        }
 
-.userSearch input {
-    width: 180px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
-    font: inherit;
-}
+        input {
+            width: 180px;
+            height: 32px;
+            margin: 0;
+            padding: 0;
+            font: inherit;
+        }
+    }
 
-.MFHeader .searchButton {
-    border: 0;
-    background: #1769aa;
-    color: #ffffff;
-    cursor: pointer;
-    padding: 8px 12px;
-    font: inherit;
-    border-radius: 0;
-}
+    &__SearchButton {
+        cursor: pointer;
+        font: inherit;
+    }
 
-.notifications {
-    position: relative;
-    margin-right: 18px;
-}
+    &__Notifications {
+        position: relative;
+        margin-right: 18px;
+    }
 
-.notificationTrigger {
-    position: relative;
-    display: grid;
-    width: 40px;
-    place-items: center;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    font-size: 1.25rem;
-}
+    &__NotificationTrigger {
+        position: relative;
+        display: grid;
+        width: 40px;
+        place-items: center;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-size: 1.25rem;
+    }
 
-.notificationCount {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: grid;
-    min-width: 18px;
-    height: 18px;
-    place-items: center;
-    border-radius: var(--border-radius-small);
-    padding: 0 4px;
-    background: #c33b32;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 700;
-}
+    &__NotificationCount {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: grid;
+        min-width: 18px;
+        height: 18px;
+        place-items: center;
+        border-radius: var(--border-radius-small);
+        padding: 0 4px;
+        background: #c33b32;
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
 
-.notificationDropdown {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: -10px;
-    z-index: 40;
-    width: min(360px, calc(100vw - 24px));
-    max-height: min(70vh, 520px);
-    overflow-y: auto;
-    border: 1px solid #777;
-    border-radius: var(--border-radius-small);
-    padding: 16px;
-    background: #292929;
-    color: #fff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
+    &__NotificationDropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: -10px;
+        z-index: 40;
+        width: min(360px, calc(100vw - 24px));
+        max-height: min(70vh, 520px);
+        overflow-y: auto;
+        border: 1px solid #777;
+        border-radius: var(--border-radius-small);
+        padding: 16px;
+        background: #292929;
+        color: #fff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 
-.notificationDropdown h2 {
-    margin: 0 0 12px;
-    font-size: 1.05rem;
-}
+        h2 {
+            margin: 0 0 12px;
+            font-size: 1.05rem;
+        }
 
-.notificationDropdown ul {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
+        ul {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
 
-.notificationDropdown li {
-    border-top: 1px solid #555;
-    padding-top: 10px;
-}
+        p {
+            margin: 0 0 10px;
+        }
+    }
 
-.notificationDropdown p {
-    margin: 0 0 10px;
-}
+    &__NotificationItem {
+        border-top: 1px solid #555;
+        padding-top: 10px;
 
-.unseenNotification {
-    border-left: 3px solid #5eb886;
-    padding-left: 10px;
-}
+        &--Unseen {
+            border-left: 3px solid #5eb886;
+            padding-left: 10px;
+        }
+    }
 
-.MFHeader .trainerLink {
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: #8ec9ff;
-    cursor: pointer;
-    font: inherit;
-    text-decoration: underline;
-    display: inline;
-    vertical-align: baseline;
-}
+    &__TrainerLink {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: #8ec9ff;
+        cursor: pointer;
+        font: inherit;
+        text-decoration: underline;
+        display: inline;
+        vertical-align: baseline;
+    }
 
-.notificationActions {
-    display: flex;
-    gap: 8px;
-}
+    &__NotificationActions {
+        display: flex;
+        gap: 8px;
+    }
 
-.MFHeader .notificationActions .notificationActionButton {
-    border: 1px solid #999;
-    border-radius: var(--border-radius-small);
-    padding: 6px 10px;
-    background: #414141;
-    color: #fff;
-    cursor: pointer;
-}
+    .MFHeader__NotificationActions .MFHeader__NotificationActionButton {
+        border: 1px solid #999;
+        border-radius: var(--border-radius-small);
+        padding: 6px 10px;
+        background: #414141;
+        color: #fff;
+        cursor: pointer;
+    }
 
-.notificationStatus {
-    color: #b7c8bd;
-    font-size: 0.85rem;
-}
+    &__NotificationStatus {
+        color: #b7c8bd;
+        font-size: 0.85rem;
+    }
 
-@media (max-width: 640px) {
-    .MFHeader {
+    @media (max-width: 640px) {
         padding: 0 12px;
-    }
 
-    .userSearch {
-        margin-right: 12px;
-    }
+        &__UserSearch {
+            margin-right: 12px;
 
-    .notifications {
-        margin-right: 8px;
-    }
+            input {
+                width: 120px;
+            }
+        }
 
-    .userSearch input {
-        width: 120px;
-    }
+        &__Notifications {
+            margin-right: 8px;
+        }
 
-    .MFHeader .searchButton {
-        padding: 8px;
-    }
+        &__SearchButton {
+            padding: 8px;
+        }
 
-    .MFHeader .userMenuTrigger {
-        max-width: 90px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        &__UserMenuTrigger {
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }

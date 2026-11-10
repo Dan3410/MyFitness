@@ -1,63 +1,63 @@
-.workoutView {
+.WorkoutView {
   width: min(100% - 40px, 900px);
   margin: 0 auto;
   padding: 32px 0 56px;
-}
 
-.workoutHeader {
-  margin: 28px 0 32px;
-  border-bottom: 1px solid #cbd5d1;
-  padding-bottom: 20px;
-}
+  &__WorkoutHeader {
+    margin: 28px 0 32px;
+    border-bottom: 1px solid #cbd5d1;
+    padding-bottom: 20px;
 
-.workoutHeader p {
-  margin: 0 0 8px;
-  font-size: 1rem;
-  text-transform: capitalize;
-}
+    p {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      text-transform: capitalize;
+    }
 
-.workoutHeader h1 {
-  margin: 0;
-  color: #1b3027;
-  font-size: 1.8rem;
-}
+    h1 {
+      margin: 0;
+      color: #1b3027;
+      font-size: 1.8rem;
+    }
+  }
 
-.titleRow {
-  align-items: center;
-  display: flex;
-  gap: 16px;
-  justify-content: space-between;
-}
+  &__TitleRow {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
 
-.workoutHeader .trainerAttribution {
-  margin-top: 12px;
-  color: #68766f;
-  text-transform: none;
-}
+  &__TrainerAttribution {
+    margin-top: 12px;
+    color: #68766f;
+    text-transform: none;
+  }
 
-.steps {
-  display: grid;
-  gap: 12px;
-}
+  &__Steps {
+    display: grid;
+    gap: 12px;
 
-.steps h2 {
-  margin: 0 0 8px;
-  color: #244938;
-  font-size: 1.25rem;
-}
+    h2 {
+      margin: 0 0 8px;
+      color: #244938;
+      font-size: 1.25rem;
+    }
+  }
 
-.step {
-  border: 1px solid #cbd5d1;
-  border-radius: var(--border-radius-small);
-  padding: 14px;
-}
+  &__Step {
+    border: 1px solid #cbd5d1;
+    border-radius: var(--border-radius-small);
+    padding: 14px;
+  }
 
-.emptyState {
-  color: #68766f;
-}
+  &__EmptyState {
+    color: #68766f;
+  }
 
-@media (max-width: 640px) {
-  .workoutView {
-    width: min(100% - 32px, 500px);
+  @media (max-width: 640px) {
+    & {
+      width: min(100% - 32px, 500px);
+    }
   }
 }

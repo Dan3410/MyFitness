@@ -36,7 +36,7 @@ const MFFormField: FC<MFFormFieldProps> = ({
 
   return (
     <>
-      <div className={`${styles.MFFormField} ${styles[theme]} ${disabled ? styles.disabled : ''}`}>
+      <div className={`${styles.MFFormField} ${styles[`MFFormField--${theme.charAt(0).toUpperCase()}${theme.slice(1)}`]} ${disabled ? styles['MFFormField--Disabled'] : ''}`}>
         {disabled ? setControlsDisabled(children) : children}
       </div>
     </>

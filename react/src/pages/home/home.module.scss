@@ -1,132 +1,131 @@
-.homeContainer {
+.HomeContainer {
     min-height: calc(100vh - 100px);
     margin: 0 auto;
-}
 
-.pageHeader {
-    margin-bottom: 32px;
-    border-bottom: 1px solid #cbd5d1;
-    padding-bottom: 20px;
-}
+    &__PageHeader {
+        margin-bottom: 32px;
+        border-bottom: 1px solid #cbd5d1;
+        padding-bottom: 20px;
 
-.pageHeader p {
-    margin: 0 0 8px;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
+        p {
+            margin: 0 0 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
 
-.pageHeader h1 {
-    margin: 0;
-    font-size: 2rem;
-}
-
-.daysGrid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px;
-}
-
-.daySection h2 {
-    margin: 0;
-    font-size: 1.35rem;
-}
-
-.daySection h3 {
-    margin: 18px 0 10px;
-    font-size: 1.05rem;
-}
-
-.eventsSection {
-    margin-bottom: 18px;
-}
-
-.date {
-    margin: 5px 0 20px;
-    text-transform: capitalize;
-}
-
-.workoutList {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.workoutList li + li {
-    margin-top: 10px;
-}
-
-.workoutLink {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    min-height: 76px;
-    border: 1px solid var(--secondary-color-dark);
-    border-radius: var(--border-radius-small);
-    padding: 12px 16px;
-    background: var(--secondary-color-dark);
-    color: inherit;
-    transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
-    text-decoration: none;
-}
-
-.eventsSection .workoutLink {
-    cursor: pointer;
-}
-
-.workoutLink:hover {
-    border-color: var(--secondary-color);
-    filter: brightness(1.20);
-    transform: translateY(-1px);
-}
-
-.workoutIcon {
-    display: grid;
-    flex: 0 0 44px;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    border-radius: var(--border-radius-small);
-    background: #000000;
-    font-size: 1.45rem;
-}
-
-.workoutText {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.workoutCategory {
-    font-size: 0.9rem;
-    text-transform: capitalize;
-}
-
-.workoutTitle {
-    overflow-wrap: anywhere;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.workoutDetails {
-    flex-shrink: 0;
-    font-size: 0.9rem;
-}
-
-@media (max-width: 640px) {
-    .homeContainer {
-
-        padding: 36px 0;
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
     }
 
-    .daysGrid {
-        grid-template-columns: 1fr;
-        gap: 32px;
+    &__DaysGrid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 40px;
     }
 
-    .workoutLink {
-        align-items: flex-start;
+    &__DaySection {
+        h2 {
+            margin: 0;
+            font-size: 1.35rem;
+        }
+
+        h3 {
+            margin: 18px 0 10px;
+            font-size: 1.05rem;
+        }
+    }
+
+    &__EventsSection {
+        margin-bottom: 18px;
+
+        .HomeContainer__WorkoutLink {
+            cursor: pointer;
+        }
+    }
+
+    &__Date {
+        margin: 5px 0 20px;
+        text-transform: capitalize;
+    }
+
+    &__WorkoutList {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li + li {
+            margin-top: 10px;
+        }
+    }
+
+    &__WorkoutLink {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-height: 76px;
+        border: 1px solid var(--secondary-color-dark);
+        border-radius: var(--border-radius-small);
+        padding: 12px 16px;
+        background: var(--secondary-color-dark);
+        color: inherit;
+        transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+        text-decoration: none;
+
+        &:hover {
+            border-color: var(--secondary-color);
+            filter: brightness(1.20);
+            transform: translateY(-1px);
+        }
+    }
+
+    &__WorkoutIcon {
+        display: grid;
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        border-radius: var(--border-radius-small);
+        background: #000000;
+        font-size: 1.45rem;
+    }
+
+    &__WorkoutText {
+        display: flex;
+        min-width: 0;
         flex-direction: column;
-        gap: 6px;
+        gap: 3px;
+    }
+
+    &__WorkoutCategory {
+        font-size: 0.9rem;
+        text-transform: capitalize;
+    }
+
+    &__WorkoutTitle {
+        overflow-wrap: anywhere;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    &__WorkoutDetails {
+        flex-shrink: 0;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+        padding: 36px 0;
+
+        &__DaysGrid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        &__WorkoutLink {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 6px;
+        }
     }
 }

@@ -60,7 +60,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
   return (<>
 
     <MFExpandablePanel title="Peso" theme="primary">
-      <div className={styles.profileFormSection}>
+      <div className={styles.WeightSection__ProfileFormSection}>
         <MFFormField disabled={!edit} theme="primary">
           <label>Unidad de medida del peso</label>
           <select name="weightUnit" value={form.weightUnit} onChange={handleChange}>
@@ -87,17 +87,17 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
           </select>
         </MFFormField>
       </div>
-      <section className={styles.weightHistory} aria-labelledby="weight-history-title">
-        <div className={styles.chartHeader}>
+      <section className={styles.WeightSection__WeightHistory} aria-labelledby="weight-history-title">
+        <div className={styles.WeightSection__ChartHeader}>
           <div>
             <h3 id="weight-history-title">Evolución del peso</h3>
             <p>Últimos 15 días</p>
           </div>
-          <span className={styles.chartUnit}>{form.weightUnit}</span>
+          <span className={styles.WeightSection__ChartUnit}>{form.weightUnit}</span>
         </div>
-        <div className={styles.chartContainer}>
+        <div className={styles.WeightSection__ChartContainer}>
           {historyData.length > 0 ? <svg
-            className={styles.chart}
+            className={styles.WeightSection__Chart}
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}
             role="img"
             aria-label={`Evolución del peso durante los últimos 15 días en ${form.weightUnit}`}
@@ -106,20 +106,20 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
               const y = chartPadding.top + ((chartMax - guide) / (chartMax - chartMin)) * chartInnerHeight
               return (
                 <g key={guide}>
-                  <line className={styles.gridLine} x1={chartPadding.left} x2={chartWidth - chartPadding.right} y1={y} y2={y} />
-                  <text className={styles.axisLabel} x={chartPadding.left - 10} y={y + 4} textAnchor="end">{guide.toFixed(1)}</text>
+                  <line className={styles.WeightSection__GridLine} x1={chartPadding.left} x2={chartWidth - chartPadding.right} y1={y} y2={y} />
+                  <text className={styles.WeightSection__AxisLabel} x={chartPadding.left - 10} y={y + 4} textAnchor="end">{guide.toFixed(1)}</text>
                 </g>
               )
             })}
-            <line className={styles.axisLine} x1={chartPadding.left} x2={chartPadding.left} y1={chartPadding.top} y2={chartHeight - chartPadding.bottom} />
-            <line className={styles.axisLine} x1={chartPadding.left} x2={chartWidth - chartPadding.right} y1={chartHeight - chartPadding.bottom} y2={chartHeight - chartPadding.bottom} />
-            <path className={styles.chartLine} d={linePath} />
+            <line className={styles.WeightSection__AxisLine} x1={chartPadding.left} x2={chartPadding.left} y1={chartPadding.top} y2={chartHeight - chartPadding.bottom} />
+            <line className={styles.WeightSection__AxisLine} x1={chartPadding.left} x2={chartWidth - chartPadding.right} y1={chartHeight - chartPadding.bottom} y2={chartHeight - chartPadding.bottom} />
+            <path className={styles.WeightSection__ChartLine} d={linePath} />
             {chartPoints.map(({ x, y }, index) => (
-              <circle className={styles.chartPoint} key={historyData[index].day} cx={x} cy={y} r="4" />
+              <circle className={styles.WeightSection__ChartPoint} key={historyData[index].day} cx={x} cy={y} r="4" />
             ))}
             {chartPoints.map(({ x }, index) => (
               <text
-                className={styles.axisLabel}
+                className={styles.WeightSection__AxisLabel}
                 key={historyData[index].day}
                 x={x + dateLabelOffset}
                 y={dateLabelY}
@@ -129,7 +129,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
                 {formatHistoryDate(historyData[index].date)}
               </text>
             ))}
-          </svg> : <p className={styles.chartStatus}>Cargando evolución del peso...</p>}
+          </svg> : <p className={styles.WeightSection__ChartStatus}>Cargando evolución del peso...</p>}
         </div>
       </section>
     </MFExpandablePanel>

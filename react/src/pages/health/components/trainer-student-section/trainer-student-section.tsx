@@ -37,8 +37,8 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
               checked={selectedUserIds.includes(`${user.relationshipType}:${user.id}`)}
               onChange={(event) => onSelectionChange(user, event.target.checked)}
             >
-              <div className={styles.relationshipUser}>
-                <div className={styles.profileEntry}>
+              <div className={styles.TrainerStudentSection__RelationshipUser}>
+                <div className={styles.TrainerStudentSection__ProfileEntry}>
                   <img src={user.profileImage || defaultProfileImage} alt="" />
                   <span>{user.name}</span>
                 </div>
@@ -46,9 +46,9 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
               </div>
             </MFCheckbox>
           ) : (
-            <div className={styles.relationshipUser}>
+            <div className={styles.TrainerStudentSection__RelationshipUser}>
               <Link
-                className={styles.profileLink}
+                className={styles.TrainerStudentSection__ProfileLink}
                 to={`/users/profile?id=${encodeURIComponent(user.id)}`}
               >
                 <img src={user.profileImage || defaultProfileImage} alt="" />
@@ -64,17 +64,17 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
 
   return (
     <MFExpandablePanel title="Entrenadores / Alumnos" theme="primary">
-      <section className={styles.relationshipSection}>
+      <section className={styles.TrainerStudentSection__RelationshipSection}>
         {edit && <p>Destilda las casillas para remover entrenadores o alumnos.</p>}
         {isTrainer ? (
           <>
-            <div className={styles.relationshipGroup}>
+            <div className={styles.TrainerStudentSection__RelationshipGroup}>
               <h5>{isOwner ? 'Tus entrenadores' : 'Entrenadores'}</h5>
               {trainerUsers.length > 0
                 ? renderUsers(trainerUsers)
                 : <p>{isOwner ? 'No tienes entrenadores vinculados.' : 'Este usuario no tiene entrenadores.'}</p>}
             </div>
-            <div className={styles.relationshipGroup}>
+            <div className={styles.TrainerStudentSection__RelationshipGroup}>
               <h5>{isOwner ? 'Tus alumnos' : 'Alumnos'}</h5>
               {studentUsers.length > 0
                 ? renderUsers(studentUsers)

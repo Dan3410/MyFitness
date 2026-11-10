@@ -100,12 +100,12 @@ const MFHeader: FC = () => {
 
   return (
     <>
-      <div className={styles['MFHeader']}>
-        <div className={styles.hamburgerMenu}>
+      <div className={styles.MFHeader}>
+        <div className={styles.MFHeader__HamburgerMenu}>
           <MFButton
             type="button"
             theme="tertiary"
-            className={styles.hamburgerTrigger}
+            className={styles.MFHeader__HamburgerTrigger}
             width="40px"
             height="40px"
             aria-label="Abrir menú principal"
@@ -118,19 +118,19 @@ const MFHeader: FC = () => {
             <span></span>
           </MFButton>
           <div hidden={!isHamburgerOpen}
-            className={styles.pageOverlay}
+            className={styles.MFHeader__PageOverlay}
             aria-label="Cerrar menú principal"
             onClick={() => setIsHamburgerOpen(false)}
           />
-          <div className={`${styles.hamburgerPanel} ${isHamburgerOpen ? '' : styles.hamburgerPanel__closed}`} role="menu">
-            <div className={styles.hamburgerPanel__content}>
-              <button type="button" role="menuitem" onClick={goToHome}>Inicio</button>
-              <button type="button" role="menuitem" onClick={goToWorkout}>Rutina de ejercicios</button>
-              <button type="button" role="menuitem" onClick={goToCalendar}>Calendario</button>
+          <div className={`${styles.MFHeader__HamburgerPanel} ${isHamburgerOpen ? '' : styles['MFHeader__HamburgerPanel--Closed']}`} role="menu">
+            <div className={styles.MFHeader__HamburgerPanelContent}>
+              <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToHome}>Inicio</button>
+              <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToWorkout}>Rutina de ejercicios</button>
+              <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToCalendar}>Calendario</button>
             </div>
           </div>
         </div>
-        <form className={styles.userSearch} onSubmit={handleUserSearch} role="search">
+        <form className={styles.MFHeader__UserSearch} onSubmit={handleUserSearch} role="search">
           <MFFormField theme="primary">
             <input
               type="search"
@@ -140,28 +140,31 @@ const MFHeader: FC = () => {
               aria-label="Buscar usuario por nombre"
             />
           </MFFormField>
-          <MFButton type="submit" theme="secondary">Buscar</MFButton>
+          <MFButton type="submit" theme="secondary" className={styles.MFHeader__SearchButton}>Buscar</MFButton>
         </form>
-        <div className={styles.notifications} ref={notificationRef}>
+        <div className={styles.MFHeader__Notifications} ref={notificationRef}>
           <button
             type="button"
-            className={styles.notificationTrigger}
+            className={styles.MFHeader__NotificationTrigger}
             aria-label={`Notificaciones${unreadCount ? `, ${unreadCount} sin leer` : ''}`}
             aria-expanded={isNotificationsOpen}
             onClick={() => setIsNotificationsOpen((open) => !open)}
           >
             <span aria-hidden="true">🔔</span>
-            {unreadCount > 0 && <span className={styles.notificationCount}>{unreadCount}</span>}
+            {unreadCount > 0 && <span className={styles.MFHeader__NotificationCount}>{unreadCount}</span>}
           </button>
           {isNotificationsOpen && (
-            <div className={styles.notificationDropdown}>
+            <div className={styles.MFHeader__NotificationDropdown}>
               <h2>Notificaciones</h2>
               {notificationError && <p>No se pudieron cargar las notificaciones.</p>}
               {notificationResponseError && <p>Hubo un error al responder la notificación.</p>}
               {!notificationError && notifications.length === 0 && <p>No tienes notificaciones.</p>}
               <ul>
                 {notifications.map((notification) => (
-                  <li key={notification.id} className={!notification.seen ? styles.unseenNotification : ''}>
+                  <li
+                    key={notification.id}
+                    className={`${styles.MFHeader__NotificationItem} ${!notification.seen ? styles['MFHeader__NotificationItem--Unseen'] : ''}`}
+                  >
                     {notification.type !== 'TRAINER_REQUEST' ? (
                       <p>{notification.message}</p>
                     ) : (
@@ -170,7 +173,7 @@ const MFHeader: FC = () => {
                           <MFButton
                             type="button"
                             theme="tertiary"
-                            className={styles.trainerLink}
+                            className={styles.MFHeader__TrainerLink}
                             onClickEvent={() => {
                               navigate(`/users/profile?id=${encodeURIComponent(notification.trainerId)}`);
                               setIsNotificationsOpen(false);
@@ -181,12 +184,12 @@ const MFHeader: FC = () => {
                           quiere ser tu entrenador
                         </p>
                         {notification.status === 'PENDING' ? (
-                          <div className={styles.notificationActions}>
-                            <MFButton type="button" theme="tertiary" className={styles.notificationActionButton} onClickEvent={() => void respondToRequest(notification.id, 'decline')}>Rechazar</MFButton>
-                            <MFButton type="button" theme="secondary" className={styles.notificationActionButton} onClickEvent={() => void respondToRequest(notification.id, 'accept')}>Aceptar</MFButton>
+                          <div className={styles.MFHeader__NotificationActions}>
+                            <MFButton type="button" theme="tertiary" className={styles.MFHeader__NotificationActionButton} onClickEvent={() => void respondToRequest(notification.id, 'decline')}>Rechazar</MFButton>
+                            <MFButton type="button" theme="secondary" className={styles.MFHeader__NotificationActionButton} onClickEvent={() => void respondToRequest(notification.id, 'accept')}>Aceptar</MFButton>
                           </div>
                         ) : notification.status ? (
-                          <span className={styles.notificationStatus}>
+                          <span className={styles.MFHeader__NotificationStatus}>
                             {notification.status === 'ACCEPTED' ? 'Aceptada' : 'Rechazada'}
                           </span>
                         ) : null}
@@ -198,11 +201,11 @@ const MFHeader: FC = () => {
             </div>
           )}
         </div>
-        <div ref={userMenuRef} className={styles.userMenu}>
+        <div ref={userMenuRef} className={styles.MFHeader__UserMenu}>
           <MFButton
             type="button"
             theme="tertiary"
-            className={styles.userMenuTrigger}
+            className={styles.MFHeader__UserMenuTrigger}
             width="fit-content"
             aria-expanded={isMenuOpen}
             aria-haspopup="menu"
@@ -211,9 +214,9 @@ const MFHeader: FC = () => {
             Hola {session?.name} {session?.lastName}!
           </MFButton>
           {isMenuOpen && (
-            <div className={styles.userMenuDropdown} role="menu">
-              <MFButton type="button" theme="tertiary" className={styles.dropdownButton} width="100%" role="menuitem" onClickEvent={goToProfile}>Perfil</MFButton>
-              <MFButton type="button" theme="tertiary" className={styles.dropdownButton} width="100%" role="menuitem" onClickEvent={handleLogout}>Cerrar sesión</MFButton>
+            <div className={styles.MFHeader__UserMenuDropdown} role="menu">
+              <MFButton type="button" theme="tertiary" className={styles.MFHeader__DropdownButton} width="100%" role="menuitem" onClickEvent={goToProfile}>Perfil</MFButton>
+              <MFButton type="button" theme="tertiary" className={styles.MFHeader__DropdownButton} width="100%" role="menuitem" onClickEvent={handleLogout}>Cerrar sesión</MFButton>
             </div>
           )}
         </div>

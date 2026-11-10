@@ -15,17 +15,17 @@ const MFBreadcrumb: FC<MFBreadcrumbProps> = ({ items }) => {
   const lastIndex = items.length - 1;
 
   return (
-    <nav aria-label="breadcrumb" className={styles.breadcrumb}>
+    <nav aria-label="breadcrumb" className={styles.MFBreadcrumb}>
       {items.map((item, index) => {
         const isLast = index === lastIndex;
         return (
-          <span key={`${item.label}-${index}`} className={styles.breadcrumbItem}>
+          <span key={`${item.label}-${index}`} className={styles.MFBreadcrumb__Item}>
             {isLast || !item.to ? (
-              <span className={styles.breadcrumbCurrent}>{item.label}</span>
+              <span className={styles.MFBreadcrumb__Current}>{item.label}</span>
             ) : (
-              <Link to={item.to} className={styles.breadcrumbLink}>{item.label}</Link>
+              <Link to={item.to} className={styles.MFBreadcrumb__Link}>{item.label}</Link>
             )}
-            {!isLast && <span className={styles.breadcrumbSeparator}>/</span>}
+            {!isLast && <span className={styles.MFBreadcrumb__Separator}>/</span>}
           </span>
         );
       })}

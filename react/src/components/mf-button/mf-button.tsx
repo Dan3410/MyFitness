@@ -29,7 +29,7 @@ const MFButton: FC<MFButtonProps> = ({
    return (
       <button
          {...buttonProps}
-         className={`${styles.mfButtonContainer} ${styles[theme || 'primary']} ${className || ''}`.trim()}
+         className={`${styles.MFButton} ${styles[`MFButton--${(theme || 'primary').charAt(0).toUpperCase()}${(theme || 'primary').slice(1)}`]} ${className || ''}`.trim()}
          disabled={isDisabled}
          onClick={onClickEvent}
          type={type}

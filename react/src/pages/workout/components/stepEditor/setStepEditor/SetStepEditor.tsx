@@ -89,9 +89,9 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
   };
 
   return (
-    <div className={styles.stepEditor}>
-      <div className={styles.headerRow}>
-        <h3 className={styles.title}>Editar set</h3>
+    <div className={styles.StepEditor}>
+      <div className={styles.StepEditor__HeaderRow}>
+        <h3 className={styles.StepEditor__Title}>Editar set</h3>
         <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
       <MFFormField theme="primary">
@@ -110,35 +110,35 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
           onChange={(event) => onChange({ ...step, repeat: Number(event.target.value) || 1 })}
         />
       </MFFormField>
-      <div className={styles.nestedSection}>
-        <div className={styles.nestedHeader}>
-          <h4 className={styles.subTitle}>Pasos dentro del set</h4>
+      <div className={styles.StepEditor__NestedSection}>
+        <div>
+          <h4 className={styles.StepEditor__SubTitle}>Pasos dentro del set</h4>
         </div>
         {step.steps.length === 0 ? (
-          <p className={styles.helperText}>Este set aún no tiene pasos anidados.</p>
+          <p className={styles.StepEditor__HelperText}>Este set aún no tiene pasos anidados.</p>
         ) : (
-          <div className={styles.nestedList}>
+          <div className={styles.StepEditor__NestedList}>
             {step.steps.map((nestedStep, index) => (
               <button
                 key={`${nestedStep.type}-${index}`}
                 type="button"
-                className={`${styles.nestedStepButton} ${selectedNestedIndex === index ? styles.selectedNested : ''}`}
+                className={`${styles.StepEditor__NestedStepButton} ${selectedNestedIndex === index ? styles['StepEditor__NestedStepButton--Selected'] : ''}`}
                 onClick={() => setSelectedNestedIndex(index)}
               >
-                <span className={styles.nestedStepIndex}>{index + 1}</span>
+                <span className={styles.StepEditor__NestedStepIndex}>{index + 1}</span>
                 <span>{getStepLabel(nestedStep)}</span>
               </button>
             ))}
           </div>
         )}
-        <div className={styles.addStepButton}>
+        <div className={styles.StepEditor__AddStepButton}>
           <MFButton theme="primary" type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
           <MFButton theme="primary" type="button" onClickEvent={addNestedRestStep}>Agregar descanso</MFButton>
           <MFButton theme="primary" type="button" onClickEvent={addNestedSet}>Agregar set</MFButton>
         </div>
       </div>
       {selectedNestedStep ? (
-        <div className={styles.nestedEditor}>
+        <div className={styles.StepEditor__NestedEditor}>
           <StepEditor
             step={selectedNestedStep}
             workoutCategory={workoutCategory}

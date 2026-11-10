@@ -11,13 +11,13 @@ interface RestStepProps {
 
 const RestStep: FC<RestStepProps> = ({ step, workoutCategory }) => {
   return (
-    <div className={`${styles.stepCard} ${styles.step} ${styles.restStep} ${styles[`${workoutCategory}Step`]}`}>
-      <div className={styles.stepHeader}>
-        <div className={styles.stepTitle}>Descanso</div>
-        <div className={styles.stepLabel}>Descanso</div>
+    <div className={`${styles.StepCard} ${styles.StepCard__Step} ${styles['StepCard--Rest']} ${styles[`StepCard--${workoutCategory[0].toUpperCase()}${workoutCategory.slice(1)}`]}`}>
+      <div className={styles.StepCard__StepHeader}>
+        <div className={styles.StepCard__StepTitle}>Descanso</div>
+        <div className={styles.StepCard__StepLabel}>Descanso</div>
       </div>
-      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
-      <div className={styles.stepDetail}>{formatDuration(step.seconds)}</div>
+      {step.description && <div className={styles.StepCard__StepDescription}>{step.description}</div>}
+      <div className={styles.StepCard__StepDetail}>{formatDuration(step.seconds)}</div>
     </div>
   );
 };

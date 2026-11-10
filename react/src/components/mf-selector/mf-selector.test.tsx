@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
 import MFSelector from './mf-selector';
+import styles from './mf-selector.module.scss';
 
 it('renders and allows selecting multiple options', () => {
   const onChange = vi.fn();
@@ -18,7 +19,7 @@ it('renders and allows selecting multiple options', () => {
     />,
   );
 
-  expect(screen.getByRole('button', { name: 'Strength' }).className).toContain('selected');
+  expect(screen.getByRole('button', { name: 'Strength' }).className).toContain(styles['MFSelector__Option--Selected']);
   fireEvent.click(screen.getByRole('button', { name: 'Cardio' }));
   expect(onChange).toHaveBeenCalledWith(['strength', 'cardio']);
 });
@@ -73,7 +74,7 @@ it('reflects controlled value changes from the parent', () => {
 
   fireEvent.click(screen.getByRole('button', { name: 'Cardio' }))
   expect(onChange).toHaveBeenCalledWith('cardio')
-  expect(screen.getByRole('button', { name: 'Strength' }).className).toContain('selected')
+  expect(screen.getByRole('button', { name: 'Strength' }).className).toContain(styles['MFSelector__Option--Selected'])
 
   rerender(
     <MFSelector
@@ -86,5 +87,5 @@ it('reflects controlled value changes from the parent', () => {
       onChange={onChange}
     />,
   )
-  expect(screen.getByRole('button', { name: 'Cardio' }).className).toContain('selected')
+  expect(screen.getByRole('button', { name: 'Cardio' }).className).toContain(styles['MFSelector__Option--Selected'])
 })

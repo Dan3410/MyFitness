@@ -1,57 +1,56 @@
-.calendar{
-}
+.Calendar {
+	&__AddWorkout {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin: 20px auto 0;
+		max-width: 980px;
 
-.addWorkout {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin: 20px auto 0;
-	max-width: 980px;
-}
+		&--EventForm {
+			align-items: stretch;
+			flex-direction: column;
+			margin: 0;
+			max-width: none;
+		}
 
-.eventForm {
-	align-items: stretch;
-	flex-direction: column;
-	margin: 0;
-	max-width: none;
-}
+		select {
+			flex: 1;
+			padding: 8px;
+		}
 
-.calendarActions {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	margin-top: 16px;
-}
+		input[type='time'] {
+			padding: 7px;
+		}
 
-.addWorkout select {
-	flex: 1;
-	padding: 8px;
-}
+		button:disabled {
+			cursor: not-allowed;
+			opacity: .5;
+		}
+	}
 
-.addWorkout input[type='time'] {
-	padding: 7px;
-}
-
-.addWorkout button:disabled {
-	cursor: not-allowed;
-	opacity: .5;
-}
-
-.confirmationButtons {
-	display: flex;
-	justify-content: flex-end;
-	gap: 8px;
-	margin-top: 20px;
-}
-
-.confirmationButtons button:disabled {
-	cursor: not-allowed;
-	opacity: .5;
-}
-
-@media (max-width: 640px) {
-	.addWorkout {
-		align-items: stretch;
+	&__CalendarActions {
+		display: flex;
 		flex-direction: column;
+		gap: 16px;
+		margin-top: 16px;
+	}
+
+	&__ConfirmationButtons {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+		margin-top: 20px;
+
+		button:disabled {
+			cursor: not-allowed;
+			opacity: .5;
+		}
+	}
+
+	@media (max-width: 640px) {
+		&__AddWorkout {
+			align-items: stretch;
+			flex-direction: column;
+		}
 	}
 }

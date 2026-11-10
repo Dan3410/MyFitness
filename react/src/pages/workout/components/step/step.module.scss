@@ -1,4 +1,4 @@
-.stepCard {
+.StepCard {
   --step-border-color: #d1d5db;
   --step-background-color: #ffffff;
   --step-title-color: #111827;
@@ -13,138 +13,136 @@
   margin-bottom: 14px;
   background-color: var(--step-background-color);
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
-}
 
-.gymStep {
-  --step-border-color: #ff4949;
-  --step-accent-color: #ff4949;
-  --step-background-color: #2c1313;
-  --step-title-color: #ffffff;
-  --step-label-background: #5c0a0a;
-  --step-label-color: #ff4949;
-  --step-detail-color: #ffffff;
-}
+  &--Gym {
+    --step-border-color: #ff4949;
+    --step-accent-color: #ff4949;
+    --step-background-color: #2c1313;
+    --step-title-color: #ffffff;
+    --step-label-background: #5c0a0a;
+    --step-label-color: #ff4949;
+    --step-detail-color: #ffffff;
+  }
 
-.swimStep {
-  --step-border-color: #4992ff;
-  --step-accent-color: #4992ff;
-  --step-background-color: #13182c;
-  --step-title-color: #ffffff;
-  --step-label-background: #0a345c;
-  --step-label-color: #4992ff;
-  --step-detail-color: #ffffff;
-}
+  &--Swim {
+    --step-border-color: #4992ff;
+    --step-accent-color: #4992ff;
+    --step-background-color: #13182c;
+    --step-title-color: #ffffff;
+    --step-label-background: #0a345c;
+    --step-label-color: #4992ff;
+    --step-detail-color: #ffffff;
+  }
 
-.runStep {
-  --step-border-color: #3ec400;
-  --step-accent-color: #3ec400;
-  --step-background-color: #143100;
-  --step-title-color: #ffffff;
-  --step-label-background: #274900;
-  --step-label-color: #3ec400;
-  --step-detail-color: #ffffff;
-}
+  &--Run {
+    --step-border-color: #3ec400;
+    --step-accent-color: #3ec400;
+    --step-background-color: #143100;
+    --step-title-color: #ffffff;
+    --step-label-background: #274900;
+    --step-label-color: #3ec400;
+    --step-detail-color: #ffffff;
+  }
 
-.restStep {
-  --step-border-color: #49ffb9;
-  --step-accent-color: #49ffb9;
-  --step-label-background: #004d2e;
-  --step-background-color: #132c1b;
-  --step-title-color: #ffffff;
-  --step-detail-color: #ffffff;
-  --step-label-color: #49ffb9;
-  --step-detail-color: #ffffff;
-}
+  &--Rest {
+    --step-border-color: #49ffb9;
+    --step-accent-color: #49ffb9;
+    --step-label-background: #004d2e;
+    --step-background-color: #132c1b;
+    --step-title-color: #ffffff;
+    --step-detail-color: #ffffff;
+    --step-label-color: #49ffb9;
+  }
 
-.setStep {
-  --step-border-color: #b3b3b3;
-  --step-label-background: #7e7e7e;
-  --step-accent-color: #ffffff;
-  --step-background-color: #131313;
-  
-}
+  &--Set {
+    --step-border-color: #b3b3b3;
+    --step-label-background: #7e7e7e;
+    --step-accent-color: #ffffff;
+    --step-background-color: #131313;
+  }
 
-.step {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  &__Step {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.stepHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-}
+  &__StepHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
 
-.stepType {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
+  &__StepType {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
 
-.stepTitle {
-  margin-top: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--step-title-color);
-}
+  &__StepTitle {
+    margin-top: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--step-title-color);
+  }
 
-.stepLabel {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background-color: var(--step-label-background);
-  color: var(--step-label-color);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
+  &__StepLabel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: var(--step-label-background);
+    color: var(--step-label-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
 
-.stepDescription {
-  color: var(--step-detail-color);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
+  &__StepDescription {
+    color: var(--step-detail-color);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
 
-.stepDetail {
-  color: var(--step-detail-color);
-  font-size: 0.95rem;
-}
+  &__StepDetail {
+    color: var(--step-detail-color);
+    font-size: 0.95rem;
+  }
 
-.setHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
+  &__SetHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
 
-.setDescription {
-  color: var(--step-detail-color);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
+  &__SetDescription {
+    color: var(--step-detail-color);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
 
-.nestedSteps {
-  margin-top: 12px;
-  padding-left: 14px;
-  border-left: 2px solid #e2e8f0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  &__NestedSteps {
+    margin-top: 12px;
+    padding-left: 14px;
+    border-left: 2px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.nestedStep {
-  padding-left: 6px;
-}
+  &__NestedStep {
+    padding-left: 6px;
+  }
 
-.restStep .stepTitle,
-.setStep .stepLabel {
-  color: var(--step-accent-color);
+  &--Rest &__StepTitle,
+  &--Set &__StepLabel {
+    color: var(--step-accent-color);
+  }
 }

@@ -12,10 +12,10 @@ interface StepsListProps {
 
 const StepsList: FC<StepsListProps> = ({ workout, selectedStepIndex, onSelectStep }) => {
   return (
-    <div className={`${styles.stepsList} ${styles[`${workout.category}Steps`]}`}>
-      <h3 className={styles.sectionTitle}>Pasos del entrenamiento</h3>
+    <div className={`${styles.StepsList} ${styles[`StepsList--${workout.category[0].toUpperCase()}${workout.category.slice(1)}`]}`}>
+      <h3 className={styles.StepsList__SectionTitle}>Pasos del entrenamiento</h3>
       {workout.steps.length === 0 ? (
-        <p className={styles.emptyState}>Todavía no hay pasos para editar.</p>
+        <p className={styles.StepsList__EmptyState}>Todavía no hay pasos para editar.</p>
       ) : (
         workout.steps.map((step: WorkoutStep, index: number) => {
           const isSelected = selectedStepIndex === index;
@@ -24,7 +24,7 @@ const StepsList: FC<StepsListProps> = ({ workout, selectedStepIndex, onSelectSte
           return (
             <div
               key={`${step.type}-${index}`}
-              className={`${styles.stepItem} ${isSelected ? styles.selected : ''}`}
+              className={`${styles.StepsList__StepItem} ${isSelected ? styles['StepsList__StepItem--Selected'] : ''}`}
               onClick={() => onSelectStep(index)}
             >
               <Step step={step} workoutCategory={workout.category} />

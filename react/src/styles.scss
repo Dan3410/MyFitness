@@ -86,7 +86,7 @@ h6 {
   margin: 20px 0
 }
 
-.form-buttons-container {
+.FormButtonsContainer {
   display: flex;
   margin: 40px 0 0 auto;
   width: fit-content;
@@ -105,21 +105,21 @@ input {
   }
 }
 
-.pageHeader {
+.PageHeader {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 16px;
 }
 
-.pageTitleBar {
+.PageTitleBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
-.footerActions {
+.FooterActions {
   display: flex;
   margin-top: 20px;
   column-gap: 20px;

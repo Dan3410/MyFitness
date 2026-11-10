@@ -24,7 +24,7 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
   return (<>
 
     <MFExpandablePanel title="Información General" theme="primary">
-      <div className={styles.profileFormSection}>
+      <div className={styles.PersonalDataSection__ProfileFormSection}>
         <div>
           <MFFormField disabled={!edit} theme="primary">
             <label>Username</label>

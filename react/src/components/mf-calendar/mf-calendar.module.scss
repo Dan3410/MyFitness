@@ -1,278 +1,262 @@
-.calendar {
+.MFCalendar {
   width: 100%;
   margin: 0 auto 16px;
-}
 
-.calendarHeader {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
+  &__Header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
 
-.calendarHeader h2 {
-  margin: 0;
-  text-transform: capitalize;
-}
+    h2 {
+      margin: 0;
+      text-transform: capitalize;
+    }
 
-.calendarHeader button {
-  background: var(--primary-color-light);
-  border: 0;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  font-size: 28px;
-  height: 36px;
-  justify-content: center;
-  line-height: 1;
-  width: 36px;
-  padding: 0;
-  > label{
+    button {
+      background: var(--primary-color-light);
+      border: 0;
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      font-size: 28px;
+      height: 36px;
+      justify-content: center;
+      line-height: 1;
+      width: 36px;
+      padding: 0;
+
+      > label {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__WeekDays,
+  &__DaysGrid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  &__WeekDays {
+    font-size: 16px;
+    font-weight: 600;
+    gap: 6px;
+    margin-bottom: 6px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__DaysGrid {
+    gap: 6px;
+  }
+
+  &__EmptyDay,
+  &__Day {
+    height: 110px;
+  }
+
+  &__EmptyDay {
+    display: block;
+  }
+
+  &__Day {
+    background: var(--background-color-foreground);
+    border: 1px solid var(--secondary-color-light);
+    border-radius: var(--border-radius-small);
+    font-weight: var(--font-weight-bold);
     cursor: pointer;
-  }
-}
+    overflow: hidden;
+    padding: 8px;
+    text-align: left;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
 
-.weekDays,
-.daysGrid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.weekDays {
-  font-size: 16px;
-  font-weight: 600;
-  gap: 6px;
-  margin-bottom: 6px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.daysGrid {
-  gap: 6px;
-}
-
-.emptyDay,
-.day {
-  height: 110px;
-}
-
-.emptyDay {
-  display: block;
-}
-
-.day {
-  background: var(--background-color-foreground);
-  border: 1px solid var(--secondary-color-light);
-  border-radius: var(--border-radius-small);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  overflow: hidden;
-  padding: 8px;
-  text-align: left;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
-}
-
-.day:hover,
-.day:focus-visible,
-.selectedDay {
-  border-color: var(--primary-color-light);
-  box-shadow: 0 0 0 2px rgb(23 105 170 / 15%);
-  outline: none;
-  border-width: 3px;
-}
-
-.today strong {
-  align-items: center;
-  background: var(--primary-color--light);
-  border-radius: 50%;
-  color: #fff;
-  display: flex;
-  height: 24px;
-  justify-content: center;
-  width: 24px;
-}
-
-.dayWorkouts {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin-top: 8px;
-  overflow: hidden;
-}
-
-.dayEvents {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin-top: 8px;
-  overflow: hidden;
-}
-
-.dayEvents > span,
-.dayEvents > small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dayEvents .dayEvent {
-  align-items: center;
-  display: flex;
-  gap: 3px;
-}
-
-.dayEvents .dayEventText {
-  min-width: 0;
-}
-
-.dayEvents a {
-  color: inherit;
-}
-
-.eventIcon {
-  flex: 0 0 auto;
-}
-
-.eventDetails {
-  align-items: flex-start;
-  display: flex;
-  gap: 8px;
-}
-
-.eventDetails > .eventIcon {
-  font-size: 20px;
-}
-
-.dayEvent {
-  background: var(--tertiary-color-dark);
-  border-left: 3px solid var(--tertiary-color);
-  font-size: 11px;
-  padding: 3px 4px;
-}
-
-.dayEvents small {
-  color: #555;
-  font-size: 11px;
-}
-
-.dayWorkouts > span,
-.dayWorkouts > small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dayWorkouts > .dayWorkout {
-  background: #e5f2fb;
-  border-left: 3px solid #1769aa;
-  font-size: 11px;
-  padding: 3px 4px;
-}
-
-.dayWorkouts .dayWorkout {
-  align-items: center;
-  display: flex;
-  gap: 3px;
-}
-
-.dayWorkouts .dayWorkoutText {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dayWorkouts a {
-  color: inherit;
-}
-
-.dayWorkouts small {
-  color: #555;
-  font-size: 11px;
-}
-
-.dayDetails h3 {
-  margin: 0 0;
-}
-
-.dayDetails p {
-  color: #666;
-}
-
-.dayDetails ul {
-  max-height: 135px;
-  overflow-y: auto;
-  list-style: none;
-  margin: 0 0 14px;
-  padding: 0;
-}
-
-.dayDetails li {
-  align-items: center;
-  border-bottom: 1px solid #e1e5e8;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 4px 0;
-}
-
-.workoutActions {
-  align-items: center;
-  display: flex;
-  gap: 16px;
-}
-
-.workoutDetails {
-  align-items: center;
-  display: flex;
-  gap: 8px;
-}
-
-.workoutDetails > .eventIcon {
-  font-size: 20px;
-}
-
-.eventWorkoutTitle {
-  display: block;
-  margin-top: 4px;
-}
-
-.workoutConfirmationButtons {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-
-.addWorkout {
-  display: flex;
-  gap: 8px;
-}
-
-.addWorkout select {
-  flex: 1;
-  min-width: 0;
-  padding: 8px;
-}
-
-.addWorkout button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-@media (max-width: 640px) {
-  .emptyDay,
-  .day {
-    min-height: 68px;
+    &:hover,
+    &:focus-visible,
+    &--Selected {
+      border-color: var(--primary-color-light);
+      box-shadow: 0 0 0 2px rgb(23 105 170 / 15%);
+      outline: none;
+      border-width: 3px;
+    }
   }
 
-  .day {
-    padding: 5px;
+  &__Day--Today strong {
+    align-items: center;
+    background: var(--primary-color--light);
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
   }
 
-  .dayWorkouts span {
-    font-size: 9px;
+  &__DayWorkouts,
+  &__DayEvents {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  &__DayEvents > span,
+  &__DayEvents > small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__DayEvents &__DayEvent {
+    align-items: center;
+    display: flex;
+    gap: 3px;
+  }
+
+  &__DayEvents a,
+  &__DayWorkouts a {
+    color: inherit;
+  }
+
+  &__EventIcon {
+    flex: 0 0 auto;
+  }
+
+  &__EventDetails {
+    align-items: flex-start;
+    display: flex;
+    gap: 8px;
+
+    > .MFCalendar__EventIcon {
+      font-size: 20px;
+    }
+  }
+
+  &__DayEvent {
+    background: var(--tertiary-color-dark);
+    border-left: 3px solid var(--tertiary-color);
+    font-size: 11px;
+    padding: 3px 4px;
+  }
+
+  &__DayEvents small,
+  &__DayWorkouts small {
+    color: #555;
+    font-size: 11px;
+  }
+
+  &__DayWorkouts > span,
+  &__DayWorkouts > small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__DayWorkouts > .MFCalendar__DayWorkout {
+    background: #e5f2fb;
+    border-left: 3px solid #1769aa;
+    font-size: 11px;
+    padding: 3px 4px;
+  }
+
+  &__DayWorkouts &__DayWorkout {
+    align-items: center;
+    display: flex;
+    gap: 3px;
+  }
+
+  &__DayWorkouts &__DayWorkoutText {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__DayDetails {
+    h3 {
+      margin: 0 0;
+    }
+
+    p {
+      color: #666;
+    }
+
+    ul {
+      max-height: 135px;
+      overflow-y: auto;
+      list-style: none;
+      margin: 0 0 14px;
+      padding: 0;
+    }
+
+    li {
+      align-items: center;
+      border-bottom: 1px solid #e1e5e8;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 4px 0;
+    }
+  }
+
+  &__WorkoutActions {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+  }
+
+  &__WorkoutDetails {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+
+    > .MFCalendar__EventIcon {
+      font-size: 20px;
+    }
+  }
+
+  &__EventWorkoutTitle {
+    display: block;
+    margin-top: 4px;
+  }
+
+  &__WorkoutConfirmationButtons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  &__AddWorkout {
+    display: flex;
+    gap: 8px;
+
+    select {
+      flex: 1;
+      min-width: 0;
+      padding: 8px;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &__EmptyDay,
+    &__Day {
+      min-height: 68px;
+    }
+
+    &__Day {
+      padding: 5px;
+    }
+
+    &__DayWorkouts span {
+      font-size: 9px;
+    }
   }
 }

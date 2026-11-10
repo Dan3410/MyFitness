@@ -10,7 +10,7 @@ const MFError: FC<MFErrorProps> = ({ hidden, children }) => {
 
    return (<>
       <div hidden={hidden} className={styles.MFError}>
-         <span className={styles.MFErrorIcon}><label>X</label></span>
+         <span className={styles.MFError__Icon}><label>X</label></span>
          {children}
       </div>
    </>

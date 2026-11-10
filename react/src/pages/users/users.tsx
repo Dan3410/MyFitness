@@ -43,8 +43,8 @@ const Users: FC = () => {
   }, [name]);
 
   return (
-    <div className={styles.usersPage}>
-      <div className={styles.pageHeader}>
+    <div className={styles.UsersPage}>
+      <div className={styles.UsersPage__PageHeader}>
         <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Usuarios' }]} />
         <h2>Usuarios</h2>
       </div>
@@ -53,20 +53,20 @@ const Users: FC = () => {
       {loadError && <p>No se pudieron cargar los usuarios.</p>}
       {!loading && !loadError && name && users.length === 0 && <p>No se encontraron usuarios.</p>}
       {!loading && !loadError && users.length > 0 && (
-        <div className={styles.userList}>
+        <div className={styles.UsersPage__UserList}>
           {users.map((user, index) => (
             <article
-              className={styles.userItem}
+              className={styles.UsersPage__UserItem}
               key={`${user.name}-${index}`}
             >
               <button
-                className={styles.userProfileLink}
+                className={styles.UsersPage__UserProfileLink}
                 type="button"
                 onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(name)}`)}
               >
                 <img src={user.profileImage || defaultProfileImage} alt="" />
-                <span className={styles.userDetails}>
-                  <span className={styles.userName}>{user.name}</span>
+                <span className={styles.UsersPage__UserDetails}>
+                  <span className={styles.UsersPage__UserName}>{user.name}</span>
                   {user.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
                 </span>
               </button>

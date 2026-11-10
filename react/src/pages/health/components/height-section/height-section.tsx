@@ -21,7 +21,7 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
   return (
   <>
     <MFExpandablePanel title="Estatura" defaultOpen={edit} theme="primary">
-      <div className={styles.profileFormSection}>
+      <div className={styles.HeightSection__ProfileFormSection}>
         <MFFormField disabled={!edit} theme="primary">
           <label>Unidad de medida de la Altura</label>
           <select name="heightUnit" value={form.heightUnit} onChange={handleChange}>

@@ -11,8 +11,8 @@ const MFSpinner: FC<MFSpinnerProps> = ({
   theme = 'primary',
   label = 'Cargando',
 }) => (
-  <div className={`${styles.spinnerContainer} ${styles[theme]}`} role="status" aria-label={label}>
-    <span className={styles.spinner} aria-hidden="true" />
+  <div className={`${styles.MFSpinner} ${styles[`MFSpinner--${theme.charAt(0).toUpperCase()}${theme.slice(1)}`]}`} role="status" aria-label={label}>
+    <span className={styles.MFSpinner__Spinner} aria-hidden="true" />
   </div>
 );
 

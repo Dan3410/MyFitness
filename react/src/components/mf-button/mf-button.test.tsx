@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
 import MFButton from './mf-button';
+import styles from './mf-button.module.scss';
 
 it('renders its label and calls the click handler', () => {
   const onClickEvent = vi.fn();
@@ -41,7 +42,7 @@ it('forwards accessibility attributes and a custom class name', () => {
     <MFButton
       aria-expanded="true"
       aria-haspopup="menu"
-      className="menuTrigger"
+      className="TestMenu__Trigger"
     >
       Menu
     </MFButton>,
@@ -50,18 +51,18 @@ it('forwards accessibility attributes and a custom class name', () => {
   const button = screen.getByRole('button', { name: 'Menu' });
   expect(button.getAttribute('aria-expanded')).toBe('true');
   expect(button.getAttribute('aria-haspopup')).toBe('menu');
-  expect(button.className).toContain('menuTrigger');
+  expect(button.className).toContain('TestMenu__Trigger');
 });
 
 it('supports the primary, secondary, and tertiary color variants', () => {
   const { rerender } = render(<MFButton theme="primary">Primary</MFButton>);
   const button = screen.getByRole('button', { name: 'Primary' });
 
-  expect(button.className).toContain('primary');
+  expect(button.className).toContain(styles['MFButton--Primary']);
 
   rerender(<MFButton theme="secondary">Secondary</MFButton>);
-  expect(screen.getByRole('button', { name: 'Secondary' }).className).toContain('secondary');
+  expect(screen.getByRole('button', { name: 'Secondary' }).className).toContain(styles['MFButton--Secondary']);
 
   rerender(<MFButton theme="tertiary">Tertiary</MFButton>);
-  expect(screen.getByRole('button', { name: 'Tertiary' }).className).toContain('tertiary');
+  expect(screen.getByRole('button', { name: 'Tertiary' }).className).toContain(styles['MFButton--Tertiary']);
 });

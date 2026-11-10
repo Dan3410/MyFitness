@@ -1,4 +1,4 @@
-.selectorContainer {
+.MFSelector {
   min-height: 60px;
   height: auto;
   padding: 10px;
@@ -11,68 +11,65 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
 
-.primary {
-  --mf-selector-border-color: var(--primary-color-light);
-  --mf-selector-background-color: var(--background-color);
-  --mf-selector-text-color: #fafafa;
-  --mf-selector-selected-color: var(--primary-color-light);
-}
+  &--Primary {
+    --mf-selector-border-color: var(--primary-color-light);
+    --mf-selector-background-color: var(--background-color);
+    --mf-selector-text-color: #fafafa;
+    --mf-selector-selected-color: var(--primary-color-light);
+  }
 
-.secondary {
-  --mf-selector-border-color: var(--secondary-color-light);
-  --mf-selector-background-color: var(--background-color);
-  --mf-selector-text-color: #fafafa;
-  --mf-selector-selected-color: var(--secondary-color-light);
-}
+  &--Secondary {
+    --mf-selector-border-color: var(--secondary-color-light);
+    --mf-selector-background-color: var(--background-color);
+    --mf-selector-text-color: #fafafa;
+    --mf-selector-selected-color: var(--secondary-color-light);
+  }
 
-.tertiary {
-  --mf-selector-border-color: var(--tertiary-color-light);
-  --mf-selector-background-color: var(--background-color);
-  --mf-selector-text-color: #fafafa;
-  --mf-selector-selected-color: var(--tertiary-color-light);
-}
+  &--Tertiary {
+    --mf-selector-border-color: var(--tertiary-color-light);
+    --mf-selector-background-color: var(--background-color);
+    --mf-selector-text-color: #fafafa;
+    --mf-selector-selected-color: var(--tertiary-color-light);
+  }
 
-.disabled {
-  border-color: transparent;
-  opacity: 0.85;
-  pointer-events: none;
-}
+  &--Disabled {
+    border-color: transparent;
+    opacity: 0.85;
+    pointer-events: none;
+  }
 
-.label {
-  font-size: 14px;
-  font-weight: 600;
-}
+  &__Label {
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-.optionGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+  &__OptionGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 
-.option {
-  border-radius: 999px;
-  border: 1px solid;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-color: var(--selector-border-color, var(--mf-selector-border-color));
-  background-color: var(--selector-background-color, var(--mf-selector-background-color));
-  color: var(--selector-text-color, var(--mf-selector-text-color));
-}
+  &__Option {
+    border-radius: 999px;
+    border: 1px solid;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-color: var(--selector-border-color, var(--mf-selector-border-color));
+    background-color: var(--selector-background-color, var(--mf-selector-background-color));
+    color: var(--selector-text-color, var(--mf-selector-text-color));
 
-.option.selected {
-  background-color: var(--selector-selected-color, var(--mf-selector-selected-color));
-}
+    &--Selected {
+      background-color: var(--selector-selected-color, var(--mf-selector-selected-color));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+    }
 
-.option:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.selected {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+  }
 }

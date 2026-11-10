@@ -1,62 +1,61 @@
-.relationshipSection {
-    display: grid;
-    gap: 12px;
-
-    p {
-        margin: 0;
-    }
-
-    h5 {
-        margin: 0;
-    }
-
-    ul {
+.TrainerStudentSection {
+    &__RelationshipSection {
         display: grid;
         gap: 12px;
-        margin: 0;
-        padding: 0;
-        list-style: none;
+
+        p,
+        h5 {
+            margin: 0;
+        }
+
+        ul {
+            display: grid;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+        }
     }
 
-    li {
+    &__RelationshipGroup {
+        display: grid;
+        gap: 12px;
+    }
+
+    &__RelationshipUser {
         display: flex;
         align-items: center;
+        column-gap: 12px;
     }
-}
 
-.relationshipGroup {
-    display: grid;
-    gap: 12px;
-}
+    &__ProfileLink,
+    &__ProfileEntry {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: inherit;
+        text-decoration: none;
 
-.relationshipUser {
-    display: flex;
-    align-items: center;
-    column-gap: 12px;
-}
-
-.profileLink,
-.profileEntry {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: inherit;
-    text-decoration: none;
-
-    img {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        object-fit: cover;
+        img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
     }
-}
 
-.profileLink:hover span,
-.profileLink:focus-visible span {
-    text-decoration: underline;
-}
+    &__ProfileLink:hover span,
+    &__ProfileLink:focus-visible span {
+        text-decoration: underline;
+    }
 
-.relationshipTrainerTag {
-    margin-left: auto;
+    &__RelationshipTrainerTag {
+        margin-left: auto;
+    }
 }

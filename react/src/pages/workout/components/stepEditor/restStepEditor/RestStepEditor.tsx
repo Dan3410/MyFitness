@@ -12,9 +12,9 @@ interface RestStepEditorProps {
 
 const RestStepEditor: FC<RestStepEditorProps> = ({ step, onChange, onDelete }) => {
   return (
-    <div className={styles.stepEditor}>
-      <div className={styles.headerRow}>
-        <h3 className={styles.title}>Editar paso</h3>
+    <div className={styles.StepEditor}>
+      <div className={styles.StepEditor__HeaderRow}>
+        <h3 className={styles.StepEditor__Title}>Editar paso</h3>
         <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
       <MFFormField theme="primary">

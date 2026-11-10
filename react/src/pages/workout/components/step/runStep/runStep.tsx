@@ -25,17 +25,17 @@ const RunStep: FC<RunStepProps> = ({ step }) => {
       : `${step.calories} kcal`;
 
   return (
-    <div className={`${styles.stepCard} ${styles.runStep}`}>
-      <div className={styles.stepHeader}>
+    <div className={`${styles.StepCard} ${styles['StepCard--Run']}`}>
+      <div className={styles.StepCard__StepHeader}>
         <div>
-          <div className={styles.stepTitle}>{title}</div>
+          <div className={styles.StepCard__StepTitle}>{title}</div>
         </div>
-        <div className={styles.stepLabel}>{label}</div>
+        <div className={styles.StepCard__StepLabel}>{label}</div>
       </div>
-      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
-      <div className={styles.stepDetail}>{detail}</div>
+      {step.description && <div className={styles.StepCard__StepDescription}>{step.description}</div>}
+      <div className={styles.StepCard__StepDetail}>{detail}</div>
       {step.speed !== null && step.speed !== undefined && (
-        <div className={styles.stepDetail}>{`${step.speed} Km/h`}</div>
+        <div className={styles.StepCard__StepDetail}>{`${step.speed} Km/h`}</div>
       )}
     </div>
   );

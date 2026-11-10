@@ -52,10 +52,10 @@ const MFSelector: FC<MFSelectorProps> = ({
 
   return (
     <div
-      className={`${styles.selectorContainer} ${styles[theme]} ${disabled ? styles.disabled : ''}`}
+      className={`${styles.MFSelector} ${styles[`MFSelector--${theme.charAt(0).toUpperCase()}${theme.slice(1)}`]} ${disabled ? styles['MFSelector--Disabled'] : ''}`}
     >
-      {label && <span className={styles.label}>{label}</span>}
-      <div className={styles.optionGroup}>
+      {label && <span className={styles.MFSelector__Label}>{label}</span>}
+      <div className={styles.MFSelector__OptionGroup}>
         {options.map((option) => {
           const isSelected = selectedValues.includes(option.value);
           return (
@@ -63,7 +63,7 @@ const MFSelector: FC<MFSelectorProps> = ({
               key={option.value}
               type="button"
               disabled={disabled}
-              className={`${styles.option} ${isSelected ? styles.selected : ''}`}
+              className={`${styles.MFSelector__Option} ${isSelected ? styles['MFSelector__Option--Selected'] : ''}`}
               onClick={() => toggleOption(option.value)}
             >
               {option.label}

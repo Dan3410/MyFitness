@@ -20,15 +20,15 @@ const GymStep: FC<GymStepProps> = ({ step }) => {
     : repetitionLabel;
 
   return (
-    <div className={`${styles.stepCard} ${styles.step} ${styles.gymStep}`}>
-      <div className={styles.stepHeader}>
+    <div className={`${styles.StepCard} ${styles.StepCard__Step} ${styles['StepCard--Gym']}`}>
+      <div className={styles.StepCard__StepHeader}>
         <div>
-          <div className={styles.stepTitle}>{exerciseLabel}</div>
+          <div className={styles.StepCard__StepTitle}>{exerciseLabel}</div>
         </div>
-        <div className={styles.stepLabel}>{stepLabel}</div>
+        <div className={styles.StepCard__StepLabel}>{stepLabel}</div>
       </div>
-      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
-      <div className={styles.stepDetail}>{detailText}</div>
+      {step.description && <div className={styles.StepCard__StepDescription}>{step.description}</div>}
+      <div className={styles.StepCard__StepDetail}>{detailText}</div>
     </div>
   );
 };

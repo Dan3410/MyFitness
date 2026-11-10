@@ -39,9 +39,9 @@ const StepEditor: FC<StepEditorProps> = ({ step, workoutCategory, onChange, onDe
 
   if (!step) {
     return (
-      <div className={styles.emptyState}>
-        <h3 className={styles.emptyTitle}>Editar paso</h3>
-        <p className={styles.emptyText}>Selecciona un paso de la lista para ver y modificar sus datos.</p>
+      <div className={styles.StepEditor__EmptyState}>
+        <h3 className={styles.StepEditor__EmptyTitle}>Editar paso</h3>
+        <p className={styles.StepEditor__EmptyText}>Selecciona un paso de la lista para ver y modificar sus datos.</p>
       </div>
     );
   }

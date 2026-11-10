@@ -1,4 +1,4 @@
-.mfButtonContainer {
+.MFButton {
     padding: 8px 16px;
     border-radius: var(--border-radius-big);
     display: flex;
@@ -25,26 +25,25 @@
         outline: 4px auto -webkit-focus-ring-color;
     }
 
-    &.primary {
+    &--Primary {
         --mf-button-background-color: var(--primary-color);
         --mf-button-text-color: #fff;
     }
 
-    &.secondary {
+    &--Secondary {
         --mf-button-background-color: var(--secondary-color);
         --mf-button-text-color: #fff;
     }
 
-    &.tertiary {
+    &--Tertiary {
         --mf-button-background-color: var(--tertiary-color);
         --mf-button-text-color: #fff;
     }
-}
 
-
-.primary,
-.secondary,
-.tertiary {
-    background-color: var(--mf-button-background-color);
-    color: var(--mf-button-text-color);
+    &--Primary,
+    &--Secondary,
+    &--Tertiary {
+        background-color: var(--mf-button-background-color);
+        color: var(--mf-button-text-color);
+    }
 }

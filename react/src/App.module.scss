@@ -1,10 +1,16 @@
-.appContainer {
-  margin: 60px auto 20px auto;
-  min-height: calc(100vh - 100px);
-  width: 100%;
-  max-width: 1280px;
-  padding: 20px 0;
-  width: min(100% - 40px, 1100px);
+.App {
+  &__Container {
+    margin: 60px auto 20px auto;
+    min-height: calc(100vh - 100px);
+    width: 100%;
+    max-width: 1280px;
+    padding: 20px 0;
+    width: min(100% - 40px, 1100px);
+
+    @media (max-width: 640px) {
+      width: min(100% - 32px, 500px);
+    }
+  }
 }
 
 :global( ::-webkit-scrollbar) {
@@ -23,10 +29,4 @@
 
 :global(html) {
   scrollbar-color: var(--primary-color-light);
-}
-
-@media (max-width: 640px) {
-  .appContainer {
-    width: min(100% - 32px, 500px);
-  }
 }

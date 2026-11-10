@@ -7,42 +7,42 @@
     background-color: #292929;
     gap: 8px;
     padding: 8px 12px;
-}
 
-.MFNotificationIcon {
-    align-items: center;
-    background-color: var(--notification-color);
-    border: 1px solid var(--notification-color);
-    border-radius: 50%;
-    color: #ffffff;
-    display: inline-flex;
-    flex: 0 0 24px;
-    font-size: 18px;
-    font-weight: 700;
-    height: 24px;
-    justify-content: center;
-    line-height: 1;
-    width: 24px;
-}
+    &__Icon {
+        align-items: center;
+        background-color: var(--notification-color);
+        border: 1px solid var(--notification-color);
+        border-radius: 50%;
+        color: #ffffff;
+        display: inline-flex;
+        flex: 0 0 24px;
+        font-size: 18px;
+        font-weight: 700;
+        height: 24px;
+        justify-content: center;
+        line-height: 1;
+        width: 24px;
+    }
 
-.MFNotificationMessage {
-    font-size: 18px;
-    line-height: 18px;
-    color: #ffffff
-}
+    &__Message {
+        font-size: 18px;
+        line-height: 18px;
+        color: #ffffff
+    }
 
-.inform {
-    --notification-color: #1769aa;
-}
+    &--Inform {
+        --notification-color: #1769aa;
+    }
 
-.warning {
-    --notification-color: #ed9b16;
-}
+    &--Warning {
+        --notification-color: #ed9b16;
+    }
 
-.failure {
-    --notification-color: #c62828;
-}
+    &--Failure {
+        --notification-color: #c62828;
+    }
 
-.success {
-    --notification-color: #2e7d32;
+    &--Success {
+        --notification-color: #2e7d32;
+    }
 }

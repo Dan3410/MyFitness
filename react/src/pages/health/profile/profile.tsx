@@ -274,13 +274,13 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
 
   if (readOnly && !isOwner && form.isProfilePrivate && !canViewPrivateProfile) {
     return (
-      <div className="profile">
-        <div className="pageHeader">
+      <div>
+        <div className="PageHeader">
           <MFBreadcrumb items={breadcrumbItems} />
         </div>
-        <div className={styles.privateProfile}>
+        <div className={styles.Profile__PrivateProfile}>
           {form.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
-          <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
+          <img className={styles.Profile__Image} src={form.profileImage || defaultProfileImage} alt="Perfil" />
           <p>Esta información es privada</p>
           {notification && <MFNotification type={notification.type} message={notification.message} />}
           {viewerIsTrainer && !requestSent && (
@@ -300,12 +300,12 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
   }
 
   return (
-    <div className="profile">
-      <div className="pageHeader">
+    <div>
+      <div className="PageHeader">
         <MFBreadcrumb items={breadcrumbItems} />
-        <div className="pageTitleBar">
+        <div className="PageTitleBar">
           <h2>{readOnly ? 'Perfil de usuario' : 'Perfil'}</h2>
-          <div className="headerActions">
+          <div>
             {isOwner && !edit && <MFButton onClickEvent={clickEdit} theme="secondary"><label>Editar</label></MFButton>}
             {readOnly && !isOwner && viewerIsTrainer && !requestSent && (
               <MFButton
@@ -323,15 +323,15 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           </div>
         </div>
       </div>
-      <form onSubmit={handleSubmit} className={styles.profileForm}>
+      <form onSubmit={handleSubmit} className={styles.Profile__Form}>
         {notification && (
-          <div className={styles.profileNotification}>
+          <div className={styles.Profile__Notification}>
             <MFNotification type={notification.type} message={notification.message} />
           </div>
         )}
-        {form.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
+        {form.isTrainer && <MFTag className={styles.Profile__TrainerTag} theme="secondary">Entrenador</MFTag>}
         <div
-          className={`${styles.profileImgContainer} ${edit ? styles.profileImgEditable : ''}`}
+          className={`${styles.Profile__ImageContainer} ${edit ? styles['Profile__ImageContainer--Editable'] : ''}`}
           onClick={() => edit && imageInputRef.current?.click()}
           role={edit ? 'button' : undefined}
           tabIndex={edit ? 0 : undefined}
@@ -339,11 +339,11 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
             if (edit && (event.key === 'Enter' || event.key === ' ')) imageInputRef.current?.click()
           }}
         >
-          <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
-          {edit && <span className={styles.profileImgEditLabel}>Editar</span>}
+          <img className={styles.Profile__Image} src={form.profileImage || defaultProfileImage} alt="Perfil" />
+          {edit && <span className={styles.Profile__ImageEditLabel}>Editar</span>}
           {edit && <input
             ref={imageInputRef}
-            className={styles.profileImgInput}
+            className={styles.Profile__ImageInput}
             type="file"
             accept="image/*"
             onChange={handleImageChange}
@@ -399,7 +399,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         </MFCheckbox>}
 
         {
-          edit && (<div className="form-buttons-container">
+          edit && (<div className="FormButtonsContainer">
             <MFButton type="button" theme="tertiary" onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
             <MFButton type='submit' theme="secondary"><label>Guardar</label></MFButton>
           </div>)
@@ -414,7 +414,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           Vas a remover entrenadores / estudiantes, ¿estás seguro de hacer esto?
           La acción es irreversible.
         </p>
-        <div className="form-buttons-container">
+        <div className="FormButtonsContainer">
           <MFButton
             type="button"
             theme="tertiary"

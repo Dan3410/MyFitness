@@ -83,15 +83,14 @@ const MFExpandablePanel: FC<MFExpandablePanelProps> = ({
    };
 
    return (
-      <div className={`${styles.expandablePanel}
-    ${styles[theme || 'primary']}`}>
-         <div className={styles.header}>
+      <div className={`${styles.MFExpandablePanel} ${styles[`MFExpandablePanel--${(theme || 'primary').charAt(0).toUpperCase()}${(theme || 'primary').slice(1)}`]}`}>
+         <div className={styles.MFExpandablePanel__Header}>
             <button
                id={headerId}
                type="button"
                aria-expanded={isOpen}
                aria-controls={panelId}
-               className={styles.trigger}
+               className={styles.MFExpandablePanel__Trigger}
                onClick={toggle}
                onKeyDown={(e) => {
                   if (e.key === " " || e.key === "Enter") {
@@ -100,9 +99,9 @@ const MFExpandablePanel: FC<MFExpandablePanelProps> = ({
                   }
                }}
             >
-               <span className={styles.title}>{title}</span>
+               <span className={styles.MFExpandablePanel__Title}>{title}</span>
                <span
-                  className={`${styles.icon} ${isOpen && styles.open}`}
+                  className={`${styles.MFExpandablePanel__Icon} ${isOpen ? styles['MFExpandablePanel__Icon--Open'] : ''}`}
                   aria-hidden="true"
                >
                   <svg
@@ -111,7 +110,7 @@ const MFExpandablePanel: FC<MFExpandablePanelProps> = ({
                      viewBox="0 0 24 24"
                      fill="none"
                      xmlns="http://www.w3.org/2000/svg"
-                     className={styles.iconSvg}
+                     className={styles.MFExpandablePanel__IconSvg}
                   >
                      <path
                         d="M6 9l6 6 6-6"
@@ -129,14 +128,14 @@ const MFExpandablePanel: FC<MFExpandablePanelProps> = ({
             id={panelId}
             role="region"
             aria-labelledby={headerId}
-            className={styles.content}
+            className={styles.MFExpandablePanel__Content}
             style={{
                height,
                overflow: "hidden",
                transition: "height 300ms ease",
             }}
          >
-            <div ref={contentRef} className={styles.inner}>
+            <div ref={contentRef} className={styles.MFExpandablePanel__Inner}>
                {children}
             </div>
          </div>

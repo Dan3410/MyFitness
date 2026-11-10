@@ -192,8 +192,8 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
 
   if (loadError) {
     return (
-      <div className={styles.editorPage}>
-        <div className="pageHeader">
+      <div className={styles.EditorPage}>
+        <div className="PageHeader">
           <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: 'Editar rutina' }]} />
         </div>
         <div>{GET_DATA_ERROR_MESSAGE}</div>
@@ -216,10 +216,10 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   const selectedStep = selectedStepIndex === null ? null : workout.steps[selectedStepIndex] ?? null;
 
   return (
-    <div className={`${styles.editorPage} ${styles[`${workout.category}Editor`]}`}>
-      <div className="pageHeader">
+    <div className={`${styles.EditorPage} ${styles[`EditorPage--${workout.category[0].toUpperCase()}${workout.category.slice(1)}`]}`}>
+      <div className="PageHeader">
         <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: workout.name }]} />
-        <div className={styles.nameEditor}>
+        <div className={styles.EditorPage__NameEditor}>
           <MFFormField theme="primary">
             <label>Nombre de la rutina</label>
             <input
@@ -230,26 +230,26 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
             />
           </MFFormField>
         </div>
-        <h2 className={styles.title}>
+        <h2 className={styles.EditorPage__Title}>
           {`${workoutTypeLabel}: ${workout.name || 'Nueva rutina'}`}
         </h2>
 
       </div>
 
-      <div className={styles.editorLayout}>
-        <div className={styles.stepsColumn}>
+      <div className={styles.EditorPage__EditorLayout}>
+        <div className={styles.EditorPage__StepsColumn}>
           <StepsList
             workout={workout}
             selectedStepIndex={selectedStepIndex}
             onSelectStep={setSelectedStepIndex}
           />
-          <div className={styles.stepsActions}>
+          <div className={styles.EditorPage__StepsActions}>
             <MFButton theme="primary" type="button" onClickEvent={addExercise}>Agregar ejercicio</MFButton>
             <MFButton theme="primary" type="button" onClickEvent={addRestStep}>Agregar descanso</MFButton>
             <MFButton theme="primary" type="button" onClickEvent={addSet}>Agregar set</MFButton>
           </div>
         </div>
-        <div className={styles.editorColumn}>
+        <div className={styles.EditorPage__EditorColumn}>
           <StepEditor
             step={selectedStep}
             workoutCategory={workout.category}
@@ -258,18 +258,18 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
           />
         </div>
       </div>
-      <div className='footerActions'>
+      <div className='FooterActions'>
         <MFButton theme="primary" type="button" isDisabled={saving} onClickEvent={saveWorkout}>
           {saving ? 'Guardando...' : 'Guardar'}
         </MFButton>
       </div>
       <MFModal isOpen={saved} onClose={handleModalClose}>
         <h2>Guardado con éxito</h2>
-        <div className={styles.successMessage}>La rutina de ejercicio ha sido guardada con éxito.</div>
+        <div>La rutina de ejercicio ha sido guardada con éxito.</div>
       </MFModal>
       <MFModal isOpen={!!error} onClose={handleErrorClose}>
         <h2>Error</h2>
-        <div className={styles.errorMessage}>{error}</div>
+        <div>{error}</div>
       </MFModal>
     </div>
   );

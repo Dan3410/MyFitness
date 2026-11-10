@@ -1,11 +1,11 @@
-:root{
+:root {
     --border-color: rgb(55, 105, 255);
     --steps-border-width: 2px;
     --table-border-width: 1px;
     height: 100%;
 }
 
-.workoutList {
+.WorkoutList {
     margin-top: 16px;
 
     table {
@@ -15,7 +15,7 @@
         box-shadow: 0 0 0px var(--table-border-width) var(--border-color);
         outline-color: transparent;
         overflow: hidden;
-         
+
         th {
             color: rgb(255, 255, 255);
             border-style: solid;
@@ -26,7 +26,6 @@
             padding: 10px;
             overflow: hidden;
         }
-
 
         td {
             border-style: solid;
@@ -49,40 +48,39 @@
                     background-color: rgb(21, 26, 34);
                 }
             }
-
         }
     }
-}
 
-.listActionsContainer {
-    display: flex;
-    column-gap: 20px;
-}
-
-.modalButtonContainer {
-    display: flex;
-    float: right;
-    column-gap: 20px;
-}
-
-.trainerAttribution {
-    display: block;
-    color: #8a9b91;
-    font-size: 0.85rem;
-}
-
-.studentSelection {
-    display: grid;
-    gap: 10px;
-    margin: 16px 0;
-
-    label {
+    &__ListActionsContainer {
         display: flex;
-        align-items: center;
-        gap: 8px;
+        column-gap: 20px;
     }
-}
 
-.workoutListNotifications {
-    margin-bottom: 16px;
+    &__ModalButtonContainer {
+        display: flex;
+        float: right;
+        column-gap: 20px;
+    }
+
+    &__TrainerAttribution {
+        display: block;
+        color: #8a9b91;
+        font-size: 0.85rem;
+    }
+
+    &__StudentSelection {
+        display: grid;
+        gap: 10px;
+        margin: 16px 0;
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+
+    &__Notifications {
+        margin-bottom: 16px;
+    }
 }

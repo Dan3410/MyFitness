@@ -11,14 +11,14 @@ interface SetStepProps {
 
 const SetStep: FC<SetStepProps> = ({ step, workoutCategory }) => {
   return (
-    <div className={`${styles.stepCard} ${styles.setStep} ${styles[`${workoutCategory}Step`]}`}>
-      <div className={styles.setHeader}>
-        <div className={styles.stepLabel}>{`Repetir ${step.repeat}x`}</div>
+    <div className={`${styles.StepCard} ${styles['StepCard--Set']} ${styles[`StepCard--${workoutCategory[0].toUpperCase()}${workoutCategory.slice(1)}`]}`}>
+      <div className={styles.StepCard__SetHeader}>
+        <div className={styles.StepCard__StepLabel}>{`Repetir ${step.repeat}x`}</div>
       </div>
-      {step.description && <div className={styles.setDescription}>{step.description}</div>}
-      <div className={styles.nestedSteps}>
+      {step.description && <div className={styles.StepCard__SetDescription}>{step.description}</div>}
+      <div className={styles.StepCard__NestedSteps}>
         {step.steps.map((innerStep, index) => (
-          <div key={`${innerStep.type}-${index}`} className={styles.nestedStep}>
+          <div key={`${innerStep.type}-${index}`} className={styles.StepCard__NestedStep}>
             <Step step={innerStep} workoutCategory={workoutCategory} />
           </div>
         ))}

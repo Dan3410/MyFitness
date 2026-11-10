@@ -39,15 +39,15 @@ const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
   }, [])
 
   return (
-    <div className={styles.workoutCategories}>
-      <div className={styles.header}>
+    <div className={styles.WorkoutCategories}>
+      <div className={styles.WorkoutCategories__Header}>
         <h2>Elige el tipo de entrenamiento</h2>
       </div>
-      {loading ? <MFSpinner theme="primary" /> : <div className={styles.categoriesContainer}>
+      {loading ? <MFSpinner theme="primary" /> : <div className={styles.WorkoutCategories__CategoriesContainer}>
         {categories?.map((category) => (
-          <button key={category.value} type="button" className={styles.category} onClick={() => redirectTo(category.value)}>
-            <span className={styles.icon} aria-hidden="true">{categoryIcons[category.value] ?? '🏋️‍♂️'}</span>
-            <span className={styles.label}>{category.label}</span>
+          <button key={category.value} type="button" className={styles.WorkoutCategories__Category} onClick={() => redirectTo(category.value)}>
+            <span className={styles.WorkoutCategories__Icon} aria-hidden="true">{categoryIcons[category.value] ?? '🏋️‍♂️'}</span>
+            <span className={styles.WorkoutCategories__Label}>{category.label}</span>
           </button>
         ))}
       </div>}

@@ -186,16 +186,16 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   }
 
   return (<>
-  <div className="pageHeader">
+  <div className="PageHeader">
     <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Workouts' }]} />
-    <div className="pageTitleBar">
+    <div className="PageTitleBar">
       <h2>
         Rutinas de ejercicio
       </h2>
       <MFButton theme="primary" type="button" onClickEvent={createWorkout}>Crear rutina</MFButton>
     </div>
   </div>
-  {trainerDataError || shareError || shareSuccess ? <div className={styles.workoutListNotifications}>
+  {trainerDataError || shareError || shareSuccess ? <div className={styles.WorkoutList__Notifications}>
     {trainerDataError && <MFNotification type="warning" message="No se pudieron cargar los datos del entrenador y sus alumnos." />}
     {shareSuccess && <MFNotification type="success" message={shareSuccess} />}
     {shareError && <MFNotification type="failure" message="No se pudo compartir la rutina." />}
@@ -209,7 +209,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       </select>
     </MFFormField>
 
-    {loading || loadingCategories ? <MFSpinner theme="primary" /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.workoutList}>
+    {loading || loadingCategories ? <MFSpinner theme="primary" /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.WorkoutList}>
       <table cellSpacing="0" cellPadding="0">
         <thead>
           <tr>
@@ -225,7 +225,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
             <tr key={item.id}>
               <td>
                 {item.name}
-                {item.sourceTrainerName && <small className={styles.trainerAttribution}>De {item.sourceTrainerName}</small>}
+                {item.sourceTrainerName && <small className={styles.WorkoutList__TrainerAttribution}>De {item.sourceTrainerName}</small>}
               </td>
               <td> {item.category} </td>
               <td>
@@ -234,7 +234,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
               <td>
                 {formattedDate(item.lastTimeDone)}
               </td>
-              <td className={styles.listActionsContainer}>
+              <td className={styles.WorkoutList__ListActionsContainer}>
                 {item.sourceTrainerName ? (
                   <MFButton theme="primary" onClickEvent={() => navigate(`/workout/view/${item.id}`)}>Ver</MFButton>
                 ) : (
@@ -252,7 +252,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       <MFModal isOpen={open} onClose={() => setOpen(false)}>
         <h2>Borrar rutina</h2>
         <p>¿Estas seguro de borrar la rutina {workoutSelected?.name}? Esta acción se no se puede deshacer.</p>
-        <div className={styles.modalButtonContainer}>
+        <div className={styles.WorkoutList__ModalButtonContainer}>
           <MFButton onClickEvent={() => setOpen(false)}>Cancelar</MFButton>
           <MFButton onClickEvent={() => workoutSelected && deleteWorkout(workoutSelected?.id)} theme="primary">Eliminar</MFButton>
         </div>
@@ -265,7 +265,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
         ) : (
           <>
             {loadingStudents ? <p>Cargando alumnos...</p> : students.length === 0 ? <p>No tienes alumnos vinculados.</p> : (
-              <div className={styles.studentSelection}>
+              <div className={styles.WorkoutList__StudentSelection}>
                 {students.map((student) => (
                   <MFCheckbox
                     key={student.id}
@@ -281,7 +281,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
               </div>
             )}
             {shareError && <p role="alert">No se pudo compartir la rutina.</p>}
-            <div className={styles.modalButtonContainer}>
+            <div className={styles.WorkoutList__ModalButtonContainer}>
               <MFButton onClickEvent={() => setShareWorkout(null)}>Cancelar</MFButton>
               <MFButton
                 theme="primary"

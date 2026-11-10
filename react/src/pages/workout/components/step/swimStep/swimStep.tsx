@@ -20,16 +20,16 @@ const SwimStep: FC<SwimStepProps> = ({ step }) => {
   const gearText = step.gear.length > 0 ? step.gear.join(', ') : null;
 
   return (
-    <div className={`${styles.stepCard} ${styles.swimStep}`}>
-      <div className={styles.stepHeader}>
+    <div className={`${styles.StepCard} ${styles['StepCard--Swim']}`}>
+      <div className={styles.StepCard__StepHeader}>
         <div>
-          <div className={styles.stepTitle}>{title}</div>
+          <div className={styles.StepCard__StepTitle}>{title}</div>
         </div>
-        <div className={styles.stepLabel}>{label}</div>
+        <div className={styles.StepCard__StepLabel}>{label}</div>
       </div>
-      {step.description && <div className={styles.stepDescription}>{step.description}</div>}
-      <div className={styles.stepDetail}>{detail}</div>
-      {gearText && <div className={styles.stepDetail}>{gearText}</div>}
+      {step.description && <div className={styles.StepCard__StepDescription}>{step.description}</div>}
+      <div className={styles.StepCard__StepDetail}>{detail}</div>
+      {gearText && <div className={styles.StepCard__StepDetail}>{gearText}</div>}
     </div>
   );
 };

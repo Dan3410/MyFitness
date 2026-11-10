@@ -16,9 +16,9 @@ interface GymStepEditorProps {
 
 const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange, onDelete }) => {
   return (
-    <div className={styles.stepEditor}>
-      <div className={styles.headerRow}>
-        <h3 className={styles.title}>{workoutCategory === WorkoutCategory.GYM ? 'Editar ejercicio' : 'Editar paso'}</h3>
+    <div className={styles.StepEditor}>
+      <div className={styles.StepEditor__HeaderRow}>
+        <h3 className={styles.StepEditor__Title}>{workoutCategory === WorkoutCategory.GYM ? 'Editar ejercicio' : 'Editar paso'}</h3>
         <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
       <MFSelector

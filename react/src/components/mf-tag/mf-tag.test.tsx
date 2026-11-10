@@ -6,13 +6,13 @@ import MFTag from './mf-tag'
 it('uses the primary theme by default', () => {
   render(<MFTag>Example</MFTag>)
 
-  expect(screen.getByText('Example').className).toContain(styles.primary)
+  expect(screen.getByText('Example').className).toContain(styles['MFTag--Primary'])
 })
 
 it('supports a specified theme and additional class name', () => {
-  render(<MFTag theme="secondary" className="customTag">Example</MFTag>)
+  render(<MFTag theme="secondary" className="TestTag__Custom">Example</MFTag>)
 
   const tag = screen.getByText('Example')
-  expect(tag.className).toContain(styles.secondary)
-  expect(tag.className).toContain('customTag')
+  expect(tag.className).toContain(styles['MFTag--Secondary'])
+  expect(tag.className).toContain('TestTag__Custom')
 })

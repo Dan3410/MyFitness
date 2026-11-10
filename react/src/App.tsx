@@ -47,7 +47,7 @@ function AppRoutes() {
   return (
     <>
       {!!session ? <MFHeader ></MFHeader> : null}
-      <div className={styles.appContainer}>
+      <div className={styles.App__Container}>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route element={<RequireAuth session={session}/>} >

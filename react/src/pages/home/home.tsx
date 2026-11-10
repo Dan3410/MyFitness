@@ -52,13 +52,13 @@ const Home: FC<HomeProps> = () => {
   };
 
   return (
-    <main className={styles.homeContainer}>
-      <header className={styles.pageHeader}>
+    <main className={styles.HomeContainer}>
+      <header className={styles.HomeContainer__PageHeader}>
         <h1>Próximas rutinas</h1>
       </header>
       {loading ? <MFSpinner theme="primary" /> :
-        loadError ? <p className={styles.status}>No se pudieron cargar los entrenamientos.</p> :
-          <div className={styles.daysGrid}>
+        loadError ? <p>No se pudieron cargar los entrenamientos.</p> :
+          <div className={styles.HomeContainer__DaysGrid}>
             {days.map(({ date, title }) => {
               const dateKey = [
                 date.getFullYear(),
@@ -69,32 +69,32 @@ const Home: FC<HomeProps> = () => {
               const dayEvents = events.filter((event) => event.date === dateKey);
 
               return (
-                <section className={styles.daySection} key={dateKey}>
+                <section className={styles.HomeContainer__DaySection} key={dateKey}>
                   <h2>{title}</h2>
-                  <p className={styles.date}>{date.toLocaleDateString("es", { weekday: "long", day: "numeric", month: "long" })}</p>
+                  <p className={styles.HomeContainer__Date}>{date.toLocaleDateString("es", { weekday: "long", day: "numeric", month: "long" })}</p>
                   {dayEvents.length > 0 && (
-                    <div className={styles.eventsSection}>
+                    <div className={styles.HomeContainer__EventsSection}>
                       <h3>Eventos</h3>
-                      <ul className={styles.workoutList}>
+                      <ul className={styles.HomeContainer__WorkoutList}>
                         {dayEvents.map((event) => (
                           <li key={event.id}>
                             <Link
                               to={event.workoutId ? `/workout/view/${event.workoutId}` : '#'}
-                              className={styles.workoutLink}
+                              className={styles.HomeContainer__WorkoutLink}
                               aria-disabled={!event.workoutId}
                               onClick={(clickEvent) => {
                                 if (!event.workoutId) clickEvent.preventDefault();
                               }}
                             >
-                              <span className={styles.workoutIcon} aria-hidden="true">
+                              <span className={styles.HomeContainer__WorkoutIcon} aria-hidden="true">
                                 {categoryDetails[event.workoutCategory ?? '']?.icon ?? "📅"}
                               </span>
-                              <span className={styles.workoutText}>
-                                <span className={styles.workoutCategory}>
+                              <span className={styles.HomeContainer__WorkoutText}>
+                                <span className={styles.HomeContainer__WorkoutCategory}>
                                   {event.time ? `${event.time} · ` : ''}
                                   {event.trainerId === session?.userId ? event.studentName : event.trainerName}
                                 </span>
-                                <span className={styles.workoutTitle}>
+                                <span className={styles.HomeContainer__WorkoutTitle}>
                                   {event.workoutTitle ?? "Evento de entrenamiento"}
                                 </span>
                               </span>
@@ -105,23 +105,23 @@ const Home: FC<HomeProps> = () => {
                     </div>
                   )}
                   <h3>Rutinas</h3>
-                  {workouts.length ? <ul className={styles.workoutList}>
+                  {workouts.length ? <ul className={styles.HomeContainer__WorkoutList}>
                     {workouts.map((workout) => (
                       <li key={workout.id}>
-                        <Link to={`/workout/view/${workout.id}`} className={styles.workoutLink}>
-                          <span className={styles.workoutIcon} aria-hidden="true">
+                        <Link to={`/workout/view/${workout.id}`} className={styles.HomeContainer__WorkoutLink}>
+                          <span className={styles.HomeContainer__WorkoutIcon} aria-hidden="true">
                             {categoryDetails[workout.category]?.icon ?? "🏋️‍♂️"}
                           </span>
-                          <span className={styles.workoutText}>
-                            <span className={styles.workoutCategory}>
+                          <span className={styles.HomeContainer__WorkoutText}>
+                            <span className={styles.HomeContainer__WorkoutCategory}>
                               {categoryDetails[workout.category]?.label ?? "Entrenamiento"}
                             </span>
-                            <span className={styles.workoutTitle}>{workout.title}</span>
+                            <span className={styles.HomeContainer__WorkoutTitle}>{workout.title}</span>
                           </span>
                         </Link>
                       </li>
                     ))}
-                  </ul> : <p className={styles.emptyState}>No hay rutinas programadas.</p>}
+                  </ul> : <p>No hay rutinas programadas.</p>}
                 </section>
               );
             })}

@@ -8,7 +8,7 @@ interface WorkoutProps { }
 const Workout: FC<WorkoutProps> = () => {
 
   return (<>
-    <div className={styles.workoutList}>
+    <div className={styles.Workout}>
       <Outlet></Outlet>
     </div>
   </>
