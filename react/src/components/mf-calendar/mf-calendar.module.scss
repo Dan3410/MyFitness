@@ -1,6 +1,6 @@
 .calendar {
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 16px;
 }
 
 .calendarHeader {
@@ -16,8 +16,7 @@
 }
 
 .calendarHeader button {
-  align-items: center;
-  background: #1769aa;
+  background: var(--primary-color-light);
   border: 0;
   border-radius: 50%;
   color: #fff;
@@ -29,6 +28,9 @@
   line-height: 1;
   width: 36px;
   padding: 0;
+  > label{
+    cursor: pointer;
+  }
 }
 
 .weekDays,
@@ -60,10 +62,10 @@
 }
 
 .day {
-  background: #fff;
-  border: 1px solid #d7dce2;
-  border-radius: 4px;
-  color: #222;
+  background: var(--background-color-foreground);
+  border: 1px solid var(--secondary-color-light);
+  border-radius: var(--border-radius-small);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   overflow: hidden;
   padding: 8px;
@@ -74,7 +76,7 @@
 .day:hover,
 .day:focus-visible,
 .selectedDay {
-  border-color: #1769aa;
+  border-color: var(--primary-color-light);
   box-shadow: 0 0 0 2px rgb(23 105 170 / 15%);
   outline: none;
   border-width: 3px;
@@ -82,7 +84,7 @@
 
 .today strong {
   align-items: center;
-  background: #1769aa;
+  background: var(--primary-color--light);
   border-radius: 50%;
   color: #fff;
   display: flex;
@@ -143,8 +145,8 @@
 }
 
 .dayEvent {
-  background: #f2e8ff;
-  border-left: 3px solid #7040a0;
+  background: var(--tertiary-color-dark);
+  border-left: 3px solid var(--tertiary-color);
   font-size: 11px;
   padding: 3px 4px;
 }
@@ -190,14 +192,8 @@
   font-size: 11px;
 }
 
-.dayDetails {
-  border-top: 2px solid #1769aa;
-  margin-top: 22px;
-  padding-top: 16px;
-}
-
 .dayDetails h3 {
-  margin: 0 0 12px;
+  margin: 0 0;
 }
 
 .dayDetails p {
@@ -205,6 +201,8 @@
 }
 
 .dayDetails ul {
+  max-height: 135px;
+  overflow-y: auto;
   list-style: none;
   margin: 0 0 14px;
   padding: 0;
@@ -216,7 +214,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .workoutActions {
@@ -247,14 +245,6 @@
   margin-top: 20px;
 }
 
-.dayDetails li button,
-.addWorkout button {
-  background: #1769aa;
-  border: 0;
-  color: #fff;
-  cursor: pointer;
-  padding: 7px 10px;
-}
 
 .addWorkout {
   display: flex;

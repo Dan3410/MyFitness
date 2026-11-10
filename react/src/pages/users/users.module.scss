@@ -73,15 +73,6 @@
     white-space: nowrap;
 }
 
-.trainerLabel {
-    width: fit-content;
-    border-radius: 4px;
-    padding: 2px 6px;
-    background: #000000;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
 @media (max-width: 640px) {
     .userList {
         grid-template-columns: 1fr;

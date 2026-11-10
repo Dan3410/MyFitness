@@ -7,7 +7,6 @@ import type { WorkoutListItem } from '../../models/workoutListItem';
 import { workoutService } from '../../services/workoutService';
 import { calendarService, type CalendarEvent, type PlannedWorkouts } from '../../services/calendarService';
 import MFSelector from '../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../models/componentTheme';
 import { profileService } from '../../services/profileService';
 import { trainerStudentService } from '../../services/trainerStudentService';
 import type { UserSearchResult } from '../../models/user';
@@ -165,6 +164,87 @@ const Calendar: FC<CalendarProps> = () => {
         <MFCalendar
           plannedWorkouts={plannedWorkouts}
           events={eventsByDate}
+          eventActions={(
+            <div className={styles.calendarActions}>
+              {isTrainer && (
+                <MFSelector
+                  theme="primary"
+                  options={calendarModes}
+                  value={calendarMode}
+                  onChange={(value) => setCalendarMode(String(value))}
+                />
+              )}
+              {isTrainer && calendarMode === 'students' ? (
+                <div className={`${styles.addWorkout} ${styles.eventForm}`}>
+                  {studentLoadError && <p>No se pudieron cargar los alumnos.</p>}
+                  <label htmlFor="calendar-student">Seleccionar alumno para el {selectedDate}</label>
+                  <select
+                    id="calendar-student"
+                    value={selectedStudentId}
+                    onChange={(event) => setSelectedStudentId(event.target.value)}
+                  >
+                    <option value="">Seleccionar alumno</option>
+                    {students.map((student) => <option key={student.id} value={student.id}>{student.name}</option>)}
+                  </select>
+                  <label htmlFor="calendar-event-time">Hora*</label>
+                  <input
+                    id="calendar-event-time"
+                    type="time"
+                    value={eventTime}
+                    onChange={(event) => setEventTime(event.target.value)}
+                  />
+                  <label htmlFor="calendar-event-workout">Rutina*</label>
+                  <select
+                    id="calendar-event-workout"
+                    value={eventWorkoutId}
+                    onChange={(event) => setEventWorkoutId(event.target.value)}
+                  >
+                    <option value="">Sin rutina</option>
+                    {workouts.filter((workout) => !workout.sourceTrainerName).map((workout) => (
+                      <option key={workout.id} value={workout.id}>{workout.name}</option>
+                    ))}
+                  </select>
+                  <MFButton
+                    theme="secondary"
+                    type="button"
+                    onClickEvent={() => void createEvent()}
+                    isDisabled={!selectedStudentId || savingEvent}
+                    width="100%"
+                  >
+                    Crear evento
+                  </MFButton>
+                </div>
+              ) : (
+                <div className={`${styles.addWorkout} ${styles.eventForm}`}>
+                  <label htmlFor="calendar-workout">Agregar rutina al {selectedDate}*</label>
+                  <select
+                    id="calendar-workout"
+                    value={selectedWorkoutId}
+                    onChange={(event) => setSelectedWorkoutId(event.target.value)}
+                  >
+                    <option value="">Seleccionar rutina</option>
+                    {workouts.map((workout) => <option key={workout.id} value={workout.id}>{workout.name}</option>)}
+                  </select>
+                  <label htmlFor="calendar-workout-time">Hora</label>
+                  <input
+                    id="calendar-workout-time"
+                    type="time"
+                    value={workoutTime}
+                    onChange={(event) => setWorkoutTime(event.target.value)}
+                  />
+                  <MFButton
+                    theme="secondary"
+                    type="button"
+                    onClickEvent={() => addWorkout()}
+                    isDisabled={!selectedWorkoutId}
+                    width="100%"
+                  >
+                    Agregar
+                  </MFButton>
+                </div>
+              )}
+            </div>
+          )}
           isTrainer={isTrainer}
           currentUserId={session?.userId || ''}
           currentMonth={currentMonth}
@@ -174,66 +254,6 @@ const Calendar: FC<CalendarProps> = () => {
           onRemoveWorkout={removeWorkout}
           onCancelEvent={requestEventCancellation}
         />
-        {isTrainer && (
-          <MFSelector
-            label="Calendario"
-            theme={ComponentTheme.workout}
-            options={calendarModes}
-            value={calendarMode}
-            onChange={(value) => setCalendarMode(String(value))}
-          />
-        )}
-        {isTrainer && calendarMode === 'students' ? (
-          <div className={styles.addWorkout}>
-            {studentLoadError && <p>No se pudieron cargar los alumnos.</p>}
-            <label htmlFor="calendar-student">Seleccionar alumno para el {selectedDate}</label>
-            <select
-              id="calendar-student"
-              value={selectedStudentId}
-              onChange={(event) => setSelectedStudentId(event.target.value)}
-            >
-              <option value="">Seleccionar alumno</option>
-              {students.map((student) => <option key={student.id} value={student.id}>{student.name}</option>)}
-            </select>
-            <label htmlFor="calendar-event-time">Hora*</label>
-            <input
-              id="calendar-event-time"
-              type="time"
-              value={eventTime}
-              onChange={(event) => setEventTime(event.target.value)}
-            />
-            <label htmlFor="calendar-event-workout">Rutina*</label>
-            <select
-              id="calendar-event-workout"
-              value={eventWorkoutId}
-              onChange={(event) => setEventWorkoutId(event.target.value)}
-            >
-              <option value="">Sin rutina</option>
-              {workouts.filter((workout) => !workout.sourceTrainerName).map((workout) => (
-                <option key={workout.id} value={workout.id}>{workout.name}</option>
-              ))}
-            </select>
-            <button type="button" onClick={createEvent} disabled={!selectedStudentId || savingEvent}>
-              Crear evento
-            </button>
-          </div>
-        ) : (
-          <div className={styles.addWorkout}>
-            <label htmlFor="calendar-workout">Agregar rutina al {selectedDate}*</label>
-            <select id="calendar-workout" value={selectedWorkoutId} onChange={(event) => setSelectedWorkoutId(event.target.value)}>
-              <option value="">Seleccionar rutina</option>
-              {workouts.map((workout) => <option key={workout.id} value={workout.id}>{workout.name}</option>)}
-            </select>
-            <label htmlFor="calendar-workout-time">Hora</label>
-            <input
-              id="calendar-workout-time"
-              type="time"
-              value={workoutTime}
-              onChange={(event) => setWorkoutTime(event.target.value)}
-            />
-            <button type="button" onClick={addWorkout} disabled={!selectedWorkoutId}>Agregar</button>
-          </div>
-        )}
       </>}
     </div>
     <MFModal isOpen={eventToCancel !== null} onClose={() => setEventToCancel(null)}>
@@ -248,6 +268,7 @@ const Calendar: FC<CalendarProps> = () => {
       <div className={styles.confirmationButtons}>
         <MFButton
           type="button"
+          theme="secondary"
           onClickEvent={() => setEventToCancel(null)}
           isDisabled={cancellingEvent}
         >
@@ -255,7 +276,7 @@ const Calendar: FC<CalendarProps> = () => {
         </MFButton>
         <MFButton
           type="button"
-          theme={ComponentTheme.workout}
+          theme="tertiary"
           onClickEvent={() => void cancelEvent()}
           isDisabled={cancellingEvent}
         >

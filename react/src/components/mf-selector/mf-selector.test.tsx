@@ -1,14 +1,13 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
 import MFSelector from './mf-selector';
-import { ComponentTheme } from '../../models/componentTheme';
 
 it('renders and allows selecting multiple options', () => {
   const onChange = vi.fn();
   render(
     <MFSelector
       label="Choose your goals"
-      theme={ComponentTheme.workout}
+      theme="primary"
       options={[
         { label: 'Strength', value: 'strength' },
         { label: 'Cardio', value: 'cardio' },
@@ -28,7 +27,7 @@ it('reports single selections and blocks selection when disabled', () => {
   const onChange = vi.fn()
   const { unmount } = render(
     <MFSelector
-      theme={ComponentTheme.workout}
+      theme="primary"
       options={[
         { label: 'Strength', value: 'strength' },
         { label: 'Cardio', value: 'cardio' },
@@ -45,7 +44,7 @@ it('reports single selections and blocks selection when disabled', () => {
   const disabledOnChange = vi.fn()
   render(
     <MFSelector
-      theme={ComponentTheme.workout}
+      theme="primary"
       options={[{ label: 'Strength', value: 'strength' }]}
       value="strength"
       disabled
@@ -62,7 +61,7 @@ it('reflects controlled value changes from the parent', () => {
   const onChange = vi.fn()
   const { rerender } = render(
     <MFSelector
-      theme={ComponentTheme.workout}
+      theme="primary"
       options={[
         { label: 'Strength', value: 'strength' },
         { label: 'Cardio', value: 'cardio' },
@@ -78,7 +77,7 @@ it('reflects controlled value changes from the parent', () => {
 
   rerender(
     <MFSelector
-      theme={ComponentTheme.workout}
+      theme="primary"
       options={[
         { label: 'Strength', value: 'strength' },
         { label: 'Cardio', value: 'cardio' },

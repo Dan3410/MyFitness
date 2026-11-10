@@ -1,7 +1,6 @@
 import { FC, useMemo, useState } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
-import { ComponentTheme } from '../../../../../models/componentTheme';
 import {
   WorkoutSet,
   WorkoutStep,
@@ -93,16 +92,16 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
         <h3 className={styles.title}>Editar set</h3>
-        <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
+        <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Descripción</label>
         <textarea
           value={step.description ?? ''}
           onChange={(event) => onChange({ ...step, description: event.target.value })}
         />
       </MFFormField>
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Repeticiones</label>
         <input
           type="number"
@@ -133,9 +132,9 @@ const SetStepEditor: FC<SetStepEditorProps> = ({ step, workoutCategory, onChange
           </div>
         )}
         <div className={styles.addStepButton}>
-          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
-          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedRestStep}>Agregar descanso</MFButton>
-          <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addNestedSet}>Agregar set</MFButton>
+          <MFButton theme="primary" type="button" onClickEvent={addNestedStep}>Agregar ejercicio</MFButton>
+          <MFButton theme="primary" type="button" onClickEvent={addNestedRestStep}>Agregar descanso</MFButton>
+          <MFButton theme="primary" type="button" onClickEvent={addNestedSet}>Agregar set</MFButton>
         </div>
       </div>
       {selectedNestedStep ? (

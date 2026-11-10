@@ -1,5 +1,4 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { ComponentTheme } from '../../../../models/componentTheme';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { CONST_WEIGHTUNIT_OPTIONS } from '../../../../const/weightUnitOptions';
 import styles from './weight-section.module.scss'
@@ -60,9 +59,9 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
 
   return (<>
 
-    <MFExpandablePanel title="Peso" theme={ComponentTheme.profileAndHealth}>
+    <MFExpandablePanel title="Peso" theme="primary">
       <div className={styles.profileFormSection}>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+        <MFFormField disabled={!edit} theme="primary">
           <label>Unidad de medida del peso</label>
           <select name="weightUnit" value={form.weightUnit} onChange={handleChange}>
             {weightUnit.map((item: Option) => (
@@ -71,7 +70,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
           </select>
         </MFFormField>
         <div>
-          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+          <MFFormField disabled={!edit} theme="primary">
             <label>Peso</label>
             <input name="weight" value={form.weight} onChange={handleChange}>
             </input>
@@ -79,7 +78,7 @@ const WeightSection: FC<WeightSectionProps> = ({ handleChange, edit, form, refre
           <MFError hidden={!edit || !!form.weight}>Este campo es obligatorio</MFError>
           <MFError hidden={!edit || !!form.height && form.weight > 0}>El valor debe ser mayor a 0</MFError>
         </div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+        <MFFormField disabled={!edit} theme="primary">
           <label>Objetivo</label>
           <select name="objective" value={form.objective} onChange={handleChange}>
             {objective.map((item: Option) => (

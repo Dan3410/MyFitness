@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, type FC, type ReactNode } from 'react'
 import styles from "./mf-tooltip.module.scss"
-import { ComponentTheme } from '../../models/componentTheme';
+import type { ColorVariant } from '../../models/colorVariant';
 import { tooltipPlacement } from '../../models/tooltipPlacement';
 import { createPortal } from 'react-dom';
 
 interface MFTooltipProps {
-   theme: ComponentTheme,
+   theme: ColorVariant,
    children: ReactNode,
    placement?: tooltipPlacement,
    delay?: number

@@ -28,8 +28,10 @@ public enum SwimGear {
             throw new IllegalArgumentException("SwimGear value must not be empty");
         }
 
+        String trimmedValue = value.trim();
+
         for (SwimGear gear : values()) {
-            if (gear.value.equalsIgnoreCase(value.trim())) {
+            if (gear.value.equalsIgnoreCase(trimmedValue)) {
                 return gear;
             }
         }

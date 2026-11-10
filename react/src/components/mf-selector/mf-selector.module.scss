@@ -13,25 +13,25 @@
   gap: 10px;
 }
 
-.profileAndHealthTheme {
-  --mf-selector-border-color: rgb(0, 131, 0);
-  --mf-selector-background-color: rgb(16, 29, 16);
+.primary {
+  --mf-selector-border-color: var(--primary-color-light);
+  --mf-selector-background-color: var(--background-color);
   --mf-selector-text-color: #fafafa;
-  --mf-selector-selected-color: rgb(0, 131, 0);
+  --mf-selector-selected-color: var(--primary-color-light);
 }
 
-.dietTheme {
-  --mf-selector-border-color: #fdff82;
-  --mf-selector-background-color: #525300;
+.secondary {
+  --mf-selector-border-color: var(--secondary-color-light);
+  --mf-selector-background-color: var(--background-color);
   --mf-selector-text-color: #fafafa;
-  --mf-selector-selected-color: #fdff82;
+  --mf-selector-selected-color: var(--secondary-color-light);
 }
 
-.workoutTheme {
-  --mf-selector-border-color: rgb(0, 80, 167);
-  --mf-selector-background-color: rgb(30, 35, 82);
+.tertiary {
+  --mf-selector-border-color: var(--tertiary-color-light);
+  --mf-selector-background-color: var(--background-color);
   --mf-selector-text-color: #fafafa;
-  --mf-selector-selected-color: rgb(0, 80, 167);
+  --mf-selector-selected-color: var(--tertiary-color-light);
 }
 
 .disabled {

@@ -1,5 +1,4 @@
 import { ChangeEvent, FC } from 'react';
-import { ComponentTheme } from '../../../../models/componentTheme';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './height-section.module.scss'
 import { User } from '../../../../models/user';
@@ -21,9 +20,9 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
 
   return (
   <>
-    <MFExpandablePanel title="Estatura" defaultOpen={edit} theme={ComponentTheme.profileAndHealth}>
+    <MFExpandablePanel title="Estatura" defaultOpen={edit} theme="primary">
       <div className={styles.profileFormSection}>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+        <MFFormField disabled={!edit} theme="primary">
           <label>Unidad de medida de la Altura</label>
           <select name="heightUnit" value={form.heightUnit} onChange={handleChange}>
             {heightUnit.map((item: Option) => (
@@ -35,7 +34,7 @@ const HeightSection: FC<HeightSectionProps> = ({ handleChange, edit, form }) => 
         </MFFormField>
 
         <div>
-          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+          <MFFormField disabled={!edit} theme="primary">
             <label>Altura</label>
             <input
               name="height"

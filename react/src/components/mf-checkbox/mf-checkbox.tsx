@@ -1,10 +1,10 @@
 import { ChangeEventHandler, FC, ReactNode } from 'react';
 import styles from './mf-checkbox.module.scss';
-import { ComponentTheme } from '../../models/componentTheme';
+import type { ColorVariant } from '../../models/colorVariant';
 
 interface MFCheckboxProps {
   children: ReactNode,
-  theme?: ComponentTheme,
+  theme?: ColorVariant,
   disabled?: boolean,
   checked?: boolean,
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -19,7 +19,7 @@ const MFCheckbox: FC<MFCheckboxProps> = ({
 }) => {
 
   return (
-    <div className={`${styles.mfCheckbox} ${styles[theme || ComponentTheme.workout]} ${disabled ? styles.disabled : ''}`}>
+    <div className={`${styles.mfCheckbox} ${styles[theme || 'primary']} ${disabled ? styles.disabled : ''}`}>
       <input
         className={styles.checkboxInput}
         type="checkbox"

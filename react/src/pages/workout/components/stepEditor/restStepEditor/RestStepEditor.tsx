@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
-import { ComponentTheme } from '../../../../../models/componentTheme';
 import { RestStep, WorkoutStep } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 
@@ -16,16 +15,16 @@ const RestStepEditor: FC<RestStepEditorProps> = ({ step, onChange, onDelete }) =
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
         <h3 className={styles.title}>Editar paso</h3>
-        <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
+        <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Descripción</label>
         <textarea
           value={step.description ?? ''}
           onChange={(event) => onChange({ ...step, description: event.target.value })}
         />
       </MFFormField>
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Segundos</label>
         <input
           type="number"

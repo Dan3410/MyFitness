@@ -34,7 +34,7 @@
 .chartUnit {
     padding: 4px 8px;
     border: 1px solid rgba(255, 255, 255, 0.24);
-    border-radius: 4px;
+    border-radius: var(--border-radius-small);
     color: rgba(255, 255, 255, 0.78);
     font-size: 12px;
     text-transform: uppercase;
@@ -77,15 +77,15 @@
 
 .chartLine {
     fill: none;
-    stroke: #7ee787;
+    stroke: var(--primary-color-light);
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 3;
 }
 
 .chartPoint {
-    fill: #17351b;
-    stroke: #7ee787;
+    fill: var(--primary-color-light);
+    stroke: var(--primary-color-light);
     stroke-width: 2;
 }
 

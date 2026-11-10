@@ -1,14 +1,14 @@
 import type { FC } from 'react';
-import { ComponentTheme } from '../../models/componentTheme';
+import type { ColorVariant } from '../../models/colorVariant';
 import styles from './mf-spinner.module.scss';
 
 interface MFSpinnerProps {
-  theme?: ComponentTheme;
+  theme?: ColorVariant;
   label?: string;
 }
 
 const MFSpinner: FC<MFSpinnerProps> = ({
-  theme = ComponentTheme.profileAndHealth,
+  theme = 'primary',
   label = 'Cargando',
 }) => (
   <div className={`${styles.spinnerContainer} ${styles[theme]}`} role="status" aria-label={label}>

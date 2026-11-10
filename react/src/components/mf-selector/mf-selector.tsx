@@ -1,13 +1,13 @@
 import { FC, useState } from 'react';
 import styles from './mf-selector.module.scss';
-import { ComponentTheme } from '../../models/componentTheme';
+import type { ColorVariant } from '../../models/colorVariant';
 import { Option } from '../../models/option';
 
 type SelectorValue = string | number | Array<string | number>;
 
 interface MFSelectorProps {
   label?: string;
-  theme: ComponentTheme;
+  theme: ColorVariant;
   options: Option[];
   value?: SelectorValue;
   defaultValue?: SelectorValue;
@@ -25,7 +25,7 @@ const normalizeValues = (value?: SelectorValue): (string | number)[] => {
 };
 
 const MFSelector: FC<MFSelectorProps> = ({
-  label = 'Select',
+  label = '',
   theme,
   options,
   value,
@@ -52,7 +52,7 @@ const MFSelector: FC<MFSelectorProps> = ({
 
   return (
     <div
-      className={`${styles.selectorContainer} ${styles[theme] || styles.profileAndHealthTheme} ${disabled ? styles.disabled : ''}`}
+      className={`${styles.selectorContainer} ${styles[theme]} ${disabled ? styles.disabled : ''}`}
     >
       {label && <span className={styles.label}>{label}</span>}
       <div className={styles.optionGroup}>

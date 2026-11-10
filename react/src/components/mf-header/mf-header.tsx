@@ -2,14 +2,12 @@ import { FormEvent, FC, useEffect, useRef, useState } from 'react';
 import styles from './mf-header.module.scss';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import MFButton from '../mf-button/mf-button';
 import MFFormField from '../mf-form-field/mf-form-field';
-import { ComponentTheme } from '../../models/componentTheme';
 import { notificationService } from '../../services/notificationService';
 import type { TrainerRequestNotification } from '../../models/notification';
-interface MFHeaderProps {
-}
 
-const MFHeader: FC<MFHeaderProps> = ({ }) => {
+const MFHeader: FC = () => {
   const { session, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -104,18 +102,21 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
     <>
       <div className={styles['MFHeader']}>
         <div className={styles.hamburgerMenu}>
-          <button
+          <MFButton
             type="button"
+            theme="tertiary"
             className={styles.hamburgerTrigger}
+            width="40px"
+            height="40px"
             aria-label="Abrir menú principal"
             aria-expanded={isHamburgerOpen}
             aria-haspopup="menu"
-            onClick={() => setIsHamburgerOpen(!isHamburgerOpen)}
+            onClickEvent={() => setIsHamburgerOpen(!isHamburgerOpen)}
           >
             <span></span>
             <span></span>
             <span></span>
-          </button>
+          </MFButton>
           <div hidden={!isHamburgerOpen}
             className={styles.pageOverlay}
             aria-label="Cerrar menú principal"
@@ -130,7 +131,7 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
           </div>
         </div>
         <form className={styles.userSearch} onSubmit={handleUserSearch} role="search">
-          <MFFormField theme={ComponentTheme.generic}>
+          <MFFormField theme="primary">
             <input
               type="search"
               value={userSearch}
@@ -139,7 +140,7 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
               aria-label="Buscar usuario por nombre"
             />
           </MFFormField>
-          <button type="submit">Buscar</button>
+          <MFButton type="submit" theme="secondary">Buscar</MFButton>
         </form>
         <div className={styles.notifications} ref={notificationRef}>
           <button
@@ -166,22 +167,23 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
                     ) : (
                       <>
                         <p>
-                          <button
+                          <MFButton
                             type="button"
+                            theme="tertiary"
                             className={styles.trainerLink}
-                            onClick={() => {
+                            onClickEvent={() => {
                               navigate(`/users/profile?id=${encodeURIComponent(notification.trainerId)}`);
                               setIsNotificationsOpen(false);
                             }}
                           >
                             {notification.trainerName}
-                          </button>{' '}
+                          </MFButton>{' '}
                           quiere ser tu entrenador
                         </p>
                         {notification.status === 'PENDING' ? (
                           <div className={styles.notificationActions}>
-                            <button type="button" onClick={() => void respondToRequest(notification.id, 'decline')}>Rechazar</button>
-                            <button type="button" onClick={() => void respondToRequest(notification.id, 'accept')}>Aceptar</button>
+                            <MFButton type="button" theme="tertiary" className={styles.notificationActionButton} onClickEvent={() => void respondToRequest(notification.id, 'decline')}>Rechazar</MFButton>
+                            <MFButton type="button" theme="secondary" className={styles.notificationActionButton} onClickEvent={() => void respondToRequest(notification.id, 'accept')}>Aceptar</MFButton>
                           </div>
                         ) : notification.status ? (
                           <span className={styles.notificationStatus}>
@@ -197,19 +199,21 @@ const MFHeader: FC<MFHeaderProps> = ({ }) => {
           )}
         </div>
         <div ref={userMenuRef} className={styles.userMenu}>
-          <button
+          <MFButton
             type="button"
+            theme="tertiary"
             className={styles.userMenuTrigger}
+            width="fit-content"
             aria-expanded={isMenuOpen}
             aria-haspopup="menu"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClickEvent={() => setIsMenuOpen(!isMenuOpen)}
           >
             Hola {session?.name} {session?.lastName}!
-          </button>
+          </MFButton>
           {isMenuOpen && (
             <div className={styles.userMenuDropdown} role="menu">
-              <button type="button" role="menuitem" onClick={goToProfile}>Perfil</button>
-              <button type="button" role="menuitem" onClick={handleLogout}>Cerrar sesión</button>
+              <MFButton type="button" theme="tertiary" className={styles.dropdownButton} width="100%" role="menuitem" onClickEvent={goToProfile}>Perfil</MFButton>
+              <MFButton type="button" theme="tertiary" className={styles.dropdownButton} width="100%" role="menuitem" onClickEvent={handleLogout}>Cerrar sesión</MFButton>
             </div>
           )}
         </div>

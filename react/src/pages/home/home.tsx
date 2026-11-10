@@ -2,7 +2,6 @@ import { useEffect, useState, type FC } from "react";
 import styles from "./home.module.scss";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { ComponentTheme } from "../../models/componentTheme";
 import { WorkoutCategory } from "../../models/workoutCategories";
 import MFSpinner from "../../components/mf-spinner/mf-spinner";
 import { calendarService, type CalendarEvent, type PlannedWorkout } from "../../services/calendarService";
@@ -57,7 +56,7 @@ const Home: FC<HomeProps> = () => {
       <header className={styles.pageHeader}>
         <h1>Próximas rutinas</h1>
       </header>
-      {loading ? <MFSpinner theme={ComponentTheme.workout} /> :
+      {loading ? <MFSpinner theme="primary" /> :
         loadError ? <p className={styles.status}>No se pudieron cargar los entrenamientos.</p> :
           <div className={styles.daysGrid}>
             {days.map(({ date, title }) => {

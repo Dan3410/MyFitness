@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import defaultProfileImage from '../../assets/defaultProfileImage.jpg';
 import MFBreadcrumb from '../../components/mf-breadcrumb/mf-breadcrumb';
+import MFTag from '../../components/mf-tag/mf-tag';
 import MFSpinner from '../../components/mf-spinner/mf-spinner';
 import { profileService } from '../../services/profileService';
 import type { UserSearchResult } from '../../models/user';
@@ -66,7 +67,7 @@ const Users: FC = () => {
                 <img src={user.profileImage || defaultProfileImage} alt="" />
                 <span className={styles.userDetails}>
                   <span className={styles.userName}>{user.name}</span>
-                  {user.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
+                  {user.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
                 </span>
               </button>
             </article>

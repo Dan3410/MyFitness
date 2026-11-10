@@ -1,8 +1,7 @@
-import { useState, type FC } from 'react'
+import { useState, type FC, type ReactNode } from 'react'
 import styles from './mf-calendar.module.scss'
 import type { CalendarEvent, PlannedWorkouts } from '../../services/calendarService'
 import MFButton from '../mf-button/mf-button'
-import { ComponentTheme } from '../../models/componentTheme'
 import { Link, useNavigate } from 'react-router-dom'
 import MFModal from '../mf-modal/mf-modal'
 import { WorkoutCategory } from '../../models/workoutCategories'
@@ -18,6 +17,7 @@ interface MFCalendarProps {
   isTrainer?: boolean
   currentUserId: string
   onCancelEvent?: (eventId: string) => void
+  eventActions?: ReactNode
 }
 
 const weekDays = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom']
@@ -45,6 +45,7 @@ const MFCalendar: FC<MFCalendarProps> = ({
   isTrainer = false,
   currentUserId,
   onCancelEvent,
+  eventActions,
 }) => {
   const navigate = useNavigate()
   const [workoutToRemove, setWorkoutToRemove] = useState<{ id: string; title: string } | null>(null)
@@ -90,146 +91,148 @@ const MFCalendar: FC<MFCalendarProps> = ({
 
   return (
     <>
-    <section className={styles.calendar} aria-label="Calendario de workouts">
-      <div className={styles.calendarHeader}>
-        <button type="button" onClick={() => changeMonth(-1)} aria-label="Mes anterior"><label>&#8249;</label></button>
-        <h2>{monthFormatter.format(currentMonth)}</h2>
-        <button type="button" onClick={() => changeMonth(1)} aria-label="Mes siguiente"><label>&#8250;</label></button>
-      </div>
+      <section className={styles.calendar} aria-label="Calendario de workouts">
+        <div className={styles.calendarHeader}>
+          <button type="button" onClick={() => changeMonth(-1)} aria-label="Mes anterior"><label>&#8249;</label></button>
+          <h2>{monthFormatter.format(currentMonth)}</h2>
+          <button type="button" onClick={() => changeMonth(1)} aria-label="Mes siguiente"><label>&#8250;</label></button>
+        </div>
 
-      <div className={styles.weekDays}>
-        {weekDays.map((day) => <span key={day}>{day}</span>)}
-      </div>
-      <div className={styles.daysGrid}>
-        {days.map((date, index) => {
-          if (!date) return <span key={`empty-${index}`} className={styles.emptyDay} />
-          const key = dateKey(date)
-          const planned = plannedWorkouts[key] || []
-          return (
-            <div
-              key={key}
-              className={`${styles.day} ${key === selectedDate ? styles.selectedDay : ''} ${key === dateKey(today) ? styles.today : ''}`}
-              onClick={() => onDateSelect(key)}
-            >
-              <strong>{date.getDate()}</strong>
-              {planned.length > 0 && (
-                <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
-                  {planned.length} {planned.length === 1 ? 'rutina' : 'rutinas'}
-                </div>
-              )}
-              {(events[key] || []).length > 0 && (
-                <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
-                  {(events[key] || []).length} {(events[key] || []).length === 1 ? 'evento' : 'eventos'}
-                </div>
-              )}
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }}>
+          <div>
+
+            <div className={styles.weekDays}>
+              {weekDays.map((day) => <span key={day}>{day}</span>)}
             </div>
-          )
-        })}
-      </div>
-
-      <div className={styles.dayDetails}>
-        <h3>Eventos ({selectedDate})</h3>
-        <h4>Rutinas</h4>
-        {selectedWorkouts.length === 0 ? <p>No hay rutinas planificadas.</p> : (
-          <ul>
-            {selectedWorkouts.map((workout) => (
-              <li key={workout.id}>
-                <div className={styles.workoutDetails}>
-                  <span className={styles.eventIcon} aria-hidden="true">
-                    {workoutCategoryDetails[workout.category]?.icon ?? '🏋️‍♂️'}
-                  </span>
-                  <span>
-                    {workout.time ? `${workout.time} - ` : ''}
-                    <Link to={`/workout/view/${workout.id}`}>{workout.title}</Link>
-                  </span>
-                </div>
-                <div className={styles.workoutActions}>
-                  <MFButton
-                    theme={ComponentTheme.workout}
-                    onClickEvent={() => navigate(`/workout/view/${workout.id}`)}
+            <div className={styles.daysGrid}>
+              {days.map((date, index) => {
+                if (!date) return <span key={`empty-${index}`} className={styles.emptyDay} />
+                const key = dateKey(date)
+                const planned = plannedWorkouts[key] || []
+                return (
+                  <div
+                    key={key}
+                    className={`${styles.day} ${key === selectedDate ? styles.selectedDay : ''} ${key === dateKey(today) ? styles.today : ''}`}
+                    onClick={() => onDateSelect(key)}
                   >
-                    Ver
-                  </MFButton>
-                  <MFButton
-                    theme={ComponentTheme.workout}
-                    onClickEvent={() => setWorkoutToRemove(workout)}
-                  >
-                    Quitar
-                  </MFButton>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-        {eventSections.map(({ title, events: sectionEvents }) => (
-          <div key={title}>
-            <h4>{title}</h4>
-            {sectionEvents.length === 0 ? <p>No hay eventos planificados.</p> : (
-              <ul>
-                {sectionEvents.map((event) => (
-                  <li key={event.id}>
-                    <div>
-                      <div className={styles.eventDetails}>
-                        <span className={styles.eventIcon} aria-hidden="true">
-                          {workoutCategoryDetails[event.workoutCategory ?? '']?.icon ?? '📅'}
-                        </span>
-                        <div>
-                          <span>
-                            {event.time ? `${event.time} - ` : ''}
-                            {event.trainerId === currentUserId ? event.studentName : event.trainerName}
-                          </span>
-                          {event.workoutTitle && (
-                            event.workoutId ? (
-                              <Link
-                                className={styles.eventWorkoutTitle}
-                                to={`/workout/view/${event.workoutId}`}
-                              >
-                                Rutina: {event.workoutTitle}
-                              </Link>
-                            ) : (
-                              <small className={styles.eventWorkoutTitle}>Rutina: {event.workoutTitle}</small>
-                            )
-                          )}
-                        </div>
+                    {date.getDate()}
+                    {planned.length > 0 && (
+                      <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
+                        {planned.length} {planned.length === 1 ? 'rutina' : 'rutinas'}
                       </div>
+                    )}
+                    {(events[key] || []).length > 0 && (
+                      <div className={`${styles.dayEvent} ${styles.dayEvent}`}>
+                        {(events[key] || []).length} {(events[key] || []).length === 1 ? 'evento' : 'eventos'}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+          </div>
+          <div className={styles.dayDetails}>
+            <h3>Eventos ({selectedDate})</h3>
+            <h4>Rutinas</h4>
+            {selectedWorkouts.length === 0 ? <p>No hay rutinas planificadas.</p> : (
+              <ul>
+                {selectedWorkouts.map((workout) => (
+                  <li key={workout.id}>
+                    <div className={styles.workoutDetails}>
+                      <span className={styles.eventIcon} aria-hidden="true">
+                        {workoutCategoryDetails[workout.category]?.icon ?? '🏋️‍♂️'}
+                      </span>
+                      <span>
+                        {workout.time ? `${workout.time} - ` : ''}
+                        <Link to={`/workout/view/${workout.id}`}>{workout.title}</Link>
+                      </span>
                     </div>
-                    <MFButton
-                      theme={ComponentTheme.workout}
-                      onClickEvent={() => onCancelEvent?.(event.id)}
-                    >
-                      Cancelar evento
-                    </MFButton>
+                    <div className={styles.workoutActions}>
+                      <MFButton
+                        theme="tertiary"
+                        onClickEvent={() => setWorkoutToRemove(workout)}
+                      >
+                        Quitar
+                      </MFButton>
+                    </div>
                   </li>
                 ))}
               </ul>
             )}
+            {eventSections.map(({ title, events: sectionEvents }) => (
+              <div key={title}>
+                <h4>{title}</h4>
+                {sectionEvents.length === 0 ? <p>No hay eventos planificados.</p> : (
+                  <ul>
+                    {sectionEvents.map((event) => (
+                      <li key={event.id}>
+                        <div>
+                          <div className={styles.eventDetails}>
+                            <span className={styles.eventIcon} aria-hidden="true">
+                              {workoutCategoryDetails[event.workoutCategory ?? '']?.icon ?? '📅'}
+                            </span>
+                            <div>
+                              <span>
+                                {event.time ? `${event.time} - ` : ''}
+                                {event.trainerId === currentUserId ? event.studentName : event.trainerName}
+                              </span>
+                              {event.workoutTitle && (
+                                event.workoutId ? (
+                                  <Link
+                                    className={styles.eventWorkoutTitle}
+                                    to={`/workout/view/${event.workoutId}`}
+                                  >
+                                    Rutina: {event.workoutTitle}
+                                  </Link>
+                                ) : (
+                                  <small className={styles.eventWorkoutTitle}>Rutina: {event.workoutTitle}</small>
+                                )
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <MFButton
+                          theme="tertiary"
+                          onClickEvent={() => onCancelEvent?.(event.id)}
+                        >
+                          Cancelar
+                        </MFButton>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+            {eventActions}
+
           </div>
-        ))}
-      </div>
-    </section>
-    <MFModal isOpen={workoutToRemove !== null} onClose={() => setWorkoutToRemove(null)}>
-      <h2>Quitar rutina</h2>
-      <p>
-        ¿Estas seguro que queres quitar la rutina {workoutToRemove?.title}?
-        <br />
-        Esta acción no se puede deshacer
-      </p>
-      <div className={styles.workoutConfirmationButtons}>
-        <MFButton
-          onClickEvent={() => setWorkoutToRemove(null)}
-          isDisabled={removingWorkout}
-        >
-          Volver
-        </MFButton>
-        <MFButton
-          theme={ComponentTheme.workout}
-          onClickEvent={() => void confirmWorkoutRemoval()}
-          isDisabled={removingWorkout}
-        >
-          {removingWorkout ? 'Quitando...' : 'Quitar rutina'}
-        </MFButton>
-      </div>
-    </MFModal>
+        </div>
+      </section>
+      <MFModal isOpen={workoutToRemove !== null} onClose={() => setWorkoutToRemove(null)}>
+        <h2>Quitar rutina</h2>
+        <p>
+          ¿Estas seguro que queres quitar la rutina {workoutToRemove?.title}?
+          <br />
+          Esta acción no se puede deshacer
+        </p>
+        <div className={styles.workoutConfirmationButtons}>
+          <MFButton
+            theme="secondary"
+            onClickEvent={() => setWorkoutToRemove(null)}
+            isDisabled={removingWorkout}
+          >
+            Volver
+          </MFButton>
+          <MFButton
+            theme="tertiary"
+            onClickEvent={() => void confirmWorkoutRemoval()}
+            isDisabled={removingWorkout}
+          >
+            {removingWorkout ? 'Quitando...' : 'Quitar rutina'}
+          </MFButton>
+        </div>
+      </MFModal>
     </>
   )
 }

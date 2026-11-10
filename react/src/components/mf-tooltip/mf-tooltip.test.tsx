@@ -1,11 +1,10 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
 import MFTooltip from './mf-tooltip';
-import { ComponentTheme } from '../../models/componentTheme';
 
 it('renders its tooltip text and a focusable trigger', () => {
   render(
-    <MFTooltip theme={ComponentTheme.workout}>
+    <MFTooltip theme="primary">
       Help text
     </MFTooltip>,
   );
@@ -21,7 +20,7 @@ afterEach(() => {
 it('shows the tooltip after its delay and hides it when the pointer leaves', async () => {
   vi.useFakeTimers()
   render(
-    <MFTooltip theme={ComponentTheme.workout} delay={50}>
+    <MFTooltip theme="primary" delay={50}>
       Delayed help
     </MFTooltip>,
   )

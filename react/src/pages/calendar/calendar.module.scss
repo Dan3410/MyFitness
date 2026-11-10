@@ -9,6 +9,20 @@
 	max-width: 980px;
 }
 
+.eventForm {
+	align-items: stretch;
+	flex-direction: column;
+	margin: 0;
+	max-width: none;
+}
+
+.calendarActions {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 16px;
+}
+
 .addWorkout select {
 	flex: 1;
 	padding: 8px;
@@ -16,14 +30,6 @@
 
 .addWorkout input[type='time'] {
 	padding: 7px;
-}
-
-.addWorkout button {
-	background: #1769aa;
-	border: 0;
-	color: #fff;
-	cursor: pointer;
-	padding: 8px 12px;
 }
 
 .addWorkout button:disabled {
@@ -36,14 +42,6 @@
 	justify-content: flex-end;
 	gap: 8px;
 	margin-top: 20px;
-}
-
-.confirmationButtons button {
-	background: #1769aa;
-	border: 0;
-	color: #fff;
-	cursor: pointer;
-	padding: 8px 12px;
 }
 
 .confirmationButtons button:disabled {

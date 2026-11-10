@@ -1,5 +1,4 @@
 import { ChangeEvent, FC } from 'react';
-import { ComponentTheme } from '../../../../models/componentTheme';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import styles from './personal-data-section.module.scss'
 import { User } from '../../../../models/user';
@@ -24,30 +23,30 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
 
   return (<>
 
-    <MFExpandablePanel title="Información General" theme={ComponentTheme.profileAndHealth}>
+    <MFExpandablePanel title="Información General" theme="primary">
       <div className={styles.profileFormSection}>
         <div>
-          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+          <MFFormField disabled={!edit} theme="primary">
             <label>Username</label>
             <input name="username" value={form.username} onChange={handleChange}></input>
           </MFFormField>
           <MFError hidden={!edit || !!form.username}>Este campo es obligatorio</MFError>
         </div>
         <div>
-          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+          <MFFormField disabled={!edit} theme="primary">
             <label>Nombre</label>
             <input name="name" value={form.name} onChange={handleChange}></input>
           </MFFormField>
           <MFError hidden={!edit || !!form.name}>Este campo es obligatorio</MFError>
         </div>
         <div>
-          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+          <MFFormField disabled={!edit} theme="primary">
             <label>Apellido</label>
             <input name="lastName" value={form.lastName} onChange={handleChange}></input>
           </MFFormField>
           <MFError hidden={!edit || !!form.lastName}>Este campo es obligatorio</MFError>
         </div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+        <MFFormField disabled={!edit} theme="primary">
           <label>Genero</label>
           <select name="gender" value={form.gender} onChange={handleChange}>
             {gender.map((item: Option) => (
@@ -56,13 +55,13 @@ const PersonalDataSection: FC<PersonalDataSectionProps> = ({ handleChange, edit,
           </select>
         </MFFormField>
         <div>
-          <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+          <MFFormField disabled={!edit} theme="primary">
             <label>Fecha de nacimiento</label>
             <input name="birthDay" type='date' value={form.birthDay} onChange={handleChange}></input>
           </MFFormField>
           <MFError hidden={!edit || !!form.birthDay}>Este campo es obligatorio</MFError>
         </div>
-        <MFFormField disabled={!edit} theme={ComponentTheme.profileAndHealth}>
+        <MFFormField disabled={!edit} theme="primary">
           <label>Nivel de actividad física</label>
           <select name="physicalActivityLvl" value={form.physicalActivityLvl} onChange={handleChange}>
             {physicalActivityLvl.map((item: Option) => (

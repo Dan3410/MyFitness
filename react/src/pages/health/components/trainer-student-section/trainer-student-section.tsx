@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import defaultProfileImage from '../../../../assets/defaultProfileImage.jpg'
 import MFCheckbox from '../../../../components/mf-checkbox/mf-checkbox'
 import MFExpandablePanel from '../../../../components/mf-expandable-panel/mf-expandable-panel'
-import { ComponentTheme } from '../../../../models/componentTheme'
+import MFTag from '../../../../components/mf-tag/mf-tag'
 import type { TrainerStudentRelationship } from '../../../../models/user'
 import styles from './trainer-student-section.module.scss'
 
@@ -33,7 +33,7 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
         <li key={`${user.relationshipType}:${user.id}`}>
           {edit ? (
             <MFCheckbox
-              theme={ComponentTheme.profileAndHealth}
+              theme="primary"
               checked={selectedUserIds.includes(`${user.relationshipType}:${user.id}`)}
               onChange={(event) => onSelectionChange(user, event.target.checked)}
             >
@@ -42,7 +42,7 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
                   <img src={user.profileImage || defaultProfileImage} alt="" />
                   <span>{user.name}</span>
                 </div>
-                {user.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
+                {user.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
               </div>
             </MFCheckbox>
           ) : (
@@ -54,7 +54,7 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
                 <img src={user.profileImage || defaultProfileImage} alt="" />
                 <span>{user.name}</span>
               </Link>
-              {user.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
+              {user.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
             </div>
           )}
         </li>
@@ -63,7 +63,7 @@ const TrainerStudentSection: FC<TrainerStudentSectionProps> = ({
   )
 
   return (
-    <MFExpandablePanel title="Entrenadores / Alumnos" theme={ComponentTheme.profileAndHealth}>
+    <MFExpandablePanel title="Entrenadores / Alumnos" theme="primary">
       <section className={styles.relationshipSection}>
         {edit && <p>Destilda las casillas para remover entrenadores o alumnos.</p>}
         {isTrainer ? (

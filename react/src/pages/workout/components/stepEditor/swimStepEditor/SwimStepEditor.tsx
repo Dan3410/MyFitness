@@ -2,7 +2,6 @@ import { FC } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../../models/componentTheme';
 import { SwimStep, SwimStroke, WorkoutStep, StepType, swimGear } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import { CONST_SWIM_STEP_TYPE_OPTIONS } from '../../../../../const/swimStepTypeOptions';
@@ -20,16 +19,16 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
         <h3 className={styles.title}>Editar paso de natación</h3>
-        <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
+        <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
         <MFSelector
           label="Tipo"
-          theme={ComponentTheme.workout}
+          theme="primary"
           options={CONST_SWIM_STEP_TYPE_OPTIONS}
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as SwimStep['type'] })}
         />
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Descripción</label>
         <textarea
           value={step.description ?? ''}
@@ -37,7 +36,7 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
         />
       </MFFormField>
       {step.type !== StepType.SWIMTIME ? (
-        <MFFormField theme={ComponentTheme.workout}>
+        <MFFormField theme="primary">
           <label>Distancia</label>
           <input
             type="number"
@@ -48,7 +47,7 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
         </MFFormField>
       ) : null}
       {step.type === StepType.SWIMTIME ? (
-        <MFFormField theme={ComponentTheme.workout}>
+        <MFFormField theme="primary">
           <label>Tiempo</label>
           <input
             type="number"
@@ -60,14 +59,14 @@ const SwimStepEditor: FC<SwimStepEditorProps> = ({ step, onChange, onDelete }) =
       ) : null}
         <MFSelector
           label="Estilo"
-          theme={ComponentTheme.workout}
+          theme="primary"
           options={CONST_SWIM_STROKE_OPTIONS}
           value={step.stroke}
           onChange={(value) => onChange({ ...step, stroke: value as SwimStroke })}
         />
         <MFSelector
           label="Equipo"
-          theme={ComponentTheme.workout}
+          theme="primary"
           options={CONST_SWIMMING_GEAR_OPTIONS}
           value={step.gear}
           multiple

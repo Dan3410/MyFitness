@@ -35,3 +35,33 @@ it('applies button attributes and ignores clicks when disabled', () => {
   fireEvent.click(button);
   expect(onClickEvent).not.toHaveBeenCalled();
 });
+
+it('forwards accessibility attributes and a custom class name', () => {
+  render(
+    <MFButton
+      aria-expanded="true"
+      aria-haspopup="menu"
+      className="menuTrigger"
+    >
+      Menu
+    </MFButton>,
+  );
+
+  const button = screen.getByRole('button', { name: 'Menu' });
+  expect(button.getAttribute('aria-expanded')).toBe('true');
+  expect(button.getAttribute('aria-haspopup')).toBe('menu');
+  expect(button.className).toContain('menuTrigger');
+});
+
+it('supports the primary, secondary, and tertiary color variants', () => {
+  const { rerender } = render(<MFButton theme="primary">Primary</MFButton>);
+  const button = screen.getByRole('button', { name: 'Primary' });
+
+  expect(button.className).toContain('primary');
+
+  rerender(<MFButton theme="secondary">Secondary</MFButton>);
+  expect(screen.getByRole('button', { name: 'Secondary' }).className).toContain('secondary');
+
+  rerender(<MFButton theme="tertiary">Tertiary</MFButton>);
+  expect(screen.getByRole('button', { name: 'Tertiary' }).className).toContain('tertiary');
+});

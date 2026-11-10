@@ -36,18 +36,18 @@
   color: var(--tooltip-icon-color);
   border-color: var(--tooltip-border-color);
 
-  &.profileAndHealthTheme {
-    --tooltip-icon-color: #fafafa;
-    --tooltip-border-color: rgb(77, 255, 77);
+  &.primary {
+    --tooltip-icon-color: var(--primary-color-light);
+    --tooltip-border-color: var(--primary-color-light);
   }
 
-  &.dietTheme {
-    --tooltip-icon-color: #fafafa;
-    --tooltip-border-color: #ac8757;
+  &.secondary {
+    --tooltip-icon-color: var(--secondary-color-light);
+    --tooltip-border-color: var(--secondary-color-light);
   }
 
-  &.workoutTheme {
-    --tooltip-icon-color: rgb(10, 8, 8);
-    --tooltip-border-color: rgb(19, 45, 129);
+  &.tertiary {
+    --tooltip-icon-color: var(--tertiary-color-light);
+    --tooltip-border-color: var(--tertiary-color-light);
   }
 }

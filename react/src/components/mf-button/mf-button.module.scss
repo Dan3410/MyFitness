@@ -8,18 +8,13 @@
     background-color: var(--mf-button-background-color);
     color: var(--mf-button-text-color);
     border: 1px solid transparent;
-    padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
     cursor: pointer;
     transition: filter 0.25s;
-
-    label {
-        margin: auto;
-        cursor: pointer
-    }
+    text-align: center;
+    justify-content: center;
 
     &:hover {
         filter: brightness(1.25);
@@ -30,39 +25,26 @@
         outline: 4px auto -webkit-focus-ring-color;
     }
 
-    &.profileAndHealthTheme {
-        --mf-button-background-color: rgb(0, 131, 0);
-        --mf-button-text-color: rgb(16, 29, 16);
+    &.primary {
+        --mf-button-background-color: var(--primary-color);
+        --mf-button-text-color: #fff;
     }
 
-    &.dietTheme {
-        --mf-button-background-color: #fdff82;
-        --mf-button-text-color: #000;
+    &.secondary {
+        --mf-button-background-color: var(--secondary-color);
+        --mf-button-text-color: #fff;
     }
 
-    &.workoutTheme {
-        --mf-button-background-color: rgb(0, 80, 167);
-        --mf-button-text-color: #fafafa;
+    &.tertiary {
+        --mf-button-background-color: var(--tertiary-color);
+        --mf-button-text-color: #fff;
     }
 }
 
 
-.profileAndHealthTheme {
-    background-color: rgb(0, 175, 0);
-    color: #fff;
-}
-
-.dietTheme {
-    background-color: #fdff82;
-    color: #000;
-}
-
-.workoutTheme {
-    background-color: rgb(0, 130, 211);
-    color: #fafafa;
-}
-
-.genericTheme {
-    background-color: #cf1313;
-    color: #fff;
+.primary,
+.secondary,
+.tertiary {
+    background-color: var(--mf-button-background-color);
+    color: var(--mf-button-text-color);
 }

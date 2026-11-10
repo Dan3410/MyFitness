@@ -15,20 +15,16 @@
   animation: spin 0.8s linear infinite;
 }
 
-.profileAndHealthTheme {
-  color: rgb(0, 255, 0);
+.primary {
+  color: var(--primary-color-light);
 }
 
-.dietTheme {
-  color: #fdff82;
+.secondary {
+  color: var(--secondary-color-light);
 }
 
-.workoutTheme {
-  color: #4992ff;
-}
-
-.genericTheme {
-  color: #fafafa;
+.tertiary {
+  color: var(--tertiary-color-light);
 }
 
 @keyframes spin {

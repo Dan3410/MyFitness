@@ -2,7 +2,6 @@ import { FC } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../../models/componentTheme';
 import { GymStep, WorkoutStep, StepType } from '../../../../../models/workoutSteps';
 import { WorkoutCategory } from '../../../../../models/workoutCategories';
 import styles from './../stepEditor.module.scss';
@@ -20,11 +19,11 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
         <h3 className={styles.title}>{workoutCategory === WorkoutCategory.GYM ? 'Editar ejercicio' : 'Editar paso'}</h3>
-        <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
+        <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
       <MFSelector
         label="Tipo"
-        theme={ComponentTheme.workout}
+        theme="primary"
         options={
           CONST_GYM_STEP_TYPE_OPTIONS
         }
@@ -34,14 +33,14 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
           onChange({ ...step, type: nextType, byTime: nextType === StepType.INTERVAL || nextType === StepType.EXERCISE || nextType === StepType.GYMWARMUP || nextType === StepType.GYMCOOLDOWN ? false : step.byTime });
         }}
       />
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Descripción</label>
         <textarea
           value={step.description ?? ''}
           onChange={(event) => onChange({ ...step, description: event.target.value })}
         />
       </MFFormField>
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Ejercicio</label>
         <input
           type="text"
@@ -50,7 +49,7 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         />
       </MFFormField>
       {!step.byTime ? (
-        <MFFormField theme={ComponentTheme.workout}>
+        <MFFormField theme="primary">
           <label>Repeticiones</label>
           <input
             type="number"
@@ -61,7 +60,7 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
         </MFFormField>
       ) : null}
       {step.byTime ? (
-        <MFFormField theme={ComponentTheme.workout}>
+        <MFFormField theme="primary">
           <label>Tiempo</label>
           <input
             type="number"
@@ -71,7 +70,7 @@ const GymStepEditor: FC<GymStepEditorProps> = ({ step, workoutCategory, onChange
           />
         </MFFormField>
       ) : null}
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Peso</label>
         <input
           type="number"

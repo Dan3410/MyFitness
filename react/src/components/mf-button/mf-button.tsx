@@ -1,46 +1,46 @@
-import type { FC, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import styles from "./mf-button.module.scss"
-import { ComponentTheme } from '../../models/componentTheme';
+import type { ColorVariant } from '../../models/colorVariant';
 
-interface MFButtonProps {
-   theme?: ComponentTheme,
-   //   redirectUrl?: string,
+interface MFButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'className' | 'disabled' | 'onClick' | 'style' | 'type'> {
+   theme?: ColorVariant,
    children: ReactNode,
    width?: string,
    height?: string,
    fontSize?: string,
    isDisabled?: boolean,
-   onClickEvent?: (...args: never[]) => void;
-   type?: "button" | "submit" | "reset" | undefined
+   onClickEvent?: () => void;
+   type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
+   className?: string
 }
 
 const MFButton: FC<MFButtonProps> = ({
    theme,
    children,
+   className,
    width = 'fit-content',
    height = "fit-content",
    fontSize = '14px',
    isDisabled = false,
    type = undefined,
-   onClickEvent
+   onClickEvent,
+   ...buttonProps
 }) => {
-
-   const handleClick = () => {
-      if (onClickEvent)
-         onClickEvent()
-   }
-
-   return (<>
-      <button className={`${styles.mfButtonContainer} ${styles[theme || ComponentTheme.generic]}`} disabled={isDisabled}
-         onClick={!isDisabled ? handleClick : () => { }} type={type}
+   return (
+      <button
+         {...buttonProps}
+         className={`${styles.mfButtonContainer} ${styles[theme || 'primary']} ${className || ''}`.trim()}
+         disabled={isDisabled}
+         onClick={onClickEvent}
+         type={type}
          style={{
             width: width,
             height: height,
             fontSize: fontSize
-         }}>
+         }}
+      >
          {children}
       </button>
-   </>
    )
 };
 

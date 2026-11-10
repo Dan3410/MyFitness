@@ -2,22 +2,22 @@
     --padding: 12px 16px;
 }
 
-.profileAndHealthTheme {
-    --panel-bg: rgb(0, 131, 0);
-    --panel-inner-bg: rgb(16, 29, 16);
-    --panel-border: rgb(0, 175, 0);
+.primary {
+    --panel-bg: var(--primary-color-light);
+    --panel-inner-bg: var(--primary-color-dark);
+    --panel-border: var(--primary-color-light);
 }
 
-.dietTheme {
-    --panel-bg: #fdff82;
-    --panel-inner-bg: #000;
-    --panel-border: #fdff82;
+.secondary {
+    --panel-bg: var(--secondary-color-light);
+    --panel-inner-bg: var(--primary-color-dark);
+    --panel-border: var(--secondary-color-light);
 }
 
-.workoutTheme {
-    --panel-bg: rgb(0, 80, 167);
-    --panel-inner-bg: #fafafa;
-    --panel-border: rgb(0, 130, 211);
+.tertiary {
+    --panel-bg: var(--tertiary-color-light);
+    --panel-inner-bg: var(--primary-color-dark);
+    --panel-border: var(--tertiary-color-light);
 }
 
 /* Container */

@@ -1,7 +1,7 @@
 // ExpandablePanel.jsx
 import React, { useRef, useState, useLayoutEffect, useId, FC } from "react";
 import styles from "./mf-expandable-panel.module.scss";
-import { ComponentTheme } from "../../models/componentTheme";
+import type { ColorVariant } from "../../models/colorVariant";
 
 interface MFExpandablePanelProps {
    id?: string;
@@ -10,7 +10,7 @@ interface MFExpandablePanelProps {
    isOpen?: boolean;
    defaultOpen?: boolean;
    onToggle?: (isOpen: boolean) => void;
-   theme?: ComponentTheme,
+   theme?: ColorVariant,
 };
 
 const MFExpandablePanel: FC<MFExpandablePanelProps> = ({
@@ -84,7 +84,7 @@ const MFExpandablePanel: FC<MFExpandablePanelProps> = ({
 
    return (
       <div className={`${styles.expandablePanel}
-    ${styles[theme || ComponentTheme.workout]}`}>
+    ${styles[theme || 'primary']}`}>
          <div className={styles.header}>
             <button
                id={headerId}

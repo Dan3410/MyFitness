@@ -5,7 +5,6 @@ import { workoutService } from '../../../../services/workoutService';
 import MFButton from '../../../../components/mf-button/mf-button';
 import MFModal from '../../../../components/mf-modal/mf-modal';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
-import { ComponentTheme } from '../../../../models/componentTheme';
 import MFFormField from '../../../../components/mf-form-field/mf-form-field';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { NavigateFunction, useNavigate, useSearchParams } from 'react-router-dom';
@@ -193,7 +192,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       <h2>
         Rutinas de ejercicio
       </h2>
-      <MFButton theme={ComponentTheme.workout} type="button" onClickEvent={createWorkout}>Crear rutina</MFButton>
+      <MFButton theme="primary" type="button" onClickEvent={createWorkout}>Crear rutina</MFButton>
     </div>
   </div>
   {trainerDataError || shareError || shareSuccess ? <div className={styles.workoutListNotifications}>
@@ -201,7 +200,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     {shareSuccess && <MFNotification type="success" message={shareSuccess} />}
     {shareError && <MFNotification type="failure" message="No se pudo compartir la rutina." />}
   </div> : null}
-    <MFFormField theme={ComponentTheme.workout}>
+    <MFFormField theme="primary">
       <label>Actividad</label>
       <select name="category" value={category} onChange={handleCategoryChange}>
         {categories && categories?.length > 0 && categories.map((item) => (
@@ -210,7 +209,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       </select>
     </MFFormField>
 
-    {loading || loadingCategories ? <MFSpinner theme={ComponentTheme.workout} /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.workoutList}>
+    {loading || loadingCategories ? <MFSpinner theme="primary" /> : loadError ? <p>{GET_DATA_ERROR_MESSAGE}</p> : <div className={styles.workoutList}>
       <table cellSpacing="0" cellPadding="0">
         <thead>
           <tr>
@@ -237,11 +236,11 @@ const WorkoutList: FC<WorkoutListProps> = () => {
               </td>
               <td className={styles.listActionsContainer}>
                 {item.sourceTrainerName ? (
-                  <MFButton theme={ComponentTheme.workout} onClickEvent={() => navigate(`/workout/view/${item.id}`)}>Ver</MFButton>
+                  <MFButton theme="primary" onClickEvent={() => navigate(`/workout/view/${item.id}`)}>Ver</MFButton>
                 ) : (
                   <>
                     <MFButton onClickEvent={() => openDeletePopup(item)}>Eliminar</MFButton>
-                    <MFButton theme={ComponentTheme.workout} onClickEvent={() => openWorkout(item)}>Editar</MFButton>
+                    <MFButton theme="primary" onClickEvent={() => openWorkout(item)}>Editar</MFButton>
                     {isTrainer && <MFButton onClickEvent={() => void openShareModal(item)}>Compartir</MFButton>}
                   </>
                 )}
@@ -255,14 +254,14 @@ const WorkoutList: FC<WorkoutListProps> = () => {
         <p>¿Estas seguro de borrar la rutina {workoutSelected?.name}? Esta acción se no se puede deshacer.</p>
         <div className={styles.modalButtonContainer}>
           <MFButton onClickEvent={() => setOpen(false)}>Cancelar</MFButton>
-          <MFButton onClickEvent={() => workoutSelected && deleteWorkout(workoutSelected?.id)} theme={ComponentTheme.workout}>Eliminar</MFButton>
+          <MFButton onClickEvent={() => workoutSelected && deleteWorkout(workoutSelected?.id)} theme="primary">Eliminar</MFButton>
         </div>
       </MFModal>
       <MFModal isOpen={shareWorkout !== null} onClose={() => setShareWorkout(null)}>
         <h2>Compartir rutina</h2>
         <p>Selecciona los alumnos que recibirán “{shareWorkout?.name}”.</p>
         {sharing ? (
-          <MFSpinner theme={ComponentTheme.workout} label="Compartiendo rutina" />
+          <MFSpinner theme="primary" label="Compartiendo rutina" />
         ) : (
           <>
             {loadingStudents ? <p>Cargando alumnos...</p> : students.length === 0 ? <p>No tienes alumnos vinculados.</p> : (
@@ -270,7 +269,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
                 {students.map((student) => (
                   <MFCheckbox
                     key={student.id}
-                    theme={ComponentTheme.workout}
+                    theme="primary"
                     checked={selectedStudentIds.includes(student.id)}
                     onChange={(event) => setSelectedStudentIds((current) => event.target.checked
                       ? [...current, student.id]
@@ -285,7 +284,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
             <div className={styles.modalButtonContainer}>
               <MFButton onClickEvent={() => setShareWorkout(null)}>Cancelar</MFButton>
               <MFButton
-                theme={ComponentTheme.workout}
+                theme="primary"
                 isDisabled={loadingStudents}
                 onClickEvent={() => void shareSelectedWorkout()}
               >

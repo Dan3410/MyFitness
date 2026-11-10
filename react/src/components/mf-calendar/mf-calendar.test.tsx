@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import type { ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import type { CalendarEvent, PlannedWorkouts } from '../../services/calendarService'
 import MFCalendar from './mf-calendar'
@@ -16,6 +17,7 @@ const renderCalendar = ({
   onDateSelect = vi.fn(),
   onRemoveWorkout = vi.fn().mockResolvedValue(undefined),
   onCancelEvent = vi.fn(),
+  eventActions,
 }: {
   plannedWorkouts?: PlannedWorkouts
   events?: Record<string, CalendarEvent[]>
@@ -25,6 +27,7 @@ const renderCalendar = ({
   onDateSelect?: (date: string) => void
   onRemoveWorkout?: (date: string, workoutId: string) => Promise<void>
   onCancelEvent?: (eventId: string) => void
+  eventActions?: ReactNode
 } = {}) => render(
   <MemoryRouter>
     <MFCalendar
@@ -38,6 +41,7 @@ const renderCalendar = ({
       isTrainer={isTrainer}
       currentUserId={currentUserId}
       onCancelEvent={onCancelEvent}
+      eventActions={eventActions}
     />
   </MemoryRouter>,
 )
@@ -64,6 +68,27 @@ describe('MFCalendar', () => {
     expect(screen.getByText('No hay eventos planificados.')).toBeTruthy()
     expect(screen.getByText('Lun')).toBeTruthy()
     expect(screen.getByText('Dom')).toBeTruthy()
+  })
+
+  it('renders calendar actions below all event sections', () => {
+    renderCalendar({
+      isTrainer: true,
+      events: {
+        [selectedDate]: [{
+          id: 'student-event',
+          trainerId: 'user-1',
+          trainerName: 'Entrenador actual',
+          studentId: 'student-1',
+          studentName: 'Estudiante asignado',
+          date: selectedDate,
+        }],
+      },
+      eventActions: <div data-testid="event-actions">Selector y formulario</div>,
+    })
+
+    const trainerEventsHeading = screen.getByRole('heading', { name: 'Eventos con entrenadores' })
+    const eventActions = screen.getByTestId('event-actions')
+    expect(trainerEventsHeading.compareDocumentPosition(eventActions) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 
   it('changes month and selects its first day when navigating', () => {

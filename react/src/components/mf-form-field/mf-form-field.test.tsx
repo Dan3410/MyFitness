@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import MFFormField from './mf-form-field';
-import { ComponentTheme } from '../../models/componentTheme';
 
 it('renders its form control children', () => {
   render(
-    <MFFormField theme={ComponentTheme.workout}>
+    <MFFormField theme="primary">
       <label htmlFor="username">Username</label>
       <input id="username" />
     </MFFormField>,
@@ -16,7 +15,7 @@ it('renders its form control children', () => {
 
 it('disables nested form controls when disabled', () => {
   render(
-    <MFFormField theme={ComponentTheme.workout} disabled>
+    <MFFormField theme="primary" disabled>
       <label htmlFor="disabled-username">Username</label>
       <input id="disabled-username" />
       <div>
@@ -32,7 +31,7 @@ it('disables nested form controls when disabled', () => {
 
 it('preserves controls that are individually disabled', () => {
   render(
-    <MFFormField theme={ComponentTheme.workout}>
+    <MFFormField theme="primary">
       <button type="button" disabled>Unavailable</button>
     </MFFormField>,
   )

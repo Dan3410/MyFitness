@@ -1,11 +1,11 @@
-:root{
+:root {
     --header-height: 60px;
 }
 
 .MFHeader {
     width: 100%;
     height: var(--header-height);
-    background-color: #333333;
+    background-color: var(--background-color-header);
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -22,7 +22,7 @@
     margin-right: auto;
 }
 
-.hamburgerTrigger {
+.MFHeader .hamburgerTrigger {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,16 +50,36 @@
     z-index: 30;
     width: 250px;
     padding: 6px 0;
-    background-color: #333333;
+    background-color: var(--background-color-header);
     height: calc(100vh - var(--header-height) - 10px);
     transition: width 0.3s ease-in-out;
     overflow: hidden;
 
-    &__closed{
+    &__closed {
         width: 0px
     }
-    &__content{
+
+    &__content {
         padding: 0 20px;
+
+        >button {
+            width: 100%;
+            background-color: transparent;
+            text-align: left;
+            display: block;
+            border: 0;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 9px 10px;
+            text-align: left;
+            transition: background 0.2s ease-in-out;
+            justify-content: flex-start;
+        }
+
+        >button:hover {
+            background-color: var(--primary-color-light);
+
+        }
     }
 }
 
@@ -75,23 +95,11 @@
     cursor: default;
 }
 
-.hamburgerPanel button {
-    display: block;
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: #ffffff;
-    cursor: pointer;
-    padding: 9px 10px;
-    text-align: left;
-    transition: background 0.2s ease-in-out;
-}
-
 .userMenu {
     position: relative;
 }
 
-.userMenuTrigger {
+.MFHeader .userMenuTrigger {
     border: 0;
     background: transparent;
     color: inherit;
@@ -109,24 +117,23 @@
     padding: 6px;
     background-color: #333333;
     border: 1px solid #9c9c9c;
-    box-shadow: 0 4px 12px rgba(175, 175, 175, 0.5);
 }
 
-.userMenuDropdown button {
+.MFHeader .dropdownButton {
     display: block;
-    width: 100%;
     border: 0;
     background: transparent;
     cursor: pointer;
     padding: 9px 10px;
     text-align: left;
     transition: background 0.2s ease-in-out;
+    justify-content: flex-start;
 }
 
-.userMenuDropdown button:hover,
-.userMenuDropdown button:focus-visible,
-.hamburgerPanel button:hover,
-.hamburgerPanel button:focus-visible {
+.MFHeader .dropdownButton:hover,
+.MFHeader .dropdownButton:focus-visible,
+.MFHeader .panelButton:hover,
+.MFHeader .panelButton:focus-visible {
     background: #707070;
     filter: unset
 }
@@ -138,7 +145,7 @@
     margin-right: 24px;
 }
 
-.userSearch > div {
+.userSearch>div {
     min-height: 0;
     height: 34px;
     padding: 0 8px;
@@ -153,13 +160,14 @@
     font: inherit;
 }
 
-.userSearch button {
+.MFHeader .searchButton {
     border: 0;
     background: #1769aa;
     color: #ffffff;
     cursor: pointer;
     padding: 8px 12px;
     font: inherit;
+    border-radius: 0;
 }
 
 .notifications {
@@ -187,7 +195,7 @@
     min-width: 18px;
     height: 18px;
     place-items: center;
-    border-radius: 9px;
+    border-radius: var(--border-radius-small);
     padding: 0 4px;
     background: #c33b32;
     color: #fff;
@@ -204,7 +212,7 @@
     max-height: min(70vh, 520px);
     overflow-y: auto;
     border: 1px solid #777;
-    border-radius: 6px;
+    border-radius: var(--border-radius-small);
     padding: 16px;
     background: #292929;
     color: #fff;
@@ -238,7 +246,7 @@
     padding-left: 10px;
 }
 
-.trainerLink {
+.MFHeader .trainerLink {
     border: 0;
     padding: 0;
     background: transparent;
@@ -246,6 +254,8 @@
     cursor: pointer;
     font: inherit;
     text-decoration: underline;
+    display: inline;
+    vertical-align: baseline;
 }
 
 .notificationActions {
@@ -253,18 +263,13 @@
     gap: 8px;
 }
 
-.notificationActions button {
+.MFHeader .notificationActions .notificationActionButton {
     border: 1px solid #999;
-    border-radius: 4px;
+    border-radius: var(--border-radius-small);
     padding: 6px 10px;
     background: #414141;
     color: #fff;
     cursor: pointer;
-}
-
-.notificationActions button:last-child {
-    border-color: #438a61;
-    background: #28613e;
 }
 
 .notificationStatus {
@@ -289,11 +294,11 @@
         width: 120px;
     }
 
-    .userSearch button {
+    .MFHeader .searchButton {
         padding: 8px;
     }
 
-    .userMenuTrigger {
+    .MFHeader .userMenuTrigger {
         max-width: 90px;
         overflow: hidden;
         text-overflow: ellipsis;

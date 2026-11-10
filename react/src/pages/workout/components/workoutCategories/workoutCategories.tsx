@@ -4,7 +4,6 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { WorkoutCategory, WorkoutCategoryOption } from '../../../../models/workoutCategories';
 import { workoutService } from '../../../../services/workoutService';
 import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
-import { ComponentTheme } from '../../../../models/componentTheme';
 
 interface WorkoutCategoriesProps { }
 
@@ -44,7 +43,7 @@ const WorkoutCategories: FC<WorkoutCategoriesProps> = () => {
       <div className={styles.header}>
         <h2>Elige el tipo de entrenamiento</h2>
       </div>
-      {loading ? <MFSpinner theme={ComponentTheme.workout} /> : <div className={styles.categoriesContainer}>
+      {loading ? <MFSpinner theme="primary" /> : <div className={styles.categoriesContainer}>
         {categories?.map((category) => (
           <button key={category.value} type="button" className={styles.category} onClick={() => redirectTo(category.value)}>
             <span className={styles.icon} aria-hidden="true">{categoryIcons[category.value] ?? '🏋️‍♂️'}</span>

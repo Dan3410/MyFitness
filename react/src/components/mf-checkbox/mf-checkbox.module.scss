@@ -20,22 +20,22 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.profileAndHealthTheme {
-  --checkbox-fill-color: rgb(0, 255, 0);
-  --checkbox-background-color: rgb(25, 61, 25);
-  --checkbox-border-color: rgb(0, 255, 0);
+.primary {
+  --checkbox-fill-color: var(--primary-color-light);
+  --checkbox-background-color: var(--background-color);
+  --checkbox-border-color: var(--primary-color-light);
 }
 
-.dietTheme {
-  --checkbox-fill-color: #fdff82;
-  --checkbox-background-color: #525300;
-  --checkbox-border-color: #fdff82;
+.secondary {
+  --checkbox-fill-color: var(--secondary-color-light);
+  --checkbox-background-color: var(--background-color);
+  --checkbox-border-color: var(--secondary-color-light);
 }
 
-.workoutTheme {
-  --checkbox-fill-color: rgb(0, 124, 255);
-  --checkbox-background-color: rgb(30, 35, 82);
-  --checkbox-border-color: rgb(0, 124, 255);
+.tertiary {
+  --checkbox-fill-color: var(--tertiary-color-light);
+  --checkbox-background-color: var(--background-color);
+  --checkbox-border-color: var(--tertiary-color-light);
 }
 
 .disabled {

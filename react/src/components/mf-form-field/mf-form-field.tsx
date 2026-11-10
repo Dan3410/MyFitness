@@ -1,6 +1,6 @@
 import { Children, cloneElement, isValidElement, type FC, type ReactElement, type ReactNode } from 'react';
 import styles from './mf-form-field.module.scss';
-import { ComponentTheme } from '../../models/componentTheme';
+import type { ColorVariant } from '../../models/colorVariant';
 
 const setControlsDisabled = (children: ReactNode): ReactNode => (
   Children.map(children, (child) => {
@@ -21,7 +21,7 @@ const setControlsDisabled = (children: ReactNode): ReactNode => (
 );
 
 interface MFFormFieldProps {
-  theme: ComponentTheme,
+  theme: ColorVariant,
   children: ReactNode,
   disabled?: boolean
 }

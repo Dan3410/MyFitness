@@ -2,7 +2,6 @@ import { FC } from 'react';
 import MFButton from '../../../../../components/mf-button/mf-button';
 import MFFormField from '../../../../../components/mf-form-field/mf-form-field';
 import MFSelector from '../../../../../components/mf-selector/mf-selector';
-import { ComponentTheme } from '../../../../../models/componentTheme';
 import { RunStep, WorkoutStep, StepType } from '../../../../../models/workoutSteps';
 import styles from './../stepEditor.module.scss';
 import { CONST_RUN_STEP_TYPE_OPTIONS } from '../../../../../const/runStepTypeOptions';
@@ -18,16 +17,16 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
     <div className={styles.stepEditor}>
       <div className={styles.headerRow}>
         <h3 className={styles.title}>Editar paso de carrera</h3>
-        <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={onDelete}>Eliminar</MFButton>
+        <MFButton theme="primary" type="button" onClickEvent={onDelete}>Eliminar</MFButton>
       </div>
         <MFSelector
           label="Tipo"
-          theme={ComponentTheme.workout}
+          theme="primary"
           options={CONST_RUN_STEP_TYPE_OPTIONS}
           value={step.type}
           onChange={(value) => onChange({ ...step, type: value as RunStep['type'] })}
         />
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Descripción</label>
         <textarea
           value={step.description ?? ''}
@@ -35,7 +34,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
         />
       </MFFormField>
 
-      <MFFormField theme={ComponentTheme.workout}>
+      <MFFormField theme="primary">
         <label>Distancia</label>
         <input
           type="number"
@@ -46,7 +45,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
       </MFFormField>
       {step.type === StepType.RUNTIME ? (
         <>
-          <MFFormField theme={ComponentTheme.workout}>
+          <MFFormField theme="primary">
             <label>Tiempo</label>
             <input
               type="number"
@@ -55,7 +54,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
               onChange={(event) => onChange({ ...step, time: event.target.value === '' ? 0 : Number(event.target.value) })}
             />
           </MFFormField>
-          <MFFormField theme={ComponentTheme.workout}>
+          <MFFormField theme="primary">
             <label>Velocidad</label>
             <input
               type="number"
@@ -67,7 +66,7 @@ const RunStepEditor: FC<RunStepEditorProps> = ({ step, onChange, onDelete }) => 
         </>
       ) : null}
       {step.type === StepType.RUNCALORIES ? (
-        <MFFormField theme={ComponentTheme.workout}>
+        <MFFormField theme="primary">
           <label>Calorías</label>
           <input
             type="number"

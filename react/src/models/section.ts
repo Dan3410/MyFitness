@@ -1,9 +1,9 @@
-import { ComponentTheme } from "./componentTheme";
+import type { ColorVariant } from "./colorVariant";
 
 export interface SectionButton {
     name: string,
     description: string,
     disabled: boolean,
-    buttonTheme: ComponentTheme,
+    buttonTheme: ColorVariant,
     redirectFunction: () => void
 }

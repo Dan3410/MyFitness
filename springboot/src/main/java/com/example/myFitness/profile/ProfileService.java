@@ -132,7 +132,7 @@ public class ProfileService {
   }
 
   public List<UserSearchResult> searchUsers(String name, String currentUserId) {
-    String query = name == null ? "" : name.trim().toLowerCase(Locale.ROOT);
+    String query = normalizeSearchText(name);
     return savedUsers.values().stream()
         .filter(user -> !currentUserId.equals(user.getId()))
         .filter(user -> query.isBlank() || matchesUser(user, query))
@@ -193,13 +193,17 @@ public class ProfileService {
   }
 
   private boolean matchesUser(User user, String query) {
-    return contains(user.getName(), query)
-        || contains(user.getLastName(), query)
-        || contains(user.getUsername(), query);
+    String fullName = String.join(" ", user.getName() == null ? "" : user.getName(),
+        user.getLastName() == null ? "" : user.getLastName());
+    return contains(fullName, query) || contains(user.getUsername(), query);
   }
 
   private boolean contains(String value, String query) {
-    return value != null && value.toLowerCase(Locale.ROOT).contains(query);
+    return value != null && normalizeSearchText(value).contains(query);
+  }
+
+  private String normalizeSearchText(String value) {
+    return value == null ? "" : value.trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
   }
 
   public synchronized User saveProfile(String id, User user) {

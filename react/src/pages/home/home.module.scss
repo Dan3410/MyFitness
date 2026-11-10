@@ -60,10 +60,10 @@
     align-items: center;
     gap: 14px;
     min-height: 76px;
-    border: 1px solid #4d4d4d;
-    border-radius: 6px;
+    border: 1px solid var(--secondary-color-dark);
+    border-radius: var(--border-radius-small);
     padding: 12px 16px;
-    background: #2b2b2b;
+    background: var(--secondary-color-dark);
     color: inherit;
     transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
     text-decoration: none;
@@ -74,8 +74,8 @@
 }
 
 .workoutLink:hover {
-    border-color: #42705d;
-    background: #383838;
+    border-color: var(--secondary-color);
+    filter: brightness(1.20);
     transform: translateY(-1px);
 }
 
@@ -85,7 +85,7 @@
     width: 44px;
     height: 44px;
     place-items: center;
-    border-radius: 5px;
+    border-radius: var(--border-radius-small);
     background: #000000;
     font-size: 1.45rem;
 }

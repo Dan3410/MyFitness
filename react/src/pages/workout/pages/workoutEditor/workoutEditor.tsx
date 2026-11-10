@@ -13,7 +13,6 @@ import {
 } from '../../../../models/workoutSteps';
 import { WorkoutCategory } from '../../../../models/workoutCategories';
 import MFButton from '../../../../components/mf-button/mf-button';
-import { ComponentTheme } from '../../../../models/componentTheme';
 import { workoutService } from '../../../../services/workoutService';
 import styles from './workoutEditor.module.scss';
 
@@ -203,7 +202,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
   }
 
   if (loading || workout === undefined) {
-    return <MFSpinner theme={ComponentTheme.workout} />;
+    return <MFSpinner theme="primary" />;
   }
 
   const workoutTypeLabel = workout.category === WorkoutCategory.SWIM
@@ -221,7 +220,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
       <div className="pageHeader">
         <MFBreadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Rutinas de Ejercicio', to: '/workout/list' }, { label: workout.name }]} />
         <div className={styles.nameEditor}>
-          <MFFormField theme={ComponentTheme.workout}>
+          <MFFormField theme="primary">
             <label>Nombre de la rutina</label>
             <input
               type="text"
@@ -245,9 +244,9 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
             onSelectStep={setSelectedStepIndex}
           />
           <div className={styles.stepsActions}>
-            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addExercise}>Agregar ejercicio</MFButton>
-            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addRestStep}>Agregar descanso</MFButton>
-            <MFButton theme={ComponentTheme.generic} type="button" onClickEvent={addSet}>Agregar set</MFButton>
+            <MFButton theme="primary" type="button" onClickEvent={addExercise}>Agregar ejercicio</MFButton>
+            <MFButton theme="primary" type="button" onClickEvent={addRestStep}>Agregar descanso</MFButton>
+            <MFButton theme="primary" type="button" onClickEvent={addSet}>Agregar set</MFButton>
           </div>
         </div>
         <div className={styles.editorColumn}>
@@ -260,7 +259,7 @@ const WorkoutEditor: FC<WorkoutEditorProps> = () => {
         </div>
       </div>
       <div className='footerActions'>
-        <MFButton theme={ComponentTheme.generic} type="button" isDisabled={saving} onClickEvent={saveWorkout}>
+        <MFButton theme="primary" type="button" isDisabled={saving} onClickEvent={saveWorkout}>
           {saving ? 'Guardando...' : 'Guardar'}
         </MFButton>
       </div>

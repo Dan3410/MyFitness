@@ -1,6 +1,5 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ComponentTheme } from '../../../models/componentTheme';
 import { WEIGHTUNIT } from '../../../models/weightUnit';
 import { HEIGHTUNIT } from '../../../models/heightUnit';
 import styles from './profile.module.scss'
@@ -16,6 +15,7 @@ import HeightSection from '../components/height-section/height-section';
 import { GENDER } from '../../../models/gender';
 import { profileService } from '../../../services/profileService'
 import MFBreadcrumb from '../../../components/mf-breadcrumb/mf-breadcrumb';
+import MFTag from '../../../components/mf-tag/mf-tag';
 import { GET_DATA_ERROR_MESSAGE } from '../../../const/errorMessages';
 import MFSpinner from '../../../components/mf-spinner/mf-spinner';
 import MFNotification, { type MFNotificationType } from '../../../components/mf-notification/mf-notification';
@@ -279,14 +279,14 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
           <MFBreadcrumb items={breadcrumbItems} />
         </div>
         <div className={styles.privateProfile}>
-          {form.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
+          {form.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
           <img className={styles.profileImg} src={form.profileImage || defaultProfileImage} alt="Perfil" />
           <p>Esta información es privada</p>
           {notification && <MFNotification type={notification.type} message={notification.message} />}
           {viewerIsTrainer && !requestSent && (
             <MFButton
               type="button"
-              theme={ComponentTheme.profileAndHealth}
+              theme="secondary"
               isDisabled={requestSending}
               onClickEvent={() => void requestTrainerLink()}
             >
@@ -306,11 +306,11 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         <div className="pageTitleBar">
           <h2>{readOnly ? 'Perfil de usuario' : 'Perfil'}</h2>
           <div className="headerActions">
-            {isOwner && !edit && <MFButton onClickEvent={clickEdit} theme={ComponentTheme.profileAndHealth}><label>Editar</label></MFButton>}
+            {isOwner && !edit && <MFButton onClickEvent={clickEdit} theme="secondary"><label>Editar</label></MFButton>}
             {readOnly && !isOwner && viewerIsTrainer && !requestSent && (
               <MFButton
                 type="button"
-                theme={ComponentTheme.profileAndHealth}
+                theme="secondary"
                 isDisabled={requestSending}
                 onClickEvent={() => void requestTrainerLink()}
               >
@@ -329,7 +329,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
             <MFNotification type={notification.type} message={notification.message} />
           </div>
         )}
-        {form.isTrainer && <span className={styles.trainerLabel}>Entrenador</span>}
+        {form.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
         <div
           className={`${styles.profileImgContainer} ${edit ? styles.profileImgEditable : ''}`}
           onClick={() => edit && imageInputRef.current?.click()}
@@ -390,7 +390,7 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         )}
 
         {isOwner && <MFCheckbox
-          theme={ComponentTheme.profileAndHealth}
+          theme="primary"
           disabled={!edit}
           checked={form.isProfilePrivate}
           onChange={(event) => setForm((prev) => ({ ...prev, isProfilePrivate: event.target.checked }))}
@@ -400,8 +400,8 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
 
         {
           edit && (<div className="form-buttons-container">
-            <MFButton type="button" theme={ComponentTheme.generic} onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
-            <MFButton type='submit' theme={ComponentTheme.profileAndHealth}><label>Guardar</label></MFButton>
+            <MFButton type="button" theme="tertiary" onClickEvent={cancelEdit}><label>Cancelar</label></MFButton>
+            <MFButton type='submit' theme="secondary"><label>Guardar</label></MFButton>
           </div>)
         }
       </form>
@@ -417,14 +417,14 @@ const Profile: FC<ProfileProps> = ({ readOnly = false }) => {
         <div className="form-buttons-container">
           <MFButton
             type="button"
-            theme={ComponentTheme.generic}
+            theme="tertiary"
             onClickEvent={() => setConfirmRelationshipRemoval(false)}
           >
             Cancelar
           </MFButton>
           <MFButton
             type="button"
-            theme={ComponentTheme.profileAndHealth}
+            theme="secondary"
             onClickEvent={() => void saveProfile()}
           >
             Confirmar

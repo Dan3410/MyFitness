@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GET_DATA_ERROR_MESSAGE } from '../../../../const/errorMessages';
 import MFBreadcrumb from '../../../../components/mf-breadcrumb/mf-breadcrumb';
 import MFSpinner from '../../../../components/mf-spinner/mf-spinner';
-import { ComponentTheme } from '../../../../models/componentTheme';
 import MFButton from '../../../../components/mf-button/mf-button';
 import type { Workout } from '../../../../models/workout';
 import Step from '../../components/step/step';
@@ -36,7 +35,7 @@ const WorkoutView: FC = () => {
     void loadWorkout();
   }, [id]);
 
-  if (loading) return <MFSpinner theme={ComponentTheme.workout} />;
+  if (loading) return <MFSpinner theme="primary" />;
 
   return (
     <div className={styles.workoutView}>
@@ -53,7 +52,7 @@ const WorkoutView: FC = () => {
             <h1>{workout.name}</h1>
             {!workout.sourceTrainerName && (
               <MFButton
-                theme={ComponentTheme.workout}
+                theme="primary"
                 onClickEvent={() => navigate(`/workout/edit/${workout.id}`)}
               >
                 Editar

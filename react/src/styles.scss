@@ -2,6 +2,34 @@
   --border-radius-big: 24px;
   --border-radius-medium: 16px;
   --border-radius-small: 8px;
+
+  --background-color: #000211;
+  --background-color-foreground: #1f1f1f;
+  --background-color-header: #0049a6;
+
+  --primary-color: #0036aa;
+  --primary-color-light: #197ecf;
+  --primary-color-dark: #000125;
+  --primary-color-clear: #cacbff;
+
+  --secondary-color: #2ca401;
+  --secondary-color-light: #00c45b;
+  --secondary-color-dark: #003c26;
+  --secondary-color-clear: #b8ffe5;
+
+  --tertiary-color: #d80000;
+  --tertiary-color-light: #ff0000;
+  --tertiary-color-dark: #660000;
+  --tertiary-color-clear: #ffafaf;
+
+  --error-color: #c62828;
+  --warning-color: #ed9b16;
+  --success-color: #2e7d32;
+  --notification-color: #1769aa;
+
+  --font-weight-bold: 600;
+  --font-weight-text: 500;
+
 }
 
 * {
@@ -22,42 +50,38 @@ h4,
 h5,
 h6 {
   color: #ffffff !important;
+  font-weight: var(--font-weight-bold);
+  margin: 0;
 }
 
 h1 {
   font-size: 28px;
-  font-weight: 500;
   text-align: left;
 }
 
 h2 {
   font-size: 26px;
-  font-weight: 500;
   text-align: left;
 }
 
 h3 {
   font-size: 24px;
-  font-weight: 500;
   text-align: left;
 }
 
 h4 {
   font-size: 22px;
-  font-weight: 500;
   text-align: left;
 }
 
 h5 {
   font-size: 20px;
-  font-weight: 500;
   text-align: left;
   margin: 20px 0
 }
 
 h6 {
   font-size: 18px;
-  font-weight: 500;
   text-align: left;
   margin: 20px 0
 }
@@ -100,4 +124,49 @@ input {
   margin-top: 20px;
   column-gap: 20px;
   text-align: right;
+}
+
+:root {
+  font-family: Montserrat, Arial, sans-serif, system-ui;
+  line-height: 1.5;
+  font-weight: var(--font-weight-text);
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 1);
+  background-color: var(--background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: var(--font-weight-text);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--primary-color-light);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: var(--border-radius-small);
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: filter 0.25s;
 }

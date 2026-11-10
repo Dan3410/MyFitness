@@ -6,7 +6,7 @@ export default {
 };
 
 export const Default = () => (
-  <MFFormField theme="workout">
+  <MFFormField theme="primary">
     <div>Form field</div>
   </MFFormField>
 );
