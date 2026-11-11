@@ -54,7 +54,7 @@ const Home: FC<HomeProps> = () => {
   return (
     <main className={styles.HomeContainer}>
       <header className={styles.HomeContainer__PageHeader}>
-        <h1>Próximas rutinas</h1>
+        <h2>Próximas rutinas</h2>
       </header>
       {loading ? <MFSpinner theme="primary" /> :
         loadError ? <p>No se pudieron cargar los entrenamientos.</p> :

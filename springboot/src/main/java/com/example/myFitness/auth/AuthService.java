@@ -88,7 +88,7 @@ public class AuthService {
                 .parseSignedClaims(authorizationHeader.substring("Bearer ".length()))
                 .getPayload();
             String userId = claims.getSubject();
-            if (userId == null || !accountsById.containsKey(userId)) {
+            if (userId == null || userId.isBlank()) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "La sesión no es válida");
             }
             return userId;

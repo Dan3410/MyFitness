@@ -1,0 +1,69 @@
+.GroupEditor {
+  display: grid;
+  gap: 20px;
+
+  &__Lists {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  &__List {
+    min-height: 600px;
+    padding: 16px;
+    border: 1px solid var(--primary-color-light);
+    border-radius: var(--border-radius-small);
+
+  }
+
+  &__ListItems {
+    display: grid;
+    gap: 8px;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+
+  &__Student {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px;
+    border-radius: var(--border-radius-small);
+    background: #151a22;
+    cursor: grab;
+  }
+
+  &__StudentProfile {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__Actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  @media (max-width: 640px) {
+    &__Lists {
+      grid-template-columns: 1fr;
+    }
+  }
+}

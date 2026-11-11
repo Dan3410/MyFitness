@@ -1,0 +1,56 @@
+.GroupsPage {
+  display: grid;
+  gap: 20px;
+
+  &__Selector {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  &__Heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+  }
+
+  &__ActivitySection {
+    display: grid;
+    gap: 12px;
+  }
+
+  &__ActivityList {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__ActivityItem {
+    padding: 14px 16px;
+    border: 1px solid #3769ff;
+    border-radius: var(--border-radius-small);
+    background: #151a22;
+
+    time {
+      display: block;
+      margin-top: 6px;
+      color: #b7c3d8;
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &__Selector,
+    &__Heading {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+}

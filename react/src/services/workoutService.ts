@@ -41,11 +41,11 @@ class WorkoutService {
         });
         }
 
-    async shareWorkout(id: string, studentIds: string[]): Promise<string[]> {
+    async shareWorkout(id: string, studentIds: string[], groupIds: string[] = []): Promise<string[]> {
         const response = await fetch(`${API_URL}${encodeURIComponent(id)}/share`, {
             method: 'POST',
             headers: authHeaders(),
-            body: JSON.stringify({ studentIds }),
+            body: JSON.stringify({ studentIds, groupIds }),
         });
         if (!response.ok) throw new Error(await response.text() || 'No se pudo compartir la rutina');
         return response.json();
@@ -57,6 +57,15 @@ class WorkoutService {
             headers: authHeaders(),
         });
         if (!response.ok) throw new Error(await response.text() || 'No se pudieron cargar los alumnos asignados');
+        return response.json();
+    }
+
+    async getSharedGroupIds(id: string): Promise<string[]> {
+        const response = await fetch(`${API_URL}${encodeURIComponent(id)}/shared-groups`, {
+            method: 'GET',
+            headers: authHeaders(),
+        });
+        if (!response.ok) throw new Error(await response.text() || 'No se pudieron cargar los grupos asignados');
         return response.json();
     }
 

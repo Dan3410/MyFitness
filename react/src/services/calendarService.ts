@@ -12,13 +12,16 @@ export interface CalendarEvent {
   id: string
   trainerId: string
   trainerName: string
-  studentId: string
+  studentId: string | null
   studentName: string
   date: string
   time?: string | null
   workoutId?: string | null
   workoutTitle?: string | null
   workoutCategory?: string | null
+  groupId?: string | null
+  groupName?: string | null
+  recipientIds?: string[]
 }
 
 export type PlannedWorkouts = Record<string, PlannedWorkout[]>
@@ -66,14 +69,15 @@ class CalendarService {
 
   async createEvent(
     date: string,
-    studentId: string,
+    studentId: string | undefined,
     time?: string,
     workoutId?: string,
+    groupId?: string,
   ): Promise<CalendarEvent> {
     const response = await fetch(`${API_URL}/events`, {
       method: 'POST',
       headers: authHeaders(),
-      body: JSON.stringify({ date, studentId, time, workoutId }),
+      body: JSON.stringify({ date, studentId, time, workoutId, groupId }),
     })
     if (!response.ok) throw new Error(await response.text() || SAVE_WORKOUT_ERROR_MESSAGE)
     return response.json()

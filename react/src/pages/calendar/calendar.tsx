@@ -13,6 +13,8 @@ import type { UserSearchResult } from '../../models/user';
 import type { Option } from '../../models/option';
 import MFModal from '../../components/mf-modal/mf-modal';
 import MFButton from '../../components/mf-button/mf-button';
+import type { StudentGroup } from '../../models/studentGroup';
+import { studentGroupsService } from '../../services/studentGroupsService';
 
 
 interface CalendarProps { }
@@ -21,7 +23,7 @@ const monthKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth()
 const dateKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 const calendarModes: Option[] = [
   { label: 'Rutinas', value: 'workouts' },
-  { label: 'Alumnos', value: 'students' },
+  { label: 'Alumnos o Grupos', value: 'students' },
 ];
 
 const Calendar: FC<CalendarProps> = () => {
@@ -33,11 +35,12 @@ const Calendar: FC<CalendarProps> = () => {
   const [plannedWorkouts, setPlannedWorkouts] = useState<PlannedWorkouts>({});
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [students, setStudents] = useState<UserSearchResult[]>([]);
+  const [groups, setGroups] = useState<StudentGroup[]>([]);
   const [isTrainer, setIsTrainer] = useState(false);
   const [calendarMode, setCalendarMode] = useState('workouts');
   const [selectedWorkoutId, setSelectedWorkoutId] = useState('');
   const [workoutTime, setWorkoutTime] = useState('');
-  const [selectedStudentId, setSelectedStudentId] = useState('');
+  const [selectedRecipient, setSelectedRecipient] = useState('');
   const [eventTime, setEventTime] = useState('');
   const [eventWorkoutId, setEventWorkoutId] = useState('');
   const [savingEvent, setSavingEvent] = useState(false);
@@ -76,8 +79,11 @@ const Calendar: FC<CalendarProps> = () => {
     if (!isTrainer || calendarMode !== 'students') return
     let cancelled = false
     setStudentLoadError(false)
-    trainerStudentService.getStudents().then((studentList) => {
-      if (!cancelled) setStudents(studentList)
+    Promise.all([trainerStudentService.getStudents(), studentGroupsService.getGroups()]).then(([studentList, groupList]) => {
+      if (!cancelled) {
+        setStudents(studentList);
+        setGroups(groupList.filter((group) => group.administrator));
+      }
     }).catch(() => {
       if (!cancelled) setStudentLoadError(true)
     })
@@ -111,17 +117,19 @@ const Calendar: FC<CalendarProps> = () => {
   }
 
   const createEvent = async () => {
-    if (!selectedStudentId) return
+    const [recipientType, recipientId] = selectedRecipient.split(':', 2);
+    if (!recipientType || !recipientId) return
     try {
       setSavingEvent(true)
       await calendarService.createEvent(
         selectedDate,
-        selectedStudentId,
+        recipientType === 'student' ? recipientId : undefined,
         eventTime || undefined,
         eventWorkoutId || undefined,
+        recipientType === 'group' ? recipientId : undefined,
       )
       setEvents(await calendarService.getEvents(monthKey(currentMonth)))
-      setSelectedStudentId('')
+      setSelectedRecipient('')
       setEventTime('')
       setEventWorkoutId('')
     } catch {
@@ -177,14 +185,19 @@ const Calendar: FC<CalendarProps> = () => {
               {isTrainer && calendarMode === 'students' ? (
                 <div className={`${styles.Calendar__AddWorkout} ${styles['Calendar__AddWorkout--EventForm']}`}>
                   {studentLoadError && <p>No se pudieron cargar los alumnos.</p>}
-                  <label htmlFor="calendar-student">Seleccionar alumno para el {selectedDate}</label>
+                  <label htmlFor="calendar-student">Seleccionar alumno o grupo para el {selectedDate}</label>
                   <select
                     id="calendar-student"
-                    value={selectedStudentId}
-                    onChange={(event) => setSelectedStudentId(event.target.value)}
+                    value={selectedRecipient}
+                    onChange={(event) => setSelectedRecipient(event.target.value)}
                   >
-                    <option value="">Seleccionar alumno</option>
-                    {students.map((student) => <option key={student.id} value={student.id}>{student.name}</option>)}
+                    <option value="">Seleccionar alumno o grupo</option>
+                    <optgroup label="Grupos">
+                      {groups.map((group) => <option key={group.id} value={`group:${group.id}`}>{group.name}</option>)}
+                    </optgroup>
+                    <optgroup label="Alumnos">
+                      {students.map((student) => <option key={student.id} value={`student:${student.id}`}>{student.name}</option>)}
+                    </optgroup>
                   </select>
                   <label htmlFor="calendar-event-time">Hora*</label>
                   <input
@@ -208,7 +221,7 @@ const Calendar: FC<CalendarProps> = () => {
                     theme="secondary"
                     type="button"
                     onClickEvent={() => void createEvent()}
-                    isDisabled={!selectedStudentId || savingEvent}
+                    isDisabled={!selectedRecipient || savingEvent}
                     width="100%"
                   >
                     Crear evento
@@ -260,7 +273,7 @@ const Calendar: FC<CalendarProps> = () => {
       <h2>Cancelar evento</h2>
       <p>
         ¿Estas seguro que queres cancelar el evento con {eventToCancel
-          ? (isTrainer ? eventToCancel.studentName : eventToCancel.trainerName)
+          ? (eventToCancel.groupName || (isTrainer ? eventToCancel.studentName : eventToCancel.trainerName))
           : ''}?
         <br />
         Esta acción no se puede deshacer

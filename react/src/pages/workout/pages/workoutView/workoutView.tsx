@@ -49,7 +49,7 @@ const WorkoutView: FC = () => {
         <header className={styles.WorkoutView__WorkoutHeader}>
           <p>{workout.category}</p>
           <div className={styles.WorkoutView__TitleRow}>
-            <h1>{workout.name}</h1>
+            <h2>{workout.name}</h2>
             {!workout.sourceTrainerName && (
               <MFButton
                 theme="primary"

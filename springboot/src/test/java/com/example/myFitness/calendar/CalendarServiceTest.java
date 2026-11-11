@@ -17,6 +17,7 @@ import com.example.myFitness.auth.AuthService;
 import com.example.myFitness.notification.NotificationService;
 import com.example.myFitness.notification.NotificationType;
 import com.example.myFitness.profile.ProfileService;
+import com.example.myFitness.studentGroups.StudentGroupsService;
 import com.example.myFitness.trainerStudent.TrainerStudentService;
 import com.example.myFitness.workout.WorkoutService;
 import com.example.myFitness.workout.model.Workout;
@@ -28,13 +29,16 @@ class CalendarServiceTest {
     TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
     trainerStudentService.seedDemoTrainerStudentLink();
     NotificationService notificationService = new NotificationService(profileService, trainerStudentService);
+    StudentGroupsService studentGroupsService =
+        new StudentGroupsService(profileService, trainerStudentService, notificationService);
     WorkoutService workoutService = new WorkoutService(
-        authService, profileService, trainerStudentService, notificationService);
+        authService, profileService, trainerStudentService, studentGroupsService, notificationService);
     workoutService.init();
     return new CalendarFixture(
-        new CalendarService(workoutService, profileService, trainerStudentService, notificationService),
+        new CalendarService(workoutService, profileService, trainerStudentService, studentGroupsService, notificationService),
         notificationService,
-        workoutService);
+        workoutService,
+        studentGroupsService);
   }
 
   private CalendarService createCalendarService(AuthService authService) {
@@ -44,7 +48,8 @@ class CalendarServiceTest {
   private record CalendarFixture(
       CalendarService calendarService,
       NotificationService notificationService,
-      WorkoutService workoutService) {}
+      WorkoutService workoutService,
+      StudentGroupsService studentGroupsService) {}
 
   @Test
   void shouldReturnWorkoutIdAndTitleForPlannedWorkout() {
@@ -132,7 +137,7 @@ class CalendarServiceTest {
     CalendarService calendarService = createCalendarService(authService);
     String trainerId = authService.getUserId("Gym");
     String studentId = authService.getUserId("Swim");
-    String unrelatedUserId = authService.getUserId("Run");
+    String unrelatedUserId = "unrelated-user";
 
     ResponseStatusException createException = assertThrows(
         ResponseStatusException.class,
@@ -163,6 +168,42 @@ class CalendarServiceTest {
             authService.getUserId("Gym"), "2026-10-20", authService.getUserId("Swim"), null, "0"));
 
     assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+  }
+
+  @Test
+  void groupEventIsStoredOnceAndVisibleToEveryGroupMember() {
+    AuthService authService = new AuthService();
+    CalendarFixture fixture = createCalendarFixture(authService);
+    String trainerId = authService.getUserId("Gym");
+    String swimStudentId = authService.getUserId("Swim");
+    String runStudentId = authService.getUserId("Run");
+    var group = fixture.studentGroupsService().createGroup(trainerId, "Grupo de prueba", List.of(swimStudentId));
+
+    CalendarEvent event = fixture.calendarService().createGroupEvent(
+        trainerId, "2026-10-20", group.id(), "10:30", null);
+
+    assertEquals(group.id(), event.groupId());
+    assertEquals("Grupo de prueba", event.groupName());
+    assertEquals(List.of(swimStudentId), event.recipientIds());
+    assertEquals(List.of(event), fixture.calendarService().getEvents(trainerId, "2026-10"));
+    assertEquals(List.of(event), fixture.calendarService().getEvents(swimStudentId, "2026-10"));
+    assertTrue(fixture.calendarService().getEvents(runStudentId, "2026-10").isEmpty());
+    fixture.studentGroupsService().updateGroup(
+        trainerId, group.id(), group.name(), List.of(swimStudentId, runStudentId));
+    assertEquals(List.of(event), fixture.calendarService().getEvents(runStudentId, "2026-10"));
+    fixture.calendarService().cancelEvent(runStudentId, event.id());
+    assertTrue(fixture.calendarService().getEvents(swimStudentId, "2026-10").isEmpty());
+    assertTrue(fixture.notificationService().getNotifications(trainerId).stream()
+        .anyMatch(notification -> notification.type() == NotificationType.EVENT_CANCELLED
+            && notification.message().equals("Jane Run ha cancelado un evento para el grupo Grupo de prueba del dia 2026-10-20 a las 10:30")));
+    assertTrue(fixture.calendarService().getEvents(trainerId, "2026-10").isEmpty());
+    assertTrue(fixture.notificationService().getNotifications(swimStudentId).stream()
+        .anyMatch(notification -> notification.type() == NotificationType.EVENT_CREATED
+            && notification.message().equals(
+                "Se ha creado un evento para el grupo Grupo de prueba el 2026-10-20 a las 10:30")));
+    assertTrue(fixture.notificationService().getNotifications(runStudentId).stream()
+        .noneMatch(notification -> notification.type() == NotificationType.EVENT_CREATED
+            && notification.message().contains("Grupo de prueba")));
   }
 
   @Test

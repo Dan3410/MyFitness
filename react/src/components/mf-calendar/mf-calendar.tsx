@@ -2,7 +2,7 @@ import { useState, type FC, type ReactNode } from 'react'
 import styles from './mf-calendar.module.scss'
 import type { CalendarEvent, PlannedWorkouts } from '../../services/calendarService'
 import MFButton from '../mf-button/mf-button'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MFModal from '../mf-modal/mf-modal'
 import { WorkoutCategory } from '../../models/workoutCategories'
 
@@ -47,7 +47,6 @@ const MFCalendar: FC<MFCalendarProps> = ({
   onCancelEvent,
   eventActions,
 }) => {
-  const navigate = useNavigate()
   const [workoutToRemove, setWorkoutToRemove] = useState<{ id: string; title: string } | null>(null)
   const [removingWorkout, setRemovingWorkout] = useState(false)
   const today = new Date()
@@ -70,7 +69,9 @@ const MFCalendar: FC<MFCalendarProps> = ({
   const selectedWorkouts = plannedWorkouts[selectedDate] || []
   const selectedEvents = events[selectedDate] || []
   const eventsWithStudents = selectedEvents.filter((event) => event.trainerId === currentUserId)
-  const eventsWithTrainers = selectedEvents.filter((event) => event.studentId === currentUserId)
+  const eventsWithTrainers = selectedEvents.filter((event) =>
+    event.studentId === currentUserId || event.recipientIds?.includes(currentUserId),
+  )
   const eventSections = isTrainer
     ? [
       { title: 'Eventos con estudiantes', events: eventsWithStudents },
@@ -175,7 +176,7 @@ const MFCalendar: FC<MFCalendarProps> = ({
                             <div>
                               <span>
                                 {event.time ? `${event.time} - ` : ''}
-                                {event.trainerId === currentUserId ? event.studentName : event.trainerName}
+                                {event.groupName || (event.trainerId === currentUserId ? event.studentName : event.trainerName)}
                               </span>
                               {event.workoutTitle && (
                                 event.workoutId ? (

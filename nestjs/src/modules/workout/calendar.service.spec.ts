@@ -65,6 +65,39 @@ describe('CalendarService', () => {
     );
   });
 
+  it('forwards a group id when creating a group event', async () => {
+    const event = {
+      id: 'event-1',
+      date: '2025-02-01',
+      studentId: null,
+      groupId: 'group-1',
+      groupName: 'Grupo',
+    };
+    httpService.post.mockReturnValue(of({ data: event }));
+
+    await expect(
+      calendarService.createEvent(
+        '2025-02-01',
+        undefined,
+        '******',
+        undefined,
+        undefined,
+        'group-1',
+      ),
+    ).resolves.toBe(event);
+    expect(httpService.post).toHaveBeenCalledWith(
+      'http://localhost:8080/workout/calendar/events',
+      {
+        date: '2025-02-01',
+        studentId: undefined,
+        time: undefined,
+        workoutId: undefined,
+        groupId: 'group-1',
+      },
+      { headers: { authorization: '******' } },
+    );
+  });
+
   it('URL-encodes event ids when cancelling an event', async () => {
     httpService.delete.mockReturnValue(of({ data: undefined }));
 

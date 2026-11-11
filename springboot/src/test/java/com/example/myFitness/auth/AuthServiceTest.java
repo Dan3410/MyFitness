@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,14 @@ class AuthServiceTest {
     assertEquals("swimswam@email.com", response.email());
     assertFalse(response.token().isBlank());
     assertEquals("0", authService.requireUserId("Bearer " + response.token()));
+  }
+
+  @Test
+  void validSignedSessionDoesNotDependOnTheInMemoryAccountRegistry() {
+    AuthResponse response = authService.login("gym@email.com", "LiftHeavyThings");
+    ReflectionTestUtils.setField(authService, "accountsById", Map.of());
+
+    assertEquals("1", authService.requireUserId("Bearer " + response.token()));
   }
 
   @Test

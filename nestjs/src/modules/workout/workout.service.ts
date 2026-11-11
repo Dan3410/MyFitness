@@ -53,11 +53,16 @@ export class WorkoutService {
     return response.data;
   }
 
-  async shareWorkout(id: string, studentIds: string[], authorization: string): Promise<string[]> {
+  async shareWorkout(
+    id: string,
+    studentIds: string[],
+    authorization: string,
+    groupIds: string[] = [],
+  ): Promise<string[]> {
     const response = await firstValueFrom(
       this.httpService.post<string[]>(
         `${this.workoutApiUrl}/${encodeURIComponent(id)}/share`,
-        { studentIds },
+        groupIds.length > 0 ? { studentIds, groupIds } : { studentIds },
         { headers: { authorization } },
       ),
     );
@@ -68,6 +73,16 @@ export class WorkoutService {
     const response = await firstValueFrom(
       this.httpService.get<string[]>(
         `${this.workoutApiUrl}/${encodeURIComponent(id)}/shared-students`,
+        { headers: { authorization } },
+      ),
+    );
+    return response.data;
+  }
+
+  async getSharedGroupIds(id: string, authorization: string): Promise<string[]> {
+    const response = await firstValueFrom(
+      this.httpService.get<string[]>(
+        `${this.workoutApiUrl}/${encodeURIComponent(id)}/shared-groups`,
         { headers: { authorization } },
       ),
     );

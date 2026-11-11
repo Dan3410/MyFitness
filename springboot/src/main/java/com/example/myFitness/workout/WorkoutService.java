@@ -28,6 +28,8 @@ import com.example.myFitness.workout.model.WorkoutCategory;
 import com.example.myFitness.workout.model.WorkoutListItem;
 import com.example.myFitness.notification.NotificationService;
 import com.example.myFitness.profile.ProfileService;
+import com.example.myFitness.studentGroups.StudentGroup;
+import com.example.myFitness.studentGroups.StudentGroupsService;
 import com.example.myFitness.trainerStudent.TrainerStudentService;
 import com.example.myFitness.auth.AuthService;
 
@@ -40,19 +42,23 @@ public class WorkoutService {
   private Workout[] workouts;
   private final Map<String, List<Workout>> workoutsByUser = new ConcurrentHashMap<>();
   private final Map<String, Map<String, String>> sharedWorkoutTrainersByStudent = new ConcurrentHashMap<>();
+  private final Map<String, Map<String, String>> sharedWorkoutTrainersByGroup = new ConcurrentHashMap<>();
   private final AuthService authService;
   private final ProfileService profileService;
   private final TrainerStudentService trainerStudentService;
+  private final StudentGroupsService studentGroupsService;
   private final NotificationService notificationService;
 
   public WorkoutService(
       AuthService authService,
       ProfileService profileService,
       TrainerStudentService trainerStudentService,
+      StudentGroupsService studentGroupsService,
       NotificationService notificationService) {
     this.authService = authService;
     this.profileService = profileService;
     this.trainerStudentService = trainerStudentService;
+    this.studentGroupsService = studentGroupsService;
     this.notificationService = notificationService;
   }
 
@@ -175,6 +181,23 @@ public class WorkoutService {
             profileService.getUserSearchResult(trainerId).name()));
       }
     });
+    List<StudentGroup> userGroups = studentGroupsService.getGroups(userId);
+    for (StudentGroup group : userGroups) {
+      sharedWorkoutTrainersByGroup.getOrDefault(group.id(), Map.of()).forEach((workoutId, trainerId) -> {
+        if (items.stream().noneMatch(item -> workoutId.equals(item.getId()))) {
+          Workout workout = findWorkout(trainerId, workoutId);
+          if (workout != null) {
+            items.add(new WorkoutListItem(
+                workout.getId(),
+                workout.getName(),
+                WorkoutListItem.Category.valueOf(workout.getCategory().toUpperCase()),
+                workout.getSteps() == null ? 0 : workout.getSteps().size(),
+                LocalDate.now(), LocalDate.now(), LocalDate.now(),
+                profileService.getUserSearchResult(trainerId).name()));
+          }
+        }
+      });
+    }
     return items.toArray(WorkoutListItem[]::new);
   }
 
@@ -202,16 +225,22 @@ public class WorkoutService {
   }
 
   public Workout getWorkout(String userId, String id) {
+    Workout ownedWorkout = workoutsForUser(userId).stream()
+        .filter(item -> id.equals(item.getId()))
+        .findFirst().orElse(null);
+    if (ownedWorkout != null) {
+      return ownedWorkout;
+    }
+
     String trainerId = sharedWorkoutTrainersByStudent.getOrDefault(userId, Map.of()).get(id);
+    if (trainerId == null) {
+      trainerId = sharedGroupWorkoutTrainerForUser(userId, id);
+    }
     if (trainerId != null) {
       Workout sharedWorkout = findWorkout(trainerId, id);
       return sharedWorkout == null ? null : copyForStudent(sharedWorkout, trainerId);
     }
-
-    Workout ownedWorkout = workoutsForUser(userId).stream()
-        .filter(item -> id.equals(item.getId()))
-        .findFirst().orElse(null);
-    return ownedWorkout;
+    return null;
   }
 
   private Workout findWorkout(String ownerId, String workoutId) {
@@ -236,7 +265,7 @@ public class WorkoutService {
   }
 
   public Workout editWorkout(String userId, String id, Workout newWorkout) {
-    if (sharedWorkoutTrainersByStudent.getOrDefault(userId, Map.of()).containsKey(id)) {
+    if (isSharedWithUser(userId, id)) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No puedes editar una rutina asignada por tu entrenador");
     }
     for (Workout workout : workoutsForUser(userId)) {
@@ -251,7 +280,7 @@ public class WorkoutService {
   }
 
   public WorkoutListItem[] deleteWorkout(String userId, String id) {
-    if (sharedWorkoutTrainersByStudent.getOrDefault(userId, Map.of()).containsKey(id)) {
+    if (isSharedWithUser(userId, id)) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No puedes eliminar una rutina asignada por tu entrenador");
     }
     workoutsForUser(userId).removeIf(workout -> workout.getId().equals(id));
@@ -259,6 +288,14 @@ public class WorkoutService {
   }
 
   public List<String> shareWorkout(String trainerId, String workoutId, List<String> studentIds) {
+    return shareWorkout(trainerId, workoutId, studentIds, List.of());
+  }
+
+  public List<String> shareWorkout(
+      String trainerId,
+      String workoutId,
+      List<String> studentIds,
+      List<String> groupIds) {
     if (!profileService.isTrainer(trainerId)) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo los entrenadores pueden compartir rutinas");
     }
@@ -269,6 +306,14 @@ public class WorkoutService {
     List<String> uniqueStudentIds = studentIds == null ? List.of() : studentIds.stream().distinct().toList();
     if (uniqueStudentIds.stream().anyMatch(studentId -> !trainerStudentService.isLinkedStudent(trainerId, studentId))) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo puedes compartir rutinas con tus alumnos");
+    }
+    List<String> uniqueGroupIds = groupIds == null ? List.of() : groupIds.stream().distinct().toList();
+    for (String groupId : uniqueGroupIds) {
+      studentGroupsService.getGroup(trainerId, groupId);
+      if (studentGroupsService.getMemberIdsForTrainer(trainerId, groupId).stream()
+          .anyMatch(studentId -> !trainerStudentService.isLinkedStudent(trainerId, studentId))) {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "El grupo contiene alumnos no vinculados");
+      }
     }
 
     sharedWorkoutTrainersByStudent.forEach((studentId, sharedWorkouts) -> {
@@ -289,6 +334,7 @@ public class WorkoutService {
       }
     }
 
+    validateGroupWorkoutIds(trainerId, workoutId, uniqueGroupIds);
     for (String studentId : uniqueStudentIds) {
       String previousTrainerId = sharedWorkoutTrainersByStudent
           .computeIfAbsent(studentId, ignored -> new ConcurrentHashMap<>())
@@ -297,7 +343,85 @@ public class WorkoutService {
         notificationService.notifyWorkoutShared(trainerId, studentId, sourceWorkout.getName());
       }
     }
+    reconcileGroupWorkoutShares(trainerId, workoutId, sourceWorkout.getName(), uniqueGroupIds);
     return uniqueStudentIds;
+  }
+
+  public void shareWorkoutWithGroup(String trainerId, String workoutId, String groupId) {
+    if (!profileService.isTrainer(trainerId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo los entrenadores pueden compartir rutinas");
+    }
+    if (findWorkout(trainerId, workoutId) == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rutina no encontrada");
+    }
+    StudentGroup group = studentGroupsService.getGroup(trainerId, groupId);
+    List<String> memberIds = studentGroupsService.getMemberIdsForTrainer(trainerId, groupId);
+    if (memberIds.stream().anyMatch(studentId -> !trainerStudentService.isLinkedStudent(trainerId, studentId))) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "El grupo contiene alumnos no vinculados");
+    }
+    validateGroupWorkoutIds(trainerId, workoutId, List.of(groupId));
+    String previousTrainerId = sharedWorkoutTrainersByGroup
+        .computeIfAbsent(groupId, ignored -> new ConcurrentHashMap<>())
+        .putIfAbsent(workoutId, trainerId);
+    if (previousTrainerId == null) {
+      Workout workout = findWorkout(trainerId, workoutId);
+      notificationService.notifyGroupWorkoutShared(
+          trainerId, group.name(), workout.getName(), memberIds);
+    }
+  }
+
+  private void validateGroupWorkoutIds(String trainerId, String workoutId, List<String> groupIds) {
+    for (String groupId : groupIds) {
+      String existingTrainerId = sharedWorkoutTrainersByGroup
+          .getOrDefault(groupId, Map.of())
+          .get(workoutId);
+      if (existingTrainerId != null && !existingTrainerId.equals(trainerId)) {
+        throw new ResponseStatusException(
+            HttpStatus.CONFLICT, "El grupo ya tiene una rutina con el mismo identificador");
+      }
+    }
+  }
+
+  private void reconcileGroupWorkoutShares(
+      String trainerId,
+      String workoutId,
+      String workoutName,
+      List<String> groupIds) {
+    sharedWorkoutTrainersByGroup.forEach((existingGroupId, sharedWorkouts) -> {
+      if (!groupIds.contains(existingGroupId) && sharedWorkouts.remove(workoutId, trainerId)
+          && sharedWorkouts.isEmpty()) {
+        sharedWorkoutTrainersByGroup.remove(existingGroupId, sharedWorkouts);
+      }
+    });
+    for (String groupId : groupIds) {
+      String previousTrainerId = sharedWorkoutTrainersByGroup
+          .computeIfAbsent(groupId, ignored -> new ConcurrentHashMap<>())
+          .putIfAbsent(workoutId, trainerId);
+      if (previousTrainerId == null) {
+        StudentGroup group = studentGroupsService.getGroup(trainerId, groupId);
+        notificationService.notifyGroupWorkoutShared(
+            trainerId,
+            group.name(),
+            workoutName,
+            studentGroupsService.getMemberIdsForTrainer(trainerId, groupId));
+      }
+    }
+  }
+
+  private String sharedGroupWorkoutTrainerForUser(String userId, String workoutId) {
+    return studentGroupsService.getGroups(userId).stream()
+        .map(group -> sharedWorkoutTrainersByGroup.getOrDefault(group.id(), Map.of()).get(workoutId))
+        .filter(java.util.Objects::nonNull)
+        .findFirst()
+        .orElse(null);
+  }
+
+  private boolean isSharedWithUser(String userId, String workoutId) {
+    if (findWorkout(userId, workoutId) != null) {
+      return false;
+    }
+    return sharedWorkoutTrainersByStudent.getOrDefault(userId, Map.of()).containsKey(workoutId)
+        || sharedGroupWorkoutTrainerForUser(userId, workoutId) != null;
   }
 
   public void assignWorkoutToStudent(String trainerId, String workoutId, String studentId) {
@@ -338,6 +462,19 @@ public class WorkoutService {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rutina no encontrada");
     }
     return sharedWorkoutTrainersByStudent.entrySet().stream()
+        .filter(entry -> trainerId.equals(entry.getValue().get(workoutId)))
+        .map(Map.Entry::getKey)
+        .toList();
+  }
+
+  public List<String> getSharedGroupIds(String trainerId, String workoutId) {
+    if (!profileService.isTrainer(trainerId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo los entrenadores pueden gestionar rutinas");
+    }
+    if (findWorkout(trainerId, workoutId) == null) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rutina no encontrada");
+    }
+    return sharedWorkoutTrainersByGroup.entrySet().stream()
         .filter(entry -> trainerId.equals(entry.getValue().get(workoutId)))
         .map(Map.Entry::getKey)
         .toList();

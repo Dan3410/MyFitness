@@ -92,6 +92,20 @@ describe('WorkoutService', () => {
     );
   });
 
+  it('forwards selected group ids when sharing a workout', async () => {
+    const sharedStudentIds = ['0'];
+    httpService.post.mockReturnValue(of({ data: sharedStudentIds }));
+
+    await expect(
+      workoutService.shareWorkout('workout-1', [], '******', ['group-1']),
+    ).resolves.toBe(sharedStudentIds);
+    expect(httpService.post).toHaveBeenCalledWith(
+      'http://localhost:8080/workout/workout-1/share',
+      { studentIds: [], groupIds: ['group-1'] },
+      { headers: { authorization: '******' } },
+    );
+  });
+
   it('encodes workout ids when sharing and retrieving shared students', async () => {
     const studentIds = ['0', '2'];
     httpService.post.mockReturnValue(of({ data: studentIds }));
@@ -112,6 +126,19 @@ describe('WorkoutService', () => {
     expect(httpService.get).toHaveBeenCalledWith(
       'http://localhost:8080/workout/workout%2F1/shared-students',
       { headers: { authorization: 'Bearer token' } },
+    );
+  });
+
+  it('retrieves shared group ids with authorization', async () => {
+    const groupIds = ['group-1'];
+    httpService.get.mockReturnValue(of({ data: groupIds }));
+
+    await expect(
+      workoutService.getSharedGroupIds('workout/1', '******'),
+    ).resolves.toBe(groupIds);
+    expect(httpService.get).toHaveBeenCalledWith(
+      'http://localhost:8080/workout/workout%2F1/shared-groups',
+      { headers: { authorization: '******' } },
     );
   });
 

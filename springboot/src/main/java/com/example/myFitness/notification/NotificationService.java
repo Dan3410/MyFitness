@@ -101,6 +101,28 @@ public class NotificationService {
     notifications.put(notification.id(), notification);
   }
 
+  public void notifyGroupMemberAdded(
+      String trainerId,
+      String groupName,
+      String addedStudentName,
+      List<String> recipientIds) {
+    UserSearchResult trainer = profileService.getUserSearchResult(trainerId);
+    String message = "Se agregó a " + addedStudentName + " al grupo " + groupName + ".";
+    recipientIds.forEach(recipientId -> addEventNotification(
+        trainerId, trainer.name(), recipientId, message, NotificationType.GROUP_MEMBER_ADDED));
+  }
+
+  public void notifyGroupWorkoutShared(
+      String trainerId,
+      String groupName,
+      String workoutName,
+      List<String> recipientIds) {
+    UserSearchResult trainer = profileService.getUserSearchResult(trainerId);
+    String message = "Se compartió la rutina " + workoutName + " con el grupo " + groupName + ".";
+    recipientIds.forEach(recipientId -> addEventNotification(
+        trainerId, trainer.name(), recipientId, message, NotificationType.GROUP_WORKOUT_SHARED));
+  }
+
   public void notifyEventCreated(CalendarEvent event) {
     addEventNotification(
         event.trainerId(), event.trainerName(), event.studentId(),
@@ -109,14 +131,30 @@ public class NotificationService {
         NotificationType.EVENT_CREATED);
   }
 
+  public void notifyGroupEventCreated(CalendarEvent event) {
+    String message = "Se ha creado un evento para el grupo " + event.groupName() + " el " + eventDateTime(event);
+    event.recipientIds().forEach(recipientId -> addEventNotification(
+        event.trainerId(), event.trainerName(), recipientId, message, NotificationType.EVENT_CREATED));
+  }
+
   public void notifyEventCancelled(CalendarEvent event, String cancellingUserId) {
     boolean cancelledByTrainer = event.trainerId().equals(cancellingUserId);
-    String cancellingName = cancelledByTrainer ? event.trainerName() : event.studentName();
-    String recipientId = cancelledByTrainer ? event.studentId() : event.trainerId();
-    addEventNotification(
-        event.trainerId(), event.trainerName(), recipientId,
-        cancellingName + " ha cancelado un evento del dia " + eventDateTime(event),
-        NotificationType.EVENT_CANCELLED);
+    String cancellingName = cancelledByTrainer
+        ? event.trainerName()
+        : event.groupName() == null
+            ? event.studentName()
+            : profileService.getUserSearchResult(cancellingUserId).name();
+    String message = event.groupName() == null
+        ? cancellingName + " ha cancelado un evento del dia " + eventDateTime(event)
+        : cancellingName + " ha cancelado un evento para el grupo " + event.groupName()
+            + " del dia " + eventDateTime(event);
+    if (cancelledByTrainer) {
+      event.recipientIds().forEach(recipientId -> addEventNotification(
+          event.trainerId(), event.trainerName(), recipientId, message, NotificationType.EVENT_CANCELLED));
+    } else {
+      addEventNotification(
+          event.trainerId(), event.trainerName(), event.trainerId(), message, NotificationType.EVENT_CANCELLED);
+    }
     addEventNotification(
         event.trainerId(), event.trainerName(), cancellingUserId,
         "Has cancelado un evento del dia " + eventDateTime(event),

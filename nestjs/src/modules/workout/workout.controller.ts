@@ -35,8 +35,11 @@ export class WorkoutController {
     @Param('id') id: string,
     @Body('studentIds') studentIds: string[],
     @Headers('authorization') authorization: string,
+    @Body('groupIds') groupIds: string[] = [],
   ): Promise<string[]> {
-    return this.workoutService.shareWorkout(id, studentIds, authorization);
+    return groupIds.length > 0
+      ? this.workoutService.shareWorkout(id, studentIds, authorization, groupIds)
+      : this.workoutService.shareWorkout(id, studentIds, authorization);
   }
 
   @Get('/:id/shared-students')
@@ -45,6 +48,14 @@ export class WorkoutController {
     @Headers('authorization') authorization: string,
   ): Promise<string[]> {
     return this.workoutService.getSharedStudentIds(id, authorization);
+  }
+
+  @Get('/:id/shared-groups')
+  getSharedGroupIds(
+    @Param('id') id: string,
+    @Headers('authorization') authorization: string,
+  ): Promise<string[]> {
+    return this.workoutService.getSharedGroupIds(id, authorization);
   }
 
   @Put('/:id')

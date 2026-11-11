@@ -8,11 +8,6 @@
     justify-content: space-between;
     margin-bottom: 18px;
 
-    h2 {
-      margin: 0;
-      text-transform: capitalize;
-    }
-
     button {
       background: var(--primary-color-light);
       border: 0;
@@ -175,9 +170,7 @@
   }
 
   &__DayDetails {
-    h3 {
-      margin: 0 0;
-    }
+
 
     p {
       color: #666;

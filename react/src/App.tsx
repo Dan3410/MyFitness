@@ -14,6 +14,9 @@ import WorkoutView from './pages/workout/pages/workoutView/workoutView';
 import MFHeader from './components/mf-header/mf-header';
 import Calendar from './pages/calendar/calendar';
 import Users from './pages/users/users';
+import Groups from './pages/groups/pages/groups/groups';
+import GroupEditor from './pages/groups/pages/groupEditor/groupEditor';
+import GroupMembers from './pages/groups/pages/groupMembers/groupMembers';
 
 function App() {
   return (
@@ -62,6 +65,12 @@ function AppRoutes() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/users/profile" element={<Profile readOnly />}></Route>
             <Route path="/users" element={<Users />}></Route>
+            <Route path="/groups" element={<Groups />}></Route>
+            <Route path="/groups/:groupId" element={<Groups />}></Route>
+            <Route path="/groups/new" element={<GroupEditor />}></Route>
+            <Route path="/group/new" element={<GroupEditor />}></Route>
+            <Route path="/groups/:groupId/edit" element={<GroupEditor />}></Route>
+            <Route path="/groups/:groupId/members" element={<GroupMembers />}></Route>
             <Route path="/diet" element={<Home />}></Route>
           </Route>
           <Route path="*" element={<Navigate to={session ? "/" : "/login"} />} />

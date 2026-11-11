@@ -42,7 +42,7 @@ export default function Login() {
         <main className={styles.Page}>
             <section className={styles.Page__Panel}>
                 <p className={styles.Page__Eyebrow}>MY FITNESS</p>
-                <h1>{registerMode ? 'Crea tu espacio' : 'Volvé a entrenar'}</h1>
+                <h2>{registerMode ? 'Crea tu espacio' : 'Volvé a entrenar'}</h2>
                 <p className={styles.Page__Intro}>Tus datos de salud y tus rutinas, juntos y solo para vos.</p>
                 <form onSubmit={submit} className={styles.Page__Form} noValidate>
                     <MFFormField theme="primary">

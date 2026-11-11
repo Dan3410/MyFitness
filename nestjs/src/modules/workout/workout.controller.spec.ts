@@ -8,6 +8,7 @@ describe('WorkoutController', () => {
     getWorkouts: jest.Mock;
     shareWorkout: jest.Mock;
     getSharedStudentIds: jest.Mock;
+    getSharedGroupIds: jest.Mock;
   };
 
   beforeEach(async () => {
@@ -15,6 +16,7 @@ describe('WorkoutController', () => {
       getWorkouts: jest.fn(),
       shareWorkout: jest.fn(),
       getSharedStudentIds: jest.fn(),
+      getSharedGroupIds: jest.fn(),
     };
     const app: TestingModule = await Test.createTestingModule({
       controllers: [WorkoutController],
@@ -52,6 +54,22 @@ describe('WorkoutController', () => {
     );
   });
 
+  it('forwards selected group ids when sharing a workout', async () => {
+    const studentIds: string[] = [];
+    const groupIds = ['group-1'];
+    workoutService.shareWorkout.mockResolvedValue(studentIds);
+
+    await expect(
+      workoutController.shareWorkout('workout-1', studentIds, '******', groupIds),
+    ).resolves.toBe(studentIds);
+    expect(workoutService.shareWorkout).toHaveBeenCalledWith(
+      'workout-1',
+      studentIds,
+      '******',
+      groupIds,
+    );
+  });
+
   it('forwards the workout id and authorization when listing shared students', async () => {
     const studentIds = ['0'];
     workoutService.getSharedStudentIds.mockResolvedValue(studentIds);
@@ -62,6 +80,19 @@ describe('WorkoutController', () => {
     expect(workoutService.getSharedStudentIds).toHaveBeenCalledWith(
       'workout-1',
       'Bearer token',
+    );
+  });
+
+  it('forwards the workout id and authorization when listing shared groups', async () => {
+    const groupIds = ['group-1'];
+    workoutService.getSharedGroupIds.mockResolvedValue(groupIds);
+
+    await expect(
+      workoutController.getSharedGroupIds('workout-1', '******'),
+    ).resolves.toBe(groupIds);
+    expect(workoutService.getSharedGroupIds).toHaveBeenCalledWith(
+      'workout-1',
+      '******',
     );
   });
 });

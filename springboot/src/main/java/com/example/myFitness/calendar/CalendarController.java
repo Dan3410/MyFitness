@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.myFitness.auth.AuthService;
+import com.example.myFitness.studentGroups.StudentGroupsService;
 
 @RestController
 @RequestMapping("/workout/calendar")
@@ -25,6 +26,9 @@ public class CalendarController {
 
   @Autowired
   private AuthService authService;
+
+  @Autowired
+  private StudentGroupsService studentGroupsService;
 
   @GetMapping
   public Map<String, List<PlannedWorkout>> getCalendar(
@@ -57,9 +61,18 @@ public class CalendarController {
   public CalendarEvent createEvent(
       @RequestBody CalendarEventRequest request,
       @RequestHeader(value = "Authorization", required = false) String authorization) {
-    return calendarService.createEvent(
-        authService.requireUserId(authorization), request.date(), request.studentId(), request.time(),
-        request.workoutId());
+    String trainerId = authService.requireUserId(authorization);
+    if (request.groupId() == null || request.groupId().isBlank()) {
+      return calendarService.createEvent(
+          trainerId, request.date(), request.studentId(), request.time(), request.workoutId());
+    }
+    CalendarEvent event = calendarService.createGroupEvent(
+        trainerId, request.date(), request.groupId(), request.time(), request.workoutId());
+    studentGroupsService.recordActivity(
+        trainerId, request.groupId(), "EVENT_CREATED",
+        "Se ha creado un evento para el grupo " + event.groupName() + " el " + event.date()
+            + (event.time() == null ? "" : " a las " + event.time()) + ".");
+    return event;
   }
 
   @DeleteMapping("/events/{eventId}")

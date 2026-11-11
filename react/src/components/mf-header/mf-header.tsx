@@ -65,6 +65,11 @@ const MFHeader: FC = () => {
     navigate('/calendar');
   };
 
+  const goToGroups = () => {
+    setIsHamburgerOpen(false);
+    navigate('/groups');
+  };
+
   const goToHome = () => {
     setIsHamburgerOpen(false);
     navigate('/');
@@ -127,6 +132,7 @@ const MFHeader: FC = () => {
               <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToHome}>Inicio</button>
               <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToWorkout}>Rutina de ejercicios</button>
               <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToCalendar}>Calendario</button>
+              <button className={styles.MFHeader__HamburgerPanelButton} type="button" role="menuitem" onClick={goToGroups}>Grupos</button>
             </div>
           </div>
         </div>

@@ -194,4 +194,22 @@ describe('MFCalendar', () => {
     expect(screen.getByText('Estudiante asignado')).toBeTruthy()
     expect(screen.getByText('Otro entrenador')).toBeTruthy()
   })
+
+  it('shows the group name to group event recipients', () => {
+    const groupEvent: CalendarEvent = {
+      id: 'group-event',
+      trainerId: 'trainer-1',
+      trainerName: 'Entrenadora',
+      studentId: null,
+      studentName: 'Grupo de entrenamiento',
+      groupId: 'group-1',
+      groupName: 'Grupo de entrenamiento',
+      recipientIds: ['user-1', 'user-2'],
+      date: selectedDate,
+    }
+
+    renderCalendar({ events: { [selectedDate]: [groupEvent] } })
+
+    expect(screen.getByText('Grupo de entrenamiento')).toBeTruthy()
+  })
 })

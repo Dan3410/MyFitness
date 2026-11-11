@@ -41,9 +41,19 @@ export class CalendarController {
 
   @Post('events')
   createEvent(
-    @Body() request: { date: string; studentId: string; time?: string; workoutId?: string },
+    @Body() request: { date: string; studentId?: string; groupId?: string; time?: string; workoutId?: string },
     @Headers('authorization') authorization: string,
   ): Promise<CalendarEvent> {
+    if (request.groupId) {
+      return this.calendarService.createEvent(
+        request.date,
+        request.studentId,
+        authorization,
+        request.time,
+        request.workoutId,
+        request.groupId,
+      );
+    }
     return this.calendarService.createEvent(
       request.date,
       request.studentId,

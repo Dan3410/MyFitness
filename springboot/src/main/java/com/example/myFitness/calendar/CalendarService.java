@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.myFitness.notification.NotificationService;
 import com.example.myFitness.profile.ProfileService;
 import com.example.myFitness.profile.model.UserSearchResult;
+import com.example.myFitness.studentGroups.StudentGroup;
+import com.example.myFitness.studentGroups.StudentGroupsService;
 import com.example.myFitness.trainerStudent.TrainerStudentService;
 import com.example.myFitness.workout.WorkoutService;
 import jakarta.annotation.PostConstruct;
@@ -30,16 +32,19 @@ public class CalendarService {
   private final WorkoutService workoutService;
   private final ProfileService profileService;
   private final TrainerStudentService trainerStudentService;
+  private final StudentGroupsService studentGroupsService;
   private final NotificationService notificationService;
 
   public CalendarService(
       WorkoutService workoutService,
       ProfileService profileService,
       TrainerStudentService trainerStudentService,
+      StudentGroupsService studentGroupsService,
       NotificationService notificationService) {
     this.workoutService = workoutService;
     this.profileService = profileService;
     this.trainerStudentService = trainerStudentService;
+    this.studentGroupsService = studentGroupsService;
     this.notificationService = notificationService;
   }
 
@@ -104,7 +109,11 @@ public class CalendarService {
   public List<CalendarEvent> getEvents(String userId, String month) {
     YearMonth requestedMonth = parseMonth(month);
     return events.values().stream()
-        .filter(event -> event.trainerId().equals(userId) || event.studentId().equals(userId))
+        .filter(event -> event.trainerId().equals(userId)
+            || (event.groupId() == null
+                ? event.recipientIds().contains(userId)
+                : studentGroupsService.getGroups(userId).stream()
+                    .anyMatch(group -> event.groupId().equals(group.id()))))
         .filter(event -> requestedMonth == null || YearMonth.from(LocalDate.parse(event.date())).equals(requestedMonth))
         .sorted((first, second) -> {
           int dateComparison = first.date().compareTo(second.date());
@@ -160,12 +169,71 @@ public class CalendarService {
     return event;
   }
 
+  public CalendarEvent createGroupEvent(
+      String trainerId,
+      String date,
+      String groupId,
+      String time,
+      String workoutId) {
+    if (!profileService.isTrainer(trainerId)) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo los entrenadores pueden crear eventos");
+    }
+
+    StudentGroup group = studentGroupsService.getGroup(trainerId, groupId);
+    List<String> recipientIds = studentGroupsService.getMemberIdsForTrainer(trainerId, groupId);
+    if (recipientIds.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El grupo no tiene miembros");
+    }
+    if (recipientIds.stream().anyMatch(studentId -> !trainerStudentService.isLinkedStudent(trainerId, studentId))) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "El grupo contiene alumnos no vinculados");
+    }
+
+    LocalDate eventDate = parseDate(date);
+    String normalizedTime = parseTime(time);
+    String workoutTitle = null;
+    String workoutCategory = null;
+    if (workoutId != null && !workoutId.isBlank()) {
+      var workout = workoutService.getWorkout(trainerId, workoutId);
+      if (workout == null) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rutina no encontrada");
+      }
+      workoutService.shareWorkoutWithGroup(trainerId, workoutId, groupId);
+      workoutTitle = workout.getName();
+      workoutCategory = workout.getCategory();
+    } else {
+      workoutId = null;
+    }
+
+    UserSearchResult trainer = profileService.getUserSearchResult(trainerId);
+    CalendarEvent event = new CalendarEvent(
+        UUID.randomUUID().toString(),
+        trainerId,
+        trainer.name(),
+        null,
+        group.name(),
+        eventDate.toString(),
+        normalizedTime,
+        workoutId,
+        workoutTitle,
+        workoutCategory,
+        groupId,
+        group.name(),
+        recipientIds);
+    events.put(event.id(), event);
+    notificationService.notifyGroupEventCreated(event);
+    return event;
+  }
+
   public void cancelEvent(String userId, String eventId) {
     CalendarEvent event = events.get(eventId);
     if (event == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento no encontrado");
     }
-    if (!event.trainerId().equals(userId) && !event.studentId().equals(userId)) {
+    boolean canAccessGroupEvent = event.groupId() != null
+        && studentGroupsService.getGroups(userId).stream()
+            .anyMatch(group -> event.groupId().equals(group.id()));
+    if (!event.trainerId().equals(userId)
+        && !(event.groupId() == null ? event.recipientIds().contains(userId) : canAccessGroupEvent)) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No puedes cancelar este evento");
     }
     if (events.remove(eventId, event)) {

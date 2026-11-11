@@ -16,6 +16,8 @@ import { useAuth } from '../../../../context/AuthContext';
 import { profileService } from '../../../../services/profileService';
 import { trainerStudentService } from '../../../../services/trainerStudentService';
 import type { UserSearchResult } from '../../../../models/user';
+import type { StudentGroup } from '../../../../models/studentGroup';
+import { studentGroupsService } from '../../../../services/studentGroupsService';
 
 interface WorkoutListProps { }
 
@@ -36,6 +38,8 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const [trainerDataError, setTrainerDataError] = useState(false)
   const [shareWorkout, setShareWorkout] = useState<WorkoutListItem | null>(null)
   const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([])
+  const [groups, setGroups] = useState<StudentGroup[]>([])
+  const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>([])
   const [sharing, setSharing] = useState(false)
   const [shareError, setShareError] = useState(false)
   const [shareSuccess, setShareSuccess] = useState('')
@@ -128,7 +132,7 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       try {
         const user = await profileService.getUserData()
         if (!active) return
-        setIsTrainer(user.isTrainer)
+        setIsTrainer(Boolean(user.isTrainer))
         if (user.isTrainer) {
           const linkedStudents = await trainerStudentService.getStudents()
           if (active) setStudents(linkedStudents)
@@ -146,18 +150,24 @@ const WorkoutList: FC<WorkoutListProps> = () => {
   const openShareModal = async (workout: WorkoutListItem) => {
     setShareWorkout(workout)
     setSelectedStudentIds([])
+    setSelectedGroupIds([])
     setShareError(false)
     setLoadingStudents(true)
     setTrainerDataError(false)
     try {
-      const [linkedStudents, sharedStudentIds] = await Promise.all([
+      const [linkedStudents, sharedStudentIds, sharedGroupIds, trainerGroups] = await Promise.all([
         trainerStudentService.getStudents(),
         workoutService.getSharedStudentIds(workout.id),
+        workoutService.getSharedGroupIds(workout.id),
+        studentGroupsService.getGroups(),
       ])
       setStudents(linkedStudents)
       setSelectedStudentIds(sharedStudentIds)
+      setSelectedGroupIds(sharedGroupIds)
+      setGroups(trainerGroups.filter((group) => group.administrator))
     } catch {
       setStudents([])
+      setGroups([])
       setTrainerDataError(true)
     } finally {
       setLoadingStudents(false)
@@ -171,10 +181,14 @@ const WorkoutList: FC<WorkoutListProps> = () => {
     setShareError(false)
     setShareSuccess('')
     try {
-      const sharedWith = await workoutService.shareWorkout(shareWorkout.id, selectedStudentIds)
-      setShareSuccess(sharedWith.length === 0
-        ? 'Se quitó la rutina de todos los alumnos.'
-        : `Rutina compartida con ${sharedWith.length} alumno${sharedWith.length === 1 ? '' : 's'}.`)
+      const sharedWith = await workoutService.shareWorkout(shareWorkout.id, selectedStudentIds, selectedGroupIds)
+      const recipientSummary = [
+        sharedWith.length > 0 && `${sharedWith.length} alumno${sharedWith.length === 1 ? '' : 's'}`,
+        selectedGroupIds.length > 0 && `${selectedGroupIds.length} grupo${selectedGroupIds.length === 1 ? '' : 's'}`,
+      ].filter(Boolean).join(' y ')
+      setShareSuccess(recipientSummary
+        ? `Rutina compartida con ${recipientSummary}.`
+        : 'Se quitó la rutina de todos los alumnos y grupos.')
       startShareNotificationTimeout()
       setShareWorkout(null)
     } catch {
@@ -259,14 +273,34 @@ const WorkoutList: FC<WorkoutListProps> = () => {
       </MFModal>
       <MFModal isOpen={shareWorkout !== null} onClose={() => setShareWorkout(null)}>
         <h2>Compartir rutina</h2>
-        <p>Selecciona los alumnos que recibirán “{shareWorkout?.name}”.</p>
+        <p>Selecciona alumnos o grupos que recibirán “{shareWorkout?.name}”.</p>
         {sharing ? (
           <MFSpinner theme="primary" label="Compartiendo rutina" />
         ) : (
           <>
-            {loadingStudents ? <p>Cargando alumnos...</p> : students.length === 0 ? <p>No tienes alumnos vinculados.</p> : (
-              <div className={styles.WorkoutList__StudentSelection}>
-                {students.map((student) => (
+            {loadingStudents ? <p>Cargando alumnos y grupos...</p> : (
+              <>
+                {groups.length > 0 && (
+                  <div className={styles.WorkoutList__StudentSelection}>
+                    <strong>Grupos</strong>
+                    {groups.map((group) => (
+                      <MFCheckbox
+                        key={group.id}
+                        theme="primary"
+                        checked={selectedGroupIds.includes(group.id)}
+                        onChange={(event) => setSelectedGroupIds((current) => event.target.checked
+                          ? [...current, group.id]
+                          : current.filter((id) => id !== group.id))}
+                      >
+                        {group.name}
+                      </MFCheckbox>
+                    ))}
+                  </div>
+                )}
+                {students.length > 0 ? (
+                  <div className={styles.WorkoutList__StudentSelection}>
+                    <strong>Alumnos</strong>
+                    {students.map((student) => (
                   <MFCheckbox
                     key={student.id}
                     theme="primary"
@@ -279,6 +313,8 @@ const WorkoutList: FC<WorkoutListProps> = () => {
                   </MFCheckbox>
                 ))}
               </div>
+                ) : <p>No tienes alumnos vinculados.</p>}
+              </>
             )}
             {shareError && <p role="alert">No se pudo compartir la rutina.</p>}
             <div className={styles.WorkoutList__ModalButtonContainer}>

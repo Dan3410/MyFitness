@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.example.myFitness.auth.AuthService;
 import com.example.myFitness.notification.NotificationService;
 import com.example.myFitness.profile.ProfileService;
+import com.example.myFitness.studentGroups.StudentGroupsService;
 import com.example.myFitness.trainerStudent.TrainerStudentService;
 import com.example.myFitness.workout.WorkoutService;
 
@@ -27,9 +28,12 @@ class WorkoutListItemTest {
         profileService.init();
         TrainerStudentService trainerStudentService = new TrainerStudentService(profileService);
         trainerStudentService.seedDemoTrainerStudentLink();
+        NotificationService notificationService = new NotificationService(profileService, trainerStudentService);
+        StudentGroupsService studentGroupsService =
+            new StudentGroupsService(profileService, trainerStudentService, notificationService);
         WorkoutService service = new WorkoutService(
-            new AuthService(), profileService, trainerStudentService,
-            new NotificationService(profileService, trainerStudentService));
+            new AuthService(), profileService, trainerStudentService, studentGroupsService,
+            notificationService);
         service.init();
 
         Workout updatedWorkout = new Workout("0", "Swim updated", "swim", Collections.emptyList());

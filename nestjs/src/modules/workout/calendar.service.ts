@@ -55,15 +55,16 @@ export class CalendarService {
 
   async createEvent(
     date: string,
-    studentId: string,
+    studentId: string | undefined,
     authorization: string,
     time?: string,
     workoutId?: string,
+    groupId?: string,
   ): Promise<CalendarEvent> {
     const response = await firstValueFrom(
       this.httpService.post<CalendarEvent>(
         `${this.calendarApiUrl}/events`,
-        { date, studentId, time, workoutId },
+        groupId ? { date, studentId, time, workoutId, groupId } : { date, studentId, time, workoutId },
         { headers: { authorization } },
       ),
     );

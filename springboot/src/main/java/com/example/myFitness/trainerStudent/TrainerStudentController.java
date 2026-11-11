@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.myFitness.auth.AuthService;
 import com.example.myFitness.notification.NotificationService;
 import com.example.myFitness.profile.model.UserSearchResult;
+import com.example.myFitness.studentGroups.StudentGroupsService;
 
 @RestController
 @RequestMapping("/trainer/students")
@@ -20,14 +21,17 @@ public class TrainerStudentController {
   private final TrainerStudentService trainerStudentService;
   private final AuthService authService;
   private final NotificationService notificationService;
+  private final StudentGroupsService studentGroupsService;
 
   public TrainerStudentController(
       TrainerStudentService trainerStudentService,
       AuthService authService,
-      NotificationService notificationService) {
+      NotificationService notificationService,
+      StudentGroupsService studentGroupsService) {
     this.trainerStudentService = trainerStudentService;
     this.authService = authService;
     this.notificationService = notificationService;
+    this.studentGroupsService = studentGroupsService;
   }
 
   @GetMapping
@@ -66,6 +70,7 @@ public class TrainerStudentController {
     List<UserSearchResult> students = trainerStudentService.unlinkStudent(trainerId, studentId);
     if (wasLinked) {
       notificationService.notifyStudentRemovedFromTrainer(trainerId, studentId);
+      studentGroupsService.removeUnlinkedStudent(trainerId, studentId);
     }
     return students;
   }
@@ -79,6 +84,7 @@ public class TrainerStudentController {
     List<UserSearchResult> trainers = trainerStudentService.unlinkTrainer(studentId, trainerId);
     if (wasLinked) {
       notificationService.notifyTrainerRemovedByStudent(trainerId, studentId);
+      studentGroupsService.removeUnlinkedStudent(trainerId, studentId);
     }
     return trainers;
   }

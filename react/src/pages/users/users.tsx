@@ -1,9 +1,8 @@
 import { FC, useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import defaultProfileImage from '../../assets/defaultProfileImage.jpg';
+import { useSearchParams } from 'react-router-dom';
 import MFBreadcrumb from '../../components/mf-breadcrumb/mf-breadcrumb';
-import MFTag from '../../components/mf-tag/mf-tag';
 import MFSpinner from '../../components/mf-spinner/mf-spinner';
+import UserCard from '../../components/user-card/user-card';
 import { profileService } from '../../services/profileService';
 import type { UserSearchResult } from '../../models/user';
 import styles from './users.module.scss';
@@ -11,7 +10,6 @@ import styles from './users.module.scss';
 const Users: FC = () => {
   const [searchParams] = useSearchParams();
   const name = searchParams.get('name')?.trim() || '';
-  const navigate = useNavigate();
   const [users, setUsers] = useState<UserSearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState(false);
@@ -54,23 +52,8 @@ const Users: FC = () => {
       {!loading && !loadError && name && users.length === 0 && <p>No se encontraron usuarios.</p>}
       {!loading && !loadError && users.length > 0 && (
         <div className={styles.UsersPage__UserList}>
-          {users.map((user, index) => (
-            <article
-              className={styles.UsersPage__UserItem}
-              key={`${user.name}-${index}`}
-            >
-              <button
-                className={styles.UsersPage__UserProfileLink}
-                type="button"
-                onClick={() => navigate(`/users/profile?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(name)}`)}
-              >
-                <img src={user.profileImage || defaultProfileImage} alt="" />
-                <span className={styles.UsersPage__UserDetails}>
-                  <span className={styles.UsersPage__UserName}>{user.name}</span>
-                  {user.isTrainer && <MFTag theme="secondary">Entrenador</MFTag>}
-                </span>
-              </button>
-            </article>
+          {users.map((user) => (
+            <UserCard key={user.id} user={user} searchName={name} />
           ))}
         </div>
       )}
